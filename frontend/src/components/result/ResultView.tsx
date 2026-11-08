@@ -81,10 +81,18 @@ export function ResultView({
         highlights={[
           ...result.deadlines
             .filter((d) => d.evidence !== null)
-            .map((d) => ({ label: d.label, source: d.evidence!.quote })),
+            .map((d) => ({
+              label: d.label,
+              quote: d.evidence!.quote,
+              span: d.evidence!.sourceSpan,
+            })),
           ...result.costs
             .filter((c) => c.evidence !== null)
-            .map((c) => ({ label: c.label, source: c.evidence!.quote })),
+            .map((c) => ({
+              label: c.label,
+              quote: c.evidence!.quote,
+              span: c.evidence!.sourceSpan,
+            })),
         ]}
       />
 
