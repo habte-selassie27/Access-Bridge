@@ -1,0 +1,200 @@
+{
+  "id": "demo-1",
+  "title": "Health Insurance Renewal Notice",
+  "docType": "government_notice",
+  "source": "Your health insurance coverage will expire on 2026-12-15. To keep your benefits, renew by paying ETB 500 before the deadline. Bring your ID card and previous insurance card to the nearest health office. If you miss the deadline, your coverage will stop.",
+  "outputs": {
+    "en": {
+      "docType": "government_notice",
+      "summary": "Your health insurance is ending soon. You must renew it to keep your benefits.",
+      "actions": [
+        {
+          "step": "Renew your health insurance before 2026-12-15.",
+          "urgent": true
+        },
+        {
+          "step": "Pay ETB 500 to keep your coverage.",
+          "urgent": true
+        },
+        {
+          "step": "Bring your ID card and insurance card to the health office."
+        }
+      ],
+      "deadlines": [
+        {
+          "label": "Renewal deadline",
+          "date": "2026-12-15",
+          "sourceSpan": [
+            46,
+            56
+          ],
+          "verified": true
+        }
+      ],
+      "costs": [
+        {
+          "label": "Renewal fee",
+          "amount": 500,
+          "currency": "ETB",
+          "sourceSpan": [
+            97,
+            104
+          ],
+          "verified": true
+        }
+      ],
+      "documentsToBring": [
+        "ID card",
+        "Previous insurance card"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "en",
+      "originalText": "Your health insurance coverage will expire on 2026-12-15. To keep your benefits, renew by paying ETB 500 before the deadline. Bring your ID card and previous insurance card to the nearest health office. If you miss the deadline, your coverage will stop."
+    },
+    "am": {
+      "docType": "government_notice",
+      "summary": "ኢንሹራንስዎ በቀላሉ ይጎዳናል. ጥበቃዎን ቀላሉ ቀላሉ አድርገዋል እንደሚኖርበትና.",
+      "actions": [
+        {
+          "step": "ኢንሹራንስዎን በ 2026-12-15 በፊት አድርጉ።",
+          "urgent": true
+        },
+        {
+          "step": "ኢንሹራንስዎን ቀላሉ ቀላሉ በመቀጠል ETB 500 አስቀድመዋል።",
+          "urgent": true
+        },
+        {
+          "step": "መኪና የሚሄድ የኢዶ ካርና የቀላሉ ኢንሹራንስ ካርዎን ወደ ኤልታዊ ፌሊስ ይደረሱ።"
+        }
+      ],
+      "deadlines": [
+        {
+          "label": "ቀላሉ ቀላሉ ድረስ",
+          "date": "2026-12-15",
+          "sourceSpan": [
+            46,
+            56
+          ],
+          "verified": true
+        }
+      ],
+      "costs": [
+        {
+          "label": "አድርገት ክፍያ",
+          "amount": 500,
+          "currency": "ETB",
+          "sourceSpan": [
+            97,
+            104
+          ],
+          "verified": true
+        }
+      ],
+      "documentsToBring": [
+        "መኪና ኢዲ",
+        "ቀላሉ የኢንሹራንስ ካር"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "am",
+      "originalText": "Your health insurance coverage will expire on 2026-12-15. To keep your benefits, renew by paying ETB 500 before the deadline. Bring your ID card and previous insurance card to the nearest health office. If you miss the deadline, your coverage will stop."
+    },
+    "om": {
+      "docType": "government_notice",
+      "summary": "Sigaadhaa afkaa gaafa lubbuun jira. Gabrummaan kana hojiin qaba.",
+      "actions": [
+        {
+          "step": "Sigaadhaa afkaa gaafatan 2026-12-15 maal hoji'u.",
+          "urgent": true
+        },
+        {
+          "step": "ETB 500 gaafachihaa sigaadhaa kana keessa hoji'u.",
+          "urgent": true
+        },
+        {
+          "step": "ID kaartii mummanii robaye sigaadhaa fi sigaadhaa afkaa gaafatan robaye walitti of deemise."
+        }
+      ],
+      "deadlines": [
+        {
+          "label": "Gabrummaan hoji'u",
+          "date": "2026-12-15",
+          "sourceSpan": [
+            46,
+            56
+          ],
+          "verified": true
+        }
+      ],
+      "costs": [
+        {
+          "label": "Gabrummaan fidaa",
+          "amount": 500,
+          "currency": "ETB",
+          "sourceSpan": [
+            97,
+            104
+          ],
+          "verified": true
+        }
+      ],
+      "documentsToBring": [
+        "ID kaartii",
+        "Sigaadhaa afkaa gaafatan robaye kaartii"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "om",
+      "originalText": "Your health insurance coverage will expire on 2026-12-15. To keep your benefits, renew by paying ETB 500 before the deadline. Bring your ID card and previous insurance card to the nearest health office. If you miss the deadline, your coverage will stop."
+    },
+    "ti": {
+      "docType": "government_notice",
+      "summary": "ዓዲ ጤብናዊ ምንቃቴዎ በጥቅምቲ ቐንየለይ ኣሎ። ሓገዝ እዩ ተቐንዘለይ።",
+      "actions": [
+        {
+          "step": "ዓዲ ጤብናዊ ምንቃቴውን በ 2026-12-15 በዝተረኳ ኣብዚ ዝሓገዝ ኣለኻ።",
+          "urgent": true
+        },
+        {
+          "step": "ETB 500 ተገድሉ ዘሎ ዓዲ ጤብናዊ ምንቃቴው ተቐንዘለይ።",
+          "urgent": true
+        },
+        {
+          "step": "መስኮታዊ ቪያልስ ቓይነታትን ኣብ ዓዲ ኣብርቢ ኤዲ ክልን ንኾእርና ዓለም ተቐንዘዋ።"
+        }
+      ],
+      "deadlines": [
+        {
+          "label": "ዝሓገዝ ቐንየም",
+          "date": "2026-12-15",
+          "sourceSpan": [
+            46,
+            56
+          ],
+          "verified": true
+        }
+      ],
+      "costs": [
+        {
+          "label": "ዝሓገዝ ገንዘብ",
+          "amount": 500,
+          "currency": "ETB",
+          "sourceSpan": [
+            97,
+            104
+          ],
+          "verified": true
+        }
+      ],
+      "documentsToBring": [
+        "ኣብርቢ ኢዲ",
+        "ተቐንዘለይ ዓዲ ጤብናዊ ምንቃቴ ኪርድ"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "ti",
+      "originalText": "Your health insurance coverage will expire on 2026-12-15. To keep your benefits, renew by paying ETB 500 before the deadline. Bring your ID card and previous insurance card to the nearest health office. If you miss the deadline, your coverage will stop."
+    }
+  }
+}

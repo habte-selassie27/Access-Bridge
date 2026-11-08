@@ -1,0 +1,204 @@
+{
+  "id": "demo-2",
+  "title": "Medical Appointment Notice",
+  "docType": "medical",
+  "source": "You have a medical appointment on 2027-01-20 at 10:00 AM at City General Hospital, Room 304. Please arrive 15 minutes early. Bring your patient ID, insurance card, and a list of current medications. The visit costs ETB 200. If you cannot come, call 0911 222 333 to reschedule.",
+  "outputs": {
+    "en": {
+      "docType": "medical",
+      "summary": "You have a doctor's appointment on January 20, 2027. Please arrive early and bring your documents.",
+      "actions": [
+        {
+          "step": "Attend your appointment on 2027-01-20 at 10:00 AM.",
+          "urgent": true
+        },
+        {
+          "step": "Arrive 15 minutes early.",
+          "urgent": false
+        },
+        {
+          "step": "Bring your patient ID, insurance card, and medication list."
+        }
+      ],
+      "deadlines": [
+        {
+          "label": "Appointment date",
+          "date": "2027-01-20",
+          "sourceSpan": [
+            34,
+            44
+          ],
+          "verified": true
+        }
+      ],
+      "costs": [
+        {
+          "label": "Visit fee",
+          "amount": 200,
+          "currency": "ETB",
+          "sourceSpan": [
+            215,
+            222
+          ],
+          "verified": true
+        }
+      ],
+      "documentsToBring": [
+        "Patient ID",
+        "Insurance card",
+        "Medication list"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "en",
+      "originalText": "You have a medical appointment on 2027-01-20 at 10:00 AM at City General Hospital, Room 304. Please arrive 15 minutes early. Bring your patient ID, insurance card, and a list of current medications. The visit costs ETB 200. If you cannot come, call 0911 222 333 to reschedule."
+    },
+    "am": {
+      "docType": "medical",
+      "summary": "በ 2027-01-20 ትርክ ያለህ መተግበሪያ አለህ። ተግባር ይመልከቱ እና መሪዎችዎን ይደረሱ።",
+      "actions": [
+        {
+          "step": "መተግበሪያውን በ 2027-01-20 ሰዓት 10 ምዕራፍ ይገቡ።",
+          "urgent": true
+        },
+        {
+          "step": "15 ደቂቃ ቀዳማዊ ይመጣት።",
+          "urgent": false
+        },
+        {
+          "step": "የጋሻ ኢዲዎን እና የኢንሹራንስ ካርና የመለያ መግለጫዎን ይደረሱ።"
+        }
+      ],
+      "deadlines": [
+        {
+          "label": "ቀን መተግበሪያ",
+          "date": "2027-01-20",
+          "sourceSpan": [
+            34,
+            44
+          ],
+          "verified": true
+        }
+      ],
+      "costs": [
+        {
+          "label": "ክፍያ መተግበሪያ",
+          "amount": 200,
+          "currency": "ETB",
+          "sourceSpan": [
+            215,
+            222
+          ],
+          "verified": true
+        }
+      ],
+      "documentsToBring": [
+        "የጋሻ ኢዲ",
+        "የኢንሹራንስ ካር",
+        "የመለያ መግለጫ"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "am",
+      "originalText": "You have a medical appointment on 2027-01-20 at 10:00 AM at City General Hospital, Room 304. Please arrive 15 minutes early. Bring your patient ID, insurance card, and a list of current medications. The visit costs ETB 200. If you cannot come, call 0911 222 333 to reschedule."
+    },
+    "om": {
+      "docType": "medical",
+      "summary": "2027-01-20 maal doctoriin fardaa eeggannee ta'u. Maaliin isaanii danda'a.",
+      "actions": [
+        {
+          "step": "Fardaa tokkoota 2027-01-20 maal 10:00 AM nama fudhate.",
+          "urgent": true
+        },
+        {
+          "step": "15 minute kusa fufuu.",
+          "urgent": false
+        },
+        {
+          "step": "ID kaartii gaggabaa, kaartii sigaadhaa fi listee dadhabsaa hin qabne deemisuu."
+        }
+      ],
+      "deadlines": [
+        {
+          "label": "Fardaa tokkoota",
+          "date": "2027-01-20",
+          "sourceSpan": [
+            34,
+            44
+          ],
+          "verified": true
+        }
+      ],
+      "costs": [
+        {
+          "label": "Fidaa fardaa",
+          "amount": 200,
+          "currency": "ETB",
+          "sourceSpan": [
+            215,
+            222
+          ],
+          "verified": true
+        }
+      ],
+      "documentsToBring": [
+        "ID kaartii gaggabaa",
+        "Kaartii sigaadhaa",
+        "Lissee dadhabsaa"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "om",
+      "originalText": "You have a medical appointment on 2027-01-20 at 10:00 AM at City General Hospital, Room 304. Please arrive 15 minutes early. Bring your patient ID, insurance card, and a list of current medications. The visit costs ETB 200. If you cannot come, call 0911 222 333 to reschedule."
+    },
+    "ti": {
+      "docType": "medical",
+      "summary": "በ 2027-01-20 ደቐነተ መዓልቲ ተቐንዘለይ ኣሎ። ተግባር ይመለስታል እና መሪታችምን ዝሓገዝ ክልቑ።",
+      "actions": [
+        {
+          "step": "መተግበሪያኻን በ 2027-01-20 ሰዓት 10 ሰኣት ግን ዝገቡ።",
+          "urgent": true
+        },
+        {
+          "step": "15 ደቂቃ ቀዳማዊ ዝግቡ።",
+          "urgent": false
+        },
+        {
+          "step": "ዋንታሕ ኢዲኻ ንኡ ኢንሹራንስ ኪርድ እንደም ግድያዊ ሓርቶም ሓገዝ ክልቑ።"
+        }
+      ],
+      "deadlines": [
+        {
+          "label": "ቐንየም ተቐንዘለይ",
+          "date": "2027-01-20",
+          "sourceSpan": [
+            34,
+            44
+          ],
+          "verified": true
+        }
+      ],
+      "costs": [
+        {
+          "label": "ግን ተቐንዘለይ",
+          "amount": 200,
+          "currency": "ETB",
+          "sourceSpan": [
+            215,
+            222
+          ],
+          "verified": true
+        }
+      ],
+      "documentsToBring": [
+        "ዋንታሕ ኢዲ",
+        "ኢንሹራንስ ኪርድ",
+        "ግድያዊ መረጃ"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "ti",
+      "originalText": "You have a medical appointment on 2027-01-20 at 10:00 AM at City General Hospital, Room 304. Please arrive 15 minutes early. Bring your patient ID, insurance card, and a list of current medications. The visit costs ETB 200. If you cannot come, call 0911 222 333 to reschedule."
+    }
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "id": "demo-3",
+  "title": "School Fee Notice",
+  "docType": "financial",
+  "source": "School fees for Term 2 are due on 2026-10-05. The total amount is ETB 3,500. Please pay at the school office or via mobile money. Bring your child's birth certificate and the payment slip. Late payments will be charged ETB 100 extra.",
+  "outputs": {
+    "en": {
+      "docType": "financial",
+      "summary": "Term 2 school fees are due on October 5, 2026. Pay on time to avoid a late fee.",
+      "actions": [
+        {
+          "step": "Pay school fees by 2026-10-05.",
+          "urgent": true
+        },
+        {
+          "step": "Total due is ETB 3,500.",
+          "urgent": true
+        },
+        {
+          "step": "Pay at the school office or via mobile money."
+        }
+      ],
+      "deadlines": [
+        {
+          "label": "Fee deadline",
+          "date": "2026-10-05",
+          "sourceSpan": [
+            34,
+            44
+          ],
+          "verified": true
+        }
+      ],
+      "costs": [
+        {
+          "label": "Term 2 fees",
+          "amount": 3500,
+          "currency": "ETB",
+          "sourceSpan": [
+            66,
+            75
+          ],
+          "verified": true
+        },
+        {
+          "label": "Late fee",
+          "amount": 100,
+          "currency": "ETB",
+          "sourceSpan": [
+            219,
+            226
+          ],
+          "verified": true
+        }
+      ],
+      "documentsToBring": [
+        "Child's birth certificate",
+        "Payment slip"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "en",
+      "originalText": "School fees for Term 2 are due on 2026-10-05. The total amount is ETB 3,500. Please pay at the school office or via mobile money. Bring your child's birth certificate and the payment slip. Late payments will be charged ETB 100 extra."
+    },
+    "am": {
+      "docType": "financial",
+      "summary": "የ 2 ክፍለ ኛ የትምህርት ቦታ ክፍያ በ 2026-10-05 ውስጥ ይፈልጋል።",
+      "actions": [
+        {
+          "step": "የትምህርት ቦታ ክፍያውን በ 2026-10-05 ውስጥ አስቀድመው።",
+          "urgent": true
+        },
+        {
+          "step": "ጠቅላላ ክፍያ ETB 3,500 ነው።",
+          "urgent": true
+        },
+        {
+          "step": "በትምህርት አዲስ አስተዳደር ወይም በሞባይል መገናኛ አስቀድም።"
+        }
+      ],
+      "deadlines": [
+        {
+          "label": "የክፍያ ቀን",
+          "date": "2026-10-05",
+          "sourceSpan": [
+            34,
+            44
+          ],
+          "verified": true
+        }
+      ],
+      "costs": [
+        {
+          "label": "ክፍለኛ 2 ክፍያ",
+          "amount": 3500,
+          "currency": "ETB",
+          "sourceSpan": [
+            66,
+            75
+          ],
+          "verified": true
+        },
+        {
+          "label": "የቀንውስ ክፍያ",
+          "amount": 100,
+          "currency": "ETB",
+          "sourceSpan": [
+            219,
+            226
+          ],
+          "verified": true
+        }
+      ],
+      "documentsToBring": [
+        "ወሌቱ የልደት ልዩ ሸረቅ",
+        "የክፍያ ስልም"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "am",
+      "originalText": "School fees for Term 2 are due on 2026-10-05. The total amount is ETB 3,500. Please pay at the school office or via mobile money. Bring your child's birth certificate and the payment slip. Late payments will be charged ETB 100 extra."
+    },
+    "om": {
+      "docType": "financial",
+      "summary": "Barruuma 2 sigaadhaa tokkoota 2026-10-05 jira. Gabrummaati hojjechuu danda'a.",
+      "actions": [
+        {
+          "step": "Sigaadhaa tokkoota 2026-10-05 maal gaafachuu.",
+          "urgent": true
+        },
+        {
+          "step": "Gabbacha hunda ETB 3,500 jira.",
+          "urgent": true
+        },
+        {
+          "step": "Sigaadhaa barruumaa gaafachuun deemisuu."
+        }
+      ],
+      "deadlines": [
+        {
+          "label": "Gabrummaan hoji'u",
+          "date": "2026-10-05",
+          "sourceSpan": [
+            34,
+            44
+          ],
+          "verified": true
+        }
+      ],
+      "costs": [
+        {
+          "label": "Sigaadhaa barruuma 2",
+          "amount": 3500,
+          "currency": "ETB",
+          "sourceSpan": [
+            66,
+            75
+          ],
+          "verified": true
+        },
+        {
+          "label": "Gabrummaan dandeetii",
+          "amount": 100,
+          "currency": "ETB",
+          "sourceSpan": [
+            219,
+            226
+          ],
+          "verified": true
+        }
+      ],
+      "documentsToBring": [
+        "Lixaa iddoo barreeffama",
+        "Sigaadhaa fiduu"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "om",
+      "originalText": "School fees for Term 2 are due on 2026-10-05. The total amount is ETB 3,500. Please pay at the school office or via mobile money. Bring your child's birth certificate and the payment slip. Late payments will be charged ETB 100 extra."
+    },
+    "ti": {
+      "docType": "financial",
+      "summary": "ገንዘብ ተቐንዘለይ ኣብ ክፋቊቱ 2 በ 2026-10-05 ኣሎ። ሓገዝ እዩ ተቐንዘለይ።",
+      "actions": [
+        {
+          "step": "ዓዲ ቤታት ገንዘብ ተቐንዘለይ ኣብ 2026-10-05 ንኸውን ገንዘብ ተገድሉ።",
+          "urgent": true
+        },
+        {
+          "step": "ጠቅላይ ገንዘብ ETB 3,500 እዩ።",
+          "urgent": true
+        },
+        {
+          "step": "ብዙሕ ቤት ተገድሉ ወይ ተቐንዘለይ ንኸውን።"
+        }
+      ],
+      "deadlines": [
+        {
+          "label": "ቐንየም ተቐንዘለይ",
+          "date": "2026-10-05",
+          "sourceSpan": [
+            34,
+            44
+          ],
+          "verified": true
+        }
+      ],
+      "costs": [
+        {
+          "label": "ክፋቊቱ 2 ገንዘብ",
+          "amount": 3500,
+          "currency": "ETB",
+          "sourceSpan": [
+            66,
+            75
+          ],
+          "verified": true
+        },
+        {
+          "label": "ቀንውስ ገንዘብ",
+          "amount": 100,
+          "currency": "ETB",
+          "sourceSpan": [
+            219,
+            226
+          ],
+          "verified": true
+        }
+      ],
+      "documentsToBring": [
+        "ወልደኹም ድምር ልዩ መግለጫ",
+        "ተገድለት ስልም"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "ti",
+      "originalText": "School fees for Term 2 are due on 2026-10-05. The total amount is ETB 3,500. Please pay at the school office or via mobile money. Bring your child's birth certificate and the payment slip. Late payments will be charged ETB 100 extra."
+    }
+  }
+}

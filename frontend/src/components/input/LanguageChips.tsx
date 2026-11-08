@@ -1,0 +1,46 @@
+import { useCallback } from "react";
+import { LANGUAGES, languageName, isEthiopic, saveLastLanguage } from "../../lib/languages.ts";
+import type { LanguageCode } from "../../lib/languages.ts";
+
+export interface LanguageChipsProps {
+  value: LanguageCode;
+  onChange: (code: LanguageCode) => void;
+}
+
+export function LanguageChips({ value, onChange }: LanguageChipsProps) {
+  const handleChange = useCallback(
+    (code: LanguageCode) => {
+      saveLastLanguage(code);
+      onChange(code);
+    },
+    [onChange]
+  );
+
+  return (
+    <div
+      role="radiogroup"
+      aria-label="Language"
+      className="flex flex-wrap gap-2"
+    >
+      {LANGUAGES.map((lang) => {
+        const selected = value === lang.code;
+        return (
+          <button
+            key={lang.code}
+            type="button"
+            role="radio"
+            aria-checked={selected}
+            onClick={() => handleChange(lang.code)}
+            className={`touch-target inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-sm font-medium transition-colors ${
+              selected
+                ? "bg-accent text-accent-foreground border-accent shadow-sm"
+                : "text-text-primary hover:bg-surface-muted focus-visible:ring-2 focus-visible:ring-focus"
+            } ${isEthiopic(lang.code) ? "font-ethiopic" : ""}`}
+          >
+            {languageName(lang.code)}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
