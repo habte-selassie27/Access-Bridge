@@ -27,7 +27,7 @@ export function SampleComparison({ onBack }: SampleComparisonProps) {
           <div className="rounded-lg border border-success/20 bg-success/5 p-4">
             <p className="text-xs text-success font-medium mb-2 uppercase tracking-wider">Adapted</p>
             <p className="text-sm text-text-primary font-ethiopic">
-              የ 2 ክፍለኛ የትምህርት ቦታ ክፍያ በ 2026-10-05 ውስጥ ይፈልጋል። ጠቅላላ ክፍያ ETB 3,500 ነው።
+              የሁለተኛ ሴሚስትር የትምህርት ክፍያ በ2026-10-05 ይከፈላል። ጠቅላላ ክፍያው ETB 3,500 ነው።
             </p>
           </div>
         </div>

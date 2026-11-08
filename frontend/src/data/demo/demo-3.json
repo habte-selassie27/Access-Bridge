@@ -64,23 +64,23 @@
     },
     "am": {
       "docType": "financial",
-      "summary": "የ 2 ክፍለ ኛ የትምህርት ቦታ ክፍያ በ 2026-10-05 ውስጥ ይፈልጋል።",
+      "summary": "የሁለተኛ ሴሚስትር የትምህርት ክፍያ በ2026-10-05 ይከፈላል። በሰዓቱ ይክፈሉ፤ የዘገየ ክፍያ ተጨማሪ ይጠይቃል።",
       "actions": [
         {
-          "step": "የትምህርት ቦታ ክፍያውን በ 2026-10-05 ውስጥ አስቀድመው።",
+          "step": "የትምህርት ክፍያውን እስከ 2026-10-05 ይክፈሉ።",
           "urgent": true
         },
         {
-          "step": "ጠቅላላ ክፍያ ETB 3,500 ነው።",
+          "step": "ጠቅላላ ክፍያው ETB 3,500 ነው።",
           "urgent": true
         },
         {
-          "step": "በትምህርት አዲስ አስተዳደር ወይም በሞባይል መገናኛ አስቀድም።"
+          "step": "በትምህርት ቤቱ ጽሕፈት ቤት ወይም በሞባይል ገንዘብ ይክፈሉ።"
         }
       ],
       "deadlines": [
         {
-          "label": "የክፍያ ቀን",
+          "label": "የክፍያ የመጨረሻ ቀን",
           "date": "2026-10-05",
           "sourceSpan": [
             34,
@@ -91,7 +91,7 @@
       ],
       "costs": [
         {
-          "label": "ክፍለኛ 2 ክፍያ",
+          "label": "የሁለተኛ ሴሚስትር ክፍያ",
           "amount": 3500,
           "currency": "ETB",
           "sourceSpan": [
@@ -101,7 +101,7 @@
           "verified": true
         },
         {
-          "label": "የቀንውስ ክፍያ",
+          "label": "የዘገየ ክፍያ",
           "amount": 100,
           "currency": "ETB",
           "sourceSpan": [
@@ -112,8 +112,8 @@
         }
       ],
       "documentsToBring": [
-        "ወሌቱ የልደት ልዩ ሸረቅ",
-        "የክፍያ ስልም"
+        "የልጅዎ የልደት ምስክር ወረቀት",
+        "የክፍያ ደረሰኝ"
       ],
       "confidence": "high",
       "warnings": [],
@@ -122,23 +122,23 @@
     },
     "om": {
       "docType": "financial",
-      "summary": "Barruuma 2 sigaadhaa tokkoota 2026-10-05 jira. Gabrummaati hojjechuu danda'a.",
+      "summary": "Kaffaltiin barnootaa semisteerii 2 guyyaa 2026-10-05 kafalamuu qaba. Yeroon kafaltanii kaffaltii dabalataa irraa of eegaa.",
       "actions": [
         {
-          "step": "Sigaadhaa tokkoota 2026-10-05 maal gaafachuu.",
+          "step": "Kaffaltii barnootaa guyyaa 2026-10-05 dura kafalaa.",
           "urgent": true
         },
         {
-          "step": "Gabbacha hunda ETB 3,500 jira.",
+          "step": "Kaffaltiin waliigalaa ETB 3,500 dha.",
           "urgent": true
         },
         {
-          "step": "Sigaadhaa barruumaa gaafachuun deemisuu."
+          "step": "Waajjira mana barumsaatti yookaan maallaqa mobaayilaan kafalaa."
         }
       ],
       "deadlines": [
         {
-          "label": "Gabrummaan hoji'u",
+          "label": "Guyyaa xumuraa kaffaltii",
           "date": "2026-10-05",
           "sourceSpan": [
             34,
@@ -149,7 +149,7 @@
       ],
       "costs": [
         {
-          "label": "Sigaadhaa barruuma 2",
+          "label": "Kaffaltii semisteerii 2",
           "amount": 3500,
           "currency": "ETB",
           "sourceSpan": [
@@ -159,7 +159,7 @@
           "verified": true
         },
         {
-          "label": "Gabrummaan dandeetii",
+          "label": "Kaffaltii booda",
           "amount": 100,
           "currency": "ETB",
           "sourceSpan": [
@@ -170,8 +170,8 @@
         }
       ],
       "documentsToBring": [
-        "Lixaa iddoo barreeffama",
-        "Sigaadhaa fiduu"
+        "Waraqaa ragaa dhalootaa mucaa keessan",
+        "Nagahee kaffaltii"
       ],
       "confidence": "high",
       "warnings": [],
@@ -180,23 +180,23 @@
     },
     "ti": {
       "docType": "financial",
-      "summary": "ገንዘብ ተቐንዘለይ ኣብ ክፋቊቱ 2 በ 2026-10-05 ኣሎ። ሓገዝ እዩ ተቐንዘለይ።",
+      "summary": "ክፍሊት ቤት ትምህርቲ ካልኣይ ሰሚስተር ብ2026-10-05 ክኽፈል ኣለዎ። ብግዜኡ ክፈሉ፤ ዝደንገየ ክፍሊት ተወሳኺ ይሓትት።",
       "actions": [
         {
-          "step": "ዓዲ ቤታት ገንዘብ ተቐንዘለይ ኣብ 2026-10-05 ንኸውን ገንዘብ ተገድሉ።",
+          "step": "ክፍሊት ቤት ትምህርቲ ቅድሚ 2026-10-05 ክፈሉ።",
           "urgent": true
         },
         {
-          "step": "ጠቅላይ ገንዘብ ETB 3,500 እዩ።",
+          "step": "ጠቕላላ ክፍሊት ETB 3,500 እዩ።",
           "urgent": true
         },
         {
-          "step": "ብዙሕ ቤት ተገድሉ ወይ ተቐንዘለይ ንኸውን።"
+          "step": "ኣብ ቤት ጽሕፈት ቤት ትምህርቲ ወይ ብገንዘብ ሞባይል ክፈሉ።"
         }
       ],
       "deadlines": [
         {
-          "label": "ቐንየም ተቐንዘለይ",
+          "label": "መወዳእታ መዓልቲ ክፍሊት",
           "date": "2026-10-05",
           "sourceSpan": [
             34,
@@ -207,7 +207,7 @@
       ],
       "costs": [
         {
-          "label": "ክፋቊቱ 2 ገንዘብ",
+          "label": "ክፍሊት ካልኣይ ሰሚስተር",
           "amount": 3500,
           "currency": "ETB",
           "sourceSpan": [
@@ -217,7 +217,7 @@
           "verified": true
         },
         {
-          "label": "ቀንውስ ገንዘብ",
+          "label": "ክፍሊት ዝደንገየ",
           "amount": 100,
           "currency": "ETB",
           "sourceSpan": [
@@ -228,8 +228,8 @@
         }
       ],
       "documentsToBring": [
-        "ወልደኹም ድምር ልዩ መግለጫ",
-        "ተገድለት ስልም"
+        "ምስክር ወረቐት ልደት ቆልዑኹም",
+        "ቅብሊት ክፍሊት"
       ],
       "confidence": "high",
       "warnings": [],

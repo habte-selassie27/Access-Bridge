@@ -55,23 +55,23 @@
     },
     "am": {
       "docType": "medical",
-      "summary": "በ 2027-01-20 ትርክ ያለህ መተግበሪያ አለህ። ተግባር ይመልከቱ እና መሪዎችዎን ይደረሱ።",
+      "summary": "በ2027-01-20 የሐኪም ቀጠሮ አለዎት። ቀድመው ይምጡ፤ ሰነዶችዎንም ይዘው ይምጡ።",
       "actions": [
         {
-          "step": "መተግበሪያውን በ 2027-01-20 ሰዓት 10 ምዕራፍ ይገቡ።",
+          "step": "በ2027-01-20 ከጠዋቱ 10:00 ሰዓት በቀጠሮው ቦታ ይገኙ።",
           "urgent": true
         },
         {
-          "step": "15 ደቂቃ ቀዳማዊ ይመጣት።",
+          "step": "15 ደቂቃ ቀድመው ይድረሱ።",
           "urgent": false
         },
         {
-          "step": "የጋሻ ኢዲዎን እና የኢንሹራንስ ካርና የመለያ መግለጫዎን ይደረሱ።"
+          "step": "የታካሚ መታወቂያዎን፣ የኢንሹራንስ ካርድዎንና የሚወስዷቸውን መድኃኒቶች ዝርዝር ይዘው ይምጡ።"
         }
       ],
       "deadlines": [
         {
-          "label": "ቀን መተግበሪያ",
+          "label": "የቀጠሮ ቀን",
           "date": "2027-01-20",
           "sourceSpan": [
             34,
@@ -82,7 +82,7 @@
       ],
       "costs": [
         {
-          "label": "ክፍያ መተግበሪያ",
+          "label": "የምርመራ ክፍያ",
           "amount": 200,
           "currency": "ETB",
           "sourceSpan": [
@@ -93,9 +93,9 @@
         }
       ],
       "documentsToBring": [
-        "የጋሻ ኢዲ",
-        "የኢንሹራንስ ካር",
-        "የመለያ መግለጫ"
+        "የታካሚ መታወቂያ",
+        "የኢንሹራንስ ካርድ",
+        "የመድኃኒት ዝርዝር"
       ],
       "confidence": "high",
       "warnings": [],
@@ -104,23 +104,23 @@
     },
     "om": {
       "docType": "medical",
-      "summary": "2027-01-20 maal doctoriin fardaa eeggannee ta'u. Maaliin isaanii danda'a.",
+      "summary": "Guyyaa 2027-01-20 beellama doktora qabdu. Duraan dhaqxanii sanadoota keessan fidaa.",
       "actions": [
         {
-          "step": "Fardaa tokkoota 2027-01-20 maal 10:00 AM nama fudhate.",
+          "step": "Guyyaa 2027-01-20 sa'aatii 10:00 AM irratti beellama keessan irratti argamaa.",
           "urgent": true
         },
         {
-          "step": "15 minute kusa fufuu.",
+          "step": "Daqiiqaa 15 duraan dhaqaa.",
           "urgent": false
         },
         {
-          "step": "ID kaartii gaggabaa, kaartii sigaadhaa fi listee dadhabsaa hin qabne deemisuu."
+          "step": "Kaardii dhukkubsataa, kaardii inshuraansii fi tarree qorichaa qabattanii dhaqaa."
         }
       ],
       "deadlines": [
         {
-          "label": "Fardaa tokkoota",
+          "label": "Guyyaa beellamaa",
           "date": "2027-01-20",
           "sourceSpan": [
             34,
@@ -131,7 +131,7 @@
       ],
       "costs": [
         {
-          "label": "Fidaa fardaa",
+          "label": "Kaffaltii daawwannaa",
           "amount": 200,
           "currency": "ETB",
           "sourceSpan": [
@@ -142,9 +142,9 @@
         }
       ],
       "documentsToBring": [
-        "ID kaartii gaggabaa",
-        "Kaartii sigaadhaa",
-        "Lissee dadhabsaa"
+        "Kaardii dhukkubsataa",
+        "Kaardii inshuraansii",
+        "Tarree qorichaa"
       ],
       "confidence": "high",
       "warnings": [],
@@ -153,23 +153,23 @@
     },
     "ti": {
       "docType": "medical",
-      "summary": "በ 2027-01-20 ደቐነተ መዓልቲ ተቐንዘለይ ኣሎ። ተግባር ይመለስታል እና መሪታችምን ዝሓገዝ ክልቑ።",
+      "summary": "ብ2027-01-20 ቆጸራ ሓኪም ኣለኩም። ቀድሚኹም መጺእኩም ሰነዳትኩም ሒዝኩም ምጹ።",
       "actions": [
         {
-          "step": "መተግበሪያኻን በ 2027-01-20 ሰዓት 10 ሰኣት ግን ዝገቡ።",
+          "step": "ብ2027-01-20 ሰዓት 10:00 ኣብ ቆጸራኹም ተረኸቡ።",
           "urgent": true
         },
         {
-          "step": "15 ደቂቃ ቀዳማዊ ዝግቡ።",
+          "step": "ቅድሚ 15 ደቒቕ ብጽሑ።",
           "urgent": false
         },
         {
-          "step": "ዋንታሕ ኢዲኻ ንኡ ኢንሹራንስ ኪርድ እንደም ግድያዊ ሓርቶም ሓገዝ ክልቑ።"
+          "step": "ካርድ ሕሙም፣ ካርድ ኢንሹራንስን ዝርዝር መድሃኒታትኩምን ሒዝኩም ምጹ።"
         }
       ],
       "deadlines": [
         {
-          "label": "ቐንየም ተቐንዘለይ",
+          "label": "መዓልቲ ቆጸራ",
           "date": "2027-01-20",
           "sourceSpan": [
             34,
@@ -180,7 +180,7 @@
       ],
       "costs": [
         {
-          "label": "ግን ተቐንዘለይ",
+          "label": "ክፍሊት ምብጻሕ",
           "amount": 200,
           "currency": "ETB",
           "sourceSpan": [
@@ -191,9 +191,9 @@
         }
       ],
       "documentsToBring": [
-        "ዋንታሕ ኢዲ",
-        "ኢንሹራንስ ኪርድ",
-        "ግድያዊ መረጃ"
+        "ካርድ ሕሙም",
+        "ካርድ ኢንሹራንስ",
+        "ዝርዝር መድሃኒታት"
       ],
       "confidence": "high",
       "warnings": [],

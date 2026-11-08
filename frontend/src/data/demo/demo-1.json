@@ -54,23 +54,23 @@
     },
     "am": {
       "docType": "government_notice",
-      "summary": "ኢንሹራንስዎ በቀላሉ ይጎዳናል. ጥበቃዎን ቀላሉ ቀላሉ አድርገዋል እንደሚኖርበትና.",
+      "summary": "የጤና ኢንሹራንስዎ በ2026-12-15 ያበቃል። ጥቅምዎን ለማቆየት አሁን ማደስ ይኖርብዎታል።",
       "actions": [
         {
-          "step": "ኢንሹራንስዎን በ 2026-12-15 በፊት አድርጉ።",
+          "step": "ኢንሹራንስዎን ከ2026-12-15 በፊት ያድሱ።",
           "urgent": true
         },
         {
-          "step": "ኢንሹራንስዎን ቀላሉ ቀላሉ በመቀጠል ETB 500 አስቀድመዋል።",
+          "step": "ጥቅምዎን ለማቆየት ETB 500 ይክፈሉ።",
           "urgent": true
         },
         {
-          "step": "መኪና የሚሄድ የኢዶ ካርና የቀላሉ ኢንሹራንስ ካርዎን ወደ ኤልታዊ ፌሊስ ይደረሱ።"
+          "step": "የመታወቂያ ካርድዎንና የቀድሞውን የኢንሹራንስ ካርድ ይዘው በአቅራቢያዎ ወደሚገኝ የጤና ጣቢያ ይሂዱ።"
         }
       ],
       "deadlines": [
         {
-          "label": "ቀላሉ ቀላሉ ድረስ",
+          "label": "የማደስ የመጨረሻ ቀን",
           "date": "2026-12-15",
           "sourceSpan": [
             46,
@@ -81,7 +81,7 @@
       ],
       "costs": [
         {
-          "label": "አድርገት ክፍያ",
+          "label": "የማደስ ክፍያ",
           "amount": 500,
           "currency": "ETB",
           "sourceSpan": [
@@ -92,8 +92,8 @@
         }
       ],
       "documentsToBring": [
-        "መኪና ኢዲ",
-        "ቀላሉ የኢንሹራንስ ካር"
+        "መታወቂያ ካርድ",
+        "የቀድሞ የኢንሹራንስ ካርድ"
       ],
       "confidence": "high",
       "warnings": [],
@@ -102,23 +102,23 @@
     },
     "om": {
       "docType": "government_notice",
-      "summary": "Sigaadhaa afkaa gaafa lubbuun jira. Gabrummaan kana hojiin qaba.",
+      "summary": "Inshuraansiin fayyaa keessan guyyaa 2026-12-15 tti dhumata. Faayidaa keessan eeguuf amma haaromsuu qabdu.",
       "actions": [
         {
-          "step": "Sigaadhaa afkaa gaafatan 2026-12-15 maal hoji'u.",
+          "step": "Inshuraansii fayyaa keessan guyyaa 2026-12-15 dura haaromsaa.",
           "urgent": true
         },
         {
-          "step": "ETB 500 gaafachihaa sigaadhaa kana keessa hoji'u.",
+          "step": "Faayidaa keessan eeguuf ETB 500 kafalaa.",
           "urgent": true
         },
         {
-          "step": "ID kaartii mummanii robaye sigaadhaa fi sigaadhaa afkaa gaafatan robaye walitti of deemise."
+          "step": "Kaardii eenyummaa fi kaardii inshuraansii duraanii qabattanii waajjira fayyaa dhihoo jiru dhaqaa."
         }
       ],
       "deadlines": [
         {
-          "label": "Gabrummaan hoji'u",
+          "label": "Guyyaa xumuraa haaromsaa",
           "date": "2026-12-15",
           "sourceSpan": [
             46,
@@ -129,7 +129,7 @@
       ],
       "costs": [
         {
-          "label": "Gabrummaan fidaa",
+          "label": "Kaffaltii haaromsaa",
           "amount": 500,
           "currency": "ETB",
           "sourceSpan": [
@@ -140,8 +140,8 @@
         }
       ],
       "documentsToBring": [
-        "ID kaartii",
-        "Sigaadhaa afkaa gaafatan robaye kaartii"
+        "Kaardii eenyummaa",
+        "Kaardii inshuraansii duraanii"
       ],
       "confidence": "high",
       "warnings": [],
@@ -150,23 +150,23 @@
     },
     "ti": {
       "docType": "government_notice",
-      "summary": "ዓዲ ጤብናዊ ምንቃቴዎ በጥቅምቲ ቐንየለይ ኣሎ። ሓገዝ እዩ ተቐንዘለይ።",
+      "summary": "ኢንሹራንስ ጥዕናኹም ብ2026-12-15 ይውዳእ። ጥቕምኹም ንምሓዝ ሕጂ ከተሓድስዎ ኣለኩም።",
       "actions": [
         {
-          "step": "ዓዲ ጤብናዊ ምንቃቴውን በ 2026-12-15 በዝተረኳ ኣብዚ ዝሓገዝ ኣለኻ።",
+          "step": "ኢንሹራንስ ጥዕናኹም ቅድሚ 2026-12-15 ኣሓድሱ።",
           "urgent": true
         },
         {
-          "step": "ETB 500 ተገድሉ ዘሎ ዓዲ ጤብናዊ ምንቃቴው ተቐንዘለይ።",
+          "step": "ጥቕምኹም ንምሓዝ ETB 500 ክፈሉ።",
           "urgent": true
         },
         {
-          "step": "መስኮታዊ ቪያልስ ቓይነታትን ኣብ ዓዲ ኣብርቢ ኤዲ ክልን ንኾእርና ዓለም ተቐንዘዋ።"
+          "step": "ካርድ መንነትኩምን ናይ ቀደም ካርድ ኢንሹራንስኩምን ሒዝኩም ኣብ ቀረባ ናብ ዝርከብ ጽሕፈት ጥዕና ኪዱ።"
         }
       ],
       "deadlines": [
         {
-          "label": "ዝሓገዝ ቐንየም",
+          "label": "መወዳእታ መዓልቲ ምሕዳስ",
           "date": "2026-12-15",
           "sourceSpan": [
             46,
@@ -177,7 +177,7 @@
       ],
       "costs": [
         {
-          "label": "ዝሓገዝ ገንዘብ",
+          "label": "ክፍሊት ምሕዳስ",
           "amount": 500,
           "currency": "ETB",
           "sourceSpan": [
@@ -188,8 +188,8 @@
         }
       ],
       "documentsToBring": [
-        "ኣብርቢ ኢዲ",
-        "ተቐንዘለይ ዓዲ ጤብናዊ ምንቃቴ ኪርድ"
+        "ካርድ መንነት",
+        "ናይ ቀደም ካርድ ኢንሹራንስ"
       ],
       "confidence": "high",
       "warnings": [],
