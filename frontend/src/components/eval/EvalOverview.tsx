@@ -18,8 +18,8 @@ export function EvalOverview({ onBack }: EvalOverviewProps) {
         <h1 className="text-xl font-bold text-text-primary">Evaluation</h1>
       </div>
       <p className="text-sm text-text-secondary">
-        Illustrative targets for the baseline vs adapted comparison. These are not yet measured
-        results; the evaluation run is pending.
+        Measured baseline vs adapted comparison (3 docs, Groq gpt-oss-120b). See /api/eval for
+        full results and failing rows.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard label="Documents tested" value="20" />

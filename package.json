@@ -10,7 +10,7 @@
     "preview": "cd frontend && npm run preview",
     "lint": "cd frontend && npm run lint && cd .. && tsc --project server/tsconfig.json",
     "typecheck": "cd frontend && npx tsc --noEmit --project tsconfig.json && cd .. && tsc --project server/tsconfig.json",
-    "test": "echo \"no test runner configured\" && exit 0",
+    "test": "node --experimental-strip-types --test frontend/src/lib/verify.test.ts",
     "smoke": "node scripts/smoke.mjs"
   },
   "devDependencies": {

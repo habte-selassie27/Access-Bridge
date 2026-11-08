@@ -1,0 +1,407 @@
+{
+  "runAt": "2026-11-08T13:07:17.624Z",
+  "model": "openai/gpt-oss-120b",
+  "docs": [
+    {
+      "docId": "demo-1",
+      "variant": "baseline",
+      "output": {
+        "deadlines": [
+          {
+            "label": "health insurance coverage expiration",
+            "date": "2026-12-15"
+          }
+        ],
+        "costs": [
+          {
+            "label": "renewal payment",
+            "amount": 500,
+            "currency": "ETB"
+          }
+        ]
+      },
+      "error": null,
+      "expectedDates": [
+        "2026-12-15"
+      ],
+      "expectedAmounts": [
+        {
+          "amount": 2026,
+          "currency": "ETB"
+        },
+        {
+          "amount": 12,
+          "currency": "ETB"
+        },
+        {
+          "amount": 15,
+          "currency": "ETB"
+        },
+        {
+          "amount": 500,
+          "currency": "ETB"
+        }
+      ],
+      "totalDates": 1,
+      "dateMatch": 1,
+      "dateAccuracy": 1,
+      "totalAmounts": 1,
+      "amountMatch": 1,
+      "amountAccuracy": 1,
+      "hallucinatedCount": 0,
+      "hallucinated": []
+    },
+    {
+      "docId": "demo-1",
+      "variant": "improved",
+      "output": {
+        "deadlines": [
+          {
+            "label": "coverage expiration",
+            "date": "2026-12-15"
+          }
+        ],
+        "costs": [
+          {
+            "label": "renewal payment",
+            "amount": 500,
+            "currency": "ETB"
+          }
+        ]
+      },
+      "error": null,
+      "expectedDates": [
+        "2026-12-15"
+      ],
+      "expectedAmounts": [
+        {
+          "amount": 2026,
+          "currency": "ETB"
+        },
+        {
+          "amount": 12,
+          "currency": "ETB"
+        },
+        {
+          "amount": 15,
+          "currency": "ETB"
+        },
+        {
+          "amount": 500,
+          "currency": "ETB"
+        }
+      ],
+      "totalDates": 1,
+      "dateMatch": 1,
+      "dateAccuracy": 1,
+      "totalAmounts": 1,
+      "amountMatch": 1,
+      "amountAccuracy": 1,
+      "hallucinatedCount": 0,
+      "hallucinated": []
+    },
+    {
+      "docId": "demo-2",
+      "variant": "baseline",
+      "output": {
+        "deadlines": [
+          {
+            "label": "Medical appointment",
+            "date": "2027-01-20"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Medical appointment fee",
+            "amount": 200,
+            "currency": "ETB"
+          }
+        ]
+      },
+      "error": null,
+      "expectedDates": [
+        "2027-01-20"
+      ],
+      "expectedAmounts": [
+        {
+          "amount": 2027,
+          "currency": "ETB"
+        },
+        {
+          "amount": 1,
+          "currency": "ETB"
+        },
+        {
+          "amount": 20,
+          "currency": "ETB"
+        },
+        {
+          "amount": 10,
+          "currency": "ETB"
+        },
+        {
+          "amount": 0,
+          "currency": "ETB"
+        },
+        {
+          "amount": 304,
+          "currency": "ETB"
+        },
+        {
+          "amount": 15,
+          "currency": "ETB"
+        },
+        {
+          "amount": 200,
+          "currency": "ETB"
+        },
+        {
+          "amount": 911,
+          "currency": "ETB"
+        },
+        {
+          "amount": 222,
+          "currency": "ETB"
+        },
+        {
+          "amount": 333,
+          "currency": "ETB"
+        }
+      ],
+      "totalDates": 1,
+      "dateMatch": 1,
+      "dateAccuracy": 1,
+      "totalAmounts": 1,
+      "amountMatch": 1,
+      "amountAccuracy": 1,
+      "hallucinatedCount": 0,
+      "hallucinated": []
+    },
+    {
+      "docId": "demo-2",
+      "variant": "improved",
+      "output": {
+        "deadlines": [
+          {
+            "label": "medical appointment",
+            "date": "2027-01-20"
+          }
+        ],
+        "costs": [
+          {
+            "label": "visit cost",
+            "amount": 200,
+            "currency": "ETB"
+          }
+        ]
+      },
+      "error": null,
+      "expectedDates": [
+        "2027-01-20"
+      ],
+      "expectedAmounts": [
+        {
+          "amount": 2027,
+          "currency": "ETB"
+        },
+        {
+          "amount": 1,
+          "currency": "ETB"
+        },
+        {
+          "amount": 20,
+          "currency": "ETB"
+        },
+        {
+          "amount": 10,
+          "currency": "ETB"
+        },
+        {
+          "amount": 0,
+          "currency": "ETB"
+        },
+        {
+          "amount": 304,
+          "currency": "ETB"
+        },
+        {
+          "amount": 15,
+          "currency": "ETB"
+        },
+        {
+          "amount": 200,
+          "currency": "ETB"
+        },
+        {
+          "amount": 911,
+          "currency": "ETB"
+        },
+        {
+          "amount": 222,
+          "currency": "ETB"
+        },
+        {
+          "amount": 333,
+          "currency": "ETB"
+        }
+      ],
+      "totalDates": 1,
+      "dateMatch": 1,
+      "dateAccuracy": 1,
+      "totalAmounts": 1,
+      "amountMatch": 1,
+      "amountAccuracy": 1,
+      "hallucinatedCount": 0,
+      "hallucinated": []
+    },
+    {
+      "docId": "demo-3",
+      "variant": "baseline",
+      "output": {
+        "deadlines": [
+          {
+            "label": "Term 2 payment",
+            "date": "2026-10-05"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Term 2 fee",
+            "amount": 3500,
+            "currency": "ETB"
+          },
+          {
+            "label": "Late payment fee",
+            "amount": 100,
+            "currency": "ETB"
+          }
+        ]
+      },
+      "error": null,
+      "expectedDates": [
+        "2026-10-05"
+      ],
+      "expectedAmounts": [
+        {
+          "amount": 2,
+          "currency": "ETB"
+        },
+        {
+          "amount": 2026,
+          "currency": "ETB"
+        },
+        {
+          "amount": 10,
+          "currency": "ETB"
+        },
+        {
+          "amount": 5,
+          "currency": "ETB"
+        },
+        {
+          "amount": 3500,
+          "currency": "ETB"
+        },
+        {
+          "amount": 100,
+          "currency": "ETB"
+        }
+      ],
+      "totalDates": 1,
+      "dateMatch": 1,
+      "dateAccuracy": 1,
+      "totalAmounts": 2,
+      "amountMatch": 2,
+      "amountAccuracy": 1,
+      "hallucinatedCount": 0,
+      "hallucinated": []
+    },
+    {
+      "docId": "demo-3",
+      "variant": "improved",
+      "output": {
+        "deadlines": [
+          {
+            "label": "Term 2 school fees due",
+            "date": "2026-10-05"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Term 2 school fees",
+            "amount": "3,500",
+            "currency": "ETB"
+          },
+          {
+            "label": "Late payment fee",
+            "amount": "100",
+            "currency": "ETB"
+          }
+        ]
+      },
+      "error": null,
+      "expectedDates": [
+        "2026-10-05"
+      ],
+      "expectedAmounts": [
+        {
+          "amount": 2,
+          "currency": "ETB"
+        },
+        {
+          "amount": 2026,
+          "currency": "ETB"
+        },
+        {
+          "amount": 10,
+          "currency": "ETB"
+        },
+        {
+          "amount": 5,
+          "currency": "ETB"
+        },
+        {
+          "amount": 3500,
+          "currency": "ETB"
+        },
+        {
+          "amount": 100,
+          "currency": "ETB"
+        }
+      ],
+      "totalDates": 1,
+      "dateMatch": 1,
+      "dateAccuracy": 1,
+      "totalAmounts": 2,
+      "amountMatch": 1,
+      "amountAccuracy": 0.5,
+      "hallucinatedCount": 0,
+      "hallucinated": []
+    }
+  ],
+  "summary": {
+    "baseline": {
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "hallucinatedNumbers": 0,
+      "docs": 3
+    },
+    "improved": {
+      "dateAccuracy": 1,
+      "amountAccuracy": 0.8333333333333334,
+      "hallucinatedNumbers": 0,
+      "docs": 3
+    }
+  },
+  "failingRows": [
+    {
+      "docId": "demo-3",
+      "variant": "improved",
+      "reason": "missed_field",
+      "detail": {
+        "dateAccuracy": 1,
+        "amountAccuracy": 0.5
+      }
+    }
+  ]
+}
