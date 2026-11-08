@@ -7,6 +7,7 @@ Ctrl+V for confusing paperwork, explained in your own language, with voice.
 - Live: open the deployed URL on a phone → click "Try an example" → pick a document → switch language → press Listen.
 - Demo mode works with no API keys. Local: `npm i && npm run dev`, then `npm run smoke`.
 - Demo documents are cached and load instantly; no network required.
+- Voice readout: the three demo documents ship pre-rendered readouts in `frontend/public/audio/` (Amharic and English), so Listen works even when the device has no Amharic voice. Regenerate after editing demo copy with `node scripts/generate-demo-audio.mjs am en`. Live documents fall back to the device voice, and the UI says so when no voice for that language exists.
 
 ## Problem (2 sentences)
 
@@ -14,7 +15,7 @@ Official documents (benefit notices, medical letters, school fee slips) decide p
 
 ## Solution + screenshots
 
-Paste or upload a document → structured explanation in four cards (What this is / What you must do / Deadline & cost / Documents to bring) → verified dates and amounts cross-checked against the source text → voice readout per card → follow-up questions. An `/eval` page shows baseline vs Adaption-improved output per language with honest failure cases.
+Paste or upload a document → structured explanation in four cards (What this is / What you must do / Deadline & cost / Documents to bring) → verified dates and amounts cross-checked against the source text → voice readout per card → follow-up questions. Every verified deadline and cost keeps the exact source span, so "Show original" highlights the words it came from. An `/eval` page shows baseline vs Adaption-improved output per language with honest failure cases.
 
 Screenshots: `docs/` (Home, Result in Amharic, Result in English, Follow-up, Eval).
 

@@ -43,8 +43,23 @@ for (const id of DEMOS) {
   ok(`${id}: valid, ${LANGS.length} language outputs`);
 }
 
-// 2. Production build output exists.
-const dist = path.join(ROOT, "dist");
+// 2. Recorded demo readouts exist, in public/ and in the build (Listen must not 404).
+let audioFailures = 0;
+for (const id of DEMOS) {
+  for (const lang of ["am", "en"]) {
+    for (const dir of ["frontend/public", "frontend/dist"]) {
+      const file = path.join(ROOT, dir, "audio", `${id}-${lang}.mp3`);
+      if (!fs.existsSync(file)) {
+        fail(`missing demo audio ${dir}/audio/${id}-${lang}.mp3`);
+        audioFailures += 1;
+      }
+    }
+  }
+}
+if (audioFailures === 0) ok("demo audio present (am, en) in public and build");
+
+// 3. Production build output exists (vite builds into frontend/dist).
+const dist = path.join(ROOT, "frontend/dist");
 if (!fs.existsSync(path.join(dist, "index.html"))) {
   fail("dist/index.html missing (run npm run build)");
 } else {

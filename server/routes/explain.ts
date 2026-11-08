@@ -88,7 +88,7 @@ router.post("/explain", upload.single("file"), async (req, res) => {
         return res.status(503).json({ ok: false, error: "OCR unavailable; paste text instead.", retryable: false, code: "UPSTREAM" });
       }
       try {
-        const extracted = await withTimeout(ocr.extractText(uploadedFile!, uploadedMime!), LIMITS.explainTimeoutMs);
+        const extracted = await withTimeout(ocr.extractText(uploadedFile!, uploadedMime!) as Promise<string>, LIMITS.explainTimeoutMs);
         sourceText = sourceText ? `${sourceText}\n${extracted}` : extracted;
       } catch (e) {
         log("error", "ocr failed", { requestId, err: String(e) });
