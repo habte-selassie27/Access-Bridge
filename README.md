@@ -150,7 +150,7 @@ is shown as verified unless its evidence can be traced to the original source te
 
 ## Deploy to Vercel
 
-The project is pre-linked to a Vercel project (`pastewise`). The Express server bundles into a
+The project is pre-linked to a Vercel project (`access-bridge`). The Express server bundles into a
 single serverless function at `api/index.js`.
 
 ### 1. Link to Vercel (if not already linked)
@@ -178,9 +178,10 @@ Set these in the Vercel project dashboard (server-side only):
 | Variable | Needed for |
 |----------|------------|
 | `ANTHROPIC_API_KEY` | Live explanations, follow-ups, translation |
-| `GEMINI_API_KEY` | OCR for photos and PDFs |
+| `GEMINI_API_KEY` | OCR for photos/PDFs **and** Gemini TTS (Amharic, Tigrinya, Arabic, Swahili) |
 | `ADAPTION_API_KEY` | Adaption dataset, few-shot examples, evaluation |
 | `TTS_PROVIDER_KEY` | Hosted text-to-speech (optional; browser voice otherwise) |
+| `GROQ_MODEL` | Groq model id (default `openai/gpt-oss-120b`; use `openai/gpt-oss-20b` if quota tight) |
 | `TTS_PROVIDER` + `TTS_BASE_URL` | Keyless server TTS via local OpenAI-compatible endpoint |
 | `AUTH_STORE_PATH` | Persistent location for account/session JSON file |
 | `COOKIE_SAMESITE` | Set `none` when frontend and API are on different sites |

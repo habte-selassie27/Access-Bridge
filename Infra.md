@@ -1,4 +1,4 @@
-# Infra.md — PasteWise
+# Infra.md — Access-Bridge
 
 Deploy, env, CI, README, video, and submission ops. Goal: **a deployed link a judge can open on a phone in under 90 seconds**, and zero surprises at the deadline.
 
@@ -81,7 +81,7 @@ Backend.md requires a single Next.js deployment with these properties:
 4. Confirm on a real phone over mobile data (not just Wi-Fi).
 5. Configure proxy headers correctly; do not trust arbitrary `X-Forwarded-For`.
 6. No sensitive response caching; use `Cache-Control: no-store` on processing responses.
-7. Custom domain is optional; a clean `pastewise.vercel.app` is fine.
+7. Custom domain is optional; a clean `access-bridge.vercel.app` is fine.
 8. **Deploy a working skeleton today (Day 1)**, then iterate. Never first-deploy on the last day.
 9. Run `npm run smoke` against production before submitting.
 
@@ -125,7 +125,7 @@ Test layers:
 ## 9. README template (carries half the score)
 
 ```
-# PasteWise
+# Access-Bridge
 One sentence: Ctrl+V for confusing paperwork, explained in your own language, with voice.
 
 ## How to test (30 seconds)

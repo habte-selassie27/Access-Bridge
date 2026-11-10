@@ -6,10 +6,10 @@ export interface ApiError {
   message: string;
 }
 
-export class PasteWiseApiError extends Error {
+export class AccessBridgeApiError extends Error {
   constructor(public code: string, message: string) {
     super(message);
-    this.name = "PasteWiseApiError";
+    this.name = "AccessBridgeApiError";
   }
 }
 
@@ -30,14 +30,14 @@ async function fetchJson<T>(path: string, body: unknown): Promise<T> {
     body: JSON.stringify(body),
   });
   if (!res.ok) {
-    throw new PasteWiseApiError(API_ERROR.UPSTREAM, `Server error ${res.status}`);
+    throw new AccessBridgeApiError(API_ERROR.UPSTREAM, `Server error ${res.status}`);
   }
   const envelope = (await res.json()) as { ok?: boolean; data?: T; error?: string };
   if (envelope.ok === false) {
-    throw new PasteWiseApiError(API_ERROR.UPSTREAM, envelope.error || "Server returned an error.");
+    throw new AccessBridgeApiError(API_ERROR.UPSTREAM, envelope.error || "Server returned an error.");
   }
   if (!envelope.data) {
-    throw new PasteWiseApiError(API_ERROR.INVALID_SCHEMA, "Server returned no data.");
+    throw new AccessBridgeApiError(API_ERROR.INVALID_SCHEMA, "Server returned no data.");
   }
   return envelope.data;
 }
@@ -64,11 +64,11 @@ export async function explain({
     const data = await fetchJson<ExplainResponse>("/api/explain", { text, file, mime, lang, demoId });
     const parsed = ExplainResponseSchema.safeParse(data);
     if (!parsed.success) {
-      throw new PasteWiseApiError(API_ERROR.INVALID_SCHEMA, "Server returned invalid schema");
+      throw new AccessBridgeApiError(API_ERROR.INVALID_SCHEMA, "Server returned invalid schema");
     }
     return { data: parsed.data };
   } catch (err) {
-    if (err instanceof PasteWiseApiError) {
+    if (err instanceof AccessBridgeApiError) {
       return { data: DEMO_DOCS[Object.keys(DEMO_DOCS)[0]]!, error: { code: err.code, message: err.message } };
     }
     return {
@@ -98,7 +98,7 @@ export async function followup({
     });
     const parsed = FollowupResponseSchema.safeParse(data);
     if (!parsed.success) {
-      throw new PasteWiseApiError(API_ERROR.INVALID_SCHEMA, "Invalid follow-up response");
+      throw new AccessBridgeApiError(API_ERROR.INVALID_SCHEMA, "Invalid follow-up response");
     }
     return { data: parsed.data };
   } catch (err) {

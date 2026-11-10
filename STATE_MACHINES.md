@@ -1,4 +1,4 @@
-# State machines in PasteWise
+# State machines in Access-Bridge
 
 This document inventories the implicit state machines that used to live as scattered
 `useState` booleans and the explicit machines that replaced them.

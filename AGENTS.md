@@ -1,4 +1,4 @@
-# AGENTS.md — PasteWise
+# AGENTS.md — Access-Bridge
 
 > Ctrl+V for confusing paperwork. Paste or snap any official document, get a plain-language explanation, a checklist, and a voice readout in your own language (Amharic, Oromo, Tigrinya, English, more).
 

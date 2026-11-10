@@ -7,7 +7,7 @@ const router = Router();
 /**
  * Adaption's own quality report, when the build script has fetched it.
  *
- * This is kept separate from PasteWise's deterministic A/B results: one is the
+ * This is kept separate from Access-Bridge's deterministic A/B results: one is the
  * sponsor's report on its dataset, the other is our harness on held-out
  * documents. They are never merged into a single number.
  */

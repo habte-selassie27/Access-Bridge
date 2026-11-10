@@ -16,7 +16,7 @@ export interface Profile {
   createdAt: number;
 }
 
-const SESSION_KEY = "pastewise-auth-session";
+const SESSION_KEY = "access-bridge-auth-session";
 export const GUEST_ID = "guest";
 
 const API_BASE =

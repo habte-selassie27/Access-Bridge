@@ -56,7 +56,7 @@ export const MEASURED_LANGS: LanguageCode[] = ["am", "om", "ti"];
 
 export function loadLastLanguage(): LanguageCode {
   try {
-    const stored = localStorage.getItem("pastewise-lang");
+    const stored = localStorage.getItem("access-bridge-lang");
     if (stored && LANGUAGES.some((l) => l.code === stored)) {
       return stored as LanguageCode;
     }
@@ -68,7 +68,7 @@ export function loadLastLanguage(): LanguageCode {
 
 export function saveLastLanguage(code: LanguageCode): void {
   try {
-    localStorage.setItem("pastewise-lang", code);
+    localStorage.setItem("access-bridge-lang", code);
   } catch {
     // ignore
   }

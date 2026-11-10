@@ -7,7 +7,7 @@ import path from "node:path";
 const { AuthStore, AuthError } = await import("../../server/lib/auth/store.ts");
 
 test("server account store", async (t) => {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "pastewise-auth-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "access-bridge-auth-"));
   const file = path.join(dir, "users.json");
   const store = new AuthStore(file, 30);
   t.after(async () => {

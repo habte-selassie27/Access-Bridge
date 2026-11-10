@@ -146,7 +146,7 @@ export interface UploadProps {
 export function Upload({ onBack, onDocRead }: UploadProps) {
   const [state, dispatch] = useReducer(reducer, initialState, (init) => {
     try {
-      const raw = sessionStorage.getItem("pastewise-wizard");
+      const raw = sessionStorage.getItem("access-bridge-wizard");
       if (raw) {
         const parsed = JSON.parse(raw);
         return { ...init, ...parsed, result: parsed.result || null };
@@ -192,7 +192,7 @@ export function Upload({ onBack, onDocRead }: UploadProps) {
   useEffect(() => {
     try {
       const { file: _f, ...rest } = state as any;
-      sessionStorage.setItem("pastewise-wizard", JSON.stringify(rest));
+      sessionStorage.setItem("access-bridge-wizard", JSON.stringify(rest));
     } catch {}
   }, [state]);
 
@@ -393,8 +393,8 @@ export function Upload({ onBack, onDocRead }: UploadProps) {
 
   const handleClear = useCallback(() => {
     try {
-      sessionStorage.removeItem("pastewise-wizard");
-      localStorage.removeItem("pastewise-checklist");
+      sessionStorage.removeItem("access-bridge-wizard");
+      localStorage.removeItem("access-bridge-checklist");
     } catch {}
     dispatch({ type: "RESET" });
     setFile(null);

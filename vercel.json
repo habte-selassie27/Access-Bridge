@@ -2,14 +2,12 @@
   "version": 2,
   "framework": "vite",
   "buildCommand": "cd frontend && npm install && npm run build",
-  "devCommand": "cd frontend && npm run dev",
-  "installCommand": "npm install",
   "outputDirectory": "frontend/dist",
-  "functions": {
-    "api/index.js": { "maxDuration": 60 }
-  },
+  "installCommand": "cd frontend && npm install",
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
   ]
 }

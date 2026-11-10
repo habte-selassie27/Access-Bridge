@@ -56,11 +56,11 @@ test("accessibility preferences", async (t) => {
 
   await t.test("settings are stored so they survive a reload", () => {
     setA11y({ fontScale: "lg" });
-    assert.match(store.get("pastewise-a11y") ?? "", /"fontScale":"lg"/);
+    assert.match(store.get("access-bridge-a11y") ?? "", /"fontScale":"lg"/);
   });
 
   await t.test("a stored setting is restored on the next visit", () => {
-    store.set("pastewise-a11y", JSON.stringify({ theme: "light", fontScale: "lg", contrast: "high" }));
+    store.set("access-bridge-a11y", JSON.stringify({ theme: "light", fontScale: "lg", contrast: "high" }));
     const restored = initA11y();
     assert.equal(restored.theme, "light");
     assert.equal(restored.fontScale, "lg");
@@ -70,7 +70,7 @@ test("accessibility preferences", async (t) => {
   });
 
   await t.test("a corrupt stored value falls back to the defaults", () => {
-    store.set("pastewise-a11y", "{not json");
+    store.set("access-bridge-a11y", "{not json");
     const restored = initA11y();
     assert.equal(restored.theme, DEFAULT_A11Y.theme);
     assert.equal(restored.fontScale, "md");
@@ -81,6 +81,6 @@ test("accessibility preferences", async (t) => {
     resetA11y();
     assert.equal(getA11y().theme, "dark");
     assert.equal(dataset.theme, "dark");
-    assert.equal(store.get("pastewise-a11y"), undefined);
+    assert.equal(store.get("access-bridge-a11y"), undefined);
   });
 });

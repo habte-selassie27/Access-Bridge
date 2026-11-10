@@ -66,6 +66,6 @@ export default app;
 if (!process.env.VERCEL) {
   const PORT = Number(process.env.PORT || 3001);
   app.listen(PORT, () => {
-    log("info", "PasteWise API listening", { port: PORT, llm: Boolean(llm), ocr: Boolean(ocr) });
+    log("info", "Access-Bridge API listening", { port: PORT, llm: Boolean(llm), ocr: Boolean(ocr) });
   });
 }

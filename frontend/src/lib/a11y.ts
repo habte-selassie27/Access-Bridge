@@ -39,7 +39,7 @@ export const DEFAULT_A11Y: A11ySettings = {
   simpleMode: false,
 };
 
-const STORAGE_KEY = "pastewise-a11y";
+const STORAGE_KEY = "access-bridge-a11y";
 
 let current: A11ySettings = DEFAULT_A11Y;
 const listeners = new Set<() => void>();

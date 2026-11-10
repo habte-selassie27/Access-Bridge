@@ -1,5 +1,5 @@
 #!/usr/bin/env tsx
-// Rebuild PasteWise's few-shot dataset through the Adaption API.
+// Rebuild Access-Bridge's few-shot dataset through the Adaption API.
 //
 // Flow: read data/adaption/seeds.json -> upload JSONL rows -> Adaption adapt
 // with column_mapping + translate (am/om/ti) -> poll -> download -> cache.
@@ -24,7 +24,7 @@ const SEEDS_PATH = path.join(process.cwd(), "data/adaption/seeds.json");
 const OUT_PATH = path.join(process.cwd(), "data/adaption/dataset.json");
 const MANIFEST_PATH = path.join(process.cwd(), "data/adaption/manifest.json");
 const LANGUAGES = ["am", "om", "ti"] as const;
-const DATASET_NAME = "pastewise-seeds";
+const DATASET_NAME = "access-bridge-seeds";
 
 type SeedExplanation = {
   summary: string;
@@ -240,7 +240,7 @@ async function main() {
       chatColumn: "messages",
       translateLanguages: [...LANGUAGES],
       sampleRate: 1,
-      idempotencyKey: `pastewise-${randomUUID()}`,
+      idempotencyKey: `access-bridge-${randomUUID()}`,
     });
     console.log(
       `Adapt run ${runInfo.runId ?? "(pending)"}: estimated ${runInfo.estimatedMinutes} min, ${runInfo.estimatedCredits} credits`
@@ -260,7 +260,7 @@ async function main() {
       chatColumn: "messages",
       translateLanguages: [...LANGUAGES],
       sampleRate: 1,
-      idempotencyKey: `pastewise-${randomUUID()}`,
+      idempotencyKey: `access-bridge-${randomUUID()}`,
     });
     console.log(`Adapt run ${runInfo.runId ?? "(pending)"}: estimated ${runInfo.estimatedMinutes} min, ${runInfo.estimatedCredits} credits`);
   }

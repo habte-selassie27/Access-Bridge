@@ -1,4 +1,4 @@
-// Explicit, discriminated-union state machines for PasteWise.
+// Explicit, discriminated-union state machines for Access-Bridge.
 // See UI.md section 13 "Frontend State Management".
 //
 // Each machine is a pure reducer over a tagged union so that:

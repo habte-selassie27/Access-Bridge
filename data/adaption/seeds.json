@@ -1,5 +1,5 @@
 {
-  "corpus": "Authored seed corpus for PasteWise, written for this hackathon. Not scraped production documents. Every date and amount appears verbatim in its source text so the deterministic verifier can check them.",
+  "corpus": "Authored seed corpus for Access-Bridge, written for this hackathon. Not scraped production documents. Every date and amount appears verbatim in its source text so the deterministic verifier can check them.",
   "language": "en",
   "rows": [
     {

@@ -59,9 +59,9 @@ export interface ConversationRecord {
   messages: { role: "user" | "assistant"; content: string; quote?: string | null }[];
 }
 
-const DOCS_KEY = "pastewise-library-docs";
-const CONVOS_KEY = "pastewise-library-conversations";
-const CHECKLIST_KEY = "pastewise-checklist";
+const DOCS_KEY = "access-bridge-library-docs";
+  const CONVOS_KEY = "access-bridge-library-conversations";
+  const CHECKLIST_KEY = "access-bridge-checklist";
 
 /** Storage keys are scoped to the signed-in profile. */
 export function scopedKey(key: string): string {

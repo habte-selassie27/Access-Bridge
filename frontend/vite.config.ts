@@ -1,21 +1,24 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 
-export default defineConfig({
-  plugins: [
-    tailwindcss(),
-  ],
-  server: {
-    proxy: {
-      "/api": "http://localhost:3001",
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+  const apiBase = env.VITE_API_BASE || "http://localhost:3001";
+
+  return {
+    plugins: [tailwindcss()],
+    build: {
+      sourcemap: false,
     },
-  },
-  // `vite preview` serves the production build. It needs the same API proxy
-  // as the dev server, otherwise a preview of the built app cannot reach the
-  // backend and every /api call 404s.
-  preview: {
-    proxy: {
-      "/api": "http://localhost:3001",
+    server: {
+      proxy: {
+        "/api": apiBase,
+      },
     },
-  },
+    preview: {
+      proxy: {
+        "/api": apiBase,
+      },
+    },
+  };
 });

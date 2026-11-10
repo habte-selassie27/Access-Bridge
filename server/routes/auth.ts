@@ -8,7 +8,7 @@ import { noCache } from "../middleware/request-logger.ts";
 const router = Router();
 router.use(noCache);
 
-const SESSION_COOKIE = "pastewise_session";
+const SESSION_COOKIE = "access-bridge_session";
 const NAME_RE = /^[\p{L}\p{N} ._'-]{2,40}$/u;
 
 function clientIp(req: any): string {

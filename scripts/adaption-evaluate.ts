@@ -2,7 +2,7 @@
 // Fetch Adaption's own quality report for the committed dataset.
 //
 // This is deliberately separate from scripts/eval-ab.ts:
-//   - eval-ab.ts measures PasteWise's prompts on held-out documents.
+//   - eval-ab.ts measures Access-Bridge's prompts on held-out documents.
 //   - this script records what Adaption says about the dataset it produced.
 // /eval shows both, labelled, and never averages them together.
 //

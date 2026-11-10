@@ -1,7 +1,7 @@
-# UI.md — PasteWise
+# UI.md — Access-Bridge
 ## Evidence-Based Multilingual Document Understanding Interface
 
-> **Product:** PasteWise  
+> **Product:** Access-Bridge  
 > **Architecture:** Single Next.js Application  
 > **Framework:** Next.js App Router  
 > **UI:** React + TypeScript  
@@ -23,7 +23,7 @@ Related documents:
 
 **Understand what your document says. Know what is verified. Know what you still need to check.**
 
-PasteWise transforms confusing documents into understandable explanations and practical next steps.
+Access-Bridge transforms confusing documents into understandable explanations and practical next steps.
 
 The interface must communicate three things:
 
@@ -38,7 +38,7 @@ The UI must never make AI-generated information look more authoritative than the
 The main experience should take approximately 90 seconds.
 
 ```text
-OPEN PASTEWISE
+OPEN ACCESS-BRIDGE
       |
       v
 PASTE / UPLOAD / CAMERA
@@ -118,7 +118,7 @@ The `/eval` route is a separate judge-facing experience.
 Keep navigation minimal.
 
 Desktop:
-- PasteWise logo.
+- Access-Bridge logo.
 - Language selector.
 - Privacy information.
 - Evaluation link.
@@ -1251,7 +1251,7 @@ Provide a small but accessible privacy explanation on the home screen and a more
 
 Suggested copy:
 
-"Your document is processed to create an explanation. PasteWise does not store documents by default. External AI services may process document content when live processing is used."
+"Your document is processed to create an explanation. Access-Bridge does not store documents by default. External AI services may process document content when live processing is used."
 
 Important:
 - The UI statement must match actual backend retention behavior.
@@ -1289,7 +1289,7 @@ The UI must preserve safety warnings returned by the backend.
 
 Route: `/eval`
 
-Purpose: Demonstrate the actual technical quality of PasteWise.
+Purpose: Demonstrate the actual technical quality of Access-Bridge.
 
 The dashboard is for judges and developers, not normal document-processing users.
 
@@ -1369,7 +1369,7 @@ The page exists to demonstrate honest engineering and measurable improvement.
 
 # 19. Accessibility Requirements
 
-Accessibility is central to PasteWise.
+Accessibility is central to Access-Bridge.
 
 ## 19.1 Semantic HTML
 
@@ -1447,7 +1447,7 @@ The product must be demonstrable in approximately 90 seconds.
 
 ## 21.1 Demo Flow
 
-1. Open PasteWise.
+1. Open Access-Bridge.
 2. Select a government notice example.
 3. Select Amharic or English.
 4. Press Explain it.
@@ -1672,7 +1672,7 @@ Use the shared contracts from the beginning.
 
 **Final product experience:**
 
-PasteWise should feel like a helpful person sitting beside you, reading a confusing document and explaining it in language you understand.
+Access-Bridge should feel like a helpful person sitting beside you, reading a confusing document and explaining it in language you understand.
 
 It should tell you what the document says, what you need to do, which facts are supported by the original, and what you still need to confirm.
 

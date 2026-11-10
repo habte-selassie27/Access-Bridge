@@ -1,4 +1,4 @@
-// PasteWise / AccessBridge service worker.
+// Access-Bridge service worker.
 // Caches the app shell so demo mode works offline on repeat visits.
 // Static assets (fonts, demo audio) are served cache-first; /api calls go to
 // the network and are not cached.

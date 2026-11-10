@@ -6,7 +6,7 @@
  * 8 MB scan into a giant sessionStorage string. The dashboard writes it and the
  * wizard takes it exactly once.
  */
-const DB_NAME = "pastewise-pending";
+const DB_NAME = "access-bridge-pending";
 const STORE = "uploads";
 const KEY = "current";
 

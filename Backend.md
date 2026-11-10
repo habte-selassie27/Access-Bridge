@@ -1,8 +1,8 @@
-# Backend.md — PasteWise
+# Backend.md — Access-Bridge
 
 ## Production-Grade Backend Architecture & Engineering Specification
 
-> **Product:** PasteWise  
+> **Product:** Access-Bridge  
 > **Architecture:** Modular Monolith  
 > **Framework:** Next.js App Router  
 > **Language:** TypeScript (strict mode)  
@@ -27,7 +27,7 @@ Related documents:
 
 **The LLM proposes and explains. Deterministic code verifies.**
 
-PasteWise helps people understand official, financial, medical, educational and administrative documents.
+Access-Bridge helps people understand official, financial, medical, educational and administrative documents.
 
 It must never pretend to know more than the original document establishes.
 
@@ -830,7 +830,7 @@ This prevents the model from assigning its own authority to extracted informatio
 
 Location: `/lib/verify/`
 
-This is the most important subsystem in PasteWise.
+This is the most important subsystem in Access-Bridge.
 
 Write its tests before implementing the LLM integration.
 
@@ -1468,7 +1468,7 @@ Before integration:
 
 Do not make runtime document processing depend on an experimental training workflow.
 
-The adaptation system should improve the language model or its supported inference path, while the PasteWise verification engine remains independent.
+The adaptation system should improve the language model or its supported inference path, while the Access-Bridge verification engine remains independent.
 
 ## 11.5 Translation Quality Gate
 
@@ -2024,7 +2024,7 @@ Do not add unused database or infrastructure credentials.
 
 # 20. Deployment Architecture
 
-PasteWise remains a single Next.js deployment.
+Access-Bridge remains a single Next.js deployment.
 
 ```text
                  USER
@@ -2161,7 +2161,7 @@ Do not mark a phase complete because the code compiles. Its acceptance criteria 
 
 # 24. Definition of Done
 
-PasteWise backend is considered production-ready only when all applicable requirements below are satisfied.
+Access-Bridge backend is considered production-ready only when all applicable requirements below are satisfied.
 
 ## Architecture
 - [ ] Single Next.js deployment.
@@ -2252,7 +2252,7 @@ These rules override implementation convenience.
 
 **The final objective:**
 
-PasteWise must be a trustworthy document-understanding system, not simply an AI chatbot that summarizes uploaded files.
+Access-Bridge must be a trustworthy document-understanding system, not simply an AI chatbot that summarizes uploaded files.
 
 Its value comes from combining multilingual accessibility, evidence-backed extraction, deterministic verification, transparent uncertainty and reliable document explanations.
 

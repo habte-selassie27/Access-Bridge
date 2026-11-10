@@ -4234,7 +4234,7 @@ var authStore = new AuthStore();
 // server/routes/auth.ts
 var router15 = Router15();
 router15.use(noCache);
-var SESSION_COOKIE = "pastewise_session";
+var SESSION_COOKIE = "access-bridge_session";
 var NAME_RE = /^[\p{L}\p{N} ._'-]{2,40}$/u;
 function clientIp6(req) {
   return req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
@@ -4400,7 +4400,7 @@ var index_default = app;
 if (!process.env.VERCEL) {
   const PORT = Number(process.env.PORT || 3001);
   app.listen(PORT, () => {
-    log("info", "PasteWise API listening", { port: PORT, llm: Boolean(llm), ocr: Boolean(ocr) });
+    log("info", "Access-Bridge API listening", { port: PORT, llm: Boolean(llm), ocr: Boolean(ocr) });
   });
 }
 export {

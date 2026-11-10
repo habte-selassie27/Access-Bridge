@@ -19,7 +19,7 @@ interface HistoryEntry {
   translated: string;
 }
 
-const HISTORY_KEY = "pastewise-translation-history";
+const HISTORY_KEY = "access-bridge-translation-history";
 
 /** History is scoped to the profile, like the library. */
 function historyKey(): string {
