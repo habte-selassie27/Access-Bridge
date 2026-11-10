@@ -10,7 +10,7 @@
 
 ## How to test (30 seconds)
 
-**Live site (recommended):** https://access-bridge-brown.vercel.app/
+**Live site:** https://access-bridge-brown.vercel.app/
 1. Paste a document, or click **Try an example** to load a bundled demo.
 2. Pick a language (Amharic, Oromo, Tigrinya, English).
 3. Press **Explain it**.
@@ -30,13 +30,13 @@ npm run dev
 # Open http://localhost:5174/
 ```
 
-Then press **Explain it** on any document. Run `npm run smoke` to verify everything works.
+Run `npm run smoke` to verify everything works.
 
 ---
 
 ## The problem
 
-Official documents decide people's access to healthcare, money, education, and services — but millions cannot read them because of language, literacy, or legalese barriers. A student cannot understand a scholarship announcement; a rural citizen cannot act on a service notice. Access-Bridge turns any document into a plain-language answer, a checklist of what to do, and a voice readout — in about 90 seconds, on a phone, with no account required.
+Official documents decide people's access to healthcare, money, education, and services — but millions cannot read them because of language, literacy, or legalese barriers. Access-Bridge turns any document into a plain-language answer, a checklist of what to do, and a voice readout — in about 90 seconds, on a phone, with no account required.
 
 ---
 
@@ -44,13 +44,14 @@ Official documents decide people's access to healthcare, money, education, and s
 
 | Feature | What you get |
 |---|---|
-| **Input** | Paste text, upload PDF/TXT/image, take a photo, or import a web page |
+| **Input** | Paste text, upload PDF/TXT/image, take a photo, or import a web page by URL |
 | **Explain** | Structured output: what this is / what you must do / who can apply & how / deadline & cost / documents to bring |
 | **Plain language** | Simple / Standard / Detailed — same facts, three ways of writing them |
 | **Voice** | Text-to-speech readout with language selection; browser fallback when no server voice exists |
 | **Translate** | Side-by-side translation with the original kept visible |
 | **Actions** | Tick-off checklist with progress tracking |
 | **Library** | Saved documents, search across text (browser-only) |
+| **History** | Conversation history with full thread |
 | **Follow-up** | Ask questions about your document; answers stay grounded in the source |
 | **Compare** | Two documents side by side |
 | **Accessibility** | Light/dark theme, large text, reduced motion, keyboard and screen-reader support |
@@ -62,12 +63,12 @@ Official documents decide people's access to healthcare, money, education, and s
 
 **The LLM proposes; deterministic code verifies.**
 
-1. **Input** — text, photo, or PDF is received and validated.
-2. **OCR/vision** — images and scanned PDFs are converted to text (provenance preserved).
+1. **Input** — text, photo, or PDF is received and validated (max 20,000 chars text, 8 MB files).
+2. **OCR/vision** — images and scanned PDFs are converted to text; provenance is preserved.
 3. **Language detection** — source language is identified; user picks the explanation language.
 4. **Extraction** — the model proposes summary, actions, deadlines, costs, documents, contacts, glossary, and examples.
 5. **Verification** — deterministic code re-finds every date and amount in the original source text. Nothing is marked "verified" unless its evidence is traceable to the source.
-6. **Translation** — the explanation is rewritten in the selected language (Amharic, Oromo, Tigrinya, English).
+6. **Translation** — the explanation is rewritten in the selected language.
 7. **Voice** — TTS reads the explanation aloud; browser speech synthesis is the fallback.
 
 **Core invariant:** No date, amount, or deadline is shown as verified unless its evidence can be traced to the original source text. OCR output is never treated as ground truth.
@@ -80,9 +81,9 @@ Official documents decide people's access to healthcare, money, education, and s
 USER
   |
   v
-NEXT.JS / EXPRESS (single serverless deployment on Vercel)
+EXPRESS + VITE/REACT (single deployment on Vercel)
   |
-  +-- API: /api/explain, /api/extract, /api/verify, /api/ask, /api/tts, /api/health, /api/eval
+  +-- API: /api/explain, /api/extract, /api/verify, /api/ask, /api/tts, /api/health, /api/eval, /api/auth
   |
   v
 APPLICATION SERVICES (explain, follow-up, translation, speech, pipeline)
@@ -96,7 +97,7 @@ PROVIDER ADAPTERS (LLM, OCR, translation, TTS — provider-independent interface
 ```
 
 **Frontend:** Vite + React + TypeScript + Tailwind CSS  
-**Backend:** Express (serverless on Vercel)  
+**Backend:** Express (serverless on Vercel, bundled in `api/index.js`)  
 **Live:** https://access-bridge-brown.vercel.app/
 
 ### Demo mode
@@ -117,12 +118,13 @@ Works fully offline with no API key:
 | `/api/tts` | POST | Text-to-speech (falls back to browser voice) |
 | `/api/health` | GET | Health check |
 | `/api/eval` | GET | Evaluation metrics (baseline vs Adaption) |
+| `/api/auth/*` | POST/GET | Account registration, login, session |
 
 ---
 
 ## How we use Adaption (load-bearing sponsor integration)
 
-Adaption's **Invent-a-Dataset / Adaptive Data** builds a plain-language simplification corpus for Amharic, Oromo, and Tigrinya. This is load-bearing — it directly improves the low-resource language outputs that are central to our impact evaluation.
+Adaption's **Invent-a-Dataset / Adaptive Data** builds a plain-language simplification corpus for Amharic, Oromo, and Tigrinya. This is load-bearing — it directly improves the low-resource language outputs central to our impact evaluation.
 
 - Seed corpus → dataset build → few-shot examples → improved multilingual simplification
 - Evaluation page (`/eval`) publishes baseline vs Adaption-improved results per language
@@ -145,7 +147,7 @@ Adaption's **Invent-a-Dataset / Adaptive Data** builds a plain-language simplifi
 ## What's honestly unfinished / limitations
 
 - **Not legal or medical advice.** Outputs are explanations; always verify with the issuer.
-- **Retrieval uses local feature-hashed embeddings,** not a neural embedding model. Deliberate: keeps the no-key/no-network demo guarantee, but a hosted embedding model would rank paraphrases better.
+- **Retrieval uses local feature-hashed embeddings,** not a neural embedding model. Keeps the no-key/no-network demo guarantee, but a hosted embedding model would rank paraphrases better.
 - **Keyless TTS** requires a local OpenAI-compatible endpoint. If none is running, audio falls back to the device voice and the UI says so.
 - **Accounts live in a JSON file.** On Vercel's ephemeral filesystem they won't survive a redeploy; `AUTH_STORE_PATH` must point at persistent storage, or the store needs a database adapter.
 - **Low-resource language quality varies.** See `/eval` for measured gaps.
@@ -171,16 +173,17 @@ Documents are **not stored on the server**. They are processed in memory; only m
 
 ## Deploy to Vercel
 
-The project is pre-linked to a Vercel project (`access-bridge-brown`). The Express server bundles into a single serverless function.
+The project is pre-linked to a Vercel project (`access-bridge-brown`). The Express server bundles into a single serverless function in `api/index.js`.
 
 ### 1. Import to Vercel
-Push this repo to GitHub, then import it in Vercel. Set the framework preset to **Vite** and the root directory to `frontend`.
+Push this repo to GitHub, then import it in Vercel. Set the root directory to `frontend`.
 
 ### 2. Build settings
 - **Build command:** `npm install && npm run build`
 - **Install command:** `npm install`
 - **Output directory:** `dist`
 - **Root directory:** `frontend`
+- API routes rewrite `/api/*` to the serverless function
 
 ### 3. Environment variables
 Set these in the Vercel project dashboard (server-side only):
