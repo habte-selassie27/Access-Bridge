@@ -20,6 +20,7 @@ import { Settings } from "./screens/Settings.tsx";
 import { loadLastLanguage, saveLastLanguage, isRtl } from "./lib/languages.ts";
 import type { LanguageCode } from "./lib/languages.ts";
 import { resolveDemo } from "./lib/demo.ts";
+import { explainDocument } from "./lib/api/explain.ts";
 import { listDocs, saveDoc } from "./lib/library.ts";
 import type { LibraryDoc } from "./lib/library.ts";
 
@@ -136,6 +137,33 @@ export function App() {
     []
   );
 
+  /**
+   * Re-read the current document in another language.
+   *
+   * The source text is explained again from scratch, so the dates and amounts
+   * are verified against the original a second time rather than being carried
+   * over from the previous answer.
+   */
+  const reExplainIn = useCallback(
+    async (lang: LanguageCode) => {
+      const sourceText = result?.originalText;
+      if (!sourceText) return;
+      setLangNotice(null);
+      const { data, error } = await explainDocument({ text: sourceText, lang });
+      if (error || !data) {
+        setLangNotice(error?.message || "We could not read this document in that language right now.");
+        return;
+      }
+      setResult(data);
+      try {
+        setActiveDoc(saveDoc({ sourceText, result: data }));
+      } catch {
+        // ignore storage failures
+      }
+    },
+    [result]
+  );
+
   // On a fresh visit, pick up the most recent document so the workspace is
   // never an empty shell.
   useEffect(() => {
@@ -213,7 +241,11 @@ export function App() {
                   "This saved example is only available in English, Amharic, Oromo and Tigrinya. Read a new document for other languages."
                 );
               }
+              return;
             }
+            // A live result is re-read from its own source text in the new
+            // language, and every date and amount is verified again.
+            void reExplainIn(nextLang);
           }}
           notice={langNotice}
         />

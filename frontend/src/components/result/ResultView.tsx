@@ -12,7 +12,7 @@ import { OriginalDocumentViewer } from "../evidence/OriginalDocumentViewer.tsx";
 import { ListenButton } from "../audio/ListenButton.tsx";
 import { EligibilityCheck } from "./EligibilityCheck.tsx";
 import type { ExplanationResult } from "../../lib/api/types.ts";
-import { languageName } from "../../lib/languages.ts";
+import { languageName, LANGUAGES } from "../../lib/languages.ts";
 
 export interface ResultViewProps {
   result: ExplanationResult;
@@ -96,20 +96,24 @@ export function ResultView({ result, onBack, onLangChange, onAsk }: ResultViewPr
 
       <div className="sticky bottom-0 z-20 -mx-4 mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-border bg-background/95 px-4 py-3 shadow-[0_-4px_16px_rgba(9,30,66,0.08)] backdrop-blur sm:-mx-6 sm:px-6">
         <ListenButton text={fullText} lang={result.lang} demoId={result.demoId} />
-        {result.demoId && (
-          <div className="flex items-center gap-2">
-            <Globe size={16} strokeWidth={2} className="text-subtle" aria-hidden="true" />
-            <button
-              type="button"
-              onClick={() => onLangChange(result.lang === "en" ? "am" : "en")}
-              className="touch-target rounded-full border border-input bg-background px-2.5 py-1 text-[0.75rem] transition-colors hover:bg-neutral-subtle-hovered"
-              aria-label={`Switch explanation to ${languageName(result.lang === "en" ? "am" : "en")}`}
+        <div className="flex items-center gap-2">
+          <Globe size={16} strokeWidth={2} className="text-subtle" aria-hidden="true" />
+          <label className="flex items-center gap-1">
+            <span className="sr-only">Language of the explanation</span>
+            <select
+              value={result.lang}
+              onChange={(e) => onLangChange(e.target.value)}
+              className="touch-target max-w-[9.5rem] rounded-full border border-input bg-background px-2 py-1 text-[0.75rem] text-text"
+              aria-label="Language of the explanation"
             >
-              <span className="max-[359px]:hidden">Switch to </span>
-              {languageName(result.lang === "en" ? "am" : "en")}
-            </button>
-          </div>
-        )}
+              {LANGUAGES.map((lang) => (
+                <option key={lang.code} value={lang.code}>
+                  {languageName(lang.code)}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
         <button
           type="button"
           onClick={onAsk}
