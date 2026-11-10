@@ -3,8 +3,6 @@
 // than pulling vite's client types into the server build.
 interface ImportMetaEnv {
   readonly VITE_API_BASE?: string;
-  readonly VITE_ADAPTION_API_KEY?: string;
-  readonly VITE_ADAPTION_BASE_URL?: string;
 }
 
 interface ImportMeta {

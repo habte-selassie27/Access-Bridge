@@ -1,4 +1,5 @@
 import { isEthiopianDate } from "./verify/calendar/ethiopian.ts";
+import { runVerification } from "../../frontend/src/lib/verify.ts";
 
 function genId(prefix: string, i: number): string {
   return `${prefix}_${i}`;
@@ -30,10 +31,19 @@ function resolveSpan(
 
 export function toFrontendResult(old: any, sourceText: string): any {
   const lang = old.lang || "en";
+  // Verification is never inherited from the caller (model output or cached demo
+  // JSON). Recompute it from the source text and fail closed, so a stale or
+  // forged `verified: true` can never reach the UI.
+  const checks = runVerification(
+    (old.deadlines || []).map((d: any) => ({ label: d.label, date: d.date ?? null })),
+    (old.costs || []).map((c: any) => ({ label: c.label, amount: c.amount ?? undefined, currency: c.currency || "ETB" })),
+    sourceText
+  );
   const deadlines = (old.deadlines || []).map((d: any, i: number) => {
-    const span = resolveSpan(sourceText, d.sourceSpan, d.matchedSource);
+    const check = checks.verifiedDeadlines[i];
+    const span = resolveSpan(sourceText, undefined, check?.matchedSource);
     const quote = spanQuote(sourceText, span);
-    const verified = Boolean(d.verified);
+    const verified = Boolean(check?.verified) && Boolean(quote);
     const evidence = quote
       ? { sourceSpan: span, quote, verification: verified ? "verified" : "unverified" }
       : null;
@@ -46,13 +56,14 @@ export function toFrontendResult(old: any, sourceText: string): any {
       deadlineType: d.date ? "absolute" : "unknown",
       evidence,
       verified,
-      warning: d.warning ?? (verified ? null : "Check the original document."),
+      warning: check?.warning ?? (verified ? null : "Check the original document."),
     };
   });
   const costs = (old.costs || []).map((c: any, i: number) => {
-    const span = resolveSpan(sourceText, c.sourceSpan, c.matchedSource);
+    const check = checks.verifiedCosts[i];
+    const span = resolveSpan(sourceText, undefined, check?.matchedSource);
     const quote = spanQuote(sourceText, span);
-    const verified = Boolean(c.verified);
+    const verified = Boolean(check?.verified) && Boolean(quote);
     const evidence = quote
       ? { sourceSpan: span, quote, verification: verified ? "verified" : "unverified" }
       : null;
@@ -64,7 +75,7 @@ export function toFrontendResult(old: any, sourceText: string): any {
       currency: c.currency || "ETB",
       evidence,
       verified,
-      warning: c.warning ?? (verified ? null : "Check the original document."),
+      warning: check?.warning ?? (verified ? null : "Check the original document."),
     };
   });
   const actions = (old.actions || []).map((a: any, i: number) => ({

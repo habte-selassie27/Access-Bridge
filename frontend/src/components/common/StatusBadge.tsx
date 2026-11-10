@@ -4,11 +4,11 @@ export interface StatusBadgeProps {
 }
 
 const STATUS_CONFIG: Record<string, { color: string; bg: string; border: string }> = {
-  verified: { color: "text-success", bg: "bg-success/10", border: "border-success/20" },
-  unverified: { color: "text-warning", bg: "bg-warning/10", border: "border-warning/20" },
-  partial: { color: "text-warning", bg: "bg-warning/10", border: "border-warning/20" },
-  relative: { color: "text-warning", bg: "bg-warning/10", border: "border-warning/20" },
-  ambiguous: { color: "text-warning", bg: "bg-warning/10", border: "border-warning/20" },
+  verified: { color: "text-success-bolder", bg: "bg-success-subtler", border: "border-success-border" },
+  unverified: { color: "text-warning-bolder", bg: "bg-warning-subtle", border: "border-warning-border" },
+  partial: { color: "text-warning-bolder", bg: "bg-warning-subtle", border: "border-warning-border" },
+  relative: { color: "text-warning-bolder", bg: "bg-warning-subtle", border: "border-warning-border" },
+  ambiguous: { color: "text-warning-bolder", bg: "bg-warning-subtle", border: "border-warning-border" },
 };
 
 const STATUS_TEXT: Record<string, string> = {
@@ -23,7 +23,7 @@ export function StatusBadge({ status, label }: StatusBadgeProps) {
   const config = STATUS_CONFIG[status];
   const text = label || STATUS_TEXT[status];
   return (
-    <span className={`text-xs font-bold px-2 py-0.5 rounded border ${config.border} ${config.bg} ${config.color}`}>
+    <span className={`shrink-0 whitespace-nowrap text-[0.75rem] font-medium px-2 py-0.5 rounded border ${config.border} ${config.bg} ${config.color}`}>
       {text}
     </span>
   );

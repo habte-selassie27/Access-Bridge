@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { llm, ocr } from "./context.ts";
 import { attachRequestId } from "./middleware/request-id.ts";
+import { requestLogger } from "./middleware/request-logger.ts";
 import { errorHandler } from "./middleware/error-handler.ts";
 import healthRouter from "./routes/health.ts";
 import metricsRouter from "./routes/metrics.ts";
@@ -9,12 +10,16 @@ import evalRouter from "./routes/eval.ts";
 import ttsRouter from "./routes/tts.ts";
 import followupRouter from "./routes/followup.ts";
 import explainRouter from "./routes/explain.ts";
+import extractRouter from "./routes/extract.ts";
+import verifyRouter from "./routes/verify.ts";
+import askRouter from "./routes/ask.ts";
 import { log } from "./lib/observability/logger.ts";
 
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: "8mb" }));
 app.use(attachRequestId);
+app.use(requestLogger);
 
 app.use("/api", healthRouter);
 app.use("/api", metricsRouter);
@@ -22,6 +27,9 @@ app.use("/api", evalRouter);
 app.use("/api", ttsRouter);
 app.use("/api", followupRouter);
 app.use("/api", explainRouter);
+app.use("/api", extractRouter);
+app.use("/api", verifyRouter);
+app.use("/api", askRouter);
 
 app.use(errorHandler);
 

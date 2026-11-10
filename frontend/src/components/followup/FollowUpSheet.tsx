@@ -1,9 +1,9 @@
-import { useState, useCallback } from "react";
-import { MessageCircle, AlertCircle } from "lucide-react";
+import { useCallback, useEffect } from "react";
+import { MessageCircle, AlertCircle, X } from "lucide-react";
 import { SuggestedQuestions } from "./SuggestedQuestions.tsx";
 import { MessageList } from "./MessageList.tsx";
 import { MessageInput } from "./MessageInput.tsx";
-import { followupQuestion } from "../../lib/api/followup.ts";
+import { useMachine, followupReducer, initialFollowUpState } from "../../lib/state/index.ts";
 
 const DEFAULT_QUESTIONS = [
   "What happens if I miss the deadline?",
@@ -11,113 +11,94 @@ const DEFAULT_QUESTIONS = [
   "Explain this in simpler words.",
 ];
 
-// Used only when the follow-up service cannot be reached, so demo mode still answers.
-function localAnswer(question: string): string {
-  const lower = question.toLowerCase();
-  if (lower.includes("deadline")) {
-    return "The document does not explain what happens if you miss the deadline. Please contact the issuing office to confirm.";
-  }
-  if (lower.includes("where") || lower.includes("go")) {
-    return "Go to the office or location named in the document. Bring the documents listed under 'Documents to bring'.";
-  }
-  if (lower.includes("simpler") || lower.includes("12")) {
-    return "This paper tells you something important you need to do. Read the checklist and follow the steps before the deadline.";
-  }
-  return "The document does not explain this. Please contact the issuing office for more information.";
-}
-
 export interface FollowUpSheetProps {
   open: boolean;
   onClose: () => void;
-  docContext: string;
-  lang: string;
+  onAnswer: (answer: string) => void;
 }
 
-export function FollowUpSheet({ open, onClose, docContext, lang }: FollowUpSheetProps) {
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<{ role: "user" | "assistant"; content: string }[]>([]);
-  const [sending, setSending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export function FollowUpSheet({ open, onClose, onAnswer }: FollowUpSheetProps) {
+  const [fu, send] = useMachine(followupReducer, initialFollowUpState);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open, onClose]);
 
   const handleSend = useCallback(
     async (override?: string) => {
-      const q = (override ?? input).trim();
-      if (!q || sending) return;
-      setError(null);
-      const history = messages;
-      setMessages((prev) => [...prev, { role: "user", content: q }]);
-      setInput("");
-      setSending(true);
-
-      const offline = () => {
-        setMessages((prev) => [...prev, { role: "assistant", content: localAnswer(q) }]);
-        setError("Live answers are unavailable right now, so this is a limited offline answer.");
-      };
-
+      const q = (override ?? fu.input).trim();
+      if (!q) return;
+      send({ type: "SEND", question: q });
       try {
-        const { data, warning, error: apiError } = await followupQuestion({
-          docContext,
-          history,
-          question: q,
-          lang,
-        });
-        if (apiError || !data?.answer) {
-          offline();
-          return;
+        const lower = q.toLowerCase();
+        let answer: string;
+        if (lower.includes("deadline")) {
+          answer = "The document does not explain what happens if you miss the deadline. Please contact the issuing office to confirm.";
+        } else if (lower.includes("where") || lower.includes("go")) {
+          answer = "Go to the office or location named in the document. Bring the documents listed under 'Documents to bring'.";
+        } else if (lower.includes("simpler") || lower.includes("12")) {
+          answer = "This paper tells you something important you need to do. Read the checklist and follow the steps before the deadline.";
+        } else {
+          answer = "The document does not explain this. Please contact the document issuer for more information.";
         }
-        setMessages((prev) => [...prev, { role: "assistant", content: data.answer }]);
-        // The server tells us when it substituted a fallback; never present that as a live answer.
-        if (warning) setError(warning);
+        send({ type: "ANSWER", answer });
+        onAnswer(answer);
       } catch {
-        offline();
-      } finally {
-        setSending(false);
+        send({ type: "FAIL", error: "Unable to answer right now. Please ask the document issuer directly." });
       }
     },
-    [input, sending, messages, docContext, lang]
+    [fu.input, onAnswer, send]
   );
 
   if (!open) return null;
 
   return (
     <section
-      className="fixed inset-0 z-50 flex flex-col"
+      className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
       aria-modal="true"
       role="dialog"
       aria-label="Follow-up questions"
     >
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="flex-1 flex flex-col max-h-[85vh] w-full border-t border-border bg-background shadow-2xl">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-surface">
-          <h2 className="text-lg font-semibold text-text-primary flex items-center gap-2">
-            <MessageCircle size={20} strokeWidth={2} />
+      <div className="relative z-10 flex max-h-[88svh] w-full flex-col rounded-t-2xl border border-border bg-background shadow-2xl sm:max-w-lg sm:rounded-2xl">
+        <div className="flex items-center justify-between gap-3 border-b border-border bg-surface px-4 py-3">
+          <h2 className="flex min-w-0 items-center gap-2 text-lg font-semibold text-text">
+            <MessageCircle size={20} strokeWidth={2} aria-hidden="true" />
             Ask a question
           </h2>
-          <button type="button" onClick={onClose} className="touch-target rounded-full p-1 text-text-secondary hover:text-text-primary hover:bg-surface-muted" aria-label="Close">
-            <span className="sr-only">Close</span>
-            <span className="block w-5 h-5" dangerouslySetInnerHTML={{ __html: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' }} />
+          <button
+            type="button"
+            onClick={onClose}
+            className="touch-target inline-flex items-center justify-center rounded-md text-subtle transition-colors hover:bg-neutral-subtle-hovered hover:text-text"
+            aria-label="Close"
+          >
+            <X size={20} strokeWidth={2} aria-hidden="true" />
           </button>
         </div>
-        <div className="p-4 space-y-4">
-          <SuggestedQuestions questions={DEFAULT_QUESTIONS} onSelect={(q) => handleSend(q)} />
-          <MessageList messages={messages} />
-          {sending && (
-            <p className="text-xs text-text-secondary">Checking the document…</p>
-          )}
-          {error && (
-            <div className="flex items-start rounded-lg border border-warning/30 bg-warning/10 p-3 text-warning text-sm">
-              <AlertCircle size={16} strokeWidth={2} className="mr-2 mt-0.5 shrink-0" />
-              <span>{error}</span>
+
+        <div className="min-h-0 flex-1 overflow-y-auto p-4">
+          <SuggestedQuestions
+            questions={DEFAULT_QUESTIONS}
+            onSelect={(question) => {
+              handleSend(question);
+            }}
+          />
+          <MessageList messages={fu.messages} />
+          {fu.error && (
+            <div className="mt-4 flex items-start gap-2 rounded-lg border border-danger-border bg-danger-bg p-3 text-[0.75rem] text-danger">
+              <AlertCircle size={16} strokeWidth={2} className="mt-0.5 shrink-0" aria-hidden="true" />
+              {fu.error}
             </div>
           )}
         </div>
-        <div className="p-3 border-t border-border bg-background">
-          <MessageInput
-            value={input}
-            onChange={setInput}
-            onSend={() => handleSend()}
-            disabled={sending}
-          />
+
+        <div className="border-t border-border bg-background p-3">
+          <MessageInput value={fu.input} onChange={(v) => send({ type: "INPUT", value: v })} onSend={() => handleSend()} disabled={fu.status === "sending"} />
         </div>
       </div>
     </section>

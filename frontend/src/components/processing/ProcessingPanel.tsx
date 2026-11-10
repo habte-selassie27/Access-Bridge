@@ -23,16 +23,16 @@ export function ProcessingPanel({ stage, message }: ProcessingPanelProps) {
   const isTerminal = stage === "completed" || stage === "failed" || stage === "timed_out";
 
   return (
-    <section className="rounded-xl border border-border bg-surface p-5 shadow-sm">
-      <div className="flex items-center gap-3 mb-3">
-        <div className="w-2 h-2 rounded-full bg-accent">
+    <section className="rounded-lg border border-border bg-surface p-4 shadow-sm">
+      <div className="flex items-center gap-2 mb-2">
+        <div className="w-2 h-2 rounded-full bg-brand">
           {stage !== "completed" && stage !== "failed" && stage !== "timed_out" && (
             <span className="sr-only">Processing</span>
           )}
         </div>
-        <h3 className="text-sm font-semibold text-text-primary">{label}</h3>
+        <h3 className="text-sm font-semibold text-text">{label}</h3>
       </div>
-      <p className="text-xs text-text-secondary">
+      <p className="text-[0.75rem] text-subtle">
         {stage === "failed"
           ? "We could not process this document. Please try again or use an example."
           : stage === "timed_out"
@@ -44,7 +44,7 @@ export function ProcessingPanel({ stage, message }: ProcessingPanelProps) {
       {isTerminal && (
         <button
           type="button"
-          className="mt-4 touch-target inline-flex items-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-text-primary hover:bg-surface-muted"
+          className="mt-2 touch-target inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2.5 text-sm text-text hover:bg-neutral-subtle-hovered"
         >
           Try again
         </button>

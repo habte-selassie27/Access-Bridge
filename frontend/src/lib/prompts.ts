@@ -7,7 +7,15 @@ Output JSON only, no markdown fences, matching the provided schema.
 Always copy source spans verbatim for any date or amount.
 Not legal or medical advice; urgent medical/legal danger → advise contacting a professional or emergency services.`
 
-export const EXPLAIN_USER = ({ text, lang }: { text: string; lang: string }) =>
+export const EXPLAIN_USER = ({
+  text,
+  lang,
+  exampleBlock = "",
+}: {
+  text: string;
+  lang: string;
+  exampleBlock?: string;
+}) =>
   `Document text:
 """
 ${text}
@@ -16,7 +24,7 @@ ${text}
 Target language: ${lang}
 Produce a structured explanation: what this is, what you must do, deadline & cost, documents to bring.
 Copy source spans verbatim for every date and amount.
-Return JSON only.`;
+Return JSON only.${exampleBlock}`;
 
 export const FOLLOWUP_SYSTEM = `You answer follow-up questions about a document using only the provided document context.
 If the answer is not in the context, say so and suggest asking the issuer.

@@ -1,8 +1,10 @@
 import { Router } from "express";
 import { inc } from "../lib/observability/metrics.ts";
 import { newRequestId } from "../lib/utils/ids.ts";
+import { noCache } from "../middleware/request-logger.ts";
 
 const router = Router();
+router.use(noCache);
 router.post("/tts", (req, res) => {
   const requestId = newRequestId();
   try {

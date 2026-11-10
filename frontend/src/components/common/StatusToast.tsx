@@ -14,9 +14,9 @@ const ICONS: Record<string, React.ReactNode> = {
 };
 
 const COLORS: Record<string, string> = {
-  error: "border-danger/20 bg-danger/10 text-danger",
-  info: "border-accent/20 bg-accent/10 text-accent",
-  offline: "border-warning/20 bg-warning/10 text-warning",
+  error: "border-danger-border bg-danger-bg p-3 text-danger",
+  info: "border-brand bg-brand p-3 text-inverse",
+  offline: "border-warning-border bg-warning-bg p-3 text-warning-bolder",
 };
 
 export interface StatusToastProps {
@@ -35,11 +35,11 @@ export function StatusToast({ toasts, onDismiss }: StatusToastProps) {
           aria-live="polite"
         >
           {ICONS[t.type]}
-          <span className="text-text-primary">{t.message}</span>
+          <span className="text-text">{t.message}</span>
           <button
             type="button"
             onClick={() => onDismiss(t.id)}
-            className="touch-target rounded p-1 text-text-secondary hover:bg-surface-muted hover:text-text-primary"
+            className="touch-target rounded p-1 text-subtle hover:bg-neutral-subtle-hovered hover:text-text"
             aria-label="Dismiss"
           >
             <span className="sr-only">Dismiss</span>

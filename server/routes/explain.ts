@@ -14,14 +14,17 @@ import { inc } from "../lib/observability/metrics.ts";
 import { newRequestId } from "../lib/utils/ids.ts";
 import { withTimeout } from "../lib/utils/timeout.ts";
 import { retry } from "../lib/utils/retry.ts";
+import { noCache } from "../middleware/request-logger.ts";
 import { runVerification } from "../../frontend/src/lib/verify.ts";
 import { EXPLAIN_SYSTEM, EXPLAIN_USER } from "../../frontend/src/lib/prompts.ts";
 import { ExplainResponseSchema } from "../../frontend/src/lib/schema.ts";
+import { examplesForLanguage, formatExampleBlock } from "../lib/services/adaption.service.ts";
 import { toFrontendResult, normalizeModelOutput } from "../lib/transform.ts";
 import { isEthiopianDate } from "../lib/verify/calendar/ethiopian.ts";
 import { ethiopianToGregorianApprox } from "../lib/verify/calendar/conversion.ts";
 
 const router = Router();
+router.use(noCache);
 
 function clientIp(req: any): string {
   return (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
@@ -116,7 +119,12 @@ router.post("/explain", upload.single("file"), async (req, res) => {
     const ethNote = isEthiopianDate(sourceText) ? " (Ethiopian calendar detected; conversions are approximate)" : "";
 
     const system = EXPLAIN_SYSTEM;
-    const user = EXPLAIN_USER({ text: wrapUntrustedDocument(sourceText), lang }) + ethNote;
+    const fewShotExamples = examplesForLanguage(lang, 3);
+    const user = EXPLAIN_USER({
+      text: wrapUntrustedDocument(sourceText),
+      lang,
+      exampleBlock: formatExampleBlock(fewShotExamples),
+    }) + ethNote;
 
     let parsed: any;
     try {
@@ -167,10 +175,12 @@ router.post("/explain", upload.single("file"), async (req, res) => {
     parsed.deadlines = parsed.deadlines.map((d: any, i: number) => ({
       ...d,
       verified: verifiedDeadlines[i]?.verified ?? false,
+      matchedSource: verifiedDeadlines[i]?.matchedSource ?? null,
     }));
     parsed.costs = parsed.costs.map((c: any, i: number) => ({
       ...c,
       verified: verifiedCosts[i]?.verified ?? false,
+      matchedSource: verifiedCosts[i]?.matchedSource ?? null,
     }));
 
     const ethConversions: string[] = [];

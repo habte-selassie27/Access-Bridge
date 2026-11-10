@@ -5,6 +5,7 @@ import { LIMITS } from "../lib/config/limits.ts";
 import { withTimeout } from "../lib/utils/timeout.ts";
 import { retry } from "../lib/utils/retry.ts";
 import { newRequestId } from "../lib/utils/ids.ts";
+import { noCache } from "../middleware/request-logger.ts";
 import { log } from "../lib/observability/logger.ts";
 import { inc } from "../lib/observability/metrics.ts";
 import { addSpend } from "../lib/security/spend-guard.ts";
@@ -12,6 +13,7 @@ import { wrapUntrustedDocument } from "../lib/security/content-isolation.ts";
 import { FOLLOWUP_SYSTEM, FOLLOWUP_USER } from "../../frontend/src/lib/prompts.ts";
 
 const router = Router();
+router.use(noCache);
 router.post("/followup", async (req, res) => {
   const requestId = newRequestId();
   const start = Date.now();

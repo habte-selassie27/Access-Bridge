@@ -1,20 +1,31 @@
 import { Router } from "express";
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
 const router = Router();
+
 router.get("/eval", (_req, res) => {
-  const resultsPath = path.join(process.cwd(), "eval", "results.json");
-  let data;
+  const resultsPath = path.join(process.cwd(), "data", "eval", "results.json");
+  let payload: unknown = null;
   if (fs.existsSync(resultsPath)) {
-    try { data = JSON.parse(fs.readFileSync(resultsPath, "utf8")); }
-    catch { data = null; }
+    try {
+      payload = JSON.parse(fs.readFileSync(resultsPath, "utf8"));
+    } catch {
+      payload = null;
+    }
   }
-  if (!data) {
-    data = { note: "No eval results yet. Run: node scripts/run-eval.mjs" };
-  } else {
-    data.note = "Real measured results from scripts/run-eval.mjs (Groq gpt-oss-120b). Hallucinated-number rate is the headline metric.";
+  if (payload && typeof payload === "object") {
+    return res.json({
+      ok: true,
+      data: { ...payload, measured: true },
+      meta: { version: "1.0", measured: true },
+    });
   }
-  res.json({ ok: true, data, meta: { version: "1.0" } });
+  return res.json({
+    ok: true,
+    data: { measured: false, languages: {}, failures: [] },
+    meta: { version: "1.0", measured: false },
+  });
 });
+
 export default router;

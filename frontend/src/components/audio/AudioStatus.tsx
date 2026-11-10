@@ -14,8 +14,8 @@ export function AudioStatus({ state, message }: AudioStatusProps) {
   };
 
   return (
-    <div className="flex items-center gap-2 rounded-lg border border-border bg-surface p-2 text-xs text-text-secondary">
-      <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+    <div className="flex items-center gap-2 rounded-lg border border-border bg-surface p-2 text-[0.75rem] text-subtle">
+      <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
       <span>{message || labels[state]}</span>
     </div>
   );

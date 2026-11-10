@@ -29,11 +29,19 @@ Vite + React + TypeScript + Tailwind. Client-side demo mode; API routes (`/api/e
 
 ## How we use Adaption and why (load-bearing)
 
-Adaption's Invent-a-Dataset / Adaptive Data builds a plain-language simplification set for Amharic, Oromo, and Tigrinya. We show measured before/after quality on `/eval` (field accuracy, plain-language score, faithfulness). The integration is load-bearing: it directly improves the low-resource language outputs that are central to our impact.
+The seed corpus in `data/adaption/seeds.json` contains 25 authored Ethiopian notices with English structured explanations. A server-side build script uploads them to Adaption, runs `adapt` with `column_mapping: { chat: "messages" }` plus `translate` in Amharic, Oromo, and Tigrinya, polls the run, downloads the rows, and caches `data/adaption/dataset.json`. At request time the server loads that cache and few-shots the explainer with four translated example patterns per language. The API key stays server-only (`ADAPTION_API_KEY`, never `VITE_`-prefixed).
+
+Rebuild the cache with:
+
+```bash
+npx tsx scripts/adaption-dataset.ts
+```
+
+This spends Adaption credits and takes several minutes. The committed cache means normal app usage needs no Adaption calls.
 
 ## Eval results
 
-See `/eval` in the deployed app. Includes baseline vs Adaption-improved metrics per language, side-by-side samples, and a published "Failure cases" section with real misses and planned fixes.
+`scripts/eval-ab.ts` runs the Groq model on held-out seed documents (excluding the few-shot rows) in Amharic, Oromo, and Tigrinya, both without and with the Adaption-translated few-shot examples. It writes `data/eval/results.json`; `/api/eval` and `/eval` render those measured values and publish failing rows. Rows that never produced an explanation because the provider returned a rate-limit or network error are reported as "not measured" and excluded from accuracy denominators instead of being scored as wrong answers. `npm run eval:recompute` rebuilds the aggregates from saved rows with no API calls. Re-run the full A/B with `npx tsx scripts/eval-ab.ts`. The page shows an explicit "no measured results" state until that file exists.
 
 ## What's honestly unfinished / limitations
 

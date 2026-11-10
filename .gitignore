@@ -27,3 +27,13 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Build outputs
+.next
+dist
+dist-ssr
+*.local
+
+# Audio / media caches
+frontend/public/audio/*.mp3
+frontend/dist/audio/*.mp3

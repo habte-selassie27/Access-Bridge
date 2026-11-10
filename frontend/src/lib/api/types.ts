@@ -52,6 +52,8 @@ export interface ExplanationResult {
   originalText: string;
   /** Set only for bundled demo examples, so the UI can use the recorded readout. */
   demoId?: string;
+  /** True when this result came from the offline fallback, not the server. */
+  offlineDemo?: boolean;
 }
 
 export interface APIEnvelope<T> {

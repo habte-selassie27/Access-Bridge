@@ -9,10 +9,10 @@ export function FilePreview({ file, onRemove, previewUrl }: FilePreviewProps) {
     <div className="flex items-center gap-3 rounded-lg border border-border bg-surface p-3">
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-sm font-medium text-text-primary truncate">{file.name}</span>
-          <span className="text-xs text-text-secondary">{ (file.size / 1024).toFixed(1) } KB</span>
+          <span className="text-sm font-medium text-text truncate">{file.name}</span>
+          <span className="text-[0.75rem] text-subtle">{ (file.size / 1024).toFixed(1) } KB</span>
         </div>
-        <span className="text-xs text-text-secondary">{file.type || "Unknown type"}</span>
+        <span className="text-[0.75rem] text-subtle">{file.type || "Unknown type"}</span>
       </div>
       {previewUrl && file.type.startsWith("image/") && (
         <img src={previewUrl} alt="Preview" className="w-16 h-16 rounded-lg border border-border object-cover" />
@@ -20,7 +20,7 @@ export function FilePreview({ file, onRemove, previewUrl }: FilePreviewProps) {
       <button
         type="button"
         onClick={onRemove}
-        className="touch-target rounded-full p-1 text-text-secondary hover:text-danger hover:bg-danger/10 transition-colors"
+        className="touch-target rounded-full p-1 text-subtle hover:text-danger"
         aria-label="Remove file"
       >
         <span className="sr-only">Remove file</span>

@@ -23,24 +23,14 @@
       "deadlines": [
         {
           "label": "Renewal deadline",
-          "date": "2026-12-15",
-          "sourceSpan": [
-            46,
-            56
-          ],
-          "verified": true
+          "date": "2026-12-15"
         }
       ],
       "costs": [
         {
           "label": "Renewal fee",
           "amount": 500,
-          "currency": "ETB",
-          "sourceSpan": [
-            97,
-            104
-          ],
-          "verified": true
+          "currency": "ETB"
         }
       ],
       "documentsToBring": [
@@ -71,24 +61,14 @@
       "deadlines": [
         {
           "label": "የማደስ የመጨረሻ ቀን",
-          "date": "2026-12-15",
-          "sourceSpan": [
-            46,
-            56
-          ],
-          "verified": true
+          "date": "2026-12-15"
         }
       ],
       "costs": [
         {
           "label": "የማደስ ክፍያ",
           "amount": 500,
-          "currency": "ETB",
-          "sourceSpan": [
-            97,
-            104
-          ],
-          "verified": true
+          "currency": "ETB"
         }
       ],
       "documentsToBring": [
@@ -119,24 +99,14 @@
       "deadlines": [
         {
           "label": "Guyyaa xumuraa haaromsaa",
-          "date": "2026-12-15",
-          "sourceSpan": [
-            46,
-            56
-          ],
-          "verified": true
+          "date": "2026-12-15"
         }
       ],
       "costs": [
         {
           "label": "Kaffaltii haaromsaa",
           "amount": 500,
-          "currency": "ETB",
-          "sourceSpan": [
-            97,
-            104
-          ],
-          "verified": true
+          "currency": "ETB"
         }
       ],
       "documentsToBring": [
@@ -167,24 +137,14 @@
       "deadlines": [
         {
           "label": "መወዳእታ መዓልቲ ምሕዳስ",
-          "date": "2026-12-15",
-          "sourceSpan": [
-            46,
-            56
-          ],
-          "verified": true
+          "date": "2026-12-15"
         }
       ],
       "costs": [
         {
           "label": "ክፍሊት ምሕዳስ",
           "amount": 500,
-          "currency": "ETB",
-          "sourceSpan": [
-            97,
-            104
-          ],
-          "verified": true
+          "currency": "ETB"
         }
       ],
       "documentsToBring": [

@@ -1,6 +1,8 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
-import {
+import fs from "node:fs";
+import { hydrateExplanation } from "./verification.ts";
+import { 
   normalize,
   normalizeDigits,
   findDateSpans,
@@ -94,5 +96,88 @@ describe("verify", () => {
     assert.strictEqual(findAmountSpans("").length, 0);
     const r = verifyDeadline("2026-01-01", "");
     assert.strictEqual(r.verified, false);
+  });
+});
+
+describe("demo verification", () => {
+  const DEMO_DIR = new URL("../data/demo/", import.meta.url);
+  const IDS = ["demo-1", "demo-2", "demo-3"];
+  const LANGS = ["en", "am", "om", "ti"] as const;
+
+  function loadDemo(id: string) {
+    return JSON.parse(fs.readFileSync(new URL(`${id}.json`, DEMO_DIR), "utf8"));
+  }
+
+  it("recomputes every bundled demo field from its source text", () => {
+    for (const id of IDS) {
+      const doc = loadDemo(id);
+      for (const lang of LANGS) {
+        const out = doc.outputs[lang];
+        const hydrated = hydrateExplanation(doc.source, out);
+        const fields = [...hydrated.deadlines, ...hydrated.costs];
+        assert.ok(fields.length > 0, `${id}:${lang} has no checkable fields`);
+        for (const field of fields) {
+          assert.strictEqual(field.verified, true, `${id}:${lang} "${field.label}" should verify against the source`);
+          assert.ok(field.evidence, `${id}:${lang} "${field.label}" is missing evidence`);
+          assert.strictEqual(
+            doc.source.slice(field.evidence.sourceSpan[0], field.evidence.sourceSpan[1]),
+            field.evidence.quote,
+            `${id}:${lang} evidence span does not point at its quote`
+          );
+          assert.strictEqual(field.warning, null);
+        }
+        assert.strictEqual(hydrated.confidence, "high", `${id}:${lang} should be high confidence`);
+      }
+    }
+  });
+
+  it("flips a tampered date to unverified instead of trusting the file", () => {
+    const doc = loadDemo("demo-1");
+    const tampered = structuredClone(doc.outputs.en);
+    tampered.deadlines[0].date = "2026-12-16";
+    const hydrated = hydrateExplanation(doc.source, tampered);
+    assert.strictEqual(hydrated.deadlines[0].verified, false);
+    assert.strictEqual(hydrated.deadlines[0].evidence, null);
+    assert.match(String(hydrated.deadlines[0].warning), /not found/i);
+    assert.notStrictEqual(hydrated.confidence, "high");
+    assert.ok(hydrated.warnings.length > 0);
+  });
+
+  it("flips a tampered amount to unverified", () => {
+    const doc = loadDemo("demo-3");
+    const tampered = structuredClone(doc.outputs.en);
+    tampered.costs[0].amount = 3999;
+    const hydrated = hydrateExplanation(doc.source, tampered);
+    assert.strictEqual(hydrated.costs[0].verified, false);
+    assert.strictEqual(hydrated.costs[0].evidence, null);
+    assert.match(String(hydrated.costs[0].warning), /not found/i);
+  });
+
+  it("does not verify an amount in the wrong currency", () => {
+    const hydrated = hydrateExplanation("Pay ETB 500 by 2026-12-01.", {
+      costs: [{ label: "Fee", amount: 500, currency: "USD" }],
+    });
+    assert.strictEqual(hydrated.costs[0].verified, false);
+  });
+
+  it("keeps a relative deadline visible but unverified", () => {
+    const hydrated = hydrateExplanation("Your final pay is paid within 30 days of receipt.", {
+      deadlines: [{ label: "Final pay", date: "within 30 days of receipt" }],
+    });
+    const deadline = hydrated.deadlines[0];
+    assert.strictEqual(deadline.verified, false);
+    assert.strictEqual(deadline.deadlineType, "relative");
+    assert.strictEqual(deadline.originalValue, "within 30 days of receipt");
+    assert.match(String(deadline.warning), /relative/i);
+    assert.strictEqual(hydrated.confidence, "low");
+  });
+
+  it("never raises confidence above what the caller claims", () => {
+    const hydrated = hydrateExplanation("Due on 2026-12-01.", {
+      deadlines: [{ label: "Due", date: "2026-12-01" }],
+      confidence: "low",
+    });
+    assert.strictEqual(hydrated.deadlines[0].verified, true);
+    assert.strictEqual(hydrated.confidence, "low");
   });
 });

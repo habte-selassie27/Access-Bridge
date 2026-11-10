@@ -23,24 +23,14 @@
       "deadlines": [
         {
           "label": "Appointment date",
-          "date": "2027-01-20",
-          "sourceSpan": [
-            34,
-            44
-          ],
-          "verified": true
+          "date": "2027-01-20"
         }
       ],
       "costs": [
         {
           "label": "Visit fee",
           "amount": 200,
-          "currency": "ETB",
-          "sourceSpan": [
-            215,
-            222
-          ],
-          "verified": true
+          "currency": "ETB"
         }
       ],
       "documentsToBring": [
@@ -72,24 +62,14 @@
       "deadlines": [
         {
           "label": "የቀጠሮ ቀን",
-          "date": "2027-01-20",
-          "sourceSpan": [
-            34,
-            44
-          ],
-          "verified": true
+          "date": "2027-01-20"
         }
       ],
       "costs": [
         {
           "label": "የምርመራ ክፍያ",
           "amount": 200,
-          "currency": "ETB",
-          "sourceSpan": [
-            215,
-            222
-          ],
-          "verified": true
+          "currency": "ETB"
         }
       ],
       "documentsToBring": [
@@ -121,24 +101,14 @@
       "deadlines": [
         {
           "label": "Guyyaa beellamaa",
-          "date": "2027-01-20",
-          "sourceSpan": [
-            34,
-            44
-          ],
-          "verified": true
+          "date": "2027-01-20"
         }
       ],
       "costs": [
         {
           "label": "Kaffaltii daawwannaa",
           "amount": 200,
-          "currency": "ETB",
-          "sourceSpan": [
-            215,
-            222
-          ],
-          "verified": true
+          "currency": "ETB"
         }
       ],
       "documentsToBring": [
@@ -170,24 +140,14 @@
       "deadlines": [
         {
           "label": "መዓልቲ ቆጸራ",
-          "date": "2027-01-20",
-          "sourceSpan": [
-            34,
-            44
-          ],
-          "verified": true
+          "date": "2027-01-20"
         }
       ],
       "costs": [
         {
           "label": "ክፍሊት ምብጻሕ",
           "amount": 200,
-          "currency": "ETB",
-          "sourceSpan": [
-            215,
-            222
-          ],
-          "verified": true
+          "currency": "ETB"
         }
       ],
       "documentsToBring": [

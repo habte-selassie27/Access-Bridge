@@ -25,13 +25,13 @@ export function ConfidenceBanner({ result }: ConfidenceBannerProps) {
   }
 
   return (
-    <section className="rounded-xl border border-warning/20 bg-warning/10 p-4">
+    <section className="rounded-lg border border-warning-border bg-warning-bg p-4">
       <div className="flex items-start gap-3">
         <span className="mt-0.5 flex-shrink-0">!</span>
         <div>
           <p className="text-sm text-warning font-medium">{messages[0]}</p>
           {messages.slice(1).map((msg, i) => (
-            <p key={i} className="text-sm text-text-secondary mt-1">{msg}</p>
+            <p key={i} className="text-sm text-text mt-1">{msg}</p>
           ))}
         </div>
       </div>

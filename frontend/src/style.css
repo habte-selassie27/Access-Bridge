@@ -1,81 +1,295 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/*
+ * Atlassian tokens exposed to Tailwind v4 utilities.
+ * Tailwind v4 is CSS-first: the old tailwind.config.js is not read automatically.
+ * Keep these keys in sync with the :root aliases below.
+ */
+@theme {
+  /* Text */
+  --color-text: #292a2e;
+  --color-text-primary: #292a2e;
+  --color-text-secondary: #505258;
+  --color-text-subtle: #505258;
+  --color-text-subtlest: #6b6e76;
+  --color-subtle: #505258;
+  --color-subtlest: #6b6e76;
+  --color-inverse: #ffffff;
+
+  /* Brand and links */
+  --color-brand: #1868db;
+  --color-brand-bold: #1558bc;
+  --color-link: #1868db;
+  --color-selected: #e9f2fe;
+
+  /* Borders. `border-input` resolves to the field outline colour. */
+  --color-border: #0b120e24;
+  --color-input: #8c8f97;
+  --color-focused: #4688ec;
+  --color-border-brand: #1868db;
+
+  /* Surfaces */
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8f8f8;
+  --color-input-bg: #ffffff;
+  --color-neutral-bold: #292a2e;
+  --color-neutral-subtle-hovered: #0515240f;
+
+  /* Semantic roles */
+  --color-danger: #ae2e24;
+  --color-danger-bg: #ffeceb;
+  --color-danger-border: #e2483d;
+  --color-danger-bold: #c9372c;
+
+  --color-success: #4c6b1f;
+  --color-success-bg: #efffd6;
+  --color-success-subtler: #d3f1a7;
+  --color-success-border: #6a9a23;
+  --color-success-bolder: #37471f;
+
+  --color-warning: #9e4c00;
+  --color-warning-bg: #fff5db;
+  --color-warning-subtle: #fbd779;
+  --color-warning-border: #e06c00;
+  --color-warning-bolder: #693200;
+
+  --color-information: #1558bc;
+  --color-information-bg: #e9f2fe;
+  --color-discovery: #803fa5;
+  --color-discovery-bg: #f8eefe;
+
+  /* Icons */
+  --color-icon: #292a2e;
+  --color-icon-subtle: #6b6e76;
+  --color-icon-danger: #c9372c;
+  --color-icon-success: #6a9a23;
+  --color-icon-warning: #e06c00;
+  --color-icon-information: #357de8;
+  --color-icon-discovery: #af59e1;
+
+  /* Typography */
+  --font-sans: "Atlassian Sans", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-ethiopic: "Noto Sans Ethiopic", "Atlassian Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Atlassian Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.5rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.5rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.75rem;
+
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 653;
+}
 
 :root {
-  --background: #f8fafc;
-  --surface: #ffffff;
-  --surface-muted: #f1f5f9;
-  --text-primary: #172033;
-  --text-secondary: #536174;
-  --border: #e2e8f0;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  --accent-foreground: #ffffff;
-  --success: #15803d;
-  --warning: #b45309;
-  --danger: #b91c1c;
-  --focus: #2563eb;
+  /* Colors — Atlassian light theme */
+  --color-text: #292A2E;
+  --color-text-accent-gray: #505258;
+  --color-text-accent-gray-bolder: #1E1F21;
+  --color-text-subtle: #505258;
+  --color-text-subtlest: #6B6E76;
+  --color-text-danger: #AE2E24;
+  --color-text-danger-bolder: #5D1F1A;
+  --color-text-warning: #9E4C00;
+  --color-text-warning-bolder: #693200;
+  --color-text-success: #4C6B1F;
+  --color-text-success-bolder: #37471F;
+  --color-text-information: #1558BC;
+  --color-text-information-bolder: #123263;
+  --color-text-discovery: #803FA5;
+  --color-text-discovery-bolder: #48245D;
+  --color-text-inverse: #FFFFFF;
+  --color-text-brand: #1868DB;
+  --color-link: #1868DB;
+  --color-link-pressed: #1558BC;
+  --color-link-visited: #803FA5;
+  --color-icon: #292A2E;
+  --color-icon-subtle: #6B6E76;
+  --color-icon-success: #6A9A23;
+  --color-icon-danger: #C9372C;
+  --color-icon-warning: #E06C00;
+  --color-icon-information: #357DE8;
+  --color-icon-discovery: #AF59E1;
+  --color-link: #1868DB;
+  --color-border: #0B120E24;
+  --color-border-bold: #7D818A;
+  --color-border-input: #8C8F97;
+  --color-border-focused: #4688EC;
+  --color-border-selected: #1868DB;
+  --color-border-brand: #1868DB;
+  --color-border-danger: #E2483D;
+  --color-border-warning: #E06C00;
+  --color-border-success: #6A9A23;
+  --color-background: #FFFFFF;
+  --color-background-neutral: #0515240F;
+  --color-background-neutral-subtle: #00000000;
+  --color-background-neutral-subtle-hovered: #0515240F;
+  --color-background-neutral-bold: #292A2E;
+  --color-background-selected: #E9F2FE;
+  --color-background-brand-bold: #1868DB;
+  --color-background-success: #EFFFD6;
+  --color-background-success-subtler: #D3F1A7;
+  --color-background-success-bold: #5B7F24;
+  --color-background-danger: #FFECEB;
+  --color-background-danger-bold: #C9372C;
+  --color-background-warning: #FFF5DB;
+  --color-background-warning-bold: #FBC828;
+  --color-background-information: #E9F2FE;
+  --color-background-discovery: #F8EEFE;
+  --color-background-discovery-bold: #964AC0;
+  --color-input: #8C8F97;
+  --color-input-bg: #FFFFFF;
+  --color-input-hovered: #F8F8F8;
+  --color-input-pressed: #FFFFFF;
+  --color-text-disabled: #080F214A;
+  --color-border-disabled: #0515240F;
+  --color-background-neutral-subtle-pressed: #0B120E24;
+  --color-background-brand-bold-hovered: #1558BC;
+  --color-background-brand-bold-pressed: #144794;
+  --color-background-accent-gray-subtler: #DDDEE1;
+  --color-border-accent-gray: #7D818A;
+  --color-text-selected: #1868DB;
 
-  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-ethiopic: "Noto Sans Ethiopic", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Fonts */
+  --font-sans: "Atlassian Sans", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-ethiopic: "Noto Sans Ethiopic", "Atlassian Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Atlassian Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  font: 18px/1.6 var(--font-sans);
-  color: var(--text-primary);
-  background: var(--background);
-  color-scheme: light;
+  /* Typography (Atlassian Sans) */
+  --font-size-body: 0.875rem;
+  --font-size-body-large: 1rem;
+  --font-size-body-small: 0.75rem;
+  --font-size-heading-medium: 1.25rem;
+  --font-size-heading-small: 1rem;
+  --font-size-heading-xsmall: 0.875rem;
+  --line-height-body: 1.25rem;
+  --line-height-body-large: 1.5rem;
+  --line-height-body-small: 1rem;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 653;
+
+  /* Spacing — 8px grid */
+  --space-0: 0rem;
+  --space-025: 0.125rem;
+  --space-050: 0.25rem;
+  --space-075: 0.375rem;
+  --space-100: 0.5rem;
+  --space-150: 0.75rem;
+  --space-200: 1rem;
+  --space-250: 1.25rem;
+  --space-300: 1.5rem;
+  --space-400: 2rem;
+  --space-500: 2.5rem;
+  --space-600: 3rem;
+  --space-800: 4rem;
+  --space-1000: 5rem;
+
+  /* Radius — t-shirt scale */
+  --radius-xsmall: 0.125rem;
+  --radius-small: 0.25rem;
+  --radius-medium: 0.375rem;
+  --radius-large: 0.5rem;
+  --radius-xlarge: 0.75rem;
+  --radius-xxlarge: 1rem;
+  --radius-full: 624.9375rem;
+
+  /* Borders */
+  --border-width-default: 0.0625rem;
+  --border-width-selected: 0.125rem;
+  --border-width-focused: 0.125rem;
+
+  font-family: var(--font-sans);
+  line-height: 1.25rem;
+  color: var(--color-text);
+  background: var(--color-background);
+  color-scheme: only light;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Dark tokens are declared twice: once for the system preference (unless the user
-   has explicitly chosen light) and once for an explicit data-theme="dark". */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --background: #0b1220;
-    --surface: #111c2e;
-    --surface-muted: #1e293b;
-    --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1;
-    --border: #334155;
-    --accent: #60a5fa;
-    --accent-hover: #3b82f6;
-    --accent-foreground: #0b1220;
-    --success: #4ade80;
-    --warning: #fbbf24;
-    --danger: #f87171;
-    --focus: #60a5fa;
-    color-scheme: dark;
-  }
-}
+[data-theme="dark"] {
+  /* Dark theme — Atlassian dark surfaces */
+  --color-text: #F8FAFC;
+  --color-text-accent-gray: #CBD5E1;
+  --color-text-accent-gray-bolder: #E2E8F0;
+  --color-text-subtle: #94A3B8;
+  --color-text-subtlest: #64748B;
+  --color-text-danger: #F87171;
+  --color-text-danger-bolder: #EF4444;
+  --color-text-warning: #FBBF24;
+  --color-text-warning-bolder: #D97706;
+  --color-text-success: #4ADE80;
+  --color-text-success-bolder: #22C55E;
+  --color-text-information: #60A5FA;
+  --color-text-information-bolder: #3B82F6;
+  --color-text-discovery: #C084FC;
+  --color-text-discovery-bolder: #A855F7;
+  --color-text-inverse: #0F172A;
+  --color-text-brand: #60A5FA;
+  --color-link: #60A5FA;
+  --color-link-pressed: #3B82F6;
+  --color-link-visited: #818CF8;
+  --color-icon: #F8FAFC;
+  --color-icon-subtle: #94A3B8;
+  --color-icon-success: #4ADE80;
+  --color-icon-danger: #F87171;
+  --color-icon-warning: #FBBF24;
+  --color-icon-information: #60A5FA;
+  --color-icon-discovery: #C084FC;
+  --color-border: #0B122024;
+  --color-border-bold: #334155;
+  --color-border-input: #475569;
+  --color-border-focused: #3B82F6;
+  --color-border-selected: #60A5FA;
+  --color-border-brand: #60A5FA;
+  --color-border-danger: #EF4444;
+  --color-border-warning: #F59E0B;
+  --color-border-success: #22C55E;
+  --color-background: #0B1220;
+  --color-surface: #0B1220;
+  --color-surface-muted: #1E293B;
+  --color-background-neutral: #0F172A0F;
+  --color-background-neutral-subtle: #00000000;
+  --color-background-neutral-subtle-hovered: #0F172A0F;
+  --color-background-neutral-bold: #1E293B;
+  --color-background-selected: #1E3A8A;
+  --color-background-brand-bold: #3B82F6;
+  --color-background-success: #064E3B;
+  --color-background-success-subtler: #064E3B;
+  --color-background-success-bold: #15803D;
+  --color-background-danger: #7F1D1D;
+  --color-background-danger-bold: #B91C1C;
+  --color-background-warning: #713F12;
+  --color-background-warning-bold: #B45309;
+  --color-background-information: #1E3A8A;
+  --color-background-discovery: #5B21B6;
+  --color-background-discovery-bold: #7C3AED;
+  --color-input: #64748B;
+  --color-input-bg: #0F172A;
+  --color-input-hovered: #1E293B;
+  --color-input-pressed: #0F172A;
+  --color-text-disabled: #64748B;
+  --color-border-disabled: #1E293B;
+  --color-background-neutral-subtle-pressed: #334155;
+  --color-background-brand-bold-hovered: #2563EB;
+  --color-background-brand-bold-pressed: #1D4ED8;
+  --color-background-accent-gray-subtler: #334155;
+  --color-border-accent-gray: #475569;
+  --color-text-selected: #60A5FA;
 
-:root[data-theme="dark"] {
-  --background: #0b1220;
-  --surface: #111c2e;
-  --surface-muted: #1e293b;
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --border: #334155;
-  --accent: #60a5fa;
-  --accent-hover: #3b82f6;
-  --accent-foreground: #0b1220;
-  --success: #4ade80;
-  --warning: #fbbf24;
-  --danger: #f87171;
-  --focus: #60a5fa;
-  color-scheme: dark;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  color-scheme: only dark;
 }
 
 html, body, #root {
@@ -83,38 +297,38 @@ html, body, #root {
   padding: 0;
   width: 100%;
   min-height: 100svh;
-  background: var(--background);
-  color: var(--text-primary);
+  background: var(--color-background);
+  color: var(--color-text);
   font-family: var(--font-sans);
-  font-size: 18px;
-  line-height: 1.6;
+}
+
+html {
+  font-size: 100%;
 }
 
 body {
   font-family: var(--font-sans);
-}
-
-button, input, textarea, select, a {
-  font-family: inherit;
-  font-size: inherit;
-}
-
-button {
-  border: none;
-  background: none;
-  margin: 0;
-  padding: 0;
-  color: inherit;
-  cursor: pointer;
-}
-
-button:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 .ethiopic {
   font-family: var(--font-ethiopic);
+}
+
+@layer base {
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--color-border-focused);
+    outline-offset: 2px;
+  }
 }
 
 .sr-only {
@@ -130,17 +344,14 @@ button:focus-visible {
 }
 
 .touch-target {
-  min-height: 48px;
-  min-width: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  min-height: 3rem;
+  min-width: 3rem;
 }
 
 .skeleton {
-  background: linear-gradient(90deg, var(--surface-muted) 25%, var(--border) 50%, var(--surface-muted) 75%);
+  background: linear-gradient(90deg, var(--color-background-neutral-subtle-hovered) 25%, var(--color-border-input) 50%, var(--color-background-neutral-subtle-hovered) 75%);
   background-size: 200% 100%;
-  border-radius: 8px;
+  border-radius: var(--radius-medium);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -153,5 +364,264 @@ button:focus-visible {
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
+  }
+}
+
+/* Atlassian component recipes — button-default */
+.btn-default {
+  background: var(--color-background-neutral-subtle);
+  color: var(--color-text-subtle);
+  border: var(--border-width-default) solid var(--color-border);
+  border-radius: var(--radius-medium);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  font-weight: var(--font-weight-medium);
+  padding-block: var(--space-075);
+  padding-inline: var(--space-150);
+  column-gap: var(--space-075);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-075);
+  cursor: pointer;
+  min-height: 2rem;
+}
+.btn-default:hover { background: var(--color-background-neutral-subtle-hovered); }
+.btn-default:active { background: var(--color-background-neutral-subtle-pressed); }
+.btn-default:disabled { opacity: 0.5; cursor: not-allowed; color: var(--color-text-disabled); border-color: var(--color-border-disabled); }
+
+/* button-primary */
+.btn-primary {
+  background: var(--color-background-brand-bold);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-medium);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  font-weight: var(--font-weight-medium);
+  padding-block: var(--space-075);
+  padding-inline: var(--space-150);
+  column-gap: var(--space-075);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-075);
+  cursor: pointer;
+  min-height: 2rem;
+}
+.btn-primary:hover { background: var(--color-background-brand-bold-hovered, #1558BC); }
+.btn-primary:active { background: var(--color-background-brand-bold-pressed, #144794); }
+
+/* button-subtle */
+.btn-subtle {
+  background: var(--color-background-neutral-subtle);
+  color: var(--color-text-subtle);
+  border-radius: var(--radius-medium);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  font-weight: var(--font-weight-medium);
+  padding-block: var(--space-075);
+  padding-inline: var(--space-150);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-075);
+  cursor: pointer;
+  min-height: 2rem;
+}
+.btn-subtle:hover { background: var(--color-background-neutral-subtle-hovered); }
+
+/* button-danger */
+.btn-danger {
+  background: var(--color-background-danger-bold);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-medium);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  font-weight: var(--font-weight-medium);
+  padding-block: var(--space-075);
+  padding-inline: var(--space-150);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-075);
+  cursor: pointer;
+  min-height: 2rem;
+}
+
+/* button-discovery */
+.btn-discovery {
+  background: var(--color-background-discovery-bold);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-medium);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  font-weight: var(--font-weight-medium);
+  padding-block: var(--space-075);
+  padding-inline: var(--space-150);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-075);
+  cursor: pointer;
+  min-height: 2rem;
+}
+
+/* icon-button */
+.icon-btn {
+  background: var(--color-background-neutral-subtle);
+  color: var(--color-text-subtle);
+  border: var(--border-width-default) solid var(--color-border);
+  border-radius: var(--radius-medium);
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.icon-btn:hover { background: var(--color-background-neutral-subtle-hovered); }
+.icon-btn-circle { border-radius: var(--radius-full); }
+
+/* textfield-standard */
+.textfield {
+  background: var(--color-input-bg);
+  color: var(--color-text);
+  border: var(--border-width-default) solid var(--color-border-input);
+  border-radius: var(--radius-medium);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  padding: var(--space-075);
+  min-height: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+.textfield:hover { background: var(--color-input-hovered); }
+.textfield:focus-visible { background: var(--color-input-pressed, #FFFFFF); border-color: var(--color-border-focused); outline: none; }
+.textfield::placeholder { color: var(--color-text-subtlest); }
+
+/* section-message */
+.section-message {
+  background: var(--color-background-neutral);
+  color: var(--color-text);
+  border: var(--border-width-default) solid var(--color-border);
+  border-radius: var(--radius-large);
+  padding: var(--space-200);
+  column-gap: var(--space-200);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-200);
+}
+.section-message-information { background: var(--color-background-information); }
+.section-message-success { background: var(--color-background-success); }
+.section-message-warning { background: var(--color-background-warning); }
+.section-message-danger { background: var(--color-background-danger); }
+
+/* badge */
+.badge {
+  background: var(--color-background-accent-gray-subtler, var(--color-background-success-subtler));
+  color: var(--color-text);
+  min-width: var(--space-300);
+  border-radius: var(--radius-xsmall);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body-small);
+  line-height: var(--line-height-body-small);
+  font-weight: var(--font-weight-regular);
+  padding-inline: var(--space-050);
+  padding-block: 0;
+  display: inline-flex;
+  align-items: center;
+}
+.badge-success { background: var(--color-background-success-subtler); color: var(--color-text-success-bolder); }
+
+/* lozenge */
+.lozenge {
+  background: var(--color-background-neutral);
+  color: var(--color-text);
+  border: var(--border-width-default) solid var(--color-border-bold);
+  border-radius: var(--radius-small);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body-small);
+  line-height: var(--line-height-body-small);
+  font-weight: var(--font-weight-regular);
+  height: 1.25rem;
+  padding-block: var(--space-025);
+  padding-inline: var(--space-050);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-050);
+}
+.lozenge-success { background: var(--color-background-success-subtler); color: var(--color-text-success-bolder); border-color: var(--color-border-success); }
+.lozenge-selected { color: var(--color-text-selected); }
+
+/* tag */
+.tag {
+  background: transparent;
+  color: var(--color-text);
+  border: var(--border-width-default) solid var(--color-border-accent-gray, var(--color-border));
+  border-radius: var(--radius-small);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body-small);
+  line-height: var(--line-height-body-small);
+  font-weight: var(--font-weight-regular);
+  padding-block: var(--space-025);
+  padding-inline: var(--space-025);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-050);
+}
+
+/* form-label */
+.form-label {
+  color: var(--color-text-subtle);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body-small);
+  line-height: var(--line-height-body-small);
+  font-weight: var(--font-weight-regular);
+}
+
+/* form-helper-message */
+.form-helper { color: var(--color-text-subtlest); font-family: var(--font-sans);
+  font-size: var(--font-size-body-small);
+  line-height: var(--line-height-body-small);
+  font-weight: var(--font-weight-regular); }
+/* form-error-message */
+.form-error { color: var(--color-text-danger); font-family: var(--font-sans);
+  font-size: var(--font-size-body-small);
+  line-height: var(--line-height-body-small);
+  font-weight: var(--font-weight-regular); }
+/* form-valid-message */
+.form-valid { color: var(--color-text-success); font-family: var(--font-sans);
+  font-size: var(--font-size-body-small);
+  line-height: var(--line-height-body-small);
+  font-weight: var(--font-weight-regular); }
+
+/* Spacing utility */
+.pt-200 { padding-top: var(--space-200); }
+.pb-200 { padding-bottom: var(--space-200); }
+.px-200 { padding-inline: var(--space-200); }
+.py-200 { padding-block: var(--space-200); }
+.gap-200 { gap: var(--space-200); }
+.gap-100 { gap: var(--space-100); }
+.gap-150 { gap: var(--space-150); }
+.gap-050 { gap: var(--space-050); }
+.gap-075 { gap: var(--space-075); }
+.mb-200 { margin-bottom: var(--space-200); }
+.mt-200 { margin-top: var(--space-200); }
+.mb-100 { margin-bottom: var(--space-100); }
+.mb-150 { margin-bottom: var(--space-150); }
+.mb-050 { margin-bottom: var(--space-050); }
+
+/* Sentence case enforcement — user-facing text */
+.sentence-case { text-transform: none; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

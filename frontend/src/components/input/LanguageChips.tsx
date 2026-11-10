@@ -31,10 +31,10 @@ export function LanguageChips({ value, onChange }: LanguageChipsProps) {
             role="radio"
             aria-checked={selected}
             onClick={() => handleChange(lang.code)}
-            className={`touch-target inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-sm font-medium transition-colors ${
+            className={`touch-target inline-flex items-center gap-2 rounded-full border border-input bg-background px-3 py-1.5 text-sm font-medium transition-colors ${
               selected
-                ? "bg-accent text-accent-foreground border-accent shadow-sm"
-                : "text-text-primary hover:bg-surface-muted focus-visible:ring-2 focus-visible:ring-focus"
+                ? "bg-brand text-inverse border-brand"
+                : "border-input bg-background text-subtle hover:bg-neutral-subtle-hovered"
             } ${isEthiopic(lang.code) ? "font-ethiopic" : ""}`}
           >
             {languageName(lang.code)}

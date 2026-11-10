@@ -10,21 +10,21 @@ export interface MessageListProps {
 export function MessageList({ messages }: MessageListProps) {
   if (messages.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-48 text-text-secondary text-sm">
+      <div className="flex flex-col items-center justify-center py-10 text-center text-sm text-subtle">
         No conversation yet. Ask a question about the document.
       </div>
     );
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+    <div className="space-y-3">
       {messages.map((m, i) => (
         <div key={i} className={`flex gap-3 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
           <div
-            className={`rounded-2xl px-4 py-2.5 text-sm max-w-[85%] ${
+            className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${
               m.role === "user"
-                ? "bg-accent text-accent-foreground rounded-tr-none"
-                : "bg-surface-muted text-text-primary rounded-tl-none"
+                ? "bg-brand text-inverse rounded-tr-none"
+                : "bg-surface-muted text-text rounded-tl-none"
             }`}
           >
             {m.content}

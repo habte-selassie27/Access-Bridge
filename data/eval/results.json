@@ -1,0 +1,1812 @@
+{
+  "generatedAt": "2026-11-08T21:14:09.131Z",
+  "model": "openai/gpt-oss-120b",
+  "datasetId": "31e98ae2-92df-4832-853f-21798ed308c2",
+  "datasetBuiltAt": "2026-11-08T13:43:42.914Z",
+  "heldOutSeeds": [
+    "health-insurance-renewal",
+    "school-fee-term2",
+    "kebele-id-replacement",
+    "driving-license-renewal",
+    "electricity-tariff-change",
+    "bank-kyc-update",
+    "pension-registration",
+    "land-registration",
+    "child-vaccination",
+    "microfinance-installment",
+    "trade-license-renewal",
+    "university-admission",
+    "employment-termination",
+    "property-tax",
+    "food-safety-inspection",
+    "customs-clearance",
+    "tvet-enrollment",
+    "birth-registration"
+  ],
+  "fewShotSeeds": [
+    "court-summons",
+    "lab-result-followup",
+    "income-tax-return",
+    "sim-card-registration",
+    "medical-appointment",
+    "rent-increase",
+    "water-bill-disconnection"
+  ],
+  "languages": {
+    "am": {
+      "baseline": {
+        "n": 18,
+        "nMeasured": 18,
+        "providerErrors": 0,
+        "schemaValidRate": 1,
+        "dateAccuracy": 0.389,
+        "amountAccuracy": 0.346,
+        "verifiedRate": 0.857,
+        "hallucinatedFields": 2,
+        "languageScriptRate": 0.611
+      },
+      "adapted": {
+        "n": 18,
+        "nMeasured": 9,
+        "providerErrors": 9,
+        "schemaValidRate": 1,
+        "dateAccuracy": 1,
+        "amountAccuracy": 1,
+        "verifiedRate": 0.944,
+        "hallucinatedFields": 1,
+        "languageScriptRate": 1
+      },
+      "delta": {
+        "dateAccuracy": 0.611,
+        "amountAccuracy": 0.654,
+        "verifiedRate": 0.087,
+        "hallucinatedFields": -1
+      }
+    },
+    "om": {
+      "baseline": {
+        "n": 18,
+        "nMeasured": 18,
+        "providerErrors": 0,
+        "schemaValidRate": 1,
+        "dateAccuracy": 0.278,
+        "amountAccuracy": 0.231,
+        "verifiedRate": 0.9,
+        "hallucinatedFields": 1,
+        "languageScriptRate": 1
+      },
+      "adapted": {
+        "n": 18,
+        "nMeasured": 18,
+        "providerErrors": 0,
+        "schemaValidRate": 1,
+        "dateAccuracy": 1,
+        "amountAccuracy": 0.923,
+        "verifiedRate": 1,
+        "hallucinatedFields": 0,
+        "languageScriptRate": 1
+      },
+      "delta": {
+        "dateAccuracy": 0.722,
+        "amountAccuracy": 0.692,
+        "verifiedRate": 0.1,
+        "hallucinatedFields": -1
+      }
+    },
+    "ti": {
+      "baseline": {
+        "n": 18,
+        "nMeasured": 17,
+        "providerErrors": 1,
+        "schemaValidRate": 0.941,
+        "dateAccuracy": 0.25,
+        "amountAccuracy": 0.364,
+        "verifiedRate": 0.75,
+        "hallucinatedFields": 3,
+        "languageScriptRate": 0.824
+      },
+      "adapted": {
+        "n": 18,
+        "nMeasured": 7,
+        "providerErrors": 11,
+        "schemaValidRate": 0.857,
+        "dateAccuracy": 1,
+        "amountAccuracy": 1,
+        "verifiedRate": 1,
+        "hallucinatedFields": 0,
+        "languageScriptRate": 0.857
+      },
+      "delta": {
+        "dateAccuracy": 0.75,
+        "amountAccuracy": 0.636,
+        "verifiedRate": 0.25,
+        "hallucinatedFields": -3
+      }
+    }
+  },
+  "rows": [
+    {
+      "seedId": "health-insurance-renewal",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "health-insurance-renewal",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "እርስዎ የጤና ኢንሹራንስ ተቀባይነት በ2026-12-15 ይወውጃል። በዚያ ቀን በፊት ETB 500 ተክፍል እና ኢንሹራንስዎን ያድሱ። የመታወቂያ ካርድ እና የቀድሞ ኢንሹራንስ ካርድ ወደ ቅርብ ጤና ቢሮ ይውሰዱ።"
+    },
+    {
+      "seedId": "health-insurance-renewal",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "health-insurance-renewal",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Insuraansii fayyaa kee guyyaa 2026-12-15 xumurama. Dubbii haaromsuuf ETB 500 kaffadhu. ID fi kaardii insuraansii duraanii gara waajjira fayyaa dhiheessi."
+    },
+    {
+      "seedId": "health-insurance-renewal",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "health-insurance-renewal",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ዝሓለፈ ዕለት 2026-12-15 ሕንፃ ተገቢ ሕብረቱ እምበር። ንምኽባር ክፍሊት ETB 500 ክትከፍል ኣለዎ። ዝሓለፈ ዕለት ምትሓልለል እንተሓለፈ ሕንፃ ይቕፈል።"
+    },
+    {
+      "seedId": "school-fee-term2",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 0.5,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ይህ የተማሪዎች ትምህርት ክፍያ መረጃ ነው።"
+    },
+    {
+      "seedId": "school-fee-term2",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "የትምህርት ክፍያ ተግባር ነው። የሁለተኛው ጊዜ ክፍያ በ2026-10-05 ይደረግ። ጠቅላላ ወጪ ETB 3,500 ነው። ዘግይተኛ ክፍያ ETB 100 ተጨማሪ ይሆናል።"
+    },
+    {
+      "seedId": "school-fee-term2",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun kaffaltii barnoota Term 2 dha."
+    },
+    {
+      "seedId": "school-fee-term2",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kafaltiin barumsaa Term 2 guyyaa 2026-10-05 irra ga'uu qaba. Gatii isaa ETB 3,500."
+    },
+    {
+      "seedId": "school-fee-term2",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "school-fee-term2",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ናይ ምርቃቕ ጊዜ 2 ክፍሊት ተገሊጹ ኣለዎ። ተቓጣሪ ነቲ ቅድሚ ግዜ ንዝሕልዎ ንኹሉ ኣቕልጦ።"
+    },
+    {
+      "seedId": "kebele-id-replacement",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "የከተማ መታወቂያ ካርድ የተለወጠ ነው።"
+    },
+    {
+      "seedId": "kebele-id-replacement",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "የክቤለ መታወቂያ ካርድዎ ወደፊት አልተገባም። አዲስ ለማውረድ በWoreda 03 ቢሮ በ2026-11-30 ድረስ ይግቡ። ክፍያው ETB 50 ነው። የድሮ ካርድና ሁለት ፎቶ አምጡ።"
+    },
+    {
+      "seedId": "kebele-id-replacement",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kardii ID kebele kee darbeera."
+    },
+    {
+      "seedId": "kebele-id-replacement",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kardii keebela ID kee xumurame. Haaraa gaafachuuf Woreda 03 tti deemii."
+    },
+    {
+      "seedId": "kebele-id-replacement",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ካልኦትካ ኪቤለ ኣይዲ ካርድ ዝተቐጽለ እዩ።"
+    },
+    {
+      "seedId": "kebele-id-replacement",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ኪቤለ ኣይዲ ካርድ ተወልዲ ኣለዎ። ሓድሽ ኣውድያ በውርዳ 03 ቤት ተጠቂሙ።"
+    },
+    {
+      "seedId": "driving-license-renewal",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "driving-license-renewal",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "የመኪና ፈቃድዎ በ2027-02-10 ይጨርሳል። በቦሌ ትራንስፖርት ቢሮ ይታደስ። ክፍያው ETB 600 ነው። የቆየ ፈቃድ፣ የሕክምና ደረሰኝ እና ሁለት ፎቶ ይውሰዱ።"
+    },
+    {
+      "seedId": "driving-license-renewal",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun waraqaa liisansi konkolaataa yeroo isaa xumuruu dha."
+    },
+    {
+      "seedId": "driving-license-renewal",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kaardii konkolaataa kee guyyaa 2027-02-10 ni xumurama. Haaromsuuf Transport Office Bole dhaqi. Gatiin ETB 600 dha. Kaardii duraa, ragaa fayyaa, fi suura lama fida."
+    },
+    {
+      "seedId": "driving-license-renewal",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": 0,
+      "hallucinatedFields": 2,
+      "languageScriptOk": true,
+      "rawSummary": "እዚ ዝርከብ ዝውዕል ናይ መንገዲ ፈቃድ እዩ።"
+    },
+    {
+      "seedId": "driving-license-renewal",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Unterminated string in JSON at position 252 (line 10 column 17)"
+    },
+    {
+      "seedId": "electricity-tariff-change",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "electricity-tariff-change",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ከ2026-12-01 ጀምሮ አዲስ የኤሌክትሪክ ዋጋዎች ይተገብራሉ። ቤቶች በወር 50 kWh ያነሱ ከሆነ ETB 0.60 በኩል ይከፈላሉ። ደንበኞች ምንም እርምጃ ማድረግ አይደለባቸውም።"
+    },
+    {
+      "seedId": "electricity-tariff-change",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun tarreeffama elektiriikii haaraa dha."
+    },
+    {
+      "seedId": "electricity-tariff-change",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Tarifii elektiriikaa haaraa guyyaa 2026-12-01 irraa jalqabaa. Mana jireenyaa kWh 50 gadiitti fayyadaman ETB 0.60/kWh kaffalu. Hojii tokko illee hin barbaachisu."
+    },
+    {
+      "seedId": "electricity-tariff-change",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "እዚ ሓድሽ የኤለክትሪክ ናይ ብርቱዕ ክፍሊት እዩ። ከምዚ ንጀምር ኣብ 2026-12-01 ይቕጽል።"
+    },
+    {
+      "seedId": "electricity-tariff-change",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ናይ ኤለክትሪክ ወጻኢ ኣብ 2026-12-01 ይጀምር። ከምዚ ዝቐነሱ ቤት ሕጂ ብልዕል 50 kWh ብኽልቲ 0.60 ETB ይኽል። ምልክት ንምንቅስቓስ የለን።"
+    },
+    {
+      "seedId": "bank-kyc-update",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 0.5,
+      "hallucinatedFields": 1,
+      "languageScriptOk": true,
+      "rawSummary": "ይህ የባንክ መለያ መረጃ ማዘምን ማስታወቂያ ነው።"
+    },
+    {
+      "seedId": "bank-kyc-update",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ባንክ መለያ መረጃዎትን እስከ 2027-01-15 ይዘምኑ። መለያው የሚያዘምኑ ካልሆነ ተቆልፋል።"
+    },
+    {
+      "seedId": "bank-kyc-update",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun dhaamsa baankii odeeffannoo keessan haaromsuu dha."
+    },
+    {
+      "seedId": "bank-kyc-update",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Accountii baankii kee guyyaa 2027-01-15 dura sirreessi. Yoo sirreessuu hin dandeenye, accountii ni cufama."
+    },
+    {
+      "seedId": "bank-kyc-update",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "እዚ ባንክ ኣካውንት ሓተታ ሓበር እዩ።"
+    },
+    {
+      "seedId": "bank-kyc-update",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ባንክ ኣካውንት ሓበሬታ ናይ ዝተሓደሰ ክልብስ ኣለዎም ለውጢ ብ2027-01-15 ክምልስ። ዝሓለፈ ኣታሚ ኣካውንቶች ይቕጥሩ።"
+    },
+    {
+      "seedId": "pension-registration",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ይህ የጡት እቃ ክፍያ እቅድ ማስተዳደር ሰነድ ነው።"
+    },
+    {
+      "seedId": "pension-registration",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 0.5,
+      "hallucinatedFields": 1,
+      "languageScriptOk": true,
+      "rawSummary": "የጡት እቅድ ለመመዝገብ በ2026-12-20 ውስጥ አስፈላጊ ነው። የእርስዎ ክፍያ ደሞዝዎ የ7 በመቶ ነው። የሥራ ወኪል ደብዳቤ እና መታወቂያ ካርድ ይውሰዱ።"
+    },
+    {
+      "seedId": "pension-registration",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun galmee sagantaa kaawwanii dha."
+    },
+    {
+      "seedId": "pension-registration",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Piroojektii galmee piroojektii bara 2026-12-20. Galii 7 percent kaffalu qabda. Waraqaa hojii fi ID fida."
+    },
+    {
+      "seedId": "pension-registration",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "እዚ ወረቐት ናይ ፔንሽን ስችም ነይር።"
+    },
+    {
+      "seedId": "pension-registration",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ብዝተወሰነ ዕለት ናይ ፔንሽን ስቲም መዝገብ ኣለዎ። ኣባልነት 7% ናብ ደሞይ ክትኽል ኣለኻ። ሰራሕተኛ ወረቐት ን መታወቂያ ካርታ ናብ ፔንሽን ቢሮ ኣምጽኦ።"
+    },
+    {
+      "seedId": "land-registration",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ይህ የመሬት ምዝገባ ማስታወቂያ ነው።"
+    },
+    {
+      "seedId": "land-registration",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "በ2027-04-30 ውስጥ ወረዳ የምድር ቢሮ ውስጥ የመሬትዎን ደረጃ ይመዝገቡ። የመመዝገብ ክፍያ ETB 300 ነው። የቦታ ሰነድ፣ የታማኝ መታወቂያ፣ እና ሁለት ምስክሮች ያምጡ።"
+    },
+    {
+      "seedId": "land-registration",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "land-registration",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Qabeenya lafaa kee Woreda Land Office keessatti galmeessi. Guyyaa 2027-04-30 dura galmeessi. Gatii galmee ETB 300 dha. Deed, ID, fi ragaa lama fidaa."
+    },
+    {
+      "seedId": "land-registration",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "land-registration",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198407, Re"
+    },
+    {
+      "seedId": "child-vaccination",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 0.5,
+      "hallucinatedFields": 1,
+      "languageScriptOk": true,
+      "rawSummary": "ይህ የልጅዎ ሜዝልስ ክትብል ነው።"
+    },
+    {
+      "seedId": "child-vaccination",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197978, Re"
+    },
+    {
+      "seedId": "child-vaccination",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "child-vaccination",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Ijoolleen kee talaallii measles 2026-12-05 irratti barbaachisa. Kaardii talaallii ijoollee fidii. Talaalliin bilisaa."
+    },
+    {
+      "seedId": "child-vaccination",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "child-vaccination",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198395, Re"
+    },
+    {
+      "seedId": "microfinance-installment",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ይህ የተቋሚዎች ክፍያ ማሳሰቢያ ነው።"
+    },
+    {
+      "seedId": "microfinance-installment",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198268, Re"
+    },
+    {
+      "seedId": "microfinance-installment",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun waraqaa kaffaltii liqii dha."
+    },
+    {
+      "seedId": "microfinance-installment",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Installmenti liqii kee ETB 1,200 guyyaa 2026-11-30 kaffalamu qaba."
+    },
+    {
+      "seedId": "microfinance-installment",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "microfinance-installment",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198404, Re"
+    },
+    {
+      "seedId": "trade-license-renewal",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "trade-license-renewal",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197823, Re"
+    },
+    {
+      "seedId": "trade-license-renewal",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun beeksisa liisansi daldalaa dha."
+    },
+    {
+      "seedId": "trade-license-renewal",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Hayyama daldalaa kee guyyaa 2026-12-31 xumura. Hayyama haaraa argachuuf Waajjira Daldalaa deemii. Gatii ETB 1,500 kaffali. Ragaa TIN fi hayyama duraa fidii."
+    },
+    {
+      "seedId": "trade-license-renewal",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "trade-license-renewal",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198406, Re"
+    },
+    {
+      "seedId": "university-admission",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ይህ የባሕር ዳር ዩኒቨርሲቲ የምህንድስና ፕሮግራም ማስመዝገቢያ መልዕክት ነው።"
+    },
+    {
+      "seedId": "university-admission",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197984, Re"
+    },
+    {
+      "seedId": "university-admission",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun galmee barnoota Injinariingii Bahir Dar University ti."
+    },
+    {
+      "seedId": "university-admission",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Bahir Dar University keessatti Engineering barachuuf galmaahte. Guyyaa 2026-12-01 bakka dhuftee, bu'aa barnoota 12ffaa, ID fi ragaa fayyaa fiduu qabda. Kaffaltii galmeessuu ETB 200"
+    },
+    {
+      "seedId": "university-admission",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Unterminated string in JSON at position 240 (line 6 column 16)"
+    },
+    {
+      "seedId": "university-admission",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198403, Re"
+    },
+    {
+      "seedId": "employment-termination",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "employment-termination",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197829, Re"
+    },
+    {
+      "seedId": "employment-termination",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun ragaa hojii xumura kee dha."
+    },
+    {
+      "seedId": "employment-termination",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Hojii kee guyyaa 2027-01-31 xumura. Kaffaltii xumuraa fi maallaqa baatii 30 keessatti kaffalama. Waajjira HR qunnami waraqaa tajaajilaa argachuuf."
+    },
+    {
+      "seedId": "employment-termination",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "እዚ ሰነድ ስራሕካ ምብጻብ እዩ።"
+    },
+    {
+      "seedId": "employment-termination",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198403, Re"
+    },
+    {
+      "seedId": "property-tax",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ይህ የቤትዎ የንብረት ታክስ ነው።"
+    },
+    {
+      "seedId": "property-tax",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "የቤትዎ ንብረት ግብር ETB 1,800 ነው። በ2026-12-31 ቀን በማኅበረሰብ ቢሮ ይክፈሉ። ቀደም ያለው የክፍያ ደረሰኝ ይውሰዱ።"
+    },
+    {
+      "seedId": "property-tax",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun taaksii mana kee ti. Taaksii kun ETB 1,800 bara kana."
+    },
+    {
+      "seedId": "property-tax",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Gatii taaksii mana keetii ETB 1,800 dha. Baajata kaffaluuf gara waajjira mootummaa dhaqii. Guyyaa 2026-12-31 dura kaffali."
+    },
+    {
+      "seedId": "property-tax",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "እዚ ሰነድ ቤትካ ዝተኸምረ ተግባር ነይ።"
+    },
+    {
+      "seedId": "property-tax",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198408, Re"
+    },
+    {
+      "seedId": "food-safety-inspection",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "food-safety-inspection",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198093, Re"
+    },
+    {
+      "seedId": "food-safety-inspection",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 0.5,
+      "hallucinatedFields": 1,
+      "languageScriptOk": true,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "food-safety-inspection",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Restoranti kee guyyaa 2026-11-28 irratti qorannoon geggeeffama. Kichuu cufi. Ragaa qabiyyee nyaataa qabadhu."
+    },
+    {
+      "seedId": "food-safety-inspection",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": null,
+      "verifiedRate": 0.5,
+      "hallucinatedFields": 1,
+      "languageScriptOk": true,
+      "rawSummary": "እዚ ሓበሬታ ሓደ ምርመራ እዩ።"
+    },
+    {
+      "seedId": "food-safety-inspection",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198409, Re"
+    },
+    {
+      "seedId": "customs-clearance",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "ይህ የእቃ ማስደረሻ ማስታወቂያ ነው።"
+    },
+    {
+      "seedId": "customs-clearance",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198156, Re"
+    },
+    {
+      "seedId": "customs-clearance",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun beeksisa geejjiba kee dhufe."
+    },
+    {
+      "seedId": "customs-clearance",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Ergaa kee Modjo dry port geesse. Guyyaa 2026-12-10 dura baasii. Kafaltii ETB 150 guyyaa tokkoof yoo hin baasne."
+    },
+    {
+      "seedId": "customs-clearance",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "customs-clearance",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198341, Re"
+    },
+    {
+      "seedId": "tvet-enrollment",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "tvet-enrollment",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197799, Re"
+    },
+    {
+      "seedId": "tvet-enrollment",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun TVET barnootaaf galmee dha."
+    },
+    {
+      "seedId": "tvet-enrollment",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "TVET programii galmaa'uu dandeessa. Guyyaa 2026-11-30 dura galmaa'i. Gatii ETB 400 baatii tokko. Ragaa sadarkaa 10 fi ID fidaa gara waajjira koleejii."
+    },
+    {
+      "seedId": "tvet-enrollment",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 1,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "tvet-enrollment",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198401, Re"
+    },
+    {
+      "seedId": "birth-registration",
+      "variant": "baseline",
+      "lang": "am",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "rawSummary": "Document explanation."
+    },
+    {
+      "seedId": "birth-registration",
+      "variant": "adapted",
+      "lang": "am",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197920, Re"
+    },
+    {
+      "seedId": "birth-registration",
+      "variant": "baseline",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 0,
+      "amountAccuracy": 0,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Kun galmee dhaloota ijoollee kee dha."
+    },
+    {
+      "seedId": "birth-registration",
+      "variant": "adapted",
+      "lang": "om",
+      "schemaValid": true,
+      "dateAccuracy": 1,
+      "amountAccuracy": 0,
+      "verifiedRate": 1,
+      "hallucinatedFields": 0,
+      "languageScriptOk": true,
+      "rawSummary": "Dhalootaa ijoollee kee galmeessi. Woreda civil registry dhaqi guyyaa 2027-01-10. Maatii lama ID fi ragaa mana fayyaa fidii. Gatii galmee bilisaa."
+    },
+    {
+      "seedId": "birth-registration",
+      "variant": "baseline",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199476, Re"
+    },
+    {
+      "seedId": "birth-registration",
+      "variant": "adapted",
+      "lang": "ti",
+      "schemaValid": false,
+      "dateAccuracy": null,
+      "amountAccuracy": null,
+      "verifiedRate": null,
+      "hallucinatedFields": 0,
+      "languageScriptOk": false,
+      "error": "fetch failed"
+    }
+  ],
+  "failures": [
+    {
+      "seedId": "health-insurance-renewal",
+      "lang": "am",
+      "variant": "baseline",
+      "reasons": [
+        "wrong script/language"
+      ],
+      "notMeasured": false,
+      "summary": "Document explanation."
+    },
+    {
+      "seedId": "driving-license-renewal",
+      "lang": "ti",
+      "variant": "baseline",
+      "reasons": [
+        "2 unverified field(s)"
+      ],
+      "notMeasured": false,
+      "summary": "እዚ ዝርከብ ዝውዕል ናይ መንገዲ ፈቃድ እዩ።"
+    },
+    {
+      "seedId": "driving-license-renewal",
+      "lang": "ti",
+      "variant": "adapted",
+      "reasons": [
+        "schema invalid",
+        "wrong script/language"
+      ],
+      "notMeasured": false,
+      "error": "Unterminated string in JSON at position 252 (line 10 column 17)"
+    },
+    {
+      "seedId": "electricity-tariff-change",
+      "lang": "am",
+      "variant": "baseline",
+      "reasons": [
+        "wrong script/language"
+      ],
+      "notMeasured": false,
+      "summary": "Document explanation."
+    },
+    {
+      "seedId": "bank-kyc-update",
+      "lang": "am",
+      "variant": "baseline",
+      "reasons": [
+        "1 unverified field(s)"
+      ],
+      "notMeasured": false,
+      "summary": "ይህ የባንክ መለያ መረጃ ማዘምን ማስታወቂያ ነው።"
+    },
+    {
+      "seedId": "pension-registration",
+      "lang": "am",
+      "variant": "adapted",
+      "reasons": [
+        "1 unverified field(s)"
+      ],
+      "notMeasured": false,
+      "summary": "የጡት እቅድ ለመመዝገብ በ2026-12-20 ውስጥ አስፈላጊ ነው። የእርስዎ ክፍያ ደሞዝዎ የ7 በመቶ ነው። የሥራ ወኪል ደብዳቤ እና መታወቂያ ካርድ ይውሰዱ።"
+    },
+    {
+      "seedId": "land-registration",
+      "lang": "ti",
+      "variant": "baseline",
+      "reasons": [
+        "wrong script/language"
+      ],
+      "notMeasured": false,
+      "summary": "Document explanation."
+    },
+    {
+      "seedId": "child-vaccination",
+      "lang": "am",
+      "variant": "baseline",
+      "reasons": [
+        "1 unverified field(s)"
+      ],
+      "notMeasured": false,
+      "summary": "ይህ የልጅዎ ሜዝልስ ክትብል ነው።"
+    },
+    {
+      "seedId": "microfinance-installment",
+      "lang": "ti",
+      "variant": "baseline",
+      "reasons": [
+        "wrong script/language"
+      ],
+      "notMeasured": false,
+      "summary": "Document explanation."
+    },
+    {
+      "seedId": "trade-license-renewal",
+      "lang": "am",
+      "variant": "baseline",
+      "reasons": [
+        "wrong script/language"
+      ],
+      "notMeasured": false,
+      "summary": "Document explanation."
+    },
+    {
+      "seedId": "university-admission",
+      "lang": "ti",
+      "variant": "baseline",
+      "reasons": [
+        "schema invalid",
+        "wrong script/language"
+      ],
+      "notMeasured": false,
+      "error": "Unterminated string in JSON at position 240 (line 6 column 16)"
+    },
+    {
+      "seedId": "employment-termination",
+      "lang": "am",
+      "variant": "baseline",
+      "reasons": [
+        "wrong script/language"
+      ],
+      "notMeasured": false,
+      "summary": "Document explanation."
+    },
+    {
+      "seedId": "food-safety-inspection",
+      "lang": "am",
+      "variant": "baseline",
+      "reasons": [
+        "wrong script/language"
+      ],
+      "notMeasured": false,
+      "summary": "Document explanation."
+    },
+    {
+      "seedId": "food-safety-inspection",
+      "lang": "om",
+      "variant": "baseline",
+      "reasons": [
+        "1 unverified field(s)"
+      ],
+      "notMeasured": false,
+      "summary": "Document explanation."
+    },
+    {
+      "seedId": "food-safety-inspection",
+      "lang": "ti",
+      "variant": "baseline",
+      "reasons": [
+        "1 unverified field(s)"
+      ],
+      "notMeasured": false,
+      "summary": "እዚ ሓበሬታ ሓደ ምርመራ እዩ።"
+    },
+    {
+      "seedId": "tvet-enrollment",
+      "lang": "am",
+      "variant": "baseline",
+      "reasons": [
+        "wrong script/language"
+      ],
+      "notMeasured": false,
+      "summary": "Document explanation."
+    },
+    {
+      "seedId": "birth-registration",
+      "lang": "am",
+      "variant": "baseline",
+      "reasons": [
+        "wrong script/language"
+      ],
+      "notMeasured": false,
+      "summary": "Document explanation."
+    },
+    {
+      "seedId": "land-registration",
+      "lang": "ti",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198407, Re"
+    },
+    {
+      "seedId": "child-vaccination",
+      "lang": "am",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197978, Re"
+    },
+    {
+      "seedId": "child-vaccination",
+      "lang": "ti",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198395, Re"
+    },
+    {
+      "seedId": "microfinance-installment",
+      "lang": "am",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198268, Re"
+    },
+    {
+      "seedId": "microfinance-installment",
+      "lang": "ti",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198404, Re"
+    },
+    {
+      "seedId": "trade-license-renewal",
+      "lang": "am",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197823, Re"
+    },
+    {
+      "seedId": "trade-license-renewal",
+      "lang": "ti",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198406, Re"
+    },
+    {
+      "seedId": "university-admission",
+      "lang": "am",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197984, Re"
+    },
+    {
+      "seedId": "university-admission",
+      "lang": "ti",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198403, Re"
+    },
+    {
+      "seedId": "employment-termination",
+      "lang": "am",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197829, Re"
+    },
+    {
+      "seedId": "employment-termination",
+      "lang": "ti",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198403, Re"
+    },
+    {
+      "seedId": "property-tax",
+      "lang": "ti",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198408, Re"
+    },
+    {
+      "seedId": "food-safety-inspection",
+      "lang": "am",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198093, Re"
+    },
+    {
+      "seedId": "food-safety-inspection",
+      "lang": "ti",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198409, Re"
+    },
+    {
+      "seedId": "customs-clearance",
+      "lang": "am",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198156, Re"
+    },
+    {
+      "seedId": "customs-clearance",
+      "lang": "ti",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198341, Re"
+    },
+    {
+      "seedId": "tvet-enrollment",
+      "lang": "am",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197799, Re"
+    },
+    {
+      "seedId": "tvet-enrollment",
+      "lang": "ti",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 198401, Re"
+    },
+    {
+      "seedId": "birth-registration",
+      "lang": "am",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 197920, Re"
+    },
+    {
+      "seedId": "birth-registration",
+      "lang": "ti",
+      "variant": "baseline",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "Groq 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01m6xg9d1qed1sf73b0yefj2tp` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199476, Re"
+    },
+    {
+      "seedId": "birth-registration",
+      "lang": "ti",
+      "variant": "adapted",
+      "reasons": [
+        "not measured: provider error (rate limit or network)"
+      ],
+      "notMeasured": true,
+      "error": "fetch failed"
+    }
+  ],
+  "schemaVersion": 2,
+  "providerErrors": 21,
+  "measuredRows": 87
+}

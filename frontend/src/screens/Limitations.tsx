@@ -1,3 +1,5 @@
+import { ArrowLeft } from "lucide-react";
+
 export interface LimitationsProps {
   onBack: () => void;
 }
@@ -27,36 +29,29 @@ const LIMITATIONS = [
 
 export function Limitations({ onBack }: LimitationsProps) {
   return (
-    <section className="space-y-6">
-      <div className="flex items-center gap-3">
-        <button
-          type="button"
-          onClick={onBack}
-          className="touch-target inline-flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2 text-sm text-text-primary hover:bg-surface-muted"
-        >
-          Back
-        </button>
-        <div>
-          <h1 className="text-xl font-bold text-text-primary">Limitations</h1>
-          <p className="text-sm text-text-secondary">
-            What PasteWise does well, and where it can be wrong.
-          </p>
-        </div>
+    <section className="space-y-5">
+      <button
+        type="button"
+        onClick={onBack}
+        className="touch-target inline-flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm text-text transition-colors hover:bg-neutral-subtle-hovered"
+      >
+        <ArrowLeft size={18} strokeWidth={2} aria-hidden="true" />
+        Back
+      </button>
+
+      <div>
+        <h1 className="text-2xl font-bold text-text">Limitations</h1>
+        <p className="text-sm text-subtle">What PasteWise does well, and where it can be wrong.</p>
       </div>
 
       <div className="space-y-3">
         {LIMITATIONS.map((item) => (
-          <div key={item.title} className="rounded-xl border border-border bg-surface p-6">
-            <h2 className="text-base font-semibold text-text-primary mb-2">{item.title}</h2>
-            <p className="text-sm text-text-secondary leading-relaxed">{item.body}</p>
+          <div key={item.title} className="rounded-lg border border-border bg-surface p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-text mb-1.5">{item.title}</h2>
+            <p className="text-sm text-subtle leading-relaxed">{item.body}</p>
           </div>
         ))}
       </div>
-
-      <p className="text-xs text-text-secondary leading-relaxed">
-        PasteWise explains documents in plain language. It is not legal, medical or financial advice.
-        Always check important information against the original document.
-      </p>
     </section>
   );
 }

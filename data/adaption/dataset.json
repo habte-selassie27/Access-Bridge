@@ -1,0 +1,3951 @@
+{
+  "datasetId": "31e98ae2-92df-4832-853f-21798ed308c2",
+  "name": "pastewise-seeds",
+  "source": "adaption-translate",
+  "builtAt": "2026-11-08T13:43:42.914Z",
+  "languages": [
+    "en",
+    "am",
+    "om",
+    "ti"
+  ],
+  "rowCount": 100,
+  "rows": [
+    {
+      "language": "am",
+      "seedId": "income-tax-return",
+      "docType": "financial",
+      "sourceText": "የ2025 የግብር ዓመት ዓመታዊ የገቢ ግብር መግለጫዎን እስከ 2026-12-31 ድረስ ያስገቡ። በዘገየ መግባት 1,000 ብር ቅጣት ይጣልብዎታል። መግለጫውን በመስመር ላይ ወይም በገቢዎች ቢሮ ማስገባት ይችላሉ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "የገቢ ግብር መግለጫዎን እስከ 2026-12-31 ድረስ ማስገባት አለብዎት። በዘገየ መግባት ተጨማሪ ወጪ ያስከትላል።",
+        "actions": [
+          {
+            "step": "የገቢ ግብር መግለጫዎን እስከ 2026-12-31 ድረስ ያስገቡ።",
+            "urgent": true
+          },
+          {
+            "step": "በመስመር ላይ ወይም በገቢዎች ቢሮ ያስገቡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የግብር መግለጫ የመጨረሻ ቀን",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "በዘገየ መግባት ቅጣት",
+            "amount": 1000,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "water-bill-disconnection",
+      "docType": "financial",
+      "sourceText": "ናይ ጥቅምቲ ወርሒ 850 ብር ዝኸውን ክፍሊት ማይካ ዘይተኸፍለ ኣሎ። ኣገልግሎት ማይ ድሕሪ 2026-11-20 ይቋረጽ እዩ። ኣብ ዝኾነ ቅርንጫፍ ኮሜርሻል ባንክ ወይ ብ telebirr ክትከፍሉ ትኽእሉ ኢኹም።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "ክፍሊት ማይካ ዘይተኸፍለ ኣሎ። ማይ ድሕሪ 2026-11-20 ይቋረጽ እዩ።",
+        "actions": [
+          {
+            "step": "ቅድሚ 2026-11-20 850 ብር ዝኸውን ክፍሊት ማይ ክፈሉ።",
+            "urgent": true
+          },
+          {
+            "step": "ኣብ ቅርንጫፍ ኮሜርሻል ባንክ ወይ ብ telebirr ክፈሉ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ዕለት ምቁራጽ",
+            "date": "2026-11-20"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ክፍሊት ማይ",
+            "amount": 850,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ሰነድ ክፍሊት ማይ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "court-summons",
+      "docType": "government_notice",
+      "sourceText": "ኣብ 2027-03-03 ሰዓት 9:00 ቅ.ቀ. ኣብ ፌደራል ቀዳማይ ኣብነታዊ ፍርዲ ቤት ሊደታ ክትቀርቡ ኣለኩም። መንነትካ ዘረጋግጽ ሰነድን እዚ ጽዋዕን ሒዝኩም ንበሩ። እንተዘይቀሪብኩም፣ እቲ ፍርዲ ቤት እቲ ጉዳይ ብዘይ ተሳትፎኹም ክውስን ይኽእል እዩ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "ኣብ 2027-03-03 ናብ ፍርዲ ቤት ክትከይዱ ተእዚዝኩም ኣለኹም። ምስካዕካ ከቢድ እዩ።",
+        "actions": [
+          {
+            "step": "ኣብ 2027-03-03 ሰዓት 9:00 ቅ.ቀ. ናብቲ ፍርዲ ቤት ኪዱ።",
+            "urgent": true
+          },
+          {
+            "step": "መንነትካ ዘረጋግጽ ሰነድን እዚ ጽዋዕን ሒዝኩም ንበሩ።",
+            "urgent": true
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ዕለት ፍርዲ",
+            "date": "2027-03-03"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "መንነትካ ዘረጋግጽ ሰነድ",
+          "እዚ ጽዋዕ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "customs-clearance",
+      "docType": "financial",
+      "sourceText": "ጭነቶዎ ወደ ሞጆ ደረቅ ወደብ (Modjo dry port) ገብቷል። የቀን ክፍያ ብር 150 እንዳይከፍሉ እስከ 2026-12-10 ድረስ አጽድቀው። የጭነት ሰነድ (Bill of lading) እና የግብር መለያ ቁጥር ማረጋገጫ (TIN certificate) ያምጡ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "ጭነቶዎ በወደብ ላይ ነው። እስከ 2026-12-10 ድረስ አጽድቀው ወይም ዕለታዊ ክፍያ ይክፈሉ።",
+        "actions": [
+          {
+            "step": "ጭነቶዎን እስከ 2026-12-10 ድረስ አጽድቀው።",
+            "urgent": true
+          },
+          {
+            "step": "የጭነት ሰነድ (Bill of lading) እና የግብር መለያ ቁጥር ማረጋገጫ (TIN certificate) ያምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የማጽደጃ ጊዜ ገደብ",
+            "date": "2026-12-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የቀን የማከማቻ ክፍያ",
+            "amount": 150,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "የጭነት ሰነድ (Bill of lading)",
+          "የግብር መለያ ቁጥር ማረጋገጫ (TIN certificate)"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "property-tax",
+      "docType": "financial",
+      "sourceText": "የቤትዎ የንብረት ቀረጥ ለዚህ ዓመት 1,800 ብር ነው። እስከ 2026-12-31 ድረስ በሰንጠረዥ ቢሮ ይክፈሉ። ቀድሞ የከፈሉበትን ደረሰኝ አምጡ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "እስከ 2026-12-31 ድረስ 1,800 ብር የንብረት ቀረጥ መክፈል አለብዎት።",
+        "actions": [
+          {
+            "step": "እስከ 2026-12-31 ድረስ 1,800 ብር የንብረት ቀረጥ ይክፈሉ።",
+            "urgent": true
+          },
+          {
+            "step": "ቀድሞ የከፈሉበትን ደረሰኝ አምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የክፍያ ጊዜ ገደብ",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የንብረት ቀረጥ",
+            "amount": 1800,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ቀድሞ የከፈሉበት ደረሰኝ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "school-fee-term2",
+      "docType": "school",
+      "sourceText": "Gatiin barnootaa Termii 2 kan kafaltamu Onkololeessa 5, 2026 ti. Hammi guutaa ETB 3,500 ti. Kaffaltii kanaan mana barnootaa keessatti yookiin mobile money'n kaffalaa. Dhugaa dhaloota ijoollee keessanii fi slip kaffaltii fidaa. Kaffaltii yeroo isaatti hin taaneef adabbii ETB 100 dabaluun ni kaffalama.",
+      "explanation": {
+        "docType": "school",
+        "summary": "Gatiin barnootaa Termii 2 Onkololeessa 5, 2026 dura kaffalamuu qaba. Adabbii dabalataa irraa of eeguuf yeroo isaatti kaffalaa.",
+        "actions": [
+          {
+            "step": "Gatii barnootaa Onkololeessa 5, 2026 dura kaffalaa.",
+            "urgent": true
+          },
+          {
+            "step": "Hamma guutaa ETB 3,500 kaffalaa.",
+            "urgent": true
+          },
+          {
+            "step": "Mana barnootaa keessatti yookiin mobile money'n kaffalaa.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Dooddaa kaffaltii",
+            "date": "2026-10-05"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gatii Termii 2",
+            "amount": 3500,
+            "currency": "ETB"
+          },
+          {
+            "label": "Adabbii yeroo darbe",
+            "amount": 100,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Dhugaa dhaloota ijoollee",
+          "Slip kaffaltii"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "income-tax-return",
+      "docType": "financial",
+      "sourceText": "ናይ 2025 ዓመተ-ምሕደር ዓመታዊ መግቢ-እቶት ታክስ ሪፖርትካ ክሳብ 2026-12-31 ኣቕርብ። ግዜ ሓሊፉኻ ምቕራብ ብ ETB 1,000 ይቕጻዕ። ብመስመር (online) ወይ ድማ ኣብ ቤት-ጽሕፈት እቶት ከተቕርቦ ትኽእል ኢኻ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "መግቢ-እቶት ታክስ ሪፖርትካ ክሳብ 2026-12-31 ከተቕርቦ ኣለካ። ግዜ ሓሊፉኻ ምቕራብ ተወሳኺ ክፍሊት የስዕብ።",
+        "actions": [
+          {
+            "step": "መግቢ-እቶት ታክስ ሪፖርትካ ክሳብ 2026-12-31 ኣቕርብ።",
+            "urgent": true
+          },
+          {
+            "step": "ብመስመር (online) ወይ ድማ ኣብ ቤት-ጽሕፈት እቶት ኣቕርቦ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ግዜ-ገደብ ምቕራብ ታክስ",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ቅጽዓት ግዜ ሓሊፉ ምቕራብ",
+            "amount": 1000,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "driving-license-renewal",
+      "docType": "government_notice",
+      "sourceText": "መለለይ ቁጽሪ ፍቓድ መኪናኻ ብ 2027-02-10 ይግደፍ። ኣብ ቤት ጽሕፈት መጓዓዝያ ቦሌ ሓድሶ። እቲ ክፍሊት 600 ኢቲቢ (ETB) እዩ። ናይ ቀደም ፍቓድካ፣ ሰርተፊኬት ጥዕና፣ ከምኡ'ውን ክልተ ስእልታት ምስኻ ኣምጽእ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "መለለይ ቁጽሪ ፍቓድ መኪናኻ ብ 2027-02-10 ይግደፍ። ካብዚ ቅድሚ ምግዳፉ ሓድሶ።",
+        "actions": [
+          {
+            "step": "መለለይ ቁጽሪ ፍቓድ መኪናኻ ቅድሚ 2027-02-10 ሓድሶ።",
+            "urgent": true
+          },
+          {
+            "step": "ናይ ቀደም ፍቓድካ፣ ሰርተፊኬት ጥዕና፣ ከምኡ'ውን ክልተ ስእልታት ምስኻ ኣምጽእ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ግዜ ምግዳፍ ፍቓድ",
+            "date": "2027-02-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ክፍሊት ምሕዳስ",
+            "amount": 600,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ናይ ቀደም ፍቓድ መኪና",
+          "ሰርተፊኬት ጥዕና",
+          "ክልተ ስእልታት"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "land-registration",
+      "docType": "government_notice",
+      "sourceText": "Register your land parcel at the Woreda Land Office by 2027-04-30. The registration fee is ETB 300. Bring the title deed, your ID, and two witnesses.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "You must register your land by 2027-04-30.",
+        "actions": [
+          {
+            "step": "Register your land at the Woreda Land Office by 2027-04-30.",
+            "urgent": true
+          },
+          {
+            "step": "Pay ETB 300 for registration.",
+            "urgent": false
+          },
+          {
+            "step": "Bring the title deed, your ID, and two witnesses.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Registration deadline",
+            "date": "2027-04-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Registration fee",
+            "amount": 300,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Title deed",
+          "ID",
+          "Two witnesses"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "rent-increase",
+      "docType": "financial",
+      "sourceText": "Your monthly rent will increase from ETB 4,000 to ETB 5,000 starting 2027-01-01. Sign the new agreement at the office before 2026-12-25.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "Your rent goes up to ETB 5,000 from 2027-01-01.",
+        "actions": [
+          {
+            "step": "Sign the new rent agreement before 2026-12-25.",
+            "urgent": true
+          },
+          {
+            "step": "Prepare to pay ETB 5,000 per month from 2027-01-01.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Sign agreement by",
+            "date": "2026-12-25"
+          },
+          {
+            "label": "New rent starts",
+            "date": "2027-01-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "New monthly rent",
+            "amount": 5000,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Old rent agreement"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "school-fee-term2",
+      "docType": "school",
+      "sourceText": "ናይ ጥሪ 2 ትምህርታዊ ክፍሊት ክኽፈል ዘለዎ ዕለት 2026-10-05 እዩ። ጠቕላላ መጠን ETB 3,500 እዩ። ኣብ ቤት ጽሕፈት ቤት ትምህርቲ ወይ ብሞባይል ገንዘብ ክትከፍሉ ተኽእሎ ኣሎ። ምስክርነት ልደት ውላድኩምን ፎርም ክፍሊትን ምምጻእ ይግባእ። ደንጒዩ ዝኽፈል ክፍሊት ተወሳኺ ETB 100 ይግበረሉ።",
+      "explanation": {
+        "docType": "school",
+        "summary": "ናይ ጥሪ 2 ትምህርታዊ ክፍሊት ክሳብ 2026-10-05 ክኽፈል ኣለዎ። ተወሳኺ ክፍሊት ንምውጋድ ግዜኡ ምሕላው ኣገዳሲ እዩ።",
+        "actions": [
+          {
+            "step": "ናይ ቤት ትምህርቲ ክፍሊት ክሳብ 2026-10-05 ክትከፍሉ።",
+            "urgent": true
+          },
+          {
+            "step": "ጠቕላላ ETB 3,500 ክትከፍሉ።",
+            "urgent": true
+          },
+          {
+            "step": "ኣብ ቤት ጽሕፈት ቤት ትምህርቲ ወይ ብሞባይል ገንዘብ ክትከፍሉ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ዕለት ክፍሊት",
+            "date": "2026-10-05"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ናይ ጥሪ 2 ክፍሊት",
+            "amount": 3500,
+            "currency": "ETB"
+          },
+          {
+            "label": "ናይ ምድንጓይ ክፍሊት",
+            "amount": 100,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ምስክርነት ልደት ውላድ",
+          "ፎርም ክፍሊት"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "sim-card-registration",
+      "docType": "government_notice",
+      "sourceText": "Kartii SIM kee guutuu galmaa'ee hin jiru. Guyyaa 2027-02-28 dura mana hojii Ethio Telecom kamitti iyyuu waraqaa eenyummaa (ID) qabachuun galmeessi. Yoo hin galmeessin, lakkoofsi sun ni cufama.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Kartiin SIM kee galmaa'ee hin jiru. Guyyaa 2027-02-28 dura galmeessi; yoo ta'e lakkoofsi ni badha.",
+        "actions": [
+          {
+            "step": "Kartii SIM kee guyyaa 2027-02-28 dura galmeessi.",
+            "urgent": true
+          },
+          {
+            "step": "Waraqaa eenyummaa (ID) qabachuun mana hojii Ethio Telecom kamitti iyyuu dhaqi.",
+            "urgent": true
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Duddubbiin galmaa'insa",
+            "date": "2027-02-28"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "ID"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "health-insurance-renewal",
+      "docType": "government_notice",
+      "sourceText": "Your health insurance coverage will expire on 2026-12-15. To keep your benefits, renew by paying ETB 500 before the deadline. Bring your ID card and previous insurance card to the nearest health office. If you miss the deadline, your coverage will stop.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Your health insurance is ending soon. You must renew it to keep your benefits.",
+        "actions": [
+          {
+            "step": "Renew your health insurance before 2026-12-15.",
+            "urgent": true
+          },
+          {
+            "step": "Pay ETB 500 to keep your coverage.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your ID card and insurance card to the health office.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Renewal deadline",
+            "date": "2026-12-15"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Renewal fee",
+            "amount": 500,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ID card",
+          "Previous insurance card"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "food-safety-inspection",
+      "docType": "government_notice",
+      "sourceText": "Your restaurant will be inspected on 2026-11-28. Close the kitchen during the inspection. Have the food handler certificates ready for the inspectors.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Health inspectors visit your restaurant on 2026-11-28.",
+        "actions": [
+          {
+            "step": "Be ready for the inspection on 2026-11-28.",
+            "urgent": true
+          },
+          {
+            "step": "Keep the food handler certificates available.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Inspection date",
+            "date": "2026-11-28"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "Food handler certificates"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "court-summons",
+      "docType": "government_notice",
+      "sourceText": "እርስዎ በ2027-03-03 ቀን ጠዋት 9:00 ሰዓት ሊደታ የመጀመሪያ ደረጃ ፌዴራል ፍርድ ቤት መቅረብ አለብዎት። የመታወቂያ ካርድዎን እና ይህንን የጥሪ ወረቀት አምጡ። ካልቀረቡ ፍርድ ቤቱ ጉዳዩን በእርስዎ አለመገኘት ሊወስን ይችላል።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "በ2027-03-03 ቀን ወደ ፍርድ ቤት እንዲሄዱ ተዘዋውረዋል። መገኘት አለመቻል ከባድ ውጤት አለው።",
+        "actions": [
+          {
+            "step": "በ2027-03-03 ቀን ጠዋት 9:00 ሰዓት ወደ ፍርድ ቤት ይሂዱ።",
+            "urgent": true
+          },
+          {
+            "step": "የመታወቂያ ካርድዎን እና ይህንን የጥሪ ወረቀት አምጡ።",
+            "urgent": true
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የፍርድ ቀን",
+            "date": "2027-03-03"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "የመታወቂያ ካርድ",
+          "ይህ የጥሪ ወረቀት"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "birth-registration",
+      "docType": "government_notice",
+      "sourceText": "Register your child's birth within 90 days. Come to the Woreda civil registry by 2027-01-10. Bring both parents' IDs and the health facility birth record. Registration is free.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "You must register your child's birth by 2027-01-10.",
+        "actions": [
+          {
+            "step": "Register the birth at the Woreda civil registry by 2027-01-10.",
+            "urgent": true
+          },
+          {
+            "step": "Bring both parents' IDs and the birth record.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Registration deadline",
+            "date": "2027-01-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Registration fee",
+            "amount": 0,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Both parents' IDs",
+          "Health facility birth record"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "driving-license-renewal",
+      "docType": "government_notice",
+      "sourceText": "License driving keessan guyyaa 2027-02-10 ni xumurama. Biiroo Geejjibaa Booleetti haaromsaa. Gatii isaa ETB 600 dha. License duraa, ragaa fayyaa, fi suuraa lama fidaa.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "License driving keessan guyyaa 2027-02-10 ni xumurama. Dursee haaromsaa.",
+        "actions": [
+          {
+            "step": "License driving keessan dura 2027-02-10 haaromsaa.",
+            "urgent": true
+          },
+          {
+            "step": "License keessan dura, ragaa fayyaa, fi suuraa lama fidaa.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Yeroo xumurama license",
+            "date": "2027-02-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gatii haaromsaa",
+            "amount": 600,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "License driving duraa",
+          "Ragaa fayyaa",
+          "Suuraa lama"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "lab-result-followup",
+      "docType": "medical",
+      "sourceText": "የደም ምርመራ ውጤትዎ ዝግጁ ነው። የሂሞግሎቢን መጠንዎ ዝቅተኛ ሲሆን 9.5 g/dL ነው። ለቅርብ ጊዜ ተከታታይ ምርመራ በ2026-11-25 ክሊኒኩ ይምጡ። የብረት ታብሌቶች ይሰጣሉ። ጉብኝቱ ነጻ ነው።",
+      "explanation": {
+        "docType": "medical",
+        "summary": "የደም ምርመራዎ ዝቅተኛ ሂሞግሎቢን እንዳለው አሳይቷል። በ2026-11-25 ወደ ክሊኒኩ ይመለሱ።",
+        "actions": [
+          {
+            "step": "ለቅርብ ጊዜ ተከታታይ ምርመራ በ2026-11-25 ክሊኒኩ ይሂዱ።",
+            "urgent": true
+          },
+          {
+            "step": "ስለ ዝቅተኛ ሂሞግሎቢን የብረት ታብሌቶችን ይጠይቁ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የቅርብ ጊዜ ተከታታይ ምርመራ",
+            "date": "2026-11-25"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የጉብኝት ወጪ",
+            "amount": 0,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "የምርመራ ውጤት"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "trade-license-renewal",
+      "docType": "government_notice",
+      "sourceText": "ናይ ንግዲ ፍቓድካ ዝግደብ መዓልቲ 2026-12-31 እዩ። ኣብ ቤት ጽሕፈት ንግዲ ሓድሽ ግበሮ። መጠን እቲ ክፍሊት 1,500 ብር እዩ። ሰርተፊኬት TIN ከምኡውን ነቲ ዝነበረ ፍቓድ ሒዝካ ተመጽእ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "ናይ ንግዲ ፍቓድካ ዝግደብ መዓልቲ 2026-12-31 እዩ። ቅድሚ እታ መዓልቲ ሓድሽ ግበሮ።",
+        "actions": [
+          {
+            "step": "ናይ ንግዲ ፍቓድካ ቅድሚ 2026-12-31 ሓድሽ ግበሮ።",
+            "urgent": true
+          },
+          {
+            "step": "ኣብ ቤት ጽሕፈት ንግዲ 1,500 ብር ከፍል።",
+            "urgent": false
+          },
+          {
+            "step": "ሰርተፊኬት TIN ከምኡውን ነቲ ዝነበረ ፍቓድ ሒዝካ ተመጽእ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ዝግደብ መዓልቲ ፍቓድ",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ክፍሊት ሓደስቲ",
+            "amount": 1500,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ሰርተፊኬት TIN",
+          "ዝነበረ ፍቓድ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "electricity-tariff-change",
+      "docType": "government_notice",
+      "sourceText": "ከ2026-12-01 ጀምሮ አዲስ የኤሌክትሪክ ክፍያ ይተገበራል። በወር ከ50 kWh በታች የሚጠቀሙ ቤተሰቦች ለአንድ kWh ETB 0.60 ይከፍላሉ። ለደንበኞች ምንም ዓይነት እርምጃ መውሰድ አያስፈልግም።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "የኤሌክትሪክ ዋጋ በ2026-12-01 ይቀየራል። ምንም ማድረግ አያስፈልግዎትም።",
+        "actions": [
+          {
+            "step": "ምንም እርምጃ መውሰድ አያስፈልግም። አዲሱ ክፍያ በራስ-ሰር ይተገበራል።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "አዲሱ ክፍያ የሚጀምርበት",
+            "date": "2026-12-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ዋጋ በአንድ kWh",
+            "amount": 0.6,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "bank-kyc-update",
+      "docType": "financial",
+      "sourceText": "ናይ ባንኪ መለለይቲ ሓበሬታኹም ክሳብ 2027-01-15 ዘመንኑ። መለለይቲ ዘየዘመኑ ሒሳባት ይእገዱ። ናይ ከበሌ መንነት ካርዲ ወይ ፓስፖርት ሒዝኩም ናብ ዝኾነ ቅርንጫፍ ተመጽኡ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "ባንኪ ክሳብ 2027-01-15 ዝተዘመነ መንነት ካርዲ ይደሊ። እንተዘይኮይኑ ግን ሒሳብኩም ይእገድ።",
+        "actions": [
+          {
+            "step": "ክሳብ 2027-01-15 ናይ ሒሳብኩም ሓበሬታ ኣዘምኑ።",
+            "urgent": true
+          },
+          {
+            "step": "ናይ ከበሌ መንነት ካርዲ ወይ ፓስፖርት ሒዝኩም ናብ ዝኾነ ቅርንጫፍ ተመጽኡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ግዜ ደረት ምዝማን",
+            "date": "2027-01-15"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "ናይ ከበሌ መንነት ካርዲ ወይ ፓስፖርት"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "employment-termination",
+      "docType": "other",
+      "sourceText": "ስራሕካ/ኪ ብ2027-01-31 ይቋረጽ እዩ። ናይ መወዳእታ ደሞዝካን ናይ ምፍላይ ክፍሊትካን (severance pay) ውሽጢ 30 መዓልታት ይኽፈል እዩ። ናይ ኣገልግሎት ደብዳበኻ (service letter) ንምርካብ ምስ ቤት ጽሕፈት HR ተራኸብ።",
+      "explanation": {
+        "docType": "other",
+        "summary": "ስራሕካ/ኪ ብ2027-01-31 ይቋረጽ እዩ። ናይ መወዳእታ ክፍሊት ድሕሪኡ ውሽጢ 30 መዓልታት ይስዕብ።",
+        "actions": [
+          {
+            "step": "ናይ መወዳእታ መዓልቲ ስራሕካ/ኪ 2027-01-31 እዩ።",
+            "urgent": true
+          },
+          {
+            "step": "ናይ ኣገልግሎት ደብዳበኻ (service letter) ንምርካብ ምስ ቤት ጽሕፈት HR ተራኸብ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ናይ መወዳእታ መዓልቲ ስራሕ",
+            "date": "2027-01-31"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "ናይ ስራሕ ውዕል (Employment contract)"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "medical-appointment",
+      "docType": "medical",
+      "sourceText": "ኣብ 2027-01-20 ሰዓት 10:00 ቅ.ቐ. ኣብ ሆስፒታል ሲቲ ጀነራል፣ ክፍሊ 304 ሕክምናዊ መደብ ኣለኩም። 15 ደቒቕ ቅድሚ ሰዓት ክትመጹ ይግባእ። መለለዪ ተሓካሚ፣ ካርድ መድሕን፣ ከምኡውን ዝርዝር ዝኾኑ መድሃኒታት ምሳኹም ኣምጽኡ። ዋጋ እቲ ምብጻሕ 200 ብር (ETB) እዩ። ክትመጹ እንተዘይክኢልኩም፣ ንምቕያር ቁጽሪ 0911 222 333 ደውሉ።",
+      "explanation": {
+        "docType": "medical",
+        "summary": "ኣብ 2027-01-20 ምስ ሓኪም ዝግበር መደብ ኣለኩም። ቅድሚ ሰዓት ኪዱ፣ ፅሑፋትኩም ድማ ምሳኹም ኣምጽኡ።",
+        "actions": [
+          {
+            "step": "ኣብ 2027-01-20 ሰዓት 10:00 ቅ.ቐ. ናብቲ መደብኩም ኪዱ።",
+            "urgent": true
+          },
+          {
+            "step": "15 ደቒቕ ቅድሚ ሰዓት ኪዱ።",
+            "urgent": false
+          },
+          {
+            "step": "መለለዪ ተሓካሚ፣ ካርድ መድሕን፣ ከምኡውን ዝርዝር መድሃኒታት ምሳኹም ኣምጽኡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ዕለት መደብ",
+            "date": "2027-01-20"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ክፍሊት ምብጻሕ",
+            "amount": 200,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "መለለዪ ተሓካሚ",
+          "ካርድ መድሕን",
+          "ዝርዝር መድሃኒታት"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "rent-increase",
+      "docType": "financial",
+      "sourceText": "Gatiin kiree torbaan sii baasaa jalqabee 2027-01-01 irraa gara ETB 5,000tti ni dabala. Waltaatii haaraa kana waajjira keessatti guyyaa 2026-12-25 dura mallatteessi.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "Gatiin kiree kee jalqabee 2027-01-01 gara ETB 5,000tti ni dabala.",
+        "actions": [
+          {
+            "step": "Waltaatii kiree haaraa guyyaa 2026-12-25 dura mallatteessi.",
+            "urgent": true
+          },
+          {
+            "step": "Jalqabee 2027-01-01 baatii tokkoo irrif ETB 5,000 kaffaluuf qophaa'i.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Waltaatii mallatteessi",
+            "date": "2026-12-25"
+          },
+          {
+            "label": "Kireen haaraan eegala",
+            "date": "2027-01-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gatii kiree torbaan sii baasaa haaraa",
+            "amount": 5000,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Waltaatii kiree duraanii"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "medical-appointment",
+      "docType": "medical",
+      "sourceText": "You have a medical appointment on 2027-01-20 at 10:00 AM at City General Hospital, Room 304. Please arrive 15 minutes early. Bring your patient ID, insurance card, and a list of current medications. The visit costs ETB 200. If you cannot come, call 0911 222 333 to reschedule.",
+      "explanation": {
+        "docType": "medical",
+        "summary": "You have a doctor's appointment on 2027-01-20. Arrive early and bring your papers.",
+        "actions": [
+          {
+            "step": "Go to your appointment on 2027-01-20 at 10:00 AM.",
+            "urgent": true
+          },
+          {
+            "step": "Arrive 15 minutes early.",
+            "urgent": false
+          },
+          {
+            "step": "Bring your patient ID, insurance card, and medication list.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Appointment date",
+            "date": "2027-01-20"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Visit fee",
+            "amount": 200,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Patient ID",
+          "Insurance card",
+          "Medication list"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "property-tax",
+      "docType": "financial",
+      "sourceText": "ናይ ገዛኻ ዓመታዊ ካልእ ግብሪ (Property tax) 1,800 ብር እዩ። ክሳብ 2026-12-31 ኣብ ቤት ጽሕፈት ምምሕዳር ከተኽፍሎ ይግባእ። ናይ ቅድሚ ሕጂ ክፍሊት ዝርኢ ረሲት ምምጻእ ኣይትረስዕ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "ክሳብ 2026-12-31 1,800 ብር ካልእ ግብሪ ክትከፍል ይግባእ።",
+        "actions": [
+          {
+            "step": "ክሳብ 2026-12-31 1,800 ብር ካልእ ግብሪ ክፈል።",
+            "urgent": true
+          },
+          {
+            "step": "ናይ ቅድሚ ሕጂ ክፍሊት ዝርኢ ረሲት ምምጻእ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ግዜ ክፍሊት",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ካልእ ግብሪ",
+            "amount": 1800,
+            "currency": "ብር"
+          }
+        ],
+        "documentsToBring": [
+          "ናይ ቅድሚ ሕጂ ክፍሊት ዝርኢ ረሲት"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "property-tax",
+      "docType": "financial",
+      "sourceText": "Gibii lafa mana keetii bara kanaa ETB 1,800 dha. Gaafa 2026-12-31 dura waajjira bulchiinsa magaalaa keessatti kaffalaa. Resiiti kaffaltii duraanii guutee dhufaa.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "Gaafa 2026-12-31 dura gibii lafa ETB 1,800 kaffaluun dirqama si ta'a.",
+        "actions": [
+          {
+            "step": "Gaafa 2026-12-31 dura gibii lafa ETB 1,800 kaffalaa.",
+            "urgent": true
+          },
+          {
+            "step": "Resiiti kaffaltii duraanii guutee dhufaa.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Duddubbi kaffaltii",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gibii lafa",
+            "amount": 1800,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Resiiti kaffaltii duraanii"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "water-bill-disconnection",
+      "docType": "financial",
+      "sourceText": "Herrega bishaanii kee kan ETB 850 Waxabajjii (October) kafaltamee hin jiru. Tajaajilli bishaanii guyyaa 2026-11-20 booda addaan kutama. Baankii Daldalaa kamiyyuu ykn telebirr'n kaffalu dandeessa.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "Herrega bishaanii kee kafaltamee hin jiru. Bishaan guyyaa 2026-11-20 booda addaan kuta.",
+        "actions": [
+          {
+            "step": "Herrega bishaanii ETB 850 guyyaa 2026-11-20 dura kaffali.",
+            "urgent": true
+          },
+          {
+            "step": "Baankii Daldalaa kamiyyuu ykn telebirr'n kaffali.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Guyyaa addaan kutaa",
+            "date": "2026-11-20"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Herrega bishaanii",
+            "amount": 850,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Herrega bishaanii"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "employment-termination",
+      "docType": "other",
+      "sourceText": "የስራ ውልዎ በ2027-01-31 ያበቃል። የመጨረሻ ደመወዝዎ እና የስራ አቋረጥ ክፍያዎ በ30 ቀናት ውስጥ ይከፈላል። ለአገልግሎት ማስረጃ ደብዳቤ የሰው ኃይል አስተዳደር (HR) ቢሮን ያግኙ።",
+      "explanation": {
+        "docType": "other",
+        "summary": "ስራዎ በ2027-01-31 ያበቃል። የመጨረሻ ክፍያ በ30 ቀናት ውስጥ ይከተላል።",
+        "actions": [
+          {
+            "step": "የመጨረሻ የስራ ቀንዎ 2027-01-31 ነው።",
+            "urgent": true
+          },
+          {
+            "step": "ለአገልግሎት ማስረጃ ደብዳቤ የሰው ኃይል አስተዳደር (HR) ቢሮን ያግኙ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የመጨረሻ የስራ ቀን",
+            "date": "2027-01-31"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "የስራ ውል"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "kebele-id-replacement",
+      "docType": "government_notice",
+      "sourceText": "ID kebele keessan yeroo isaa darbeera. Gaaffii kan haaraa dhiyeessuuf waajjira Woreda 03tti haa dhufan; guyyaan xumuraa 2026-11-30 dha. Gatii isaa Birrii 50 ta'a. ID durii fi suuraa passport lama fudhadhaa dhufaa.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "ID kebele keessan yeroo isaa darbeera. ID haaraa argachuuf guyyaa 2026-11-30 dura qophii gochuu qabdu.",
+        "actions": [
+          {
+            "step": "ID kebele haaraa argachuuf guyyaa 2026-11-30 dura iyyannoo dhiyessaa.",
+            "urgent": true
+          },
+          {
+            "step": "Waajjirichatti Birrii 50 kaffalaa.",
+            "urgent": false
+          },
+          {
+            "step": "ID kee durii fi suuraa passport lama fudhadhaa dhufaa.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Yeroo xumuraa iyyannoo",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gatii ID",
+            "amount": 50,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ID durii",
+          "Suuraa passport lama"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "university-admission",
+      "docType": "school",
+      "sourceText": "ወደ ባህር ዳር ዩኒቨርሲቲ በምህንድስና መርሃ ግብር ተቀባይነት አግኝተዋል። የ12ኛ ክፍል ውጤትዎን፣ መታወቂያዎን እና የህክምና ማረጋገጫዎን ይዘው በ2026-12-01 ይመዝገቡ። የምዝገባ ክፍያው 200 ብር ነው።",
+      "explanation": {
+        "docType": "school",
+        "summary": "ወደ ዩኒቨርሲቲ ተቀባይነት አግኝተዋል። ሰነዶችዎን ይዘው በ2026-12-01 ይመዝገቡ።",
+        "actions": [
+          {
+            "step": "በ2026-12-01 ወደ ባህር ዳር ዩኒቨርሲቲ ይመዝገቡ።",
+            "urgent": true
+          },
+          {
+            "step": "የ200 ብር የምዝገባ ክፍያ ይክፈሉ።",
+            "urgent": false
+          },
+          {
+            "step": "የ12ኛ ክፍል ውጤትዎን፣ መታወቂያዎን እና የህክምና ማረጋገጫዎን ያምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የምዝገባ ቀን",
+            "date": "2026-12-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የምዝገባ ክፍያ",
+            "amount": 200,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "የ12ኛ ክፍል ውጤት",
+          "መታወቂያ",
+          "የህክምና ማረጋገጫ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "court-summons",
+      "docType": "government_notice",
+      "sourceText": "You must appear at the Federal First Instance Court in Lideta on 2027-03-03 at 9:00 AM. Bring your ID and this summons. If you do not appear, the court may decide the case without you.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "You are ordered to go to court on 2027-03-03. Missing it is serious.",
+        "actions": [
+          {
+            "step": "Go to the court on 2027-03-03 at 9:00 AM.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your ID and this summons.",
+            "urgent": true
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Court date",
+            "date": "2027-03-03"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "ID",
+          "This summons"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "customs-clearance",
+      "docType": "financial",
+      "sourceText": "Geejjibni keessan Modjo dry port gahee jira. Gatii kuusaa guyyaa tokkoo ETB 150 ta'u irraa of qusachuuf bara 2026-12-10 dura baasaa. Bill of lading fi certificate TIN keessan fagaa.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "Geejjibni keessan mindeera jira. Bara 2026-12-10 dura baasi ykn guyyaa guyyaan gatii kuusaa kaffali.",
+        "actions": [
+          {
+            "step": "Geejjiba keessan bara 2026-12-10 dura baasi.",
+            "urgent": true
+          },
+          {
+            "step": "Bill of lading fi certificate TIN fagaa.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Dhimmamuu",
+            "date": "2026-12-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gatii kuusaa guyyaa tokkoo",
+            "amount": 150,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Bill of lading",
+          "Certificate TIN"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "university-admission",
+      "docType": "school",
+      "sourceText": "You are admitted to Bahir Dar University in the Engineering program. Report on 2026-12-01 with your grade 12 result, ID, and medical certificate. The registration fee is ETB 200.",
+      "explanation": {
+        "docType": "school",
+        "summary": "You are admitted to university. Report on 2026-12-01 with your papers.",
+        "actions": [
+          {
+            "step": "Report to Bahir Dar University on 2026-12-01.",
+            "urgent": true
+          },
+          {
+            "step": "Pay the ETB 200 registration fee.",
+            "urgent": false
+          },
+          {
+            "step": "Bring your grade 12 result, ID, and medical certificate.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Reporting date",
+            "date": "2026-12-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Registration fee",
+            "amount": 200,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Grade 12 result",
+          "ID",
+          "Medical certificate"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "kebele-id-replacement",
+      "docType": "government_notice",
+      "sourceText": "መንነት ካርድ ከበሌኻ ኣይግባእን እዩ። ክሳብ 2026-11-30 ኣብ ጽሕፈት ቤት ወረዳ 03 ንሓድሽ መንነት ካርድ ኣመልክት። እቲ ክፍሊት 50 ኢትዮጵያዊ ብር እዩ። ነቲ ዝነበረካ መንነት ካርድን ክልተ ፓስፖርት ምስልን ምሳኻ ኣምጽእ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "መንነት ካርድ ከበሌኻ ኣይግባእን እዩ። ክሳብ 2026-11-30 ሓድሽ መንነት ካርድ የድልየካ እዩ።",
+        "actions": [
+          {
+            "step": "ክሳብ 2026-11-30 ንሓድሽ መንነት ካርድ ከበሌ ኣመልክት።",
+            "urgent": true
+          },
+          {
+            "step": "ኣብቲ ጽሕፈት ቤት 50 ኢትዮጵያዊ ብር ክፈል።",
+            "urgent": false
+          },
+          {
+            "step": "ነቲ ዝነበረካ መንነት ካርድን ክልተ ፓስፖርት ምስልን ምሳኻ ኣምጽእ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ግዜ ደረት ምምልካት",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ክፍሊት መንነት ካርድ",
+            "amount": 50,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ዝነበረ መንነት ካርድ",
+          "ክልተ ፓስፖርት ምስልታት"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "kebele-id-replacement",
+      "docType": "government_notice",
+      "sourceText": "Your kebele ID card has expired. Apply for a new one at the Woreda 03 office by 2026-11-30. The fee is ETB 50. Bring your old ID and two passport photos.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Your kebele ID has expired. You need a new one before 2026-11-30.",
+        "actions": [
+          {
+            "step": "Apply for a new kebele ID before 2026-11-30.",
+            "urgent": true
+          },
+          {
+            "step": "Pay ETB 50 at the office.",
+            "urgent": false
+          },
+          {
+            "step": "Bring your old ID and two passport photos.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Application deadline",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ID fee",
+            "amount": 50,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Old ID",
+          "Two passport photos"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "medical-appointment",
+      "docType": "medical",
+      "sourceText": "Ati appointment fayyaa guyyaa 2027-01-20 sa'aa 10:00 AM Hospitaala Waliigalaa Magaalaa, Cufaa 304 qabda. Dakiiqaa 15 dura ga'uun barbaachisaa dha. ID dhukkubsataa, kaardii insiiraansii, fi tarree qoricha amma fudhachaa jirtu qabadhu. Gatii daawwannichaa ETB 200 dha. Yoo dhufuu hin dandeenye, bilbilaa 0911 222 333 irratti bilbiluun yeroo jijjiirachuuf gaafadhu.",
+      "explanation": {
+        "docType": "medical",
+        "summary": "Appointment doktarraa guyyaa 2027-01-20 qabda. Yeroo dura ga'i, waraqoota kees qabadhu.",
+        "actions": [
+          {
+            "step": "Appointment kee guyyaa 2027-01-20 sa'aa 10:00 AM dhaqi.",
+            "urgent": true
+          },
+          {
+            "step": "Dakiiqaa 15 dura ga'i.",
+            "urgent": false
+          },
+          {
+            "step": "ID dhukkubsataa, kaardii insiiraansii, fi tarree qorichaa qabadhu.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Guyyaa appointment",
+            "date": "2027-01-20"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gatii daawwannaa",
+            "amount": 200,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ID Dhukkubsataa",
+          "Kaardii Insiiraansii",
+          "Tarree Qorichaa"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "child-vaccination",
+      "docType": "medical",
+      "sourceText": "ልጅዎ በ2026-12-05 በጤና ማዕከሉ የሽብሪ ክትባት ማድረግ አለበት። የልጁን የክትባት ካርድ ይዘው ይምጡ። ክትባቱ ነፃ ነው።",
+      "explanation": {
+        "docType": "medical",
+        "summary": "ልጅዎ በ2026-12-05 የሽብሪ ክትባት ማድረግ አለበት።",
+        "actions": [
+          {
+            "step": "ልጅዎን ለሽብሪ ክትባት በ2026-12-05 ይውሰዱ።",
+            "urgent": true
+          },
+          {
+            "step": "የክትባት ካርዱን ይዘው ይምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የክትባት ቀን",
+            "date": "2026-12-05"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "የክትባት ካርድ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "property-tax",
+      "docType": "financial",
+      "sourceText": "Property tax for your house is ETB 1,800 for this year. Pay at the municipality office by 2026-12-31. Bring the previous payment receipt.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "You owe ETB 1,800 in property tax by 2026-12-31.",
+        "actions": [
+          {
+            "step": "Pay ETB 1,800 property tax by 2026-12-31.",
+            "urgent": true
+          },
+          {
+            "step": "Bring the previous payment receipt.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Payment deadline",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Property tax",
+            "amount": 1800,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Previous payment receipt"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "rent-increase",
+      "docType": "financial",
+      "sourceText": "የወርሃዊ ኪራዎ ከ2027-01-01 ጀምሮ ከETB 4,000 ወደ ETB 5,000 ይጨምራል። አዲሱን ስምምነት ከ2026-12-25 በፊት በጽህፈት ቤቱ ይፈርሙ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "ኪራዎ ከ2027-01-01 ጀምሮ ወደ ETB 5,000 ይጨምራል።",
+        "actions": [
+          {
+            "step": "አዲሱን የኪራይ ስምምነት ከ2026-12-25 በፊት ይፈርሙ።",
+            "urgent": true
+          },
+          {
+            "step": "ከ2027-01-01 ጀምሮ በወር ETB 5,000 ለመክፈል ይዘጋጁ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ስምምነቱን የሚፈርሙበት",
+            "date": "2026-12-25"
+          },
+          {
+            "label": "አዲስ ኪራይ የሚጀምርበት",
+            "date": "2027-01-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "አዲስ ወርሃዊ ኪራይ",
+            "amount": 5000,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "የቀድሞ የኪራይ ስምምነት"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "land-registration",
+      "docType": "government_notice",
+      "sourceText": "የመሬት ክፍልዎን እስከ 2027-04-30 ድረስ በወረዳ የመሬት ጽህፈት ቤት ያስመዝግቡ። የምዝገባ ክፍያው 300 ብር ነው። የመሬት ማረጋገጫውን፣ የመታወቂያዎን እና ሁለት ምስክሮችን ያምጡ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "መሬትዎን እስከ 2027-04-30 ድረስ ማስመዝገብ አለብዎት።",
+        "actions": [
+          {
+            "step": "መሬትዎን እስከ 2027-04-30 ድረስ በወረዳ የመሬት ጽህፈት ቤት ያስመዝግቡ።",
+            "urgent": true
+          },
+          {
+            "step": "ለምዝገባው 300 ብር ይክፈሉ።",
+            "urgent": false
+          },
+          {
+            "step": "የመሬት ማረጋገጫውን፣ የመታወቂያዎን እና ሁለት ምስክሮችን ያምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የምዝገባ የመጨረሻ ቀን",
+            "date": "2027-04-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የምዝገባ ክፍያ",
+            "amount": 300,
+            "currency": "ብር"
+          }
+        ],
+        "documentsToBring": [
+          "የመሬት ማረጋገጫ",
+          "መታወቂያ",
+          "ሁለት ምስክሮች"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "trade-license-renewal",
+      "docType": "government_notice",
+      "sourceText": "Your business trade license expires on 2026-12-31. Renew it at the Trade Bureau. The fee is ETB 1,500. Bring your TIN certificate and the old license.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Your trade license expires on 2026-12-31. Renew it before then.",
+        "actions": [
+          {
+            "step": "Renew your trade license before 2026-12-31.",
+            "urgent": true
+          },
+          {
+            "step": "Pay ETB 1,500 at the Trade Bureau.",
+            "urgent": false
+          },
+          {
+            "step": "Bring your TIN certificate and old license.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "License expiry",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Renewal fee",
+            "amount": 1500,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "TIN certificate",
+          "Old license"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "sim-card-registration",
+      "docType": "government_notice",
+      "sourceText": "ሲም ካርድኩም ብምሉኡ ኣይተመዝገበን። ክሳብ 2027-02-28 ብመንነት ካርድኩም ኣብ ዝኾነ ቤት ጽሕፈት ኢትዮ ቴሌኮም ተመዝገቡ። እንተዘይተመዝጊብኩም፣ እቲ ቁጽሪ ይእገድ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "ሲም ካርድኩም ኣይተመዝገበን። ክሳብ 2027-02-28 ወይስ እቲ ቁጽሪ ክትስእንዎ ኢኹም።",
+        "actions": [
+          {
+            "step": "ሲም ካርድኩም ክሳብ 2027-02-28 ተመዝገቡ።",
+            "urgent": true
+          },
+          {
+            "step": "መንነት ካርድኩም ሒዝኩም ናብ ዝኾነ ቤት ጽሕፈት ኢትዮ ቴሌኮም ኪዱ።",
+            "urgent": true
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ወሰን ግዜ ምምዝጋብ",
+            "date": "2027-02-28"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "መንነት ካርድ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "medical-appointment",
+      "docType": "medical",
+      "sourceText": "እርስዎ በ2027-01-20 ቀን ጠዋት 10:00 ሰዓት ላይ በሲቲ ጄነራል ሆስፒታል፣ ክፍል 304 የህክምና ቀጠሮ አለዎት። እባክዎ 15 ደቂቃ ቀድመው ይድረሱ። የታካሚ መታወቂያዎን፣ የኢንሹራንስ ካርድዎን እና የአሁኑን የመድኃኒት ዝርዝር ያምጡ። የጉብኝቱ ዋጋ 200 ብር ነው። መምጣት ካልቻሉ፣ እንደገና ለመቅጠር 0911 222 333 ይደውሉ።",
+      "explanation": {
+        "docType": "medical",
+        "summary": "በ2027-01-20 ቀን የሐኪም ቀጠሮ አለዎት። ቀድመው ይድረሱ እና ሰነዶችዎን ያምጡ።",
+        "actions": [
+          {
+            "step": "በ2027-01-20 ቀን ጠዋት 10:00 ሰዓት ላይ ወደ ቀጠሮዎ ይሂዱ።",
+            "urgent": true
+          },
+          {
+            "step": "15 ደቂቃ ቀድመው ይድረሱ።",
+            "urgent": false
+          },
+          {
+            "step": "የታካሚ መታወቂያዎን፣ የኢንሹራንስ ካርድዎን እና የመድኃኒት ዝርዝርዎን ያምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የቀጠሮ ቀን",
+            "date": "2027-01-20"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የጉብኝት ክፍያ",
+            "amount": 200,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "የታካሚ መታወቂያ",
+          "የኢንሹራንስ ካርድ",
+          "የመድኃኒት ዝርዝር"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "school-fee-term2",
+      "docType": "school",
+      "sourceText": "የ2ኛ ዓመት ክፍለ ጊዜ የትምህርት ክፍያ የመጨረሻ ቀን 2026-10-05 ነው። አጠቃላይ መጠኑ 3,500 ብር ነው። እባክዎ በትምህርት ቤቱ ጽህፈት ቤት ወይም በሞባይል ገንዘብ ይክፈሉ። የልጅዎን የልደት ምስክር ወረቀት እና የክፍያ ፎርም ይዘው ይምጡ። በጊዜው ያልተከፈለ ክፍያ ተጨማሪ 100 ብር ይጣልበታል።",
+      "explanation": {
+        "docType": "school",
+        "summary": "የ2ኛ ዓመት ክፍለ ጊዜ የትምህርት ክፍያ እስከ 2026-10-05 መከፈል አለበት። ተጨማሪ ክፍያን ለማስወገድ በጊዜው ይክፈሉ።",
+        "actions": [
+          {
+            "step": "የትምህርት ክፍያውን እስከ 2026-10-05 ይክፈሉ።",
+            "urgent": true
+          },
+          {
+            "step": "አጠቃላይ 3,500 ብር ይክፈሉ።",
+            "urgent": true
+          },
+          {
+            "step": "በትምህርት ቤቱ ጽህፈት ቤት ወይም በሞባይል ገንዘብ ይክፈሉ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የክፍያ የመጨረሻ ቀን",
+            "date": "2026-10-05"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የ2ኛ ዓመት ክፍለ ጊዜ ክፍያ",
+            "amount": 3500,
+            "currency": "ETB"
+          },
+          {
+            "label": "የዘግይቶ ክፍያ",
+            "amount": 100,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "የልጁ የልደት ምስክር ወረቀት",
+          "የክፍያ ፎርም"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "sim-card-registration",
+      "docType": "government_notice",
+      "sourceText": "የሲም ካርድዎ ሙሉ በሙሉ አልተመዘገበም። እስከ 2027-02-28 ድረስ በማንኛውም የኢትዮ ቴሌኮም ቅርንጫፍ በመታወቂያዎ ያስመዝግቡት። ካላስመዘገቡት ቁጥሩ ይታገዳል።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "የሲም ካርድዎ አልተመዘገበም። እስከ 2027-02-28 ድረስ ያስመዝግቡት ወይም ቁጥሩን ያጣሉ።",
+        "actions": [
+          {
+            "step": "የሲም ካርድዎን እስከ 2027-02-28 ድረስ ያስመዝግቡ።",
+            "urgent": true
+          },
+          {
+            "step": "መታወቂያዎን ይዘው ወደ ማንኛውም የኢትዮ ቴሌኮም ቅርንጫፍ ይምጡ።",
+            "urgent": true
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የምዝገባ ጊዜ ገደብ",
+            "date": "2027-02-28"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "መታወቂያ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "school-fee-term2",
+      "docType": "school",
+      "sourceText": "School fees for Term 2 are due on 2026-10-05. The total amount is ETB 3,500. Please pay at the school office or via mobile money. Bring your child's birth certificate and the payment slip. Late payments will be charged ETB 100 extra.",
+      "explanation": {
+        "docType": "school",
+        "summary": "Term 2 school fees must be paid by 2026-10-05. Pay on time to avoid an extra charge.",
+        "actions": [
+          {
+            "step": "Pay the school fees by 2026-10-05.",
+            "urgent": true
+          },
+          {
+            "step": "Pay the total of ETB 3,500.",
+            "urgent": true
+          },
+          {
+            "step": "Pay at the school office or by mobile money.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Fee deadline",
+            "date": "2026-10-05"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Term 2 fees",
+            "amount": 3500,
+            "currency": "ETB"
+          },
+          {
+            "label": "Late fee",
+            "amount": 100,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Child's birth certificate",
+          "Payment slip"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "university-admission",
+      "docType": "school",
+      "sourceText": "Ati Yunivarsiitii Bahir Daahir saagalee Injinarummaa keessatti qabamte. Butee 2026-12-01 bu'aa kutaa 12, ID fi ragaa fayyaa kee qabachuun gabaasi. Karoora galmaa'iinsaa Birrii 200 dha.",
+      "explanation": {
+        "docType": "school",
+        "summary": "Ati yunivarsiitii keessatti qabamte. Butee 2026-12-01 waraqaa kee qabachuun gabaasi.",
+        "actions": [
+          {
+            "step": "Butee 2026-12-01 Yunivarsiitii Bahir Daahir gabaasi.",
+            "urgent": true
+          },
+          {
+            "step": "Karoora galmaa'iinsaa Birrii 200 kaffali.",
+            "urgent": false
+          },
+          {
+            "step": "Bu'aa kutaa 12, ID fi ragaa fayyaa kee fudhadhu.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Guyyaa gabaasaa",
+            "date": "2026-12-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Karoora galmaa'iinsaa",
+            "amount": 200,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Bu'aa kutaa 12",
+          "ID",
+          "Ragaa fayyaa"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "lab-result-followup",
+      "docType": "medical",
+      "sourceText": "Your blood test result is ready. Your hemoglobin is low at 9.5 g/dL. Come to the clinic on 2026-11-25 for a follow-up visit. Iron tablets will be given. The visit is free.",
+      "explanation": {
+        "docType": "medical",
+        "summary": "Your blood test shows low hemoglobin. Go back to the clinic on 2026-11-25.",
+        "actions": [
+          {
+            "step": "Go to the clinic for a follow-up on 2026-11-25.",
+            "urgent": true
+          },
+          {
+            "step": "Ask about iron tablets for low hemoglobin.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Follow-up visit",
+            "date": "2026-11-25"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Visit cost",
+            "amount": 0,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Test result"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "electricity-tariff-change",
+      "docType": "government_notice",
+      "sourceText": "New electricity tariffs apply from 2026-12-01. Households using less than 50 kWh per month will pay ETB 0.60 per kWh. No action is required from customers.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Electricity prices change on 2026-12-01. You do not need to do anything.",
+        "actions": [
+          {
+            "step": "No action is required. The new tariff applies automatically.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "New tariff starts",
+            "date": "2026-12-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Price per kWh",
+            "amount": 0.6,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "kebele-id-replacement",
+      "docType": "government_notice",
+      "sourceText": "የከበሌ መታወቂያ ካርድዎ ጊዜው አልፏል። እስከ 2026-11-30 ድረስ አዲስ መታወቂያ ለማውጣት ወረዳ 03 ጽ/ቤት ያመልክቱ። ክፍያው 50 ብር ነው። አሮጌ መታወቂያዎን እና ሁለት የፓስፖርት መጠን ፎቶዎችን ይዘው ይምጡ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "የከበሌ መታወቂያዎ ጊዜው አልፏል። እስከ 2026-11-30 ድረስ አዲስ መታወቂያ ማውጣት አለብዎት።",
+        "actions": [
+          {
+            "step": "እስከ 2026-11-30 ድረስ አዲስ የከበሌ መታወቂያ ያመልክቱ።",
+            "urgent": true
+          },
+          {
+            "step": "በጽ/ቤቱ 50 ብር ይክፈሉ።",
+            "urgent": false
+          },
+          {
+            "step": "አሮጌ መታወቂያዎን እና ሁለት የፓስፖርት መጠን ፎቶዎችን ይዘው ይምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የማመልከቻ ጊዜ ገደብ",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የመታወቂያ ክፍያ",
+            "amount": 50,
+            "currency": "ብር"
+          }
+        ],
+        "documentsToBring": [
+          "አሮጌ መታወቂያ",
+          "ሁለት የፓስፖርት መጠን ፎቶዎች"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "microfinance-installment",
+      "docType": "financial",
+      "sourceText": "Kaffaltii liqaa keessan ETB 1,200 bara 2026-11-30 irra ga'a. Kaffaltii yeroo duubatti harkisuun torbaanitti ETB 60 dabala. Baankii keessatti ykn telebirr'n kaffalaa.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "Kaffaltii liqaa ETB 1,200 bara 2026-11-30 kaffaluun isin irra jira.",
+        "actions": [
+          {
+            "step": "ETB 1,200 bara 2026-11-30 kaffalaa.",
+            "urgent": true
+          },
+          {
+            "step": "Baankii keessatti ykn telebirr'n kaffalaa.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Yeroo kaffaltii",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Kaffaltii torbaanleen",
+            "amount": 1200,
+            "currency": "ETB"
+          },
+          {
+            "label": "Gatii kaffaltii yeroo duubatti harkisuuf torbaanitti",
+            "amount": 60,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Kitaba liqaa"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "birth-registration",
+      "docType": "government_notice",
+      "sourceText": "Dhaloota ijoollee keessan guyyaa 90 keessatti galmeessisaa. Gaafa 2027-01-10tti waajjira galmeessa naannoo (Woreda civil registry) dhufaa. Waraqaa eenyummaa abbaa fi haadhaa lamaanii fi galmee dhaloota bu'uuraalee fayyaa irraa kenname fudhadhaa. Galmeessiin kun bilisa.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Dhaloota ijoollee keessan gaafa 2027-01-10tti galmeessisuun dirqama.",
+        "actions": [
+          {
+            "step": "Dhaloota gaafa 2027-01-10tti waajjira galmeessa naannoo (Woreda civil registry) keessatti galmeessisaa.",
+            "urgent": true
+          },
+          {
+            "step": "Waraqaa eenyummaa abbaa fi haadhaa lamaanii fi galmee dhalootaa fudhadhaa.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Doodaa galmeessii",
+            "date": "2027-01-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Kaffaltii galmeessii",
+            "amount": 0,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Waraqaa eenyummaa abbaa fi haadhaa lamaanii",
+          "Galmee dhaloota bu'uuraalee fayyaa irraa kenname"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "tvet-enrollment",
+      "docType": "school",
+      "sourceText": "Galmee sagantaa TVET kan xumuramu 2026-11-30 dha. Gatii isaa baatii tokkoof ETB 400 dha. Asii fi sertifiketii kutaa 10 faa waajjira kooljiiitti fidaa.",
+      "explanation": {
+        "docType": "school",
+        "summary": "Galmee TVET 2026-11-30tti ni xumurama.",
+        "actions": [
+          {
+            "step": "Sagantaa TVET keessatti 2026-11-30 dura galmaa'i.",
+            "urgent": true
+          },
+          {
+            "step": "Asii fi sertifiketii kutaa 10 faa fidaa.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Galmee ni xumurama",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gatii baatii",
+            "amount": 400,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Sertifiketii kutaa 10",
+          "Asii"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "child-vaccination",
+      "docType": "medical",
+      "sourceText": "Your child needs the measles vaccine on 2026-12-05 at the health center. Bring the child's vaccination card. The vaccine is free.",
+      "explanation": {
+        "docType": "medical",
+        "summary": "Your child needs a measles vaccine on 2026-12-05.",
+        "actions": [
+          {
+            "step": "Take your child for the measles vaccine on 2026-12-05.",
+            "urgent": true
+          },
+          {
+            "step": "Bring the vaccination card.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Vaccination date",
+            "date": "2026-12-05"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "Vaccination card"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "water-bill-disconnection",
+      "docType": "financial",
+      "sourceText": "የጥቅምት ወር የውሃ ቢልዎ የETB 850 አልተከፈለም። አገልግሎቱ ከ2026-11-20 በኋላ ይቋረጣል። በማንኛውም የCommercial Bank ቅርንጫፍ ወይም በtelebirr ይክፈሉ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "የውሃ ቢልዎ አልተከፈለም። ውሃው ከ2026-11-20 በኋላ ይቋረጣል።",
+        "actions": [
+          {
+            "step": "የውሃ ቢሉን የETB 850 ከ2026-11-20 በፊት ይክፈሉ።",
+            "urgent": true
+          },
+          {
+            "step": "በCommercial Bank ቅርንጫፍ ወይም በtelebirr ይክፈሉ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የመቋረጫ ቀን",
+            "date": "2026-11-20"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የውሃ ቢል",
+            "amount": 850,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "የውሃ ቢል"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "bank-kyc-update",
+      "docType": "financial",
+      "sourceText": "የባንክ ሂሳብ መረጃዎን እስከ 2027-01-15 ድረስ ያዘምኑ። ማንነትን የሚያረጋግጥ ሰነድ ያልተዘመነባቸው ሂሳቦች ይታገዳሉ። የከበሌ መታወቂያዎን ወይም ፓስፖርትዎን ይዘው ወደ ማንኛውም ቅርንጫፍ ይምጡ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "ባንኩ እስከ 2027-01-15 ድረስ የተዘመነ መታወቂያዎን ይፈልጋል። አለበለዚያ ሂሳቡ ይታገዳል።",
+        "actions": [
+          {
+            "step": "የሂሳብ መረጃዎን ከ2027-01-15 በፊት ያዘምኑ።",
+            "urgent": true
+          },
+          {
+            "step": "የከበሌ መታወቂያዎን ወይም ፓስፖርትዎን ይዘው ወደ ማንኛውም ቅርንጫፍ ይምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የማዘመኛ ጊዜ ገደብ",
+            "date": "2027-01-15"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "የከበሌ መታወቂያ ወይም ፓስፖርት"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "customs-clearance",
+      "docType": "financial",
+      "sourceText": "መጻወዲኻ ናብ ሞጆ ደረቕ ከተባ (Modjo dry port) በጺሑ ኣሎ። ንመዓልቲ 150 ብር ዝኸውን ክፍሊት ምዕቃብ ንምውጋድ ብ2026-12-10 ከተጽርዮ እዩ። ቢል ኦፍ ላዲንግ (bill of lading) ከምኡውን ሰርተፊኬት TIN ሒዝካ ኣምጽእ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "መጻወዲኻ ኣብ ከተባ ኣሎ። ብ2026-12-10 ኣጽርዮ ወይ ድማ መዓልታዊ ክፍሊት ክፈል።",
+        "actions": [
+          {
+            "step": "መጻወዲኻ ብ2026-12-10 ኣጽርዮ።",
+            "urgent": true
+          },
+          {
+            "step": "ቢል ኦፍ ላዲንግ ከምኡውን ሰርተፊኬት TIN ኣምጽእ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ወሰን ግዜ ምጽራይ",
+            "date": "2026-12-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "መዓልታዊ ክፍሊት ምዕቃብ",
+            "amount": 150,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ቢል ኦፍ ላዲንግ",
+          "ሰርተፊኬት TIN"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "income-tax-return",
+      "docType": "financial",
+      "sourceText": "Gabaasa galii waggaa jaarraa gibiraa bara gibiraa 2025 guyyaa 2026-12-31tti dhiyeessi. Yoo yeroo isaa irra darbee dhiyeessite, adabbii Birrii 1,000 ni kaffalta. Akkaataa interneetii yookaan Waajjira Galii Irraa dhiyeessuu ni dandeessa.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "Gabaasa gibira galii keessaa guyyaa 2026-12-31tti dhiyeessuu qabda. Yoo yeroo isaa irra darbee dhiyeessite, haggii dabalataa kaffalta.",
+        "actions": [
+          {
+            "step": "Gabaasa gibira galii keessaa guyyaa 2026-12-31tti dhiyeessi.",
+            "urgent": true
+          },
+          {
+            "step": "Akkaataa interneetii yookaan Waajjira Galii Irraa dhiyeessi.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Duddubbi dhiyeessii gibiraa",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Adabbii dhiyeessii yeroo irra darbee",
+            "amount": 1000,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "pension-registration",
+      "docType": "government_notice",
+      "sourceText": "እስከ 2026-12-20 ድረስ ለጡረታ ዕቅድ ይመዝገቡ። የእርስዎ አስተዋጽኦ የደመወዝዎ 7 በመቶ ነው። የቅጥር ደብዳቤ እና የመታወቂያ ካርድዎን ወደ ጡረታ ቢሮ ያምጡ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "እስከ 2026-12-20 ድረስ ለጡረታ መመዝገብ አለብዎት።",
+        "actions": [
+          {
+            "step": "እስከ 2026-12-20 ድረስ ለጡረታ ዕቅድ ይመዝገቡ።",
+            "urgent": true
+          },
+          {
+            "step": "የቅጥር ደብዳቤዎን እና መታወቂያዎን ያምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የምዝገባ ጊዜ ገደብ",
+            "date": "2026-12-20"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "የቅጥር ደብዳቤ",
+          "መታወቂያ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "water-bill-disconnection",
+      "docType": "financial",
+      "sourceText": "Your water bill of ETB 850 for October is unpaid. Water service will be disconnected after 2026-11-20. Pay at any Commercial Bank branch or with telebirr.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "Your water bill is unpaid. Water will be cut off after 2026-11-20.",
+        "actions": [
+          {
+            "step": "Pay the water bill of ETB 850 before 2026-11-20.",
+            "urgent": true
+          },
+          {
+            "step": "Pay at a Commercial Bank branch or with telebirr.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Disconnection date",
+            "date": "2026-11-20"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Water bill",
+            "amount": 850,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Water bill"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "sim-card-registration",
+      "docType": "government_notice",
+      "sourceText": "Your SIM card is not fully registered. Register with your ID at any Ethio Telecom shop by 2027-02-28. If you do not register, the number will be blocked.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Your SIM card is not registered. Register it by 2027-02-28 or lose the number.",
+        "actions": [
+          {
+            "step": "Register your SIM card by 2027-02-28.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your ID to any Ethio Telecom shop.",
+            "urgent": true
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Registration deadline",
+            "date": "2027-02-28"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "ID"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "bank-kyc-update",
+      "docType": "financial",
+      "sourceText": "Odeeffannoo herrega baankii keessan hamma 2027-01-15tti haaraa godhaa. Herregoonni ammayya'ina eenyummaa hin qabne ni cufamu. ID kebele ykn Paaspoortii keessan fudhattanii damee kamiyyuu deema.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "Baankiin keessan hanga 2027-01-15tti ID ammayya'aa isin irraa eega. Miti ta'e, herregni ni cufama.",
+        "actions": [
+          {
+            "step": "Odeeffannoo herrega keessan dura 2027-01-15 haaraa godhaa.",
+            "urgent": true
+          },
+          {
+            "step": "ID kebele ykn Paaspoortii keessan fudhattanii damee kamiyyuu deema.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Dhuma yeroo haaraa godhuu",
+            "date": "2027-01-15"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "ID Kebele ykn Paaspoortii"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "health-insurance-renewal",
+      "docType": "government_notice",
+      "sourceText": "Miinsaa fayyaa keessan bara 2026-12-15tti ni xumurama. Faayidaa keessan itti fufuuf, yeroo murtaa'e dura ETB 500 kaffaluudhaan haaromsaa. Kaartii ammayyaa fi kaartii miinsaa duraanii qabatanii waajjira fayyaa dhiyootti dhufaa. Yeroo murtaa'e darbuun kaffaltii yoo dadhabdan, miinsi keessan ni adda cita.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Miinsi fayyaa keessan baay'ee dhiyootti ni xumurama. Faayidaa keessan itti fufuuf haaromsuu qabdu.",
+        "actions": [
+          {
+            "step": "Miinsa fayyaa keessan bara 2026-12-15 dura haaromsi.",
+            "urgent": true
+          },
+          {
+            "step": "Miinsa keessan itti fufuuf ETB 500 kaffali.",
+            "urgent": true
+          },
+          {
+            "step": "Kaartii ammayyaa fi kaartii miinsaa qabatanii waajjira fayyaatti dhufaa.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Yeroo murtaa'e haaromsaa",
+            "date": "2026-12-15"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gatii haaromsaa",
+            "amount": 500,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Kaartii ammayyaa",
+          "Kaartii miinsaa duraanii"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "food-safety-inspection",
+      "docType": "government_notice",
+      "sourceText": "Restoraanni keessan guyyaa 2026-11-28 qorannaa ni argata. Yeroo qorannaa sana kuchinii cufaa. Sertifikoota qabattoota nyaataa qorattootaaf qophaa qabaa.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Qorattoonni fayyaa guyyaa 2026-11-28 restoraan keessan ni daawwatu.",
+        "actions": [
+          {
+            "step": "Qorannaa guyyaa 2026-11-28 ta'uuf qophaa ta'aa.",
+            "urgent": true
+          },
+          {
+            "step": "Sertifikoota qabattoota nyaataa argamaa taasisaa.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Guyyaa qorannaa",
+            "date": "2026-11-28"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "Sertifikoota qabattoota nyaataa"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "customs-clearance",
+      "docType": "financial",
+      "sourceText": "Your shipment has arrived at Modjo dry port. Clear it by 2026-12-10 to avoid storage charges of ETB 150 per day. Bring the bill of lading and your TIN certificate.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "Your shipment is at the port. Clear it by 2026-12-10 or pay storage daily.",
+        "actions": [
+          {
+            "step": "Clear your shipment by 2026-12-10.",
+            "urgent": true
+          },
+          {
+            "step": "Bring the bill of lading and TIN certificate.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Clearance deadline",
+            "date": "2026-12-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Storage charge per day",
+            "amount": 150,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Bill of lading",
+          "TIN certificate"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "child-vaccination",
+      "docType": "medical",
+      "sourceText": "ውሉድካ/ኪ ኣብ 2026-12-05 ኣብ ማእከል ጥዕና ክታበት ሕመም ሓጺን (measles) ክወስድ የድልዮ እዩ። ካርድ ክታበት ውሉድ ሒዝካ/ኪ መጽእ። እቲ ክታበት ነጻ እዩ።",
+      "explanation": {
+        "docType": "medical",
+        "summary": "ውሉድካ/ኪ ኣብ 2026-12-05 ክታበት ሕመም ሓጺን (measles) ክወስድ የድልዮ እዩ።",
+        "actions": [
+          {
+            "step": "ውሉድካ/ኪ ኣብ 2026-12-05 ንክታበት ሕመም ሓጺን (measles) ውሰዶ/ዋ።",
+            "urgent": true
+          },
+          {
+            "step": "ካርድ ክታበት ሒዝካ/ኪ መጽእ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ዕለት ክታበት",
+            "date": "2026-12-05"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "ካርድ ክታበት"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "pension-registration",
+      "docType": "government_notice",
+      "sourceText": "Register for the pension scheme by 2026-12-20. Your contribution is 7 percent of your salary. Bring an employment letter and your ID to the pension office.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "You must register for pension by 2026-12-20.",
+        "actions": [
+          {
+            "step": "Register for the pension scheme by 2026-12-20.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your employment letter and ID.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Registration deadline",
+            "date": "2026-12-20"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "Employment letter",
+          "ID"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "electricity-tariff-change",
+      "docType": "government_notice",
+      "sourceText": "Tariffi ibsaa haaraan irraa eegalee 2026-12-01 hojiirra oola. Maatiin tokkoon tokkoo ji'aa tokkoo keessatti kWh 50 gadi fayyadamu kWh tokkoof ETB 0.60 kaffala. Dhaabbileen raawwachiiftuun hojii tokko illee hojjechuu hin qaban.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Gatiin ibsaa guyyaa 2026-12-01 ni jijjiirama. Waan hojjechuu hin qabdan.",
+        "actions": [
+          {
+            "step": "Hojii tokko illee hojjechuu hin qaban. Tariffi haaraa ofumaan hojiirra oola.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Tariffi haaraan eegala",
+            "date": "2026-12-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gatii kWh tokkoof",
+            "amount": 0.6,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "tvet-enrollment",
+      "docType": "school",
+      "sourceText": "የTVET ፕሮግራም ምዝገባ የሚጠናቀቀው በ2026-11-30 ነው። ክፍያው በወር 400 ብር ነው። የ10ኛ ክፍል ምስክር ወረቀትዎን እና መታወቂያዎን ይዘው ወደ ኮሌጁ ጽህፈት ቤት ይምጡ።",
+      "explanation": {
+        "docType": "school",
+        "summary": "የTVET ምዝገባ የሚጠናቀቀው በ2026-11-30 ነው።",
+        "actions": [
+          {
+            "step": "ከ2026-11-30 በፊት በTVET ፕሮግራሙ ይመዝገቡ።",
+            "urgent": true
+          },
+          {
+            "step": "የ10ኛ ክፍል ምስክር ወረቀትዎን እና መታወቂያዎን ይዘው ይምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ምዝገባ የሚጠናቀቅበት",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ወርሃዊ ክፍያ",
+            "amount": 400,
+            "currency": "ብር"
+          }
+        ],
+        "documentsToBring": [
+          "የ10ኛ ክፍል ምስክር ወረቀት",
+          "መታወቂያ"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "driving-license-renewal",
+      "docType": "government_notice",
+      "sourceText": "Your driving license expires on 2027-02-10. Renew it at the Transport Office in Bole. The fee is ETB 600. Bring your old license, a medical certificate, and two photos.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Your driving license expires on 2027-02-10. Renew it before then.",
+        "actions": [
+          {
+            "step": "Renew your driving license before 2027-02-10.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your old license, medical certificate, and two photos.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "License expiry",
+            "date": "2027-02-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Renewal fee",
+            "amount": 600,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Old driving license",
+          "Medical certificate",
+          "Two photos"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "university-admission",
+      "docType": "school",
+      "sourceText": "ኣብ ባህር ዳር ዩኒቨርሲቲ ኣብ መምህራነት ምህንድስና ተቀቢልካ ኣለኻ። ብ 2026-12-01 ብውጽኢት ክፍሊ 12፣ መንነት ካርዲ፣ ከምኡ'ውን ሰርተፊኬት ጥዕና ሪፖርት ግበር። ክፍሊት ምዝገባ 200 ብር እዩ።",
+      "explanation": {
+        "docType": "school",
+        "summary": "ኣብ ዩኒቨርሲቲ ተቀቢልካ ኣለኻ። ብ 2026-12-01 ምስ ፅሑፋትካ ሪፖርት ግበር።",
+        "actions": [
+          {
+            "step": "ብ 2026-12-01 ናብ ባህር ዳር ዩኒቨርሲቲ ሪፖርት ግበር።",
+            "urgent": true
+          },
+          {
+            "step": "200 ብር ክፍሊት ምዝገባ ክፈል።",
+            "urgent": false
+          },
+          {
+            "step": "ውጽኢት ክፍሊ 12፣ መንነት ካርዲ፣ ከምኡ'ውን ሰርተፊኬት ጥዕና ኣምጽእ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ዕለት ሪፖርት",
+            "date": "2026-12-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ክፍሊት ምዝገባ",
+            "amount": 200,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ውጽኢት ክፍሊ 12",
+          "መንነት ካርዲ",
+          "ሰርተፊኬት ጥዕና"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "trade-license-renewal",
+      "docType": "government_notice",
+      "sourceText": "Layisansi daldalaa keessan 2026-12-31tti kan xumuramuudha. Biiroo Daldalaatti haaromsi. Gatii isaa ETB 1,500 ta'a. Sertifiketa TIN fi layisansa duraa fudhadhuu.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Layisansi daldalaa keessan 2026-12-31tti kan xumuramuudha. Guyyaa sana dura haaromsi.",
+        "actions": [
+          {
+            "step": "Layisansa daldalaa keessan 2026-12-31 dura haaromsi.",
+            "urgent": true
+          },
+          {
+            "step": "Biiroo Daldalaatti ETB 1,500 kaffali.",
+            "urgent": false
+          },
+          {
+            "step": "Sertifiketa TIN fi layisansa duraa fudhadhuu.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Yeroo layisansi itti xumuramu",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gatii haaromsaa",
+            "amount": 1500,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Sertifiketa TIN",
+          "Layisansa duraa"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "rent-increase",
+      "docType": "financial",
+      "sourceText": "ወርሓዊ ክፍሊ ቤትካ/ኪ ካብ 4,000 ኢትዮጵያዊ ብር ናብ 5,000 ኢትዮጵያዊ ብር ካብ 2027-01-01 ጀሚሩ ይውስኽ እዩ። እቲ ሓድሽ ስምምዕነት ቅድሚ 2026-12-25 ኣብቲ ጽሕፈት ቤት ፈርሙ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "ክፍሊ ቤትካ/ኪ ካብ 2027-01-01 ጀሚሩ ናብ 5,000 ኢትዮጵያዊ ብር ይውስኽ።",
+        "actions": [
+          {
+            "step": "ሓድሽ ስምምዕነት ክፍሊ ቤት ቅድሚ 2026-12-25 ፈርሙ።",
+            "urgent": true
+          },
+          {
+            "step": "ካብ 2027-01-01 ጀሚሩ ወርሓዊ 5,000 ኢትዮጵያዊ ብር ንኽትከፍሉ ተዳለዉ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ስምምዕነት ክትፍርሙሉ ዝግባእ መዓልቲ",
+            "date": "2026-12-25"
+          },
+          {
+            "label": "ሓድሽ ክፍሊ ቤት ዝጅምረሉ",
+            "date": "2027-01-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ሓድሽ ወርሓዊ ክፍሊ ቤት",
+            "amount": 5000,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ጥንታዊ ስምምዕነት ክፍሊ ቤት"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "employment-termination",
+      "docType": "other",
+      "sourceText": "Your employment will end on 2027-01-31. Your final salary and severance pay will be paid within 30 days. Contact the HR office for your service letter.",
+      "explanation": {
+        "docType": "other",
+        "summary": "Your job ends on 2027-01-31. Final pay follows within 30 days.",
+        "actions": [
+          {
+            "step": "Your last working day is 2027-01-31.",
+            "urgent": true
+          },
+          {
+            "step": "Contact the HR office for your service letter.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Last working day",
+            "date": "2027-01-31"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "Employment contract"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "health-insurance-renewal",
+      "docType": "government_notice",
+      "sourceText": "መሽፈኒ ጥዕናኹም ኣብ 2026-12-15 ይግደፍ። ተጠቃምነትኩም ንምቕጻል፣ ቅድሚ እቲ ዝተወሰነ ግዜ 500 ብር ብምኽፋል ሕደስዎ። መንነትኩም ዘረጋግጽ ካርዲን ከምኡ'ውን ቅድሚ ሕጂ ዝነበረ ካርዲ መሽፈኒ ጥዕናኹም ሒዝኩም ናብቲ ዝቀረበ ቤት ጽሕፈት ጥዕና መጹ። እቲ ዝተወሰነ ግዜ እንተሓሊፉ፣ መሽፈኒኹም ይቋረጽ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "መሽፈኒ ጥዕናኹም ብቕርቢ ይግደፍ። ተጠቃምነትኩም ንምቕጻል ሕደስዎ።",
+        "actions": [
+          {
+            "step": "መሽፈኒ ጥዕናኹም ቅድሚ 2026-12-15 ሕደስዎ።",
+            "urgent": true
+          },
+          {
+            "step": "መሽፈኒኹም ንምቕጻል 500 ብር ክፈሉ።",
+            "urgent": true
+          },
+          {
+            "step": "መንነትኩም ዘረጋግጽ ካርዲን ካርዲ መሽፈኒ ጥዕናኹምን ሒዝኩም ናብ ቤት ጽሕፈት ጥዕና መጹ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ዝተወሰነ ግዜ ምሕዳስ",
+            "date": "2026-12-15"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ክፍሊት ምሕዳስ",
+            "amount": 500,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "መንነትኩም ዘረጋግጽ ካርዲ",
+          "ቅድሚ ሕጂ ዝነበረ ካርዲ መሽፈኒ ጥዕና"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "microfinance-installment",
+      "docType": "financial",
+      "sourceText": "የብድር ክፍያዎ የ 1,200 ብር ክፍያ ቀጠሮ 2026-11-30 ነው። መዘግየት በሳምንት 60 ብር ቅጣት ያስከትላል። ክፍያውን በቅርንጫፍ ቢሮ ወይም በቴሌብር ይክፈሉ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "እስከ 2026-11-30 ድረስ 1,200 ብር የብድር ክፍያ መክፈል አለብዎት።",
+        "actions": [
+          {
+            "step": "እስከ 2026-11-30 ድረስ 1,200 ብር ይክፈሉ።",
+            "urgent": true
+          },
+          {
+            "step": "ክፍያውን በቅርንጫፍ ቢሮ ወይም በቴሌብር ይክፈሉ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የክፍያ ቀጠሮ",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ክፍለ ክፍያ",
+            "amount": 1200,
+            "currency": "ETB"
+          },
+          {
+            "label": "የመዘግየት ቅጣት በሳምንት",
+            "amount": 60,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "የብድር ፓስቡክ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "tvet-enrollment",
+      "docType": "school",
+      "sourceText": "ምምዝጋብ ናይ TVET መደብ ዝዕጾ ብ2026-11-30 እዩ። ክፍሊት ወርሒ ETB 400 እዩ። ሰርተፊኬት ክፍሊ 10ን መንነትካ ዘረጋግጽ ሰነድን ሒዝካ ናብ ጽሕፈት ቤት ኮሌጅ ክትመጽእ።",
+      "explanation": {
+        "docType": "school",
+        "summary": "ምምዝጋብ TVET ብ2026-11-30 ይዕጾ።",
+        "actions": [
+          {
+            "step": "ቅድሚ 2026-11-30 ኣብ TVET መደብ ተመዝገብ።",
+            "urgent": true
+          },
+          {
+            "step": "ሰርተፊኬት ክፍሊ 10ን መንነትካ ዘረጋግጽ ሰነድን ሒዝካ ክትመጽእ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ምምዝጋብ ዝዕጾሉ",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ክፍሊት ወርሒ",
+            "amount": 400,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ሰርተፊኬት ክፍሊ 10",
+          "መንነትካ ዘረጋግጽ ሰነድ"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "employment-termination",
+      "docType": "other",
+      "sourceText": "Hojiin kee guyyaa 2027-01-31 ni dhaabbata. Mindaa dhumaatii fi kaffaltii adda baasuu guyyoota 30 keessatti ni kaffalama. Xalayaa tajaajilaa keetiif waajjira HR qunnami.",
+      "explanation": {
+        "docType": "other",
+        "summary": "Hojiin kee guyyaa 2027-01-31 ni dhaabbata. Kaffaltiin dhumaatii guyyoota 30 keessatti ni hordofa.",
+        "actions": [
+          {
+            "step": "Guyyaan hojii dhumaatii kee 2027-01-31 dha.",
+            "urgent": true
+          },
+          {
+            "step": "Xalayaa tajaajilaa keetiif waajjira HR qunnami.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Guyyaan hojii dhumaatii",
+            "date": "2027-01-31"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "Kontraata hojii"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "lab-result-followup",
+      "docType": "medical",
+      "sourceText": "Bu'aan qorannaa dhiigaa keessanii qophaa'ee jira. Hemoglobin keessan 9.5 g/dL ta'uu xiqqaateera. Guyyaa 2026-11-25 hordoffiif mana yaalaa dhufaa. Tableetii sibiilaa ni kennama. Daawwannichis bilisa dha.",
+      "explanation": {
+        "docType": "medical",
+        "summary": "Qorannoon dhiigaa keessan hemoglobin xiqqaa akka ta'e agarsiisa. Guyyaa 2026-11-25 mana yaalaa deebi'aa.",
+        "actions": [
+          {
+            "step": "Guyyaa 2026-11-25 hordoffiif mana yaalaa dhufaa.",
+            "urgent": true
+          },
+          {
+            "step": "Waa'ee tableetii sibiilaa hemoglobin xiqqaaf kennamu gaafadhaa.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Daawwanna hordoffii",
+            "date": "2026-11-25"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gatii daawwannaa",
+            "amount": 0,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Bu'aa qorannaa"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "tvet-enrollment",
+      "docType": "school",
+      "sourceText": "Enrollment for the TVET program closes on 2026-11-30. The fee is ETB 400 per month. Bring your grade 10 certificate and ID to the college office.",
+      "explanation": {
+        "docType": "school",
+        "summary": "TVET enrollment closes on 2026-11-30.",
+        "actions": [
+          {
+            "step": "Enroll in the TVET program before 2026-11-30.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your grade 10 certificate and ID.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Enrollment closes",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Monthly fee",
+            "amount": 400,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Grade 10 certificate",
+          "ID"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "lab-result-followup",
+      "docType": "medical",
+      "sourceText": "ውጽኢት መፅናዕቲ ደምኩም ድሉው እዩ። ሄሞግሎቢንኩም 9.5 g/dL ብምዃን ትሑት እዩ። ንቀጻሊ ምክትታል ኣብ 2026-11-25 ናብ ክሊኒክ መጹ። ሓጺር ዝሓዙ ሓበሽቲ ክወሃቡኩም እዮም። እቲ ምብጻሕ ነጻ እዩ።",
+      "explanation": {
+        "docType": "medical",
+        "summary": "ውጽኢት መፅናዕቲ ደምኩም ሄሞግሎቢን ትሑት ምዃኑ የርኢ። ኣብ 2026-11-25 ናብ ክሊኒክ ተመለሱ።",
+        "actions": [
+          {
+            "step": "ኣብ 2026-11-25 ንቀጻሊ ምክትታል ናብ ክሊኒክ ኪዱ።",
+            "urgent": true
+          },
+          {
+            "step": "ብዛዕባ ንትሑት ሄሞግሎቢን ዝወሃቡ ሓጺር ዝሓዙ ሓበሽቲ ሕተቱ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ቀጻሊ ምብጻሕ",
+            "date": "2026-11-25"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ዋጋ ምብጻሕ",
+            "amount": 0,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ውጽኢት መፅናዕቲ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "driving-license-renewal",
+      "docType": "government_notice",
+      "sourceText": "የመንጃ ፈቃድዎ እ.ኤ.አ. በ2027-02-10 ያከማቻል። በቦሌ ባለው የትራንስፖርት ጽህፈት ቤት ያድሱት። ክፍያው 600 ብር ነው። አሮጌውን ፈቃድዎን፣ የህክምና ማስረጃ እና ሁለት ፎቶዎችን ያምጡ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "የመንጃ ፈቃድዎ እ.ኤ.አ. በ2027-02-10 ያከማቻል። ከዚያ በፊት ያድሱት።",
+        "actions": [
+          {
+            "step": "መንጃ ፈቃድዎን ከ2027-02-10 በፊት ያድሱ።",
+            "urgent": true
+          },
+          {
+            "step": "አሮጌውን ፈቃድዎን፣ የህክምና ማስረጃ እና ሁለት ፎቶዎችን ያምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የፈቃድ የማከማቻ ቀን",
+            "date": "2027-02-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የማደሻ ክፍያ",
+            "amount": 600,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "አሮጌ የመንጃ ፈቃድ",
+          "የህክምና ማስረጃ",
+          "ሁለት ፎቶዎች"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "bank-kyc-update",
+      "docType": "financial",
+      "sourceText": "Update your bank account information by 2027-01-15. Accounts without updated identification will be frozen. Bring your kebele ID or passport to any branch.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "Your bank needs your updated ID by 2027-01-15. Otherwise the account is frozen.",
+        "actions": [
+          {
+            "step": "Update your account information before 2027-01-15.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your kebele ID or passport to any branch.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Update deadline",
+            "date": "2027-01-15"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "Kebele ID or passport"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "birth-registration",
+      "docType": "government_notice",
+      "sourceText": "ውላድካ/ኪ ውሽጢ 90 መዓልታት ኣመዝግቦ። ክሳብ 2027-01-10 ናብ ወረዳ ሲቪል ረጂስትሪ መጽእ። መንነት ክልቲኦም ወለዲን ሰነድ ምውላድ ሆስፒታልን ምምጻእ። ምምዝጋብ ነጻ እዩ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "ውላድካ/ኪ ክሳብ 2027-01-10 ክትምዝግቦ ኣለካ።",
+        "actions": [
+          {
+            "step": "ውላድ ክሳብ 2027-01-10 ኣብ ወረዳ ሲቪል ረጂስትሪ ኣመዝግቦ።",
+            "urgent": true
+          },
+          {
+            "step": "መንነት ክልቲኦም ወለዲን ሰነድ ምውላድን ምምጻእ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ዶብ ግዜ ምምዝጋብ",
+            "date": "2027-01-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ክፍሊት ምምዝጋብ",
+            "amount": 0,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "መንነት ክልቲኦም ወለዲ",
+          "ሰነድ ምውላድ ሆስፒታል"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "pension-registration",
+      "docType": "government_notice",
+      "sourceText": "Kampaanii pensii bara 2026-12-20tti galmaa'i. Hirmaannan kee dhibbeenta 7 mindaa keetiiti. Xalayaa hojii fi ID kee waajjira pensii geessi.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Yoo xiqqaate bara 2026-12-20tti kampaanii pensii galmaa'uu qabda.",
+        "actions": [
+          {
+            "step": "Kampaanii pensii bara 2026-12-20tti galmaa'i.",
+            "urgent": true
+          },
+          {
+            "step": "Xalayaa hojii fi ID kee geessi.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Dhuma yeroo galmaa'ii",
+            "date": "2026-12-20"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "Xalayaa hojii",
+          "ID"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "pension-registration",
+      "docType": "government_notice",
+      "sourceText": "ሳል 2026-12-20 ናብ መደብ ፈንድ ስራሕ (pension scheme) ተመዝገቡ። ወጻኢኹም 7 ሚእታዊት ደሞዝኹም እዩ። ናብ ቤት ጽሕፈት ፈንድ ስራሕ፡ ደብዳበ ስራሕን መንነትኩምን ሒዝኩም ኪዱ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "ሳል 2026-12-20 ናብ ፈንድ ስራሕ ክትመዝገቡ ኣለኩም።",
+        "actions": [
+          {
+            "step": "ሳል 2026-12-20 ናብ መደብ ፈንድ ስራሕ ተመዝገቡ።",
+            "urgent": true
+          },
+          {
+            "step": "ደብዳበ ስራሕን መንነትኩምን ሒዝኩም ኪዱ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ደረት ግዜ ምምዝጋብ",
+            "date": "2026-12-20"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "ደብዳበ ስራሕ",
+          "መንነት"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "income-tax-return",
+      "docType": "financial",
+      "sourceText": "File your annual income tax return for the 2025 tax year by 2026-12-31. Late filing is fined ETB 1,000. You can file online or at the Revenue Office.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "You must file your income tax return by 2026-12-31. Filing late costs extra.",
+        "actions": [
+          {
+            "step": "File your income tax return by 2026-12-31.",
+            "urgent": true
+          },
+          {
+            "step": "File online or at the Revenue Office.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Tax filing deadline",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Late filing fine",
+            "amount": 1000,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "food-safety-inspection",
+      "docType": "government_notice",
+      "sourceText": "መግቢ ቤትካ/ኪ ብ2026-11-28 መርመራ ክግበረሉ እዩ። ኣብ ግዜ መርመራ ናይቲ ምግቢ ክፍሊ ዓጽዎ። ሰርተፊኬት መሓዝ ምግቢ (food handler certificates) ንመርመርቲ ከተቕርቡዎ ዳሎ ይኹኑ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "መርመርቲ ጥዕና ብ2026-11-28 ናብ መግቢ ቤትካ/ኪ ይመጹ እዮም።",
+        "actions": [
+          {
+            "step": "ንመርመራ 2026-11-28 ዳሎ ይኹኑ።",
+            "urgent": true
+          },
+          {
+            "step": "ሰርተፊኬት መሓዝ ምግቢ (food handler certificates) ድሉው ኣብ ዘለዎ ኣቕርቡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ዕለት መርመራ",
+            "date": "2026-11-28"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "ሰርተፊኬት መሓዝ ምግቢ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "land-registration",
+      "docType": "government_notice",
+      "sourceText": "መሬትካ/ኪ ቅድሚ 2027-04-30 ኣብ ቤት ጽሕፈት መሬት ወረዳ ከተመዝግቦ የድሊ። ክፍሊት ምዝገባ 300 ብር እዩ። ሰነድ ዓንቀጽ፣ መንነትካ/ኪ፣ ከምኡ'ውን ክልተ መሰኻኽር ሒዝካ/ኪ መጻእ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "መሬትካ/ኪ ቅድሚ 2027-04-30 ከተመዝግቦ የድሊ።",
+        "actions": [
+          {
+            "step": "መሬትካ/ኪ ቅድሚ 2027-04-30 ኣብ ቤት ጽሕፈት መሬት ወረዳ ኣመዝግብ።",
+            "urgent": true
+          },
+          {
+            "step": "ንምዝገባ 300 ብር ከፍል።",
+            "urgent": false
+          },
+          {
+            "step": "ሰነድ ዓንቀጽ፣ መንነትካ/ኪ፣ ከምኡ'ውን ክልተ መሰኻኽር ሒዝካ/ኪ መጻእ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ደረት ግዜ ምዝገባ",
+            "date": "2027-04-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ክፍሊት ምዝገባ",
+            "amount": 300,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ሰነድ ዓንቀጽ",
+          "መንነት",
+          "ክልተ መሰኻኽር"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "child-vaccination",
+      "docType": "medical",
+      "sourceText": "Ijoolleen keessan guyyaa 2026-12-05tti giiftii measles fudhatu. Kaartii giiftii ijoollee sana waliin fidaa. Giiftiin sun bilisa.",
+      "explanation": {
+        "docType": "medical",
+        "summary": "Ijoolleen keessan guyyaa 2026-12-05tti giiftii measles fudhatu.",
+        "actions": [
+          {
+            "step": "Ijoollee keessan guyyaa 2026-12-05tti giiftii measles fudhachiisaa.",
+            "urgent": true
+          },
+          {
+            "step": "Kaartii giiftii fidaa.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Guyyaa giiftii",
+            "date": "2026-12-05"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "Kaartii giiftii"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "en",
+      "seedId": "microfinance-installment",
+      "docType": "financial",
+      "sourceText": "Your loan installment of ETB 1,200 is due on 2026-11-30. Late payment adds ETB 60 per week. Pay at the branch or with telebirr.",
+      "explanation": {
+        "docType": "financial",
+        "summary": "You owe a loan payment of ETB 1,200 by 2026-11-30.",
+        "actions": [
+          {
+            "step": "Pay ETB 1,200 by 2026-11-30.",
+            "urgent": true
+          },
+          {
+            "step": "Pay at the branch or with telebirr.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Payment due",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Installment",
+            "amount": 1200,
+            "currency": "ETB"
+          },
+          {
+            "label": "Late payment charge per week",
+            "amount": 60,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Loan passbook"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "microfinance-installment",
+      "docType": "financial",
+      "sourceText": "ናይ ብድሆ ክፍሊትካ ETB 1,200 ዝኸውን መስከረም 30, 2026 ይበጽሕ። ደንጓይ ክፍሊት ንሰሙን ETB 60 ይውስኽ። ኣብ ቅርንጫፍ ወይስ ብ telebirr ክትከፍል ትኽእል ኢኻ።",
+      "explanation": {
+        "docType": "financial",
+        "summary": "ሰንከል 2026-11-30 ብ ETB 1,200 ዝኸውን ናይ ብድሎ ክፍሊት ኣለካ።",
+        "actions": [
+          {
+            "step": "ሰንከል 2026-11-30 ብ ETB 1,200 ክፈል።",
+            "urgent": true
+          },
+          {
+            "step": "ኣብ ቅርንጫፍ ወይስ ብ telebirr ክፈል።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ናይ ክፍሊት ዕለት",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ክፍሊ",
+            "amount": 1200,
+            "currency": "ETB"
+          },
+          {
+            "label": "ናይ ደንጓይ ክፍሊት ንሰሙን",
+            "amount": 60,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ናይ ብድሎ መዝገብ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "ti",
+      "seedId": "electricity-tariff-change",
+      "docType": "government_notice",
+      "sourceText": "ካብ 2026-12-01 ጀሚሩ ሓደሽቲ ተራራፊታት ኤለክትሪክ ይትግበሩ። ኣብ ወርሒ ካብ 50 kWh ዝነኣሰ መጠን ዝጥቀሙ ገዛውቲ፡ ንሓደ kWh ETB 0.60 ይኸፍሉ። ካብ ዓማዊል ዝድለ ስጉምቲ የለን።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "ዋጋ ኤለክትሪክ ኣብ 2026-12-01 ይቀያየር። ሓደ ክትገብሮ የብልካን።",
+        "actions": [
+          {
+            "step": "ዝኾነ ስጉምቲ ክትወስድ ኣየድልየን። እቲ ሓድሽ ተራራፊ ብራእሱ ይትግበር።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "ሓድሽ ተራራፊ ይጅምር",
+            "date": "2026-12-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ዋጋ ንሓደ kWh",
+            "amount": 0.6,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "health-insurance-renewal",
+      "docType": "government_notice",
+      "sourceText": "የጤና ኢንሹራንስ ሽፋንዎ በ2026-12-15 ያከማል። ጥቅማጥቅሞችዎን ለመቀጠል፣ ከጊዜው በፊት 500 ብር በመክፈል ያሳድሱ። መታወቂያ ካርድዎን እና የቀድሞ የኢንሹራንስ ካርድዎን ይዘው ወደ ቅርብ የጤና ጽህፈት ቤት ይምጡ። ጊዜውን ካሳለፉ፣ ሽፋንዎ ይቆማል።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "የጤና ኢንሹራንስዎ በቅርቡ ያከማል። ጥቅማጥቅሞችዎን ለመቀጠል ማሳደስ አለብዎት።",
+        "actions": [
+          {
+            "step": "የጤና ኢንሹራንስዎን ከ2026-12-15 በፊት ያሳድሱ።",
+            "urgent": true
+          },
+          {
+            "step": "ሽፋንዎን ለመቀጠል 500 ብር ይክፈሉ።",
+            "urgent": true
+          },
+          {
+            "step": "መታወቂያ ካርድዎን እና የኢንሹራንስ ካርድዎን ይዘው ወደ የጤና ጽህፈት ቤት ይምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የማሳደሻ ጊዜ ገደብ",
+            "date": "2026-12-15"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የማሳደሻ ክፍያ",
+            "amount": 500,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "መታወቂያ ካርድ",
+          "የቀድሞ የኢንሹራንስ ካርድ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "trade-license-renewal",
+      "docType": "government_notice",
+      "sourceText": "የንግድ ፈቃድዎ የሚያከብረው በ2026-12-31 ነው። በኮሜርስ ቢሮ ያሳድሱት። ክፍያው 1,500 ብር ነው። የግብር መለያ (TIN) ማረጋገጫዎን እና አሮጌውን ፈቃድ ይዘው ይምጡ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "የንግድ ፈቃድዎ በ2026-12-31 ያከብራል። ከዚያ በፊት ያሳድሱት።",
+        "actions": [
+          {
+            "step": "የንግድ ፈቃድዎን ከ2026-12-31 በፊት ያሳድሱ።",
+            "urgent": true
+          },
+          {
+            "step": "በኮሜርስ ቢሮ 1,500 ብር ይክፈሉ።",
+            "urgent": false
+          },
+          {
+            "step": "የግብር መለያ (TIN) ማረጋገጫዎን እና አሮጌውን ፈቃድ ይዘው ይምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የፈቃድ ማክበጃ",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የማሳደሻ ክፍያ",
+            "amount": 1500,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "የግብር መለያ (TIN) ማረጋገጫ",
+          "አሮጌ ፈቃድ"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "court-summons",
+      "docType": "government_notice",
+      "sourceText": "Ati guyyaa 2027-03-03 sa'aa 3:00 irraa eegalee Mana Murtii Jalqabaa Federaalaa Lideetaatti dhiyaachuu qabda. Warrantii kee fi waraqaa waamichaa kana walitti fudhadhu. Yoo hin dhiyaatin, manni murtii dhimmicha si malee murteessuu danda'a.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Ati guyyaa 2027-03-03 mana murtii dhaquuf ajajamte. Dhabuun isaa waan hamaa dha.",
+        "actions": [
+          {
+            "step": "Gujjaa 2027-03-03 sa'aa 3:00 irratti mana murtii dhaqi.",
+            "urgent": true
+          },
+          {
+            "step": "Warrantii kee fi waraqaa waamichaa kana fudhadhu.",
+            "urgent": true
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Guyyaa mana murtii",
+            "date": "2027-03-03"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "Warrantii",
+          "Waraqaa waamichaa kana"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "food-safety-inspection",
+      "docType": "government_notice",
+      "sourceText": "ረስቶራንትዎ በ2026-11-28 ይፈተሻል። በፍተሻው ወቅት የምግብ ቤቱን ዝጉ። የምግብ አያያዝ ሰርተፊኬቶችን ለፈታሾቹ ዝግጁ አድርጉ።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "ጤና ፈታሾች ረስቶራንትዎን በ2026-11-28 ይጎበኛሉ።",
+        "actions": [
+          {
+            "step": "ለ2026-11-28 ፍተሻ ዝግጁ ይሁኑ።",
+            "urgent": true
+          },
+          {
+            "step": "የምግብ አያያዝ ሰርተፊኬቶችን ተደራሽ አድርጉ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የፍተሻ ቀን",
+            "date": "2026-11-28"
+          }
+        ],
+        "costs": [],
+        "documentsToBring": [
+          "የምግብ አያያዝ ሰርተፊኬቶች"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "om",
+      "seedId": "land-registration",
+      "docType": "government_notice",
+      "sourceText": "Lafa kee guyyaa 2027-04-30 dura Biiroo Lafa Woredaatti galmeessi. Gatii galmeessii ETB 300 dha. Sanada qabeenya lafaa, ID kee, fi dhugaa baatota lama fudhadhuu.",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "Lafa kee guyyaa 2027-04-30 dura galmeessuu qabda.",
+        "actions": [
+          {
+            "step": "Lafa kee guyyaa 2027-04-30 dura Biiroo Lafa Woredaatti galmeessi.",
+            "urgent": true
+          },
+          {
+            "step": "Gatii galmeessii ETB 300 kaffali.",
+            "urgent": false
+          },
+          {
+            "step": "Sanada qabeenya lafaa, ID kee, fi dhugaa baatota lama fudhadhuu.",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "Dhuma yeroo galmeessii",
+            "date": "2027-04-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Gatii galmeessii",
+            "amount": 300,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Sanada qabeenya lafaa",
+          "ID",
+          "Dhugaa baatota lama"
+        ],
+        "confidence": "high",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    },
+    {
+      "language": "am",
+      "seedId": "birth-registration",
+      "docType": "government_notice",
+      "sourceText": "የልጅዎን ልደት ባለው 90 ቀናት ውስጥ ያስመዝግቡ። እስከ 2027-01-10 ወረዳው የሲቪል ምዝገባ ቢሮ ይምጡ። የሁለቱም ወላጆች መታወቂያ እና የጤና ተቋሙ የልደት ማስታወሻ ያምጡ። ምዝገባው ነጻ ነው።",
+      "explanation": {
+        "docType": "government_notice",
+        "summary": "የልጅዎን ልደት እስከ 2027-01-10 ማስመዝገብ አለብዎት።",
+        "actions": [
+          {
+            "step": "የልጁን ልደት እስከ 2027-01-10 በወረዳው የሲቪል ምዝገባ ቢሮ ያስመዝግቡ።",
+            "urgent": true
+          },
+          {
+            "step": "የሁለቱም ወላጆች መታወቂያ እና የልደት ማስታወሻ ያምጡ።",
+            "urgent": false
+          }
+        ],
+        "deadlines": [
+          {
+            "label": "የምዝገባ ጊዜ ገደብ",
+            "date": "2027-01-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "የምዝገባ ክፍያ",
+            "amount": 0,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "የሁለቱም ወላጆች መታወቂያ",
+          "የጤና ተቋሙ የልደት ማስታወሻ"
+        ],
+        "confidence": "medium",
+        "warnings": []
+      },
+      "adaptedBy": "adaption-translate"
+    }
+  ]
+}

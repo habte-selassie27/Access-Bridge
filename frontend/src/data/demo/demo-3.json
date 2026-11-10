@@ -23,34 +23,19 @@
       "deadlines": [
         {
           "label": "Fee deadline",
-          "date": "2026-10-05",
-          "sourceSpan": [
-            34,
-            44
-          ],
-          "verified": true
+          "date": "2026-10-05"
         }
       ],
       "costs": [
         {
           "label": "Term 2 fees",
           "amount": 3500,
-          "currency": "ETB",
-          "sourceSpan": [
-            66,
-            75
-          ],
-          "verified": true
+          "currency": "ETB"
         },
         {
           "label": "Late fee",
           "amount": 100,
-          "currency": "ETB",
-          "sourceSpan": [
-            219,
-            226
-          ],
-          "verified": true
+          "currency": "ETB"
         }
       ],
       "documentsToBring": [
@@ -81,34 +66,19 @@
       "deadlines": [
         {
           "label": "የክፍያ የመጨረሻ ቀን",
-          "date": "2026-10-05",
-          "sourceSpan": [
-            34,
-            44
-          ],
-          "verified": true
+          "date": "2026-10-05"
         }
       ],
       "costs": [
         {
           "label": "የሁለተኛ ሴሚስትር ክፍያ",
           "amount": 3500,
-          "currency": "ETB",
-          "sourceSpan": [
-            66,
-            75
-          ],
-          "verified": true
+          "currency": "ETB"
         },
         {
           "label": "የዘገየ ክፍያ",
           "amount": 100,
-          "currency": "ETB",
-          "sourceSpan": [
-            219,
-            226
-          ],
-          "verified": true
+          "currency": "ETB"
         }
       ],
       "documentsToBring": [
@@ -139,34 +109,19 @@
       "deadlines": [
         {
           "label": "Guyyaa xumuraa kaffaltii",
-          "date": "2026-10-05",
-          "sourceSpan": [
-            34,
-            44
-          ],
-          "verified": true
+          "date": "2026-10-05"
         }
       ],
       "costs": [
         {
           "label": "Kaffaltii semisteerii 2",
           "amount": 3500,
-          "currency": "ETB",
-          "sourceSpan": [
-            66,
-            75
-          ],
-          "verified": true
+          "currency": "ETB"
         },
         {
           "label": "Kaffaltii booda",
           "amount": 100,
-          "currency": "ETB",
-          "sourceSpan": [
-            219,
-            226
-          ],
-          "verified": true
+          "currency": "ETB"
         }
       ],
       "documentsToBring": [
@@ -197,34 +152,19 @@
       "deadlines": [
         {
           "label": "መወዳእታ መዓልቲ ክፍሊት",
-          "date": "2026-10-05",
-          "sourceSpan": [
-            34,
-            44
-          ],
-          "verified": true
+          "date": "2026-10-05"
         }
       ],
       "costs": [
         {
           "label": "ክፍሊት ካልኣይ ሰሚስተር",
           "amount": 3500,
-          "currency": "ETB",
-          "sourceSpan": [
-            66,
-            75
-          ],
-          "verified": true
+          "currency": "ETB"
         },
         {
           "label": "ክፍሊት ዝደንገየ",
           "amount": 100,
-          "currency": "ETB",
-          "sourceSpan": [
-            219,
-            226
-          ],
-          "verified": true
+          "currency": "ETB"
         }
       ],
       "documentsToBring": [

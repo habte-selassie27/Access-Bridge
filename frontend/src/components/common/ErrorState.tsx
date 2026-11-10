@@ -16,18 +16,18 @@ export function ErrorState({
   exampleLabel = "Use an example",
 }: ErrorStateProps) {
   return (
-    <section className="rounded-xl border border-border bg-surface p-6 text-center shadow-sm">
-      <span className="w-12 h-12 rounded-full border border-danger/20 bg-danger/10 flex items-center justify-center text-danger mx-auto mb-4">
+    <section className="rounded-lg border border-border bg-surface p-6 text-center shadow-sm">
+      <span className="w-12 h-12 rounded-full border border-danger-border/20 bg-danger-bg/10 flex items-center justify-center text-danger mx-auto mb-4">
         <AlertCircleIcon size={24} strokeWidth={2} />
       </span>
-      <h3 className="text-lg font-bold text-text-primary mb-2">{title}</h3>
-      <p className="text-sm text-text-secondary mb-6">{message}</p>
+      <h3 className="text-lg font-bold text-text mb-2">{title}</h3>
+      <p className="text-sm text-subtle mb-6">{message}</p>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         {onRetry && (
           <button
             type="button"
             onClick={onRetry}
-            className="touch-target rounded-lg bg-accent px-4 py-2.5 text-accent-foreground text-sm font-medium hover:bg-accent-hover"
+            className="touch-target rounded-md bg-brand px-4 py-2.5 text-inverse text-sm font-medium hover:bg-brand"
           >
             {retryLabel}
           </button>
@@ -36,7 +36,7 @@ export function ErrorState({
           <button
             type="button"
             onClick={onExample}
-            className="touch-target rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-text-primary hover:bg-surface-muted"
+            className="touch-target rounded-md border border-input bg-background px-4 py-2.5 text-sm text-text hover:bg-neutral-subtle-hovered"
           >
             {exampleLabel}
           </button>

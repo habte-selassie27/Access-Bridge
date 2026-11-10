@@ -1,0 +1,19 @@
+{
+  "datasetId": "31e98ae2-92df-4832-853f-21798ed308c2",
+  "name": "pastewise-seeds",
+  "builtAt": "2026-11-08T13:43:42.914Z",
+  "source": "adaption-translate",
+  "seeds": 25,
+  "expectedRows": 100,
+  "cachedRows": 100,
+  "rowsByLanguage": {
+    "am": 25,
+    "ti": 25,
+    "om": 25,
+    "en": 25
+  },
+  "adaptRun": null,
+  "skipped": [],
+  "seedFile": "data/adaption/seeds.json",
+  "cacheFile": "data/adaption/dataset.json"
+}

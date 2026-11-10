@@ -1,115 +1,69 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { Play, Pause, Volume2, AlertCircle } from "lucide-react";
-import { LANGUAGES } from "../../lib/languages.ts";
-
-function langLabel(code: string): string {
-  return LANGUAGES.find((l) => l.code === code)?.name ?? code;
-}
+import { useMachine, audioReducer, initialAudioState } from "../../lib/state/index.ts";
 
 export interface ListenButtonProps {
   text: string;
   lang: string;
-  /** Pre-rendered audio (bundled demo documents). Falls back to speech synthesis. */
-  audioSrc?: string | null;
   disabled?: boolean;
 }
 
-function hasVoiceFor(lang: string): boolean {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return false;
-  return window.speechSynthesis
-    .getVoices()
-    .some((v) => v.lang.replace("_", "-").toLowerCase().startsWith(lang.toLowerCase()));
-}
-
-export function ListenButton({ text, lang, audioSrc = null, disabled = false }: ListenButtonProps) {
-  const [playing, setPlaying] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export function ListenButton({ text, lang, disabled = false }: ListenButtonProps) {
+  const [audio, send] = useMachine(audioReducer, initialAudioState);
+  const playing = audio.status === "playing";
+  const error = audio.error;
+  const [supported, setSupported] = useState(true);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const stopAll = useCallback(() => {
-    if (typeof window === "undefined") return;
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
-    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
-    utteranceRef.current = null;
-    setPlaying(false);
-  }, []);
-
-  useEffect(() => stopAll, [stopAll]);
-
-  // Device voices load asynchronously in Chrome; without this the first click
-  // reports "no voice" on some machines.
   useEffect(() => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    const warm = () => window.speechSynthesis.getVoices();
-    warm();
-    window.speechSynthesis.addEventListener?.("voiceschanged", warm);
-    return () => window.speechSynthesis.removeEventListener?.("voiceschanged", warm);
-  }, []);
+    setSupported(typeof window !== "undefined" && "speechSynthesis" in window);
+    return () => {
+      if (utteranceRef.current) {
+        window.speechSynthesis.cancel();
+        utteranceRef.current = null;
+      }
+      send({ type: "RESET" });
+    };
+  }, [send]);
 
-  const speakWithDevice = useCallback(() => {
-    if (!("speechSynthesis" in window)) {
-      setError("This browser cannot read text aloud.");
+  const stop = useCallback(() => {
+    if (typeof window === "undefined") return;
+    window.speechSynthesis.cancel();
+    send({ type: "STOPPED" });
+    utteranceRef.current = null;
+  }, [send]);
+
+  const handleToggle = useCallback(() => {
+    if (!supported) {
+      send({ type: "ERROR", message: "Voice not supported in this browser." });
       return;
     }
-    // Never read Amharic with an English voice: that is gibberish, not a readout.
-    if (!hasVoiceFor(lang)) {
-      setError(`No ${langLabel(lang)} voice on this device.`);
+    if (playing) {
+      stop();
       return;
     }
+    send({ type: "LOADING" });
+    if (typeof window === "undefined") return;
+    window.speechSynthesis.cancel();
     const utt = new SpeechSynthesisUtterance(text);
     utt.lang = lang;
-    const voice = window.speechSynthesis
-      .getVoices()
-      .find((v) => v.lang.replace("_", "-").toLowerCase().startsWith(lang.toLowerCase()));
+    const voices = window.speechSynthesis.getVoices();
+    const voice = voices.find((v) => v.lang.startsWith(lang)) || voices[0];
     if (voice) utt.voice = voice;
-    utt.onstart = () => setPlaying(true);
-    utt.onend = () => setPlaying(false);
+    utt.onstart = () => send({ type: "PLAYING" });
+    utt.onend = () => send({ type: "STOPPED" });
     utt.onerror = () => {
-      setPlaying(false);
-      setError(`No ${langLabel(lang)} voice on this device.`);
+      send({ type: "ERROR", message: "Voice unavailable for this language." });
     };
     utteranceRef.current = utt;
     window.speechSynthesis.speak(utt);
-  }, [text, lang]);
-
-  const handleToggle = useCallback(() => {
-    if (playing) {
-      stopAll();
-      return;
-    }
-    setError(null);
-
-    if (!audioSrc) {
-      speakWithDevice();
-      return;
-    }
-
-    const audio = new Audio(audioSrc);
-    audioRef.current = audio;
-    audio.onplay = () => setPlaying(true);
-    audio.onended = () => setPlaying(false);
-    audio.onerror = () => {
-      audioRef.current = null;
-      setPlaying(false);
-      setError("Recorded audio unavailable — trying this device's voice.");
-      speakWithDevice();
-    };
-    void audio.play().catch(() => {
-      audioRef.current = null;
-      setPlaying(false);
-      setError("Tap play again to allow audio, or use this device's voice.");
-    });
-  }, [audioSrc, playing, speakWithDevice, stopAll]);
+  }, [text, lang, supported, playing, stop, send]);
 
   if (disabled) {
     return (
       <button
         type="button"
-        className="touch-target rounded-lg border border-border bg-surface-muted px-3 py-2 text-text-secondary cursor-not-allowed"
+        className="touch-target rounded-lg border border-border bg-surface-muted px-3 py-2 text-subtle cursor-not-allowed"
         aria-disabled="true"
       >
         <Volume2 size={18} strokeWidth={2} />
@@ -122,20 +76,22 @@ export function ListenButton({ text, lang, audioSrc = null, disabled = false }: 
       <button
         type="button"
         onClick={handleToggle}
-        className={`touch-target rounded-lg border border-border bg-background px-3 py-2 text-sm transition-colors hover:bg-surface-muted ${
-          playing ? "bg-accent text-accent-foreground border-accent" : ""
+        className={`touch-target inline-flex items-center gap-2 rounded-lg border border-input bg-background px-3 py-2 text-sm transition-colors hover:bg-neutral-subtle-hovered ${
+          playing ? "bg-brand text-inverse border-brand" : ""
         }`}
-        aria-label={playing ? "Pause reading" : "Listen"}
-        title={playing ? "Pause reading" : "Listen"}
+        aria-label={playing ? "Pause reading" : "Listen to this explanation"}
+        aria-pressed={playing}
+        title={playing ? "Pause reading" : "Listen to this explanation"}
       >
         {playing ? (
-          <Pause size={18} strokeWidth={2.5} />
+          <Pause size={18} strokeWidth={2.5} aria-hidden="true" />
         ) : (
-          <Play size={18} strokeWidth={2.5} />
+          <Play size={18} strokeWidth={2.5} aria-hidden="true" />
         )}
+        <span>{playing ? "Pause" : "Listen"}</span>
       </button>
       {error ? (
-        <span className="inline-flex items-center gap-1 rounded-full border border-warning/20 bg-warning/10 px-2 py-0.5 text-xs text-warning">
+        <span className="inline-flex items-center gap-1 rounded-full border border-warning-border bg-warning-subtle px-2 py-0.5 text-[0.75rem] text-warning">
           <AlertCircle size={12} strokeWidth={2} />
           {error}
         </span>

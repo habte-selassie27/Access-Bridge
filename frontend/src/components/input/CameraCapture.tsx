@@ -1,40 +1,46 @@
-import { useState, useCallback, useRef } from "react";
+import { useCallback, useRef, useEffect } from "react";
 import { Camera } from "lucide-react";
+import { downscaleImage } from "../../lib/image.ts";
+import { useMachine, cameraReducer, initialCameraState } from "../../lib/state/index.ts";
 
 export interface CameraCaptureProps {
   onPhotoCapture: (file: File) => void;
 }
 
 export function CameraCapture({ onPhotoCapture }: CameraCaptureProps) {
-  const [error, setError] = useState<string | null>(null);
-  const [stream, setStream] = useState<MediaStream | null>(null);
+  const [cam, send] = useMachine(cameraReducer, initialCameraState);
+  const stream = cam.stream;
+  const error = cam.error;
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  useEffect(() => {
+    if (videoRef.current && stream) {
+      videoRef.current.srcObject = stream;
+    }
+  }, [stream]);
+
   const startCamera = useCallback(async () => {
-    setError(null);
+    send({ type: "REQUEST" });
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "environment" },
       });
-      setStream(mediaStream);
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-      }
+      send({ type: "GRANTED", stream: mediaStream });
     } catch {
-      setError("Camera access is not available. Please upload a file instead.");
+      send({ type: "DENIED", error: "Camera access is not available. Upload a file instead." });
     }
-  }, []);
+  }, [send]);
 
   const stopCamera = useCallback(() => {
     if (stream) {
       stream.getTracks().forEach((track) => track.stop());
-      setStream(null);
     }
     if (videoRef.current) {
       videoRef.current.srcObject = null;
     }
-  }, [stream]);
+    send({ type: "STOP" });
+  }, [stream, send]);
 
   const capturePhoto = useCallback(() => {
     if (!videoRef.current || !canvasRef.current) return;
@@ -45,29 +51,25 @@ export function CameraCapture({ onPhotoCapture }: CameraCaptureProps) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     ctx.drawImage(video, 0, 0);
-    canvas.toBlob((blob: Blob | null) => {
+    canvas.toBlob(async (blob: Blob | null) => {
       if (!blob) return;
       const file = new File([blob], `capture-${Date.now()}.jpg`, { type: "image/jpeg" });
+      const processed = await downscaleImage(file);
       stopCamera();
-      onPhotoCapture(file);
-    }, "image/jpeg");
+      onPhotoCapture(processed);
+    }, "image/jpeg", 0.8);
   }, [onPhotoCapture, stopCamera]);
 
   return (
-    <div className="space-y-3">
-      {stream && videoRef.current && (
-        <>
-          <div className="relative rounded-lg border border-border bg-background overflow-hidden">
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              className="w-full h-64 object-cover"
-            />
+    <div>
+      {stream ? (
+        <div className="space-y-2">
+          <div className="relative overflow-hidden rounded-lg border border-border bg-background">
+            <video ref={videoRef} autoPlay playsInline muted className="h-56 w-full object-cover" />
             <button
               type="button"
               onClick={capturePhoto}
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 touch-target rounded-full bg-accent p-3 text-accent-foreground shadow-lg"
+              className="touch-target absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-brand p-3 text-inverse shadow-sm"
               aria-label="Capture photo"
             >
               <Camera size={24} strokeWidth={2.5} />
@@ -76,26 +78,26 @@ export function CameraCapture({ onPhotoCapture }: CameraCaptureProps) {
           <button
             type="button"
             onClick={stopCamera}
-            className="w-full rounded-lg border border-border bg-background px-4 py-2 text-sm text-text-secondary hover:bg-surface-muted"
+            className="w-full rounded-md border border-input bg-background px-4 py-2 text-sm text-subtle transition-colors hover:bg-neutral-subtle-hovered"
           >
             Cancel camera
           </button>
-        </>
-      )}
-      {!stream && (
+        </div>
+      ) : (
         <button
           type="button"
           onClick={startCamera}
-          className="touch-target w-full flex items-center justify-center gap-2 rounded-lg border border-border bg-background px-4 py-4 text-sm text-text-secondary hover:bg-surface-muted"
+          className="touch-target flex w-full items-center justify-center gap-2 rounded-md border border-input bg-background px-4 py-3 text-sm font-medium text-text transition-colors hover:border-brand hover:bg-surface-muted hover:text-brand"
         >
-          <Camera size={20} strokeWidth={2} />
-          <span>Take photo</span>
+          <Camera size={16} strokeWidth={2} aria-hidden="true" />
+          <span>Take a photo</span>
         </button>
       )}
+      <canvas ref={canvasRef} className="hidden" aria-hidden="true" />
       {error && (
-        <div className="rounded-lg border border-danger/20 bg-danger/10 px-3 py-2 text-danger text-sm">
+        <p role="alert" className="mt-2 text-[0.75rem] text-danger">
           {error}
-        </div>
+        </p>
       )}
     </div>
   );

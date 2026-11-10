@@ -1,37 +1,29 @@
-export interface SampleComparisonProps {
-  onBack: () => void;
-}
+import type { EvalResults } from "./evalTypes.ts";
 
-export function SampleComparison({ onBack }: SampleComparisonProps) {
+export function SampleComparison({ data }: { data: EvalResults | null }) {
+  const rows = data?.rows ?? [];
+  const sample = rows.find((r) => r.lang === "am" && r.variant === "baseline");
+  const adapted = sample
+    ? rows.find((r) => r.lang === "am" && r.variant === "adapted" && r.seedId === sample.seedId)
+    : undefined;
+
   return (
-    <section className="space-y-6">
-      <div className="flex items-center justify-between gap-3">
-        <button
-          type="button"
-          onClick={onBack}
-          className="touch-target inline-flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2 text-sm text-text-primary hover:bg-surface-muted"
-        >
-          Back
-        </button>
-        <h1 className="text-xl font-bold text-text-primary">Sample comparison</h1>
-      </div>
-      <div className="rounded-xl border border-border bg-surface p-5 shadow-sm">
-        <h3 className="text-lg font-semibold text-text-primary mb-4">Amharic example</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="rounded-lg border border-danger/20 bg-danger/5 p-4">
-            <p className="text-xs text-danger font-medium mb-2 uppercase tracking-wider">Baseline</p>
-            <p className="text-sm text-text-primary font-ethiopic">
-              ይህ ነው የትምህርት ክፍያ ነው። ቀላሉ ቀላሉ አድርገዋል።
-            </p>
+    <section className="rounded-lg border border-border bg-surface p-5">
+      <h2 className="text-lg font-semibold text-text mb-4">Amharic example{sample ? ` — ${sample.seedId}` : ""}</h2>
+      {sample ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="rounded-lg border border-danger-border/20 bg-danger-bg/5 p-4">
+            <p className="text-xs text-danger font-medium mb-2">Baseline</p>
+            <p className="text-sm text-text font-ethiopic">{sample.rawSummary || "(no summary)"}</p>
           </div>
-          <div className="rounded-lg border border-success/20 bg-success/5 p-4">
-            <p className="text-xs text-success font-medium mb-2 uppercase tracking-wider">Adapted</p>
-            <p className="text-sm text-text-primary font-ethiopic">
-              የሁለተኛ ሴሚስትር የትምህርት ክፍያ በ2026-10-05 ይከፈላል። ጠቅላላ ክፍያው ETB 3,500 ነው።
-            </p>
+          <div className="rounded-lg border border-success-border/20 bg-success-bg/5 p-4">
+            <p className="text-xs text-success font-medium mb-2">Adapted</p>
+            <p className="text-sm text-text font-ethiopic">{adapted?.rawSummary || "(no summary)"}</p>
           </div>
         </div>
-      </div>
+      ) : (
+        <p className="text-sm text-subtle">No measured sample available yet.</p>
+      )}
     </section>
   );
 }
