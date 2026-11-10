@@ -17,7 +17,7 @@ import { Actions } from "./screens/Actions.tsx";
 import { Opportunity } from "./screens/Opportunity.tsx";
 import { Compare } from "./screens/Compare.tsx";
 import { Settings } from "./screens/Settings.tsx";
-import { loadLastLanguage, saveLastLanguage } from "./lib/languages.ts";
+import { loadLastLanguage, saveLastLanguage, isRtl } from "./lib/languages.ts";
 import type { LanguageCode } from "./lib/languages.ts";
 import { resolveDemo } from "./lib/demo.ts";
 import { listDocs, saveDoc } from "./lib/library.ts";
@@ -107,6 +107,19 @@ export function App() {
     window.scrollTo(0, 0);
   }, [page]);
 
+  // Tell the browser and the screen reader which language is on screen, and
+  // which way the text runs. A page that reads in Arabic but announces
+  // itself as English is unusable with a screen reader.
+  const setDocumentLanguage = useCallback((code: string) => {
+    const root = document.documentElement;
+    root.lang = code;
+    root.dir = isRtl(code) ? "rtl" : "ltr";
+  }, []);
+
+  useEffect(() => {
+    setDocumentLanguage(lang);
+  }, [lang, setDocumentLanguage]);
+
   const navigate = useCallback((next: Page) => {
     const path = PATH_BY_PAGE[next];
     if (window.location.pathname !== path) {
@@ -151,6 +164,9 @@ export function App() {
           onLangChange={handleLangChange}
           onResult={(data: any) => {
             setResult(data);
+            // The explanation is in the document's own language, so the page
+            // announces that language rather than the interface language.
+            setDocumentLanguage(data?.lang ?? lang);
             // Reading a document saves it to the personal library so the
             // workspace screens have something to work with.
             try {
@@ -174,6 +190,7 @@ export function App() {
           onLangChange={(code) => {
             const nextLang = code as LanguageCode;
             handleLangChange(nextLang);
+            setDocumentLanguage(nextLang);
             if (result.demoId) {
               const next = resolveDemo(result.demoId, nextLang);
               if (next) {

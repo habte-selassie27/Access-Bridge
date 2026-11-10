@@ -86,6 +86,29 @@ export function Home({ onResult, lang, onLangChange }: HomeProps) {
         </a>
       </div>
 
+      {/* Workspace CTA */}
+      <div className="rounded-xl border border-border bg-surface p-4 sm:p-6">
+        <h2 className="text-lg font-semibold text-text">The full workspace</h2>
+        <p className="mt-1 text-sm text-subtle">
+          Translate, simplify, listen, compare, check your eligibility and keep your documents — all on
+          this device.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <a
+            href="/dashboard"
+            className="touch-target inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2.5 text-sm font-medium text-inverse"
+          >
+            Open the dashboard
+          </a>
+          <a
+            href="/upload"
+            className="touch-target inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2.5 text-sm text-text"
+          >
+            Read a document first
+          </a>
+        </div>
+      </div>
+
       {/* Privacy */}
       <div className="rounded-lg border border-border bg-surface-muted p-4 text-[0.75rem] text-subtle">
         <div className="mb-2 flex items-center gap-2 font-medium text-text">

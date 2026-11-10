@@ -83,6 +83,20 @@ impossible combinations are unrepresentable. The personal library (`/lib/library
 accessibility preferences (`/lib/a11y.ts`) live in the browser only — no account, no server-side
 history.
 
+## Demo script (3 minutes)
+
+1. **(0–15s)** The problem over a real notice: "This is a notice millions of people can't read."
+   Then show the working product immediately.
+2. **(15–60s)** Paste the notice → Amharic explanation, checklist, voice readout. Switch the
+   plain-language level to **Simple** and show the same facts in shorter sentences.
+3. **(60–100s)** Open the **Opportunity Access** page: describe yourself, press *Check my
+   eligibility*, and show each requirement with the quote it came from.
+4. **(100–130s)** Open **Settings**, turn on **Large text** and **Light theme**. Then open
+   **Actions** and tick off the checklist — the progress bar moves.
+5. **(130–165s)** Open the **Evaluation** page: baseline vs Adaption-improved Amharic/Oromo/
+   Tigrinya, with the failing rows listed, and the note that other languages are unmeasured.
+6. **(165–180s)** Close on the impact: "Anyone can access what they need, just by pasting."
+
 ## Deploy
 
 The whole app runs on Vercel: the Vite build is the static site, and the Express server is

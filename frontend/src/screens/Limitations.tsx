@@ -11,7 +11,15 @@ const LIMITATIONS = [
   },
   {
     title: "Language quality varies",
-    body: "Amharic, Oromo and Tigrinya are lower-resource languages, so explanations can be less precise than the English version. The evaluation page shows measured gaps rather than only the best cases.",
+    body: "Amharic, Oromo and Tigrinya are lower-resource languages, so explanations can be less precise than the English version. The evaluation page shows measured gaps rather than only the best cases. Swahili, Arabic and French are supported but not yet measured, and the language picker marks them as experimental.",
+  },
+  {
+    title: "The eligibility check is an assessment, not a decision",
+    body: "It compares what you told it against the requirements the document publishes, and it shows the quote it used for each one. If it cannot find that quote in the document it says it does not know. It never predicts whether you will be accepted.",
+  },
+  {
+    title: "Web pages do not always import cleanly",
+    body: "The importer reads the page as it is served. Pages that need a login, sit behind a paywall, or are built entirely in JavaScript can come back mostly empty. Paste the text in those cases.",
   },
   {
     title: "Photo and PDF reading is imperfect",

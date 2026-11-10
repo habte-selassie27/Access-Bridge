@@ -96,6 +96,11 @@ export function EvalOverview({ data }: { data: EvalResults | null }) {
           Adapted prompts use per-language examples translated by Adaption from the English seed corpus. Every date
           and amount is checked against the source document by deterministic code.
         </p>
+        <p className="mt-2 text-sm text-subtle">
+          Only the languages listed here have measured numbers. The app also supports Swahili, Arabic and
+          French, but those are marked as experimental until they are evaluated the same way — no number on
+          this page covers them yet.
+        </p>
       </div>
     </section>
   );
