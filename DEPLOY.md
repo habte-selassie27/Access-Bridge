@@ -38,12 +38,14 @@ Railway env vars:
 - `NODE_ENV=production`
 - `PORT` optional; Railway sets the port if needed
 - `CORS_ORIGINS` = the Vercel frontend origin
-- `GROQ_API_KEY`
-- `GEMINI_API_KEY`
+- `GROQ_API_KEY` primary live LLM
+- `MISTRAL_API_KEY` fallback live LLM, used when Groq is absent
+- `GEMINI_API_KEY` OCR for photos/PDFs
 - `ADAPTION_API_KEY`
 - `ADAPTION_BASE_URL=https://api.prod.adaptionlabs.ai`
 - `DAILY_SPEND_CAP_USD`
 - `GROQ_MODEL` optional; default is `openai/gpt-oss-120b`
+- `MISTRAL_MODEL` optional; default is `mistral-large-latest`
 - `TTS_PROVIDER_KEY` optional
 - `TTS_PROVIDER` optional
 - `TTS_BASE_URL` optional

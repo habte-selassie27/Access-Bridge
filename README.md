@@ -203,7 +203,8 @@ Set these in the Vercel project dashboard (server-side only):
 
 | Variable | Needed for |
 |---|---|
-| `ANTHROPIC_API_KEY` | Live explanations, follow-ups, translation |
+| `GROQ_API_KEY` | Primary live LLM for explanations, follow-ups, translation |
+| `MISTRAL_API_KEY` | Fallback live LLM when Groq is unavailable |
 | `GEMINI_API_KEY` | OCR for photos/PDFs |
 | `ADAPTION_API_KEY` | Adaption dataset, few-shot examples, evaluation |
 | `TTS_PROVIDER_KEY` | Hosted text-to-speech (optional; browser voice otherwise) |
