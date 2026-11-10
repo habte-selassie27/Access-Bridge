@@ -9,7 +9,7 @@ import { noCache } from "../middleware/request-logger.ts";
 import { log } from "../lib/observability/logger.ts";
 import { inc } from "../lib/observability/metrics.ts";
 import { addSpend } from "../lib/security/spend-guard.ts";
-import { wrapUntrustedDocument } from "../lib/security/content-isolation.ts";
+import { wrapUntrustedDocument, unwrapUntrustedDocument } from "../lib/security/content-isolation.ts";
 import { FOLLOWUP_SYSTEM, FOLLOWUP_USER } from "../../frontend/src/lib/prompts.ts";
 
 const router = Router();
@@ -51,7 +51,7 @@ router.post("/ask", async (req, res) => {
       );
       addSpend(0.001);
       inc("followup_success");
-      const trimmed = answer.trim();
+      const trimmed = unwrapUntrustedDocument(answer);
       // The answer must come from the document. Detect the model's own refusal
       // so the UI can say so plainly instead of showing a vague answer.
       const notFound = /not (?:in|stated in|mentioned in|specified in|found in) (?:your |the )?document/i.test(

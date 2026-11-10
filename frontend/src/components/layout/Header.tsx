@@ -1,4 +1,4 @@
-import { FileText, ShieldCheck } from "lucide-react";
+import { FileText, ShieldCheck, LayoutDashboard, Settings } from "lucide-react";
 
 export function Header() {
   return (
@@ -17,6 +17,14 @@ export function Header() {
         </a>
 
         <nav aria-label="Main" className="flex shrink-0 items-center gap-0.5 text-sm sm:gap-1">
+          <a
+            href="/dashboard"
+            className="inline-flex items-center gap-1.5 rounded-md px-2 py-2 text-subtle transition-colors hover:bg-neutral-subtle-hovered hover:text-text sm:px-2.5"
+            aria-label="Dashboard"
+          >
+            <LayoutDashboard size={16} strokeWidth={2} aria-hidden="true" />
+            <span className="hidden sm:inline">Dashboard</span>
+          </a>
           <a
             href="/upload"
             className="inline-flex items-center gap-1.5 rounded-md px-2 py-2 text-subtle transition-colors hover:bg-neutral-subtle-hovered hover:text-text sm:px-2.5"
@@ -48,6 +56,14 @@ export function Header() {
           >
             <ShieldCheck size={16} strokeWidth={2} aria-hidden="true" />
             <span className="sr-only sm:not-sr-only sm:inline">Limitations</span>
+          </a>
+          <a
+            href="/settings"
+            aria-label="Settings"
+            className="inline-flex items-center gap-1.5 rounded-md px-2 py-2 text-subtle transition-colors hover:bg-neutral-subtle-hovered hover:text-text sm:px-2.5"
+          >
+            <Settings size={16} strokeWidth={2} aria-hidden="true" />
+            <span className="sr-only sm:not-sr-only sm:inline">Settings</span>
           </a>
         </nav>
       </div>

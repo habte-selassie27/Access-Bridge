@@ -84,6 +84,9 @@ export function toFrontendResult(old: any, sourceText: string): any {
     urgent: Boolean(a.urgent),
     evidence: null,
   }));
+  const sections = (old.sections || [])
+    .map((s: any) => ({ title: String(s?.title ?? "").trim(), summary: String(s?.summary ?? "").trim() }))
+    .filter((s: { title: string; summary: string }) => s.title && s.summary);
   return {
     docType: old.docType,
     summary: old.summary,
@@ -93,6 +96,8 @@ export function toFrontendResult(old: any, sourceText: string): any {
     deadlines,
     costs,
     documentsToBring: old.documentsToBring || [],
+    sections,
+    level: old.level || "standard",
     confidence: old.confidence || "medium",
     warnings: old.warnings || [],
     lang,
@@ -180,6 +185,16 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
   const eligibility = toStringList(raw.eligibility || raw.eligibility_requirements || raw.who_can_apply);
   const howToApply = toStringList(raw.howToApply || raw.how_to_apply || raw.application_steps);
 
+  // Named sections of the document, for section-by-section reading.
+  let sectionsRaw = raw.sections || raw.key_sections || raw.parts || [];
+  if (!Array.isArray(sectionsRaw)) sectionsRaw = [];
+  const sections = sectionsRaw
+    .map((s: any) => ({
+      title: String(s?.title ?? s?.name ?? "").trim(),
+      summary: String(s?.summary ?? s?.description ?? s?.text ?? "").trim(),
+    }))
+    .filter((s: { title: string; summary: string }) => s.title && s.summary);
+
   const confidence = ["high", "medium", "low"].includes(raw.confidence) ? raw.confidence : "medium";
   const warnings = Array.isArray(raw.warnings) ? raw.warnings.map((x: any) => String(x)) : [];
 
@@ -192,6 +207,7 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     deadlines,
     costs,
     documentsToBring,
+    sections,
     confidence,
     warnings,
     lang,

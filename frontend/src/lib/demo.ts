@@ -46,6 +46,8 @@ function toResult(doc: (typeof DOCS)[number], output: any, lang: string): Explan
     deadlines,
     costs,
     documentsToBring: output.documentsToBring || [],
+    sections: output.sections || [],
+    level: output.level || "standard",
     confidence,
     warnings: Array.from(new Set([...(output.warnings || []), ...warnings])),
     lang: (output.lang || lang) as ExplanationResult["lang"],
@@ -55,12 +57,19 @@ function toResult(doc: (typeof DOCS)[number], output: any, lang: string): Explan
   };
 }
 
-/** Resolve a bundled demo example, ignoring any legacy `id:lang` suffix. */
+/**
+ * Resolve a bundled demo example, ignoring any legacy `id:lang` suffix.
+ *
+ * Returns null when the requested language has no recorded output. Falling
+ * back to the English text would show an English explanation under an
+ * Amharic, Swahili or Arabic label, which is exactly the kind of quiet
+ * mistranslation this product exists to prevent.
+ */
 export function resolveDemo(demoId: string, lang: string): ExplanationResult | null {
   const baseId = demoId.split(":")[0];
   const doc = DOCS.find((d) => d.id === baseId);
   if (!doc) return null;
-  const output = doc.outputs[lang] || doc.outputs.en;
+  const output = doc.outputs[lang];
   if (!output) return null;
   return toResult(doc, output, lang);
 }

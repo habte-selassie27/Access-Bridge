@@ -6,11 +6,41 @@ import { Upload } from "./screens/Upload.tsx";
 import { Eval } from "./screens/Eval.tsx";
 import { Privacy } from "./screens/Privacy.tsx";
 import { Limitations } from "./screens/Limitations.tsx";
+import { Dashboard } from "./screens/Dashboard.tsx";
+import { Assistant } from "./screens/Assistant.tsx";
+import { Library } from "./screens/Library.tsx";
+import { Reader } from "./screens/Reader.tsx";
+import { Translate } from "./screens/Translate.tsx";
+import { Simplify } from "./screens/Simplify.tsx";
+import { Voice } from "./screens/Voice.tsx";
+import { Actions } from "./screens/Actions.tsx";
+import { Opportunity } from "./screens/Opportunity.tsx";
+import { Compare } from "./screens/Compare.tsx";
+import { Settings } from "./screens/Settings.tsx";
 import { loadLastLanguage, saveLastLanguage } from "./lib/languages.ts";
 import type { LanguageCode } from "./lib/languages.ts";
 import { resolveDemo } from "./lib/demo.ts";
+import { listDocs, saveDoc } from "./lib/library.ts";
+import type { LibraryDoc } from "./lib/library.ts";
 
-type Page = "home" | "result" | "upload" | "eval" | "privacy" | "limitations";
+type Page =
+  | "home"
+  | "result"
+  | "upload"
+  | "eval"
+  | "privacy"
+  | "limitations"
+  | "dashboard"
+  | "assistant"
+  | "library"
+  | "reader"
+  | "translate"
+  | "simplify"
+  | "voice"
+  | "actions"
+  | "opportunity"
+  | "compare"
+  | "settings";
 
 const PATH_BY_PAGE: Record<Page, string> = {
   home: "/",
@@ -19,22 +49,48 @@ const PATH_BY_PAGE: Record<Page, string> = {
   eval: "/eval",
   privacy: "/privacy",
   limitations: "/limitations",
+  dashboard: "/dashboard",
+  assistant: "/assistant",
+  library: "/library",
+  reader: "/reader",
+  translate: "/translate",
+  simplify: "/simplify",
+  voice: "/voice",
+  actions: "/actions",
+  opportunity: "/opportunity",
+  compare: "/compare",
+  settings: "/settings",
 };
 
+/** Pages that use the workspace layout (sidebar) instead of the simple shell. */
+const WORKSPACE_PAGES: Page[] = [
+  "dashboard",
+  "assistant",
+  "library",
+  "reader",
+  "translate",
+  "simplify",
+  "voice",
+  "actions",
+  "opportunity",
+  "compare",
+  "settings",
+];
+
 function pageFromPath(pathname: string): Page {
-  const clean = pathname.replace(/\/+$/, "");
-  if (clean === "/eval") return "eval";
-  if (clean === "/result") return "result";
-  if (clean === "/upload") return "upload";
-  if (clean === "/privacy") return "privacy";
-  if (clean === "/limitations") return "limitations";
-  return "home";
+  const clean = pathname.replace(/\/+$/, "") || "/";
+  const match = (Object.keys(PATH_BY_PAGE) as Page[]).find((p) => PATH_BY_PAGE[p] === clean);
+  return match ?? "home";
 }
 
 export function App() {
   const [page, setPage] = useState<Page>(() => pageFromPath(window.location.pathname));
   const [result, setResult] = useState<any>(null);
   const [lang, setLang] = useState<LanguageCode>(() => loadLastLanguage());
+  /** The document currently open in the workspace screens. */
+  const [activeDoc, setActiveDoc] = useState<LibraryDoc | null>(null);
+  /** Set when a language cannot be served for the current document. */
+  const [langNotice, setLangNotice] = useState<string | null>(null);
 
   const handleLangChange = useCallback((code: LanguageCode) => {
     saveLastLanguage(code);
@@ -59,7 +115,33 @@ export function App() {
     setPage(next);
   }, []);
 
+  /** Open a saved document in the workspace and make it the active one. */
+  const openDoc = useCallback(
+    (doc: LibraryDoc) => {
+      setActiveDoc(doc);
+    },
+    []
+  );
+
   const activePage: Page = page === "result" && !result ? "home" : page;
+
+  if (WORKSPACE_PAGES.includes(activePage)) {
+    return (
+      <>
+        {activePage === "dashboard" && <Dashboard onOpenDoc={openDoc} />}
+        {activePage === "assistant" && <Assistant lang={lang} activeDoc={activeDoc} />}
+        {activePage === "library" && <Library onOpenDoc={openDoc} />}
+        {activePage === "reader" && <Reader activeDoc={activeDoc} onOpenDoc={openDoc} />}
+        {activePage === "translate" && <Translate lang={lang} activeDoc={activeDoc} />}
+        {activePage === "simplify" && <Simplify lang={lang} activeDoc={activeDoc} />}
+        {activePage === "voice" && <Voice lang={lang} activeDoc={activeDoc} />}
+        {activePage === "actions" && <Actions activeDoc={activeDoc} />}
+        {activePage === "opportunity" && <Opportunity lang={lang} activeDoc={activeDoc} />}
+        {activePage === "compare" && <Compare lang={lang} />}
+        {activePage === "settings" && <Settings />}
+      </>
+    );
+  }
 
   return (
     <AppShell>
@@ -69,6 +151,15 @@ export function App() {
           onLangChange={handleLangChange}
           onResult={(data: any) => {
             setResult(data);
+            // Reading a document saves it to the personal library so the
+            // workspace screens have something to work with.
+            try {
+              const doc = saveDoc({ sourceText: data.originalText ?? "", result: data });
+              setActiveDoc(doc);
+            } catch {
+              // The library is a convenience; a storage failure must not
+              // break the result screen.
+            }
             navigate("result");
           }}
         />
@@ -85,17 +176,31 @@ export function App() {
             handleLangChange(nextLang);
             if (result.demoId) {
               const next = resolveDemo(result.demoId, nextLang);
-              if (next) setResult(next);
+              if (next) {
+                setResult(next);
+                setLangNotice(null);
+              } else {
+                // The saved example has no output in this language. Showing the
+                // old text under a new language label would be a mistranslation.
+                setLangNotice(
+                  "This saved example is only available in English, Amharic, Oromo and Tigrinya. Read a new document for other languages."
+                );
+              }
             }
           }}
+          notice={langNotice}
         />
       )}
       {activePage === "upload" && <Upload onBack={() => navigate("home")} />}
       {activePage === "eval" && <Eval onBack={() => navigate("home")} />}
       {activePage === "privacy" && <Privacy onBack={() => navigate("home")} />}
-      {activePage === "limitations" && (
-        <Limitations onBack={() => navigate("home")} />
-      )}
+      {activePage === "limitations" && <Limitations onBack={() => navigate("home")} />}
     </AppShell>
   );
+}
+
+/** Kept for the header: the most recently opened document, if any. */
+export function currentLibraryDoc(): LibraryDoc | null {
+  const docs = listDocs();
+  return docs[0] ?? null;
 }

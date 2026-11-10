@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App";
+import { initA11y } from "./lib/a11y.ts";
 import "./style.css";
 
-// Force dark theme across the entire UI (dark background, white text).
-document.documentElement.dataset.theme = "dark";
-document.documentElement.style.colorScheme = "dark";
+// Apply the saved accessibility preferences before the first paint so the
+// page never flashes the wrong theme or text size.
+initA11y();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

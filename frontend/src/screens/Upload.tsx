@@ -1,25 +1,31 @@
 import { useReducer, useEffect, useRef, useState, useCallback } from "react";
-import { ArrowLeft, Camera, Check, Play, Pause, Square, Trash2 } from "lucide-react";
+import { ArrowLeft, Camera, Check, Play, Pause, Square, Trash2, Link2 } from "lucide-react";
 import { FileUploader, validateFile } from "../components/input/FileUploader.tsx";
 import { CameraCapture } from "../components/input/CameraCapture.tsx";
 import { FilePreview } from "../components/input/FilePreview.tsx";
 import { MessageInput } from "../components/followup/MessageInput.tsx";
+import { LevelSelector } from "../components/result/LevelSelector.tsx";
+import { LanguageChips } from "../components/input/LanguageChips.tsx";
 import { offlineDemoResult } from "../lib/fallbackResults.ts";
 import { hydrateFromResult } from "../lib/verification.ts";
 import { EXAMPLES } from "../lib/examples.ts";
 import { ResultView } from "../components/result/ResultView.tsx";
+import { importPage } from "../lib/api/workspace.ts";
+import { saveDoc } from "../lib/library.ts";
 
 import type { ExplanationResult } from "../lib/api/types.ts";
-import type { LangCode } from "../lib/api/types.ts";
+import type { ExplainLevel, LangCode } from "../lib/api/types.ts";
 import { languageName } from "../lib/languages.ts";
 
 type Step = 1 | 2 | 3 | 4 | 5 | 6;
+type InputTab = "text" | "file" | "photo" | "link";
 
 interface WizardState {
   step: Step;
   language: LangCode;
+  level: ExplainLevel;
   extractedText: string;
-  inputKind: "file" | "text" | "photo";
+  inputKind: "file" | "text" | "photo" | "link";
   result: ExplanationResult | null;
   verification: { items: any[]; verifiedCount: number; needCheckCount: number; confidence: string } | null;
   chat: { q: string; a: string; quote?: string | null }[];
@@ -34,6 +40,7 @@ interface WizardState {
 const initialState: WizardState = {
   step: 1,
   language: "en",
+  level: "standard",
   extractedText: "",
   inputKind: "text",
   result: null,
@@ -48,8 +55,9 @@ const initialState: WizardState = {
 type Action =
   | { type: "SET_STEP"; step: Step }
   | { type: "SET_LANG"; lang: LangCode }
+  | { type: "SET_LEVEL"; level: ExplainLevel }
   | { type: "SET_TEXT"; text: string }
-  | { type: "SET_KIND"; kind: "file" | "text" | "photo" }
+  | { type: "SET_KIND"; kind: "file" | "text" | "photo" | "link" }
   | { type: "SET_RESULT"; result: ExplanationResult }
   | { type: "SET_VERIFY"; verification: WizardState["verification"] }
   | { type: "ADD_CHAT"; q: string; a: string; quote?: string | null }
@@ -66,6 +74,8 @@ function reducer(state: WizardState, action: Action): WizardState {
       return { ...state, step: action.step };
     case "SET_LANG":
       return { ...state, language: action.lang };
+    case "SET_LEVEL":
+      return { ...state, level: action.level };
     case "SET_TEXT":
       return { ...state, extractedText: action.text };
     case "SET_KIND":
@@ -143,7 +153,8 @@ export function Upload({ onBack }: UploadProps) {
   const [error, setError] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [text, setText] = useState("");
-  const [tab, setTab] = useState<"file" | "photo" | "text">("text");
+  const [tab, setTab] = useState<InputTab>("text");
+  const [link, setLink] = useState("");
   const [speed, setSpeed] = useState(1);
   const [playing, setPlaying] = useState(false);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
@@ -191,7 +202,18 @@ export function Upload({ onBack }: UploadProps) {
     const t0 = Date.now();
     try {
       let data: any;
-      if (tab === "text") {
+      if (tab === "link") {
+        const imported = await importPage(link.trim());
+        if (imported.error || !imported.data) {
+          throw new Error(imported.error?.message || "We could not open that link.");
+        }
+        data = {
+          text: imported.data.text,
+          sourceLanguage: "en",
+          charCount: imported.data.charCount,
+          ocrUsed: false,
+        };
+      } else if (tab === "text") {
         try {
           data = await api("/api/extract", { text: text.trim() });
         } catch {
@@ -207,6 +229,7 @@ export function Upload({ onBack }: UploadProps) {
       }
       if (!data?.text?.trim()) throw new Error("We could not read any text from that document.");
       dispatch({ type: "SET_TEXT", text: data.text });
+      dispatch({ type: "SET_KIND", kind: tab });
       dispatch({ type: "SET_OCR", used: Boolean(data.ocrUsed) });
       dispatch({ type: "SET_METRIC", key: "extract", value: Date.now() - t0 });
       dispatch({ type: "SET_STEP", step: 2 });
@@ -215,7 +238,7 @@ export function Upload({ onBack }: UploadProps) {
     } finally {
       setLoading(false);
     }
-  }, [tab, text, file, api]);
+  }, [tab, text, file, link, api]);
 
   const handleExplain = useCallback(async () => {
     setLoading(true);
@@ -225,7 +248,12 @@ export function Upload({ onBack }: UploadProps) {
       const res = await fetch("/api/explain", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: state.extractedText, language: state.language, lang: state.language }),
+        body: JSON.stringify({
+          text: state.extractedText,
+          language: state.language,
+          lang: state.language,
+          level: state.level,
+        }),
       });
       const json = await res.json().catch(() => null);
       if (!json || json.ok !== true) {
@@ -234,6 +262,12 @@ export function Upload({ onBack }: UploadProps) {
       }
       dispatch({ type: "SET_RESULT", result: json.data });
       dispatch({ type: "SET_METRIC", key: "explain", value: Date.now() - t0 });
+      // Reading a document saves it to the personal library, on this device only.
+      try {
+        saveDoc({ sourceText: state.extractedText, result: json.data });
+      } catch {
+        // The library is a convenience; a storage failure must not break the wizard.
+      }
       // Stay on step 2 so the user reads the explanation cards (including who
       // can apply and how) before moving on to verification.
     } catch (e: any) {
@@ -249,7 +283,7 @@ export function Upload({ onBack }: UploadProps) {
     } finally {
       setLoading(false);
     }
-  }, [state.extractedText, state.language]);
+  }, [state.extractedText, state.language, state.level]);
 
   const handleVerify = useCallback(async () => {
     if (!state.result) return;
@@ -389,15 +423,15 @@ export function Upload({ onBack }: UploadProps) {
       {state.step === 1 && (
         <div className="space-y-4 rounded-xl border border-border bg-surface p-4">
           <h2 className="text-lg font-semibold text-text">Step 1: Upload your document</h2>
-          <div className="flex gap-2">
-            {(["text", "file", "photo"] as const).map((t) => (
+          <div className="flex flex-wrap gap-2">
+            {(["text", "file", "photo", "link"] as const).map((t) => (
               <button
                 key={t}
                 type="button"
                 onClick={() => setTab(t)}
                 className={`touch-target rounded-md border px-3 py-2 text-sm ${tab === t ? "border-brand bg-brand text-inverse" : "border-input bg-background text-text"}`}
               >
-                {t === "text" ? "Paste text" : t === "file" ? "Upload file" : "Take photo"}
+                {t === "text" ? "Paste text" : t === "file" ? "Upload file" : t === "photo" ? "Take photo" : "From a link"}
               </button>
             ))}
           </div>
@@ -409,6 +443,30 @@ export function Upload({ onBack }: UploadProps) {
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
+          ) : tab === "link" ? (
+            <div className="space-y-2">
+              <label className="block">
+                <span className="form-label">Web page address</span>
+                <span className="relative mt-1 block">
+                  <Link2
+                    size={16}
+                    className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-subtle"
+                    aria-hidden="true"
+                  />
+                  <input
+                    type="url"
+                    inputMode="url"
+                    className="textfield pl-9"
+                    placeholder="https://example.org/announcement"
+                    value={link}
+                    onChange={(e) => setLink(e.target.value)}
+                  />
+                </span>
+              </label>
+              <p className="text-[0.75rem] text-subtle">
+                We fetch the page, strip the menus and keep the text. Private and local addresses are refused.
+              </p>
+            </div>
           ) : tab === "file" ? (
             <FileUploader onFileSelect={handleFileSelect} />
           ) : (
@@ -490,6 +548,21 @@ export function Upload({ onBack }: UploadProps) {
             value={state.extractedText}
             onChange={(e) => dispatch({ type: "SET_TEXT", text: e.target.value })}
           />
+          <div>
+            <p className="mb-2 text-sm font-medium text-text">Explain it in</p>
+            <LanguageChips
+              value={state.language}
+              onChange={(code) => dispatch({ type: "SET_LANG", lang: code })}
+            />
+          </div>
+          <div>
+            <p className="mb-2 text-sm font-medium text-text">How plain should the explanation be?</p>
+            <LevelSelector
+              value={state.level}
+              onChange={(level) => dispatch({ type: "SET_LEVEL", level })}
+              note="Simple uses short sentences and everyday words. The facts never change, only the wording."
+            />
+          </div>
           <button
             type="button"
             onClick={handleExplain}

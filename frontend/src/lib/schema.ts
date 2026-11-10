@@ -1,6 +1,15 @@
 import { z } from "zod";
 
-export const LangSchema = z.enum(["am", "om", "ti", "en"]);
+export const LangSchema = z.enum(["en", "am", "om", "ti", "sw", "ar", "fr"]);
+
+/** How plain the explanation should be. */
+export const LevelSchema = z.enum(["simple", "standard", "detailed"]);
+
+/** A named part of the document the model pulled out. */
+export const SectionSchema = z.object({
+  title: z.string().min(1),
+  summary: z.string().min(1),
+});
 
 export const ExplainResponseSchema = z.object({
   docType: z.enum(["government_notice", "medical", "financial", "school", "other"]),
@@ -33,6 +42,10 @@ export const ExplainResponseSchema = z.object({
     })
   ),
   documentsToBring: z.array(z.string().min(1)),
+  /** Named parts of the document worth reading on their own. */
+  sections: z.array(SectionSchema).default([]),
+  /** Plain-language level this explanation was written at. */
+  level: LevelSchema.default("standard"),
   confidence: z.enum(["high", "medium", "low"]),
   warnings: z.array(z.string()),
   lang: LangSchema,
@@ -49,6 +62,8 @@ export type FollowupResponse = z.infer<typeof FollowupResponseSchema>;
 export type Action = ExplainResponse["actions"][number];
 export type Deadline = ExplainResponse["deadlines"][number];
 export type Cost = ExplainResponse["costs"][number];
+export type Section = z.infer<typeof SectionSchema>;
+export type ExplainLevel = z.infer<typeof LevelSchema>;
 
 export const API_ERROR = {
   INVALID_SCHEMA: "INVALID_SCHEMA",

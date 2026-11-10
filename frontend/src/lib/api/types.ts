@@ -1,4 +1,6 @@
-export type LangCode = "am" | "om" | "ti" | "en";
+export type LangCode = "en" | "am" | "om" | "ti" | "sw" | "ar" | "fr";
+
+export type ExplainLevel = "simple" | "standard" | "detailed";
 
 export type VerificationStatus = "verified" | "unverified" | "partial" | "relative" | "ambiguous";
 
@@ -38,6 +40,12 @@ export interface Action {
   evidence: Evidence | null;
 }
 
+/** A named part of the document, extracted for section-by-section reading. */
+export interface Section {
+  title: string;
+  summary: string;
+}
+
 export interface ExplanationResult {
   docType: "government_notice" | "medical" | "financial" | "school" | "other";
   summary: string;
@@ -49,6 +57,10 @@ export interface ExplanationResult {
   deadlines: Deadline[];
   costs: Cost[];
   documentsToBring: string[];
+  /** Named parts of the document worth reading on their own. */
+  sections: Section[];
+  /** The plain-language level this explanation was written at. */
+  level: ExplainLevel;
   confidence: "high" | "medium" | "low";
   warnings: string[];
   lang: LangCode;
@@ -58,6 +70,42 @@ export interface ExplanationResult {
   demoId?: string;
   /** True when this result came from the offline fallback, not the server. */
   offlineDemo?: boolean;
+}
+
+/** One published requirement checked against what the reader told us. */
+export type EligibilityStatus = "met" | "not_met" | "unknown";
+
+export interface EligibilityItem {
+  criterion: string;
+  status: EligibilityStatus;
+  /** Verbatim quote from the document. Only present when it was found in the source. */
+  quote: string | null;
+  reason: string;
+  /** Set when the model's quote could not be found in the source text. */
+  warning: string | null;
+}
+
+export interface EligibilityResult {
+  items: EligibilityItem[];
+  summary: string;
+  /** Always present: an assessment, never a promise. */
+  disclaimer: string;
+  lang: LangCode;
+}
+
+export interface ComparisonResult {
+  summary: string;
+  onlyInA: string[];
+  onlyInB: string[];
+  differences: string[];
+  lang: LangCode;
+}
+
+export interface TranslationResult {
+  original: string;
+  translated: string;
+  lang: LangCode;
+  sourceLanguage: string;
 }
 
 export interface APIEnvelope<T> {

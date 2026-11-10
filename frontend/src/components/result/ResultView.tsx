@@ -1,4 +1,4 @@
-import { ArrowLeft, Globe, MessageSquare } from "lucide-react";
+import { ArrowLeft, Globe, MessageSquare, ListTree } from "lucide-react";
 import { DocumentOverview } from "./DocumentOverview.tsx";
 import { ActionChecklist } from "./ActionChecklist.tsx";
 import { OpportunityCard } from "./OpportunityCard.tsx";
@@ -10,6 +10,7 @@ import { ConfidenceBanner } from "./ConfidenceBanner.tsx";
 import { ResultDisclaimer } from "./ResultDisclaimer.tsx";
 import { OriginalDocumentViewer } from "../evidence/OriginalDocumentViewer.tsx";
 import { ListenButton } from "../audio/ListenButton.tsx";
+import { EligibilityCheck } from "./EligibilityCheck.tsx";
 import type { ExplanationResult } from "../../lib/api/types.ts";
 import { languageName } from "../../lib/languages.ts";
 
@@ -43,7 +44,14 @@ export function ResultView({ result, onBack, onLangChange, onAsk }: ResultViewPr
 
       <div>
         <h1 className="text-2xl font-bold text-text">Your explanation</h1>
-        <p className="text-sm text-subtle">Checked against the original document.</p>
+        <p className="text-sm text-subtle">
+          Checked against the original document.
+          {result.level && result.level !== "standard" && (
+            <span className="ml-1 rounded bg-surface-muted px-1.5 py-0.5 text-[0.7rem] uppercase tracking-wide">
+              {result.level}
+            </span>
+          )}
+        </p>
       </div>
 
       <DocumentOverview result={result} />
@@ -52,6 +60,28 @@ export function ResultView({ result, onBack, onLangChange, onAsk }: ResultViewPr
       <DeadlineCard deadlines={result.deadlines} />
       <CostCard costs={result.costs} />
       <DocumentsCard items={result.documentsToBring} />
+      {result.sections && result.sections.length > 0 && (
+        <section className="rounded-lg border border-border bg-surface p-4">
+          <h2 className="mb-2 flex items-center gap-2 text-base font-semibold text-text">
+            <ListTree size={16} aria-hidden="true" /> Important parts of this document
+          </h2>
+          <ul className="space-y-2">
+            {result.sections.map((s, i) => (
+              <li key={i} className="rounded-md border border-border bg-background p-3">
+                <p className="text-sm font-medium text-text">{s.title}</p>
+                <p className="text-[0.8rem] text-subtle">{s.summary}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+      {(result.eligibility || []).length > 0 && (
+        <EligibilityCheck
+          sourceText={result.originalText}
+          result={{ originalText: result.originalText, eligibility: result.eligibility }}
+          lang={result.lang}
+        />
+      )}
       <VerificationSummary deadlines={result.deadlines} costs={result.costs} />
       <ConfidenceBanner result={result} />
       <OriginalDocumentViewer

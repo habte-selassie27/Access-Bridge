@@ -69,6 +69,55 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
   ok("dist present");
 }
 
+// 4. Every workspace screen exists and is routed from the app shell.
+const screens = [
+  "Dashboard",
+  "Assistant",
+  "Library",
+  "Reader",
+  "Translate",
+  "Simplify",
+  "Voice",
+  "Actions",
+  "Opportunity",
+  "Compare",
+  "Settings",
+];
+const screensDir = path.join(ROOT, "frontend/src/screens");
+for (const screen of screens) {
+  const file = path.join(screensDir, `${screen}.tsx`);
+  if (!fs.existsSync(file)) {
+    fail(`missing screen ${screen}.tsx`);
+    continue;
+  }
+  const app = fs.readFileSync(path.join(ROOT, "frontend/src/App.tsx"), "utf8");
+  if (!app.includes(`screens/${screen}`)) {
+    fail(`${screen}.tsx is not routed from App.tsx`);
+  }
+}
+if (screens.every((s) => fs.existsSync(path.join(screensDir, `${s}.tsx`)))) {
+  ok(`${screens.length} workspace screens present and routed`);
+}
+
+// 5. The server exposes the new endpoints.
+const serverIndex = fs.readFileSync(path.join(ROOT, "server/index.ts"), "utf8");
+for (const route of ["import", "eligibility", "compare", "translate", "simplify"]) {
+  if (!serverIndex.includes(`./routes/${route}.ts`)) {
+    fail(`server route ${route}.ts is not registered`);
+  }
+}
+ok("server routes for import, eligibility, compare, translate and simplify registered");
+
+// 6. The plain-language levels and the accessibility preferences are wired in.
+const prompts = fs.readFileSync(path.join(ROOT, "frontend/src/lib/prompts.ts"), "utf8");
+for (const level of ["simple", "standard", "detailed"]) {
+  if (!prompts.includes(`${level}:`)) fail(`prompt is missing the "${level}" level`);
+}
+if (!fs.existsSync(path.join(ROOT, "frontend/src/lib/a11y.ts"))) {
+  fail("frontend/src/lib/a11y.ts is missing");
+}
+ok("plain-language levels and accessibility preferences present");
+
 if (failures > 0) {
   console.error(`\n${failures} smoke check(s) failed`);
   process.exit(1);

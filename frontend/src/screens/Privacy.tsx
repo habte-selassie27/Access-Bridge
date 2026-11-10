@@ -18,8 +18,16 @@ const SECTIONS = [
     body: "Only metadata, such as document length, selected language and processing time. We do not log document content.",
   },
   {
+    title: "Your saved documents stay on this device",
+    body: "The Document Center, your checklist progress and your translation history are stored in this browser only. There is no account and no server-side copy of your history. You can delete everything with one tap in Settings, and clearing your browser data removes it too.",
+  },
+  {
+    title: "Importing a web page",
+    body: "When you import a link, our server fetches that public page once and keeps only the readable text. It refuses private, local and cloud-metadata addresses, so it cannot be used to reach anything behind our firewall.",
+  },
+  {
     title: "Demo examples work offline",
-    body: "The three example documents are bundled with the app. They load instantly, need no network connection, and require no API key, so you can try AccessBridge without sending anything anywhere.",
+    body: "The four example documents are bundled with the app. They load instantly, need no network connection, and require no API key, so you can try AccessBridge without sending anything anywhere.",
   },
 ];
 

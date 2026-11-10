@@ -17,7 +17,10 @@
     "index.ts",
     "lib/**/*.ts",
     "types/**/*.d.ts",
-    "../frontend/src/lib/**/*.ts",
+    "../frontend/src/lib/verify.ts",
+    "../frontend/src/lib/prompts.ts",
+    "../frontend/src/lib/schema.ts",
+    "../frontend/src/lib/verification.ts",
     "../frontend/src/data/demo/**/*.ts"
   ]
 }

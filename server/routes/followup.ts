@@ -9,7 +9,7 @@ import { noCache } from "../middleware/request-logger.ts";
 import { log } from "../lib/observability/logger.ts";
 import { inc } from "../lib/observability/metrics.ts";
 import { addSpend } from "../lib/security/spend-guard.ts";
-import { wrapUntrustedDocument } from "../lib/security/content-isolation.ts";
+import { wrapUntrustedDocument, unwrapUntrustedDocument } from "../lib/security/content-isolation.ts";
 import { FOLLOWUP_SYSTEM, FOLLOWUP_USER } from "../../frontend/src/lib/prompts.ts";
 
 const router = Router();
@@ -50,7 +50,7 @@ router.post("/followup", async (req, res) => {
       );
       addSpend(0.001);
       inc("followup_success");
-      return res.json({ ok: true, data: { answer: answer.trim() || "I couldn't generate an answer. Please ask the issuer directly.", supported: true, sourceReferences: [], lang }, meta: { requestId, processingMs: Date.now() - start, version: "1.0" } });
+      return res.json({ ok: true, data: { answer: unwrapUntrustedDocument(answer) || "I couldn't generate an answer. Please ask the issuer directly.", supported: true, sourceReferences: [], lang }, meta: { requestId, processingMs: Date.now() - start, version: "1.0" } });
     } catch (e) {
       log("error", "followup upstream failed", { requestId, err: String(e) });
       inc("llm_failures");
