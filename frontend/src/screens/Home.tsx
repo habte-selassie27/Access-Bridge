@@ -3,6 +3,8 @@ import { PasteBox } from "../components/input/PasteBox.tsx";
 import { LoadingSpinner } from "../components/common/LoadingSpinner.tsx";
 import { ErrorState } from "../components/common/ErrorState.tsx";
 import { explainDocument } from "../lib/api/explain.ts";
+import { preserveOriginalFile } from "../lib/original-file.ts";
+import type { OriginalFile } from "../lib/library.ts";
 import type { LanguageCode } from "../lib/languages.ts";
 import { saveLastLanguage } from "../lib/languages.ts";
 import {
@@ -12,7 +14,7 @@ import {
 } from "../lib/state/index.ts";
 
 export interface HomeProps {
-  onResult: (result: any) => void;
+  onResult: (result: any, originalFile?: OriginalFile | null) => void;
   lang: LanguageCode;
   onLangChange: (code: LanguageCode) => void;
 }
@@ -33,7 +35,10 @@ export function Home({ onResult, lang, onLangChange }: HomeProps) {
         }
         saveLastLanguage(lang);
         send({ type: "RESET" });
-        onResult(data);
+        // Keep the uploaded paper next to the explanation when the browser
+        // can store it, so the Reader can show the real document too.
+        const originalFile = input.file ? await preserveOriginalFile(input.file) : null;
+        onResult(data, originalFile);
       } catch {
         send({ type: "ERROR", error: { message: "Unable to process the document." } });
       }

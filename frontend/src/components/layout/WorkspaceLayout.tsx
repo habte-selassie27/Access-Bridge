@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   ShieldAlert,
   User,
+  History as HistoryIcon,
 } from "lucide-react";
 import { useAuth } from "../../lib/auth.ts";
 
@@ -31,6 +32,7 @@ export const WORKSPACE_NAV: NavItem[] = [
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard, hint: "Everything at a glance" },
   { path: "/assistant", label: "Assistant", icon: MessageSquare, hint: "Ask about a document" },
   { path: "/library", label: "Documents", icon: FolderOpen, hint: "Your saved documents" },
+  { path: "/history", label: "History", icon: HistoryIcon, hint: "Saved conversations" },
   { path: "/translate", label: "Translate", icon: Languages, hint: "Side by side" },
   { path: "/simplify", label: "Simplify", icon: BookOpen, hint: "Plain language" },
   { path: "/voice", label: "Voice", icon: Volume2, hint: "Listen and read out" },
@@ -138,7 +140,7 @@ export function Sidebar({ currentPath }: SidebarProps) {
               <span className="flex flex-col leading-tight">
                 <span className="font-medium">{profile ? profile.name : "Guest mode"}</span>
                 <span className="text-[0.7rem] text-subtlest">
-                  {profile ? "Signed in on this device" : "Sign in or create a profile"}
+                  {profile ? "Signed in" : "Sign in or create an account"}
                 </span>
               </span>
             </a>
@@ -154,18 +156,31 @@ export interface WorkspaceLayoutProps {
   children: React.ReactNode;
   title: string;
   subtitle?: string;
+  /** Set false when the page renders its own heading (Upload, Evaluation, ...). */
+  showHeading?: boolean;
 }
 
-export function WorkspaceLayout({ currentPath, children, title, subtitle }: WorkspaceLayoutProps) {
+export function WorkspaceLayout({
+  currentPath,
+  children,
+  title,
+  subtitle,
+  showHeading = true,
+}: WorkspaceLayoutProps) {
   return (
     <div className="flex min-h-svh flex-col lg:flex-row">
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
       <Sidebar currentPath={currentPath} />
-      <main className="min-w-0 flex-1 px-4 py-6 sm:px-6">
+      <main id="main-content" tabIndex={-1} className="min-w-0 flex-1 px-4 py-6 sm:px-6">
         <div className="mx-auto w-full max-w-[900px]">
-          <div className="mb-5">
-            <h1 className="text-2xl font-bold text-text">{title}</h1>
-            {subtitle && <p className="text-sm text-subtle">{subtitle}</p>}
-          </div>
+          {showHeading && (
+            <div className="mb-5">
+              <h1 className="text-2xl font-bold text-text">{title}</h1>
+              {subtitle && <p className="text-sm text-subtle">{subtitle}</p>}
+            </div>
+          )}
           {children}
         </div>
       </main>

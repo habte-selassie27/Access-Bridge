@@ -1,5 +1,6 @@
 import { isEthiopianDate } from "./verify/calendar/ethiopian.ts";
 import { runVerification } from "../../frontend/src/lib/verify.ts";
+import { languageTier } from "../../frontend/src/lib/languages.ts";
 
 function genId(prefix: string, i: number): string {
   return `${prefix}_${i}`;
@@ -121,6 +122,7 @@ export function toFrontendResult(old: any, sourceText: string): any {
     level: old.level || "standard",
     confidence: old.confidence || "medium",
     warnings: old.warnings || [],
+    languageQuality: languageTier(lang),
     lang,
     originalLanguage: lang,
     originalText: old.originalText || sourceText,
@@ -141,6 +143,9 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     grant: "grant",
     fellowship: "fellowship",
     bootcamp: "bootcamp",
+    form: "form",
+    instructions: "instructions",
+    instruction: "instructions",
   };
   const rawDocType = String(raw.docType || raw.document_type || raw.doc_type || "other").toLowerCase();
   const docType = docTypeMap[rawDocType] || "other";

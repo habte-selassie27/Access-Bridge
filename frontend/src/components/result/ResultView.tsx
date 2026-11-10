@@ -13,6 +13,8 @@ import { ListenButton } from "../audio/ListenButton.tsx";
 import { EligibilityCheck } from "./EligibilityCheck.tsx";
 import { GlossaryCard } from "./GlossaryCard.tsx";
 import { ContactsCard } from "./ContactsCard.tsx";
+import { DocTypeGuidance } from "./DocTypeGuidance.tsx";
+import { NextStepsCard } from "./NextStepsCard.tsx";
 import type { ExplanationResult } from "../../lib/api/types.ts";
 import { languageName, LANGUAGES, isRtl } from "../../lib/languages.ts";
 
@@ -60,7 +62,9 @@ export function ResultView({ result, onBack, onLangChange, onAsk }: ResultViewPr
           it stays in the interface language. */}
       <div lang={result.lang} dir={isRtl(result.lang) ? "rtl" : "ltr"} className="space-y-5">
         <DocumentOverview result={result} />
+        <DocTypeGuidance result={result} />
         <ActionChecklist actions={result.actions} />
+        <NextStepsCard result={result} />
         <OpportunityCard eligibility={result.eligibility || []} howToApply={result.howToApply || []} />
         <DeadlineCard deadlines={result.deadlines} />
         <CostCard costs={result.costs} />

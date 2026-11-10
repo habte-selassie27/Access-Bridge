@@ -22,10 +22,15 @@ router.post("/ask", async (req, res) => {
     const { sourceText, result, question, language, lang, history = [], documents } = req.body || {};
     const useLang = language || lang || "en";
     const docContext = typeof sourceText === "string" ? sourceText : (typeof result?.originalText === "string" ? result.originalText : "");
+    const named = Array.isArray(documents)
+      ? documents
+          .filter((d: any) => d && typeof d.text === "string" && d.text.trim())
+          .map((d: any) => ({ title: String(d.title ?? "Document").slice(0, 120), text: sanitizeText(d.text).slice(0, LIMITS.maxTextLength) }))
+      : [];
     if (!question || typeof question !== "string") {
       return res.status(400).json({ ok: false, error: "question required.", retryable: false, code: "INVALID_INPUT" });
     }
-    if (typeof docContext !== "string" || !docContext) {
+    if ((typeof docContext !== "string" || !docContext) && named.length === 0) {
       return res.status(400).json({ ok: false, error: "sourceText required.", retryable: false, code: "INVALID_INPUT" });
     }
     const safeContext = sanitizeText(docContext).slice(0, LIMITS.maxTextLength);
@@ -47,11 +52,6 @@ router.post("/ask", async (req, res) => {
     // to the model. The answer still has to come from the document, but the
     // document no longer has to fit in one prompt. With several documents
     // open, the best chunks of each are sent together.
-    const named = Array.isArray(documents)
-      ? documents
-          .filter((d: any) => d && typeof d.text === "string" && d.text.trim())
-          .map((d: any) => ({ title: String(d.title ?? "Document").slice(0, 120), text: sanitizeText(d.text).slice(0, LIMITS.maxTextLength) }))
-      : [];
     const relevant = named.length
       ? selectRelevantContextFromDocuments(safeQuestion, named)
       : selectRelevantContext(safeQuestion, safeContext);

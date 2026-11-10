@@ -1,6 +1,6 @@
-import { ShieldCheck } from "lucide-react";
+import { AlertTriangle, ShieldCheck } from "lucide-react";
 import type { ExplanationResult } from "../../lib/api/types.ts";
-import { languageName } from "../../lib/languages.ts";
+import { languageName, languageTier } from "../../lib/languages.ts";
 
 const DOC_TYPE_LABELS: Record<string, string> = {
   government_notice: "Government notice",
@@ -13,7 +13,15 @@ const DOC_TYPE_LABELS: Record<string, string> = {
   grant: "Grant or funding",
   fellowship: "Fellowship",
   bootcamp: "Training programme",
+  form: "Form to fill in",
+  instructions: "Instructions",
   other: "Other document",
+};
+
+const QUALITY_LABELS: Record<string, string> = {
+  source: "Source language — no translation",
+  measured: "Measured — see evaluation",
+  experimental: "Experimental — not yet measured",
 };
 
 export interface DocumentOverviewProps {
@@ -22,6 +30,9 @@ export interface DocumentOverviewProps {
 
 export function DocumentOverview({ result }: DocumentOverviewProps) {
   const label = DOC_TYPE_LABELS[result.docType] || result.docType;
+  // The server stamps each result with the quality of its own target
+  // language; the global tier is only a fallback for older saved results.
+  const quality = result.languageQuality ?? languageTier(result.lang);
 
   return (
     <section className="rounded-lg border border-border bg-surface p-4 shadow-sm">
@@ -40,7 +51,7 @@ export function DocumentOverview({ result }: DocumentOverviewProps) {
           {result.summary}
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-3 pt-4 border-t border-surface-muted">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-surface-muted pt-4 sm:grid-cols-5">
           <div className="min-w-0">
             <p className="text-[0.75rem] text-subtle mb-0.5">Source language</p>
             <p className="text-sm font-medium text-text">{languageName(result.originalLanguage)}</p>
@@ -48,6 +59,16 @@ export function DocumentOverview({ result }: DocumentOverviewProps) {
           <div className="min-w-0">
             <p className="text-[0.75rem] text-subtle mb-0.5">Explanation language</p>
             <p className="text-sm font-medium text-text">{languageName(result.lang)}</p>
+          </div>
+          <div className="min-w-0">
+            <p className="text-[0.75rem] text-subtle mb-0.5">Translation quality</p>
+            <p
+              className={`text-sm font-medium ${
+                quality === "experimental" ? "text-warning" : quality === "measured" ? "text-success" : "text-text"
+              }`}
+            >
+              {QUALITY_LABELS[quality]}
+            </p>
           </div>
           <div className="min-w-0">
             <p className="text-[0.75rem] text-subtle mb-0.5">Confidence</p>
@@ -60,6 +81,20 @@ export function DocumentOverview({ result }: DocumentOverviewProps) {
             <p className="text-sm font-medium text-text">{result.warnings.length}</p>
           </div>
         </div>
+
+        {result.warnings.length > 0 && (
+          <div className="rounded-md border border-warning-border bg-warning-bg p-3" role="note">
+            <h4 className="mb-1 flex items-center gap-1.5 text-sm font-semibold text-warning">
+              <AlertTriangle size={15} strokeWidth={2} aria-hidden="true" />
+              Important warnings
+            </h4>
+            <ul className="list-disc space-y-1 pl-5 text-sm leading-relaxed text-text">
+              {result.warnings.map((warning, i) => (
+                <li key={i}>{warning}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -36,6 +36,7 @@ export const ENV = {
   port: Number(process.env.PORT || 3001),
   anthropicApiKey: process.env.ANTHROPIC_API_KEY || "",
   groqApiKey: process.env.GROQ_API_KEY || "",
+  groqModel: process.env.GROQ_MODEL || "openai/gpt-oss-120b",
   geminiApiKey: process.env.GEMINI_API_KEY || "",
   adaptionApiKey: process.env.ADAPTION_API_KEY || "",
   dailySpendCapUsd: Number(process.env.DAILY_SPEND_CAP_USD || 5),

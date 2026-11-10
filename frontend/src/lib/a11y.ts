@@ -13,12 +13,18 @@ export type Theme = "dark" | "light";
 export type FontScale = "sm" | "md" | "lg" | "xl";
 export type Contrast = "normal" | "high";
 export type Spacing = "normal" | "relaxed";
+export type MotionPreference = "system" | "reduced";
+export type Density = "comfortable" | "compact";
 
 export interface A11ySettings {
   theme: Theme;
   fontScale: FontScale;
   contrast: Contrast;
   spacing: Spacing;
+  /** In-app override for prefers-reduced-motion. */
+  motion: MotionPreference;
+  /** Content density: comfortable (default) or compact. */
+  density: Density;
   /** Simple interface mode: one idea per screen, less decoration. */
   simpleMode: boolean;
 }
@@ -28,6 +34,8 @@ export const DEFAULT_A11Y: A11ySettings = {
   fontScale: "md",
   contrast: "normal",
   spacing: "normal",
+  motion: "system",
+  density: "comfortable",
   simpleMode: false,
 };
 
@@ -46,6 +54,8 @@ function readStorage(): A11ySettings {
       fontScale: (["sm", "md", "lg", "xl"] as const).includes(parsed.fontScale) ? parsed.fontScale : "md",
       contrast: parsed.contrast === "high" ? "high" : "normal",
       spacing: parsed.spacing === "relaxed" ? "relaxed" : "normal",
+      motion: parsed.motion === "reduced" ? "reduced" : "system",
+      density: parsed.density === "compact" ? "compact" : "comfortable",
       simpleMode: Boolean(parsed.simpleMode),
     };
   } catch {
@@ -59,6 +69,8 @@ export function applyA11y(settings: A11ySettings): void {
   root.dataset.fontScale = settings.fontScale;
   root.dataset.contrast = settings.contrast;
   root.dataset.spacing = settings.spacing;
+  root.dataset.motion = settings.motion;
+  root.dataset.density = settings.density;
   root.dataset.simpleMode = settings.simpleMode ? "on" : "off";
 }
 
@@ -92,6 +104,17 @@ export function getA11y(): A11ySettings {
   return current;
 }
 
+/**
+ * Scroll behaviour for JavaScript-driven scrolling.
+ *
+ * The CSS override handles transitions and animations, but a JS
+ * `scrollIntoView({ behavior: "smooth" })` ignores it. Callers use this so the
+ * in-app reduced-motion choice applies to scrolling too.
+ */
+export function motionBehavior(): ScrollBehavior {
+  return current.motion === "reduced" ? "auto" : "smooth";
+}
+
 function subscribe(listener: () => void): () => void {
   listeners.add(listener);
   return () => listeners.delete(listener);
@@ -114,5 +137,7 @@ export const A11Y_LABELS: Record<keyof A11ySettings, Record<string, string>> = {
   fontScale: { sm: "Small", md: "Default", lg: "Large", xl: "Extra large" },
   contrast: { normal: "Normal", high: "High contrast" },
   spacing: { normal: "Normal", relaxed: "Relaxed" },
+  motion: { system: "Follow device", reduced: "Reduced motion" },
+  density: { comfortable: "Comfortable", compact: "Compact" },
   simpleMode: { "true": "On", "false": "Off" },
 };

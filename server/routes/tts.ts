@@ -34,8 +34,8 @@ router.post("/tts", async (req, res) => {
       });
     }
 
-    const audio = await synthesizeSpeech(text, lang);
-    if (!audio) {
+    const speech = await synthesizeSpeech(text, lang);
+    if (!speech) {
       log("warn", "tts provider returned no audio", { requestId, provider: ttsConfig().provider });
       return res.json({
         ok: true,
@@ -48,11 +48,11 @@ router.post("/tts", async (req, res) => {
 
     return res
       .status(200)
-      .set("Content-Type", "audio/mpeg")
+      .set("Content-Type", speech.mimeType)
       .set("X-Accel-Buffering", "no")
       .set("X-TTS-Provider", ttsConfig().provider)
       .set("X-Request-Id", requestId)
-      .send(audio);
+      .send(speech.audio);
   } catch (err) {
     log("error", "tts error", { requestId, err: String(err) });
     return res.status(500).json({ ok: false, error: "Internal server error.", retryable: false, code: "UPSTREAM" });

@@ -1,16 +1,13 @@
 import { useSyncExternalStore } from "react";
 
 /**
- * Local accounts.
+ * Server-authenticated accounts.
  *
- * There is no server-side account system: AccessBridge never sends a password
- * anywhere, and there is no database of users. A profile is a name and a
- * salted password hash held in this browser, and it scopes the personal
- * library so two people using the same device do not see each other's
- * documents. Guest mode needs no password at all and is the default.
- *
- * The library is the only thing an account changes. Nothing about the
- * documents themselves is stored either way.
+ * The password is sent once to our own API, checked there with a slow hash,
+ * and never stored in the browser. The server sets an HTTP-only session cookie;
+ * this module only keeps a cached profile so the right library scope is shown
+ * before the first network reply. Guest mode is still the default and needs
+ * neither a connection nor an account.
  */
 
 export interface Profile {
@@ -19,14 +16,11 @@ export interface Profile {
   createdAt: number;
 }
 
-interface StoredProfile extends Profile {
-  salt: string;
-  hash: string;
-}
-
-const USERS_KEY = "pastewise-auth-users";
 const SESSION_KEY = "pastewise-auth-session";
 export const GUEST_ID = "guest";
+
+const API_BASE =
+  (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.VITE_API_BASE || "";
 
 let current: Profile | null = null;
 let loaded = false;
@@ -36,58 +30,12 @@ function emit(): void {
   for (const listener of listeners) listener();
 }
 
-function readUsers(): StoredProfile[] {
-  try {
-    const raw = localStorage.getItem(USERS_KEY);
-    return raw ? (JSON.parse(raw) as StoredProfile[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeUsers(users: StoredProfile[]): void {
-  try {
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
-  } catch {
-    // ignore
-  }
-}
-
-function randomHex(bytes: number): string {
-  const array = new Uint8Array(bytes);
-  crypto.getRandomValues(array);
-  return Array.from(array)
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-async function derive(password: string, salt: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const key = await crypto.subtle.importKey("raw", encoder.encode(password), "PBKDF2", false, ["deriveBits"]);
-  const bits = await crypto.subtle.deriveBits(
-    { name: "PBKDF2", salt: encoder.encode(salt), iterations: 120_000, hash: "SHA-256" },
-    key,
-    256
-  );
-  return Array.from(new Uint8Array(bits))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-/** Constant-time-ish comparison, so a wrong password leaks no timing. */
-function equal(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
-}
-
-function loadSession(): Profile | null {
+function readCachedProfile(): Profile | null {
   try {
     const raw = localStorage.getItem(SESSION_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Profile;
-    return parsed && parsed.id ? parsed : null;
+    return parsed && parsed.id && parsed.name ? parsed : null;
   } catch {
     return null;
   }
@@ -98,17 +46,61 @@ function setSession(profile: Profile | null): void {
     if (profile) localStorage.setItem(SESSION_KEY, JSON.stringify(profile));
     else localStorage.removeItem(SESSION_KEY);
   } catch {
-    // ignore
+    // A blocked storage API must not make sign-in fail.
   }
   current = profile;
   emit();
 }
 
-/** Read the session before the first paint. */
+interface AuthResponse {
+  ok: boolean;
+  data?: { profile: Profile | null };
+  error?: { message?: string; code?: string };
+}
+
+async function request(path: string, init: RequestInit = {}): Promise<{
+  ok: boolean;
+  status: number;
+  profile?: Profile | null;
+  message?: string;
+}> {
+  try {
+    const res = await fetch(`${API_BASE}/api/auth${path}`, {
+      ...init,
+      credentials: "include",
+      headers: {
+        ...(init.body ? { "Content-Type": "application/json" } : {}),
+        ...(init.headers || {}),
+      },
+    });
+    let payload: AuthResponse | null = null;
+    try {
+      payload = (await res.json()) as AuthResponse;
+    } catch {
+      // fall through to a clean message
+    }
+    if (!res.ok || payload?.ok === false) {
+      return {
+        ok: false,
+        status: res.status,
+        message: payload?.error?.message || "That did not work. Please try again.",
+      };
+    }
+    return { ok: true, status: res.status, profile: payload?.data?.profile ?? null };
+  } catch {
+    return {
+      ok: false,
+      status: 0,
+      message: "Could not reach the account server. Check your connection, or continue as a guest.",
+    };
+  }
+}
+
+/** Read the cached session before the first paint. */
 export function initAuth(): Profile | null {
   if (loaded) return current;
   loaded = true;
-  current = loadSession();
+  current = readCachedProfile();
   return current;
 }
 
@@ -131,64 +123,64 @@ export interface AuthResult {
   message?: string;
 }
 
+/**
+ * Reconcile the cached profile with the server session.
+ *
+ * A network failure keeps the cached profile: the API being unreachable must
+ * not sign a reader out in the middle of a document. Only an explicit signed-
+ * out response clears it.
+ */
+export async function refreshAuth(): Promise<Profile | null> {
+  const result = await request("/me");
+  if (!result.ok) return current;
+  setSession(result.profile ?? null);
+  return current;
+}
+
 export async function signUp(name: string, password: string): Promise<AuthResult> {
   const trimmed = name.trim();
   if (trimmed.length < 2) return { ok: false, message: "Pick a name with at least two characters." };
   if (password.length < 8) return { ok: false, message: "Use a password of at least eight characters." };
-  if (typeof crypto === "undefined" || !crypto.subtle) {
-    return { ok: false, message: "This browser cannot store a password safely. Continue as a guest instead." };
-  }
 
-  const users = readUsers();
-  if (users.some((u) => u.name.toLowerCase() === trimmed.toLowerCase())) {
-    return { ok: false, message: "That name is already taken on this device." };
+  const result = await request("/register", {
+    method: "POST",
+    body: JSON.stringify({ name: trimmed, password }),
+  });
+  if (!result.ok || !result.profile) {
+    return { ok: false, message: result.message || "Could not create the account." };
   }
-
-  const salt = randomHex(16);
-  const hash = await derive(password, salt);
-  const profile: StoredProfile = {
-    id: `user_${randomHex(6)}`,
-    name: trimmed,
-    createdAt: Date.now(),
-    salt,
-    hash,
-  };
-  writeUsers([...users, profile]);
-  setSession({ id: profile.id, name: profile.name, createdAt: profile.createdAt });
+  setSession(result.profile);
   return { ok: true };
 }
 
 export async function signIn(name: string, password: string): Promise<AuthResult> {
-  const trimmed = name.trim().toLowerCase();
-  const users = readUsers();
-  const user = users.find((u) => u.name.toLowerCase() === trimmed);
-  if (!user) return { ok: false, message: "No profile with that name on this device." };
-  if (typeof crypto === "undefined" || !crypto.subtle) {
-    return { ok: false, message: "This browser cannot check a password safely. Continue as a guest instead." };
+  const result = await request("/login", {
+    method: "POST",
+    body: JSON.stringify({ name: name.trim(), password }),
+  });
+  if (!result.ok || !result.profile) {
+    return { ok: false, message: result.message || "That name or password is not right." };
   }
-  const hash = await derive(password, user.salt);
-  if (!equal(hash, user.hash)) return { ok: false, message: "That password is not right." };
-  setSession({ id: user.id, name: user.name, createdAt: user.createdAt });
+  setSession(result.profile);
   return { ok: true };
 }
 
+/** Clear the local cache immediately; tell the server to drop the session too. */
 export function continueAsGuest(): void {
   setSession(null);
+  void request("/logout", { method: "POST" });
 }
 
-export function signOut(): void {
+export async function signOut(): Promise<void> {
+  await request("/logout", { method: "POST" });
   setSession(null);
 }
 
-/** Remove a profile and everything stored under it. */
-export function deleteProfile(id: string): void {
-  const users = readUsers().filter((u) => u.id !== id);
-  writeUsers(users);
-  if (current?.id === id) setSession(null);
-}
-
-export function listProfiles(): { id: string; name: string; createdAt: number }[] {
-  return readUsers().map((u) => ({ id: u.id, name: u.name, createdAt: u.createdAt }));
+/** Delete the signed-in account on the server, then clear this browser. */
+export async function deleteProfile(id: string): Promise<void> {
+  if (current?.id !== id) return;
+  await request("/account", { method: "DELETE" });
+  setSession(null);
 }
 
 function subscribe(listener: () => void): () => void {

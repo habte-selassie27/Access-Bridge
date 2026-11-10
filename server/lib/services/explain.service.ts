@@ -13,7 +13,7 @@ import { examplesForLanguage, formatExampleBlock } from "./adaption.service.ts";
 import { toFrontendResult, normalizeModelOutput } from "../transform.ts";
 import { isEthiopianDate } from "../verify/calendar/ethiopian.ts";
 import { ethiopianToGregorianApprox } from "../verify/calendar/conversion.ts";
-import { chunkText } from "../retrieval/chunker.ts";
+import { chunkText, DEFAULT_OVERLAP } from "../retrieval/chunker.ts";
 import { verifyGlossary, verifyContacts } from "../verify/content-verifier.ts";
 
 export interface ExplainOutcome {
@@ -26,14 +26,27 @@ export function normalizeLevel(value: unknown): "simple" | "standard" | "detaile
   return (LEVELS as readonly string[]).includes(level) ? (level as "simple" | "standard" | "detailed") : "standard";
 }
 
-/** A document longer than this is read in chunks and merged. */
-const CHUNK_THRESHOLD = 8000;
-/** Never make more model calls than this for one document. */
-const MAX_CHUNKS = 12;
-/** Pause between chunk calls, so a long document does not trip the rate limit. */
-const CHUNK_DELAY_MS = 2500;
-/** How long to wait before trying a chunk that hit a rate limit. */
-const CHUNK_RETRY_WAIT_MS = 15_000;
+/**
+ * A document longer than this is read in chunks and merged.
+ *
+ * The chunk size is a compromise: big enough that a normal announcement is
+ * one request, small enough that a long one can be read inside the provider's
+ * token window.
+ */
+const CHUNK_THRESHOLD = 20_000;
+/**
+ * How many parts of one document the explanation pipeline reads.
+ *
+ * Derived from the accepted text limit rather than hard-coded: with the
+ * default 200,000 characters this is 12 parts, and raising MAX_TEXT_LENGTH
+ * cannot silently re-introduce the truncation this pipeline exists to avoid.
+ */
+const MAX_CHUNKS =
+  Math.ceil(LIMITS.maxTextLength / (CHUNK_THRESHOLD - DEFAULT_OVERLAP)) + 1;
+/** Pause between chunk batches, so a long document does not trip the rate limit. */
+const CHUNK_DELAY_MS = 250;
+/** How many chunks are read at the same time. */
+const CHUNK_CONCURRENCY = 4;
 
 function parseModelOutput(contentText: string, sourceText: string, lang: string): any {
   const raw = JSON.parse(contentText.replace(/```json\n?|\n?```/g, "").trim());
@@ -53,7 +66,7 @@ async function explainOnce(text: string, lang: string, level: string, exampleCou
     }) + (isEthiopianDate(text) ? " (Ethiopian calendar detected; conversions are approximate)" : "");
 
   const contentText = await withTimeout(
-    retry(async () => llm!.complete(system, user, 1200), 2, 400),
+    retry(async () => llm!.complete(system, user, 4000), 2, 400),
     LIMITS.explainTimeoutMs
   );
   let parsed: any;
@@ -61,7 +74,7 @@ async function explainOnce(text: string, lang: string, level: string, exampleCou
     parsed = parseModelOutput(contentText, text, lang);
   } catch {
     const retryUser = user + "\n\nPrevious output was invalid JSON. Return JSON only matching schema.";
-    const retryText = await withTimeout(llm!.complete(system, retryUser, 1200), LIMITS.explainTimeoutMs);
+    const retryText = await withTimeout(llm!.complete(system, retryUser, 4000), LIMITS.explainTimeoutMs);
     parsed = parseModelOutput(retryText, text, lang);
   }
 
@@ -73,7 +86,7 @@ async function explainOnce(text: string, lang: string, level: string, exampleCou
     "\n\nPrevious output invalid. Errors: " +
     JSON.stringify(validation.error.flatten()) +
     "\nReturn JSON only.";
-  const retryText = await withTimeout(llm!.complete(system, retryUser, 1200), LIMITS.explainTimeoutMs);
+  const retryText = await withTimeout(llm!.complete(system, retryUser, 4000), LIMITS.explainTimeoutMs);
   const second = parseModelOutput(retryText, text, lang);
   const secondValidation = ExplainResponseSchema.safeParse(second);
   if (!secondValidation.success) throw new Error("schema_invalid");
@@ -226,56 +239,81 @@ export async function runExplain(opts: {
 
   let parsed: any;
   let modelCalls = 0;
+  let partsRead = 0;
+  let partsTotal = 0;
   try {
-    const chunks = chunkText(sourceText, { maxChars: CHUNK_THRESHOLD }).slice(0, MAX_CHUNKS);
+    const allChunks = chunkText(sourceText, { maxChars: CHUNK_THRESHOLD });
+    const chunks = allChunks.slice(0, MAX_CHUNKS);
+    partsTotal = allChunks.length;
     if (chunks.length <= 1) {
       parsed = await explainOnce(sourceText, lang, level);
       modelCalls = 1;
+      partsRead = 1;
+      partsTotal = 1;
     } else {
-      // Long document: read it piece by piece, then merge.
+      // Long document: read every part, then merge. A few parts run at a
+      // time so the request still finishes inside its time budget.
       const parts: any[] = [];
       let failed = 0;
-      for (const chunk of chunks) {
-        if (parts.length > 0) await new Promise((r) => setTimeout(r, CHUNK_DELAY_MS));
-        try {
-          parts.push(await explainOnce(chunk.text, lang, level, 1));
-          modelCalls++;
-        } catch (err) {
-          // A rate limit is worth waiting out: the rest of the document is
-          // still worth reading.
-          log("warn", "chunk explain failed, waiting and retrying", {
-            requestId: opts.requestId,
-            chunk: chunk.index,
-            err: String(err).slice(0, 200),
-          });
-          await new Promise((r) => setTimeout(r, CHUNK_RETRY_WAIT_MS));
-          try {
-            parts.push(await explainOnce(chunk.text, lang, level, 1));
+      for (let i = 0; i < chunks.length; i += CHUNK_CONCURRENCY) {
+        const batch = chunks.slice(i, i + CHUNK_CONCURRENCY);
+        if (i > 0) await new Promise((r) => setTimeout(r, CHUNK_DELAY_MS));
+        const results = await Promise.all(
+          batch.map(async (chunk) => {
+            try {
+              return { ok: true as const, parsed: await explainOnce(chunk.text, lang, level, 1) };
+            } catch (err) {
+              log("warn", "chunk explain failed", {
+                requestId: opts.requestId,
+                chunk: chunk.index,
+                err: String(err).slice(0, 160),
+              });
+              return { ok: false as const };
+            }
+          })
+        );
+        for (const result of results) {
+          if (result.ok) {
+            parts.push(result.parsed);
             modelCalls++;
-          } catch (retryErr) {
+          } else {
             failed++;
-            log("warn", "chunk explain failed twice", {
-              requestId: opts.requestId,
-              chunk: chunk.index,
-              err: String(retryErr).slice(0, 200),
-            });
           }
         }
       }
-      if (parts.length === 0) throw new Error("all_chunks_failed");
+      if (parts.length === 0) {
+        // Every part failed. Rather than showing nothing, read the beginning
+        // of the document on its own and say that the rest was not covered.
+        log("warn", "all chunks failed, falling back to the first part", {
+          requestId: opts.requestId,
+        });
+        const first = await explainOnce(chunks[0].text, lang, level, 1);
+        parts.push(first);
+        modelCalls++;
+      }
+
+      partsRead = parts.length;
       parsed = await mergeChunkResults(parts, sourceText, lang, level);
       modelCalls++;
+
+      const notes: string[] = [];
       if (failed > 0) {
-        // Say so rather than pretending the whole document was read.
-        parsed.warnings = [
-          ...(parsed.warnings || []),
-          `${failed} part(s) of this document could not be read, so some details may be missing. Check the original for anything important.`,
-        ];
+        notes.push(
+          `${failed} part(s) of this document could not be read, so some details may be missing. Check the original for anything important.`
+        );
+      }
+      if (partsTotal > partsRead) {
+        notes.push(
+          `This document is long: ${partsRead} of ${partsTotal} parts were read for this summary. Ask a question to search the whole document.`
+        );
+      }
+      if (notes.length) {
+        parsed.warnings = [...(parsed.warnings || []), ...notes];
       }
       log("info", "explained long document in chunks", {
         requestId: opts.requestId,
-        chunks: chunks.length,
-        merged: parts.length,
+        partsTotal,
+        partsRead,
         failed,
       });
     }
@@ -341,6 +379,8 @@ export async function runExplain(opts: {
     level,
     ms: Date.now() - start,
     modelCalls,
+    partsRead,
+    partsTotal,
     verified: verifiedDeadlines.filter((d) => d.verified).length,
   });
   return {
@@ -348,7 +388,15 @@ export async function runExplain(opts: {
     body: {
       ok: true,
       data: transformed,
-      meta: { requestId: opts.requestId, processingMs: Date.now() - start, version: "1.0", level, modelCalls },
+      meta: {
+        requestId: opts.requestId,
+        processingMs: Date.now() - start,
+        version: "1.0",
+        level,
+        modelCalls,
+        partsRead,
+        partsTotal,
+      },
     },
   };
 }

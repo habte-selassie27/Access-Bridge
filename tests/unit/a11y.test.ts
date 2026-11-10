@@ -31,14 +31,26 @@ test("accessibility preferences", async (t) => {
     assert.equal(settings.theme, DEFAULT_A11Y.theme);
     assert.equal(settings.fontScale, "md");
     assert.equal(settings.contrast, "normal");
+    assert.equal(settings.motion, "system");
+    assert.equal(settings.density, "comfortable");
   });
 
   await t.test("settings are applied to the document element", () => {
-    setA11y({ theme: "light", fontScale: "xl", contrast: "high", spacing: "relaxed", simpleMode: true });
+    setA11y({
+      theme: "light",
+      fontScale: "xl",
+      contrast: "high",
+      spacing: "relaxed",
+      motion: "reduced",
+      density: "compact",
+      simpleMode: true,
+    });
     assert.equal(dataset.theme, "light");
     assert.equal(dataset.fontScale, "xl");
     assert.equal(dataset.contrast, "high");
     assert.equal(dataset.spacing, "relaxed");
+    assert.equal(dataset.motion, "reduced");
+    assert.equal(dataset.density, "compact");
     assert.equal(dataset.simpleMode, "on");
   });
 
@@ -53,6 +65,7 @@ test("accessibility preferences", async (t) => {
     assert.equal(restored.theme, "light");
     assert.equal(restored.fontScale, "lg");
     assert.equal(restored.contrast, "high");
+    assert.equal(restored.motion, "system");
     assert.equal(dataset.theme, "light");
   });
 

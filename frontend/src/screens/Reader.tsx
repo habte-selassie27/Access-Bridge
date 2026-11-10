@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { FileText, Languages, ListTree, MessageSquare, Volume2 } from "lucide-react";
+import { AlertTriangle, FileText, Languages, ListTree, MessageSquare, Volume2 } from "lucide-react";
 import { WorkspaceLayout } from "../components/layout/WorkspaceLayout.tsx";
 import { DocumentPicker } from "../components/library/DocumentPicker.tsx";
 import { OriginalDocumentViewer } from "../components/evidence/OriginalDocumentViewer.tsx";
+import { OriginalFileViewer } from "../components/evidence/OriginalFileViewer.tsx";
 import { ListenButton } from "../components/audio/ListenButton.tsx";
 import { listDocs } from "../lib/library.ts";
 import type { LibraryDoc } from "../lib/library.ts";
@@ -87,6 +88,19 @@ export function Reader({ activeDoc, onOpenDoc }: ReaderProps) {
                   dir={isRtl(doc.result.originalLanguage) ? "rtl" : "ltr"}
                 >
                   <h2 className="mb-2 text-sm font-semibold text-text">Original document</h2>
+                  {doc.originalFile ? (
+                    <div className="mb-4">
+                      <OriginalFileViewer file={doc.originalFile} />
+                    </div>
+                  ) : (
+                    <p className="mb-3 rounded-md border border-border bg-surface-muted p-2 text-[0.75rem] text-subtle">
+                      This explanation was made from pasted text, so there is no uploaded file to show. Use the
+                      extracted text below as the source of truth.
+                    </p>
+                  )}
+                  <h3 className="mb-1 text-[0.8rem] font-semibold uppercase tracking-wide text-subtle">
+                    Extracted text
+                  </h3>
                   <OriginalDocumentViewer
                     enabled={false}
                     originalText={doc.sourceText}
@@ -125,6 +139,18 @@ export function Reader({ activeDoc, onOpenDoc }: ReaderProps) {
                         ))}
                       </ul>
                     </>
+                  )}
+                  {doc.result.warnings.length > 0 && (
+                    <div className="mt-4 rounded-md border border-warning-border bg-warning-bg p-3">
+                      <h3 className="mb-1 flex items-center gap-1.5 text-sm font-semibold text-warning">
+                        <AlertTriangle size={14} aria-hidden="true" /> Check before acting
+                      </h3>
+                      <ul className="list-disc space-y-1 pl-5 text-[0.8rem] text-text">
+                        {doc.result.warnings.map((warning, i) => (
+                          <li key={i}>{warning}</li>
+                        ))}
+                      </ul>
+                    </div>
                   )}
                 </section>
               </div>
@@ -182,6 +208,19 @@ export function Reader({ activeDoc, onOpenDoc }: ReaderProps) {
                     )}
                   </ul>
                 </section>
+
+                {doc.result.warnings.length > 0 && (
+                  <section className="rounded-lg border border-warning-border bg-warning-bg p-4">
+                    <h2 className="mb-2 flex items-center gap-2 text-sm font-semibold text-warning">
+                      <AlertTriangle size={16} aria-hidden="true" /> Important warnings
+                    </h2>
+                    <ul className="list-disc space-y-1 pl-5 text-sm text-text">
+                      {doc.result.warnings.map((warning, i) => (
+                        <li key={i}>{warning}</li>
+                      ))}
+                    </ul>
+                  </section>
+                )}
               </div>
             )}
 

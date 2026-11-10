@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { AppShell } from "./components/layout/AppShell.tsx";
+import { WorkspaceLayout } from "./components/layout/WorkspaceLayout.tsx";
 import { Home } from "./screens/Home.tsx";
 import { Result } from "./screens/Result.tsx";
 import { Upload } from "./screens/Upload.tsx";
@@ -18,7 +19,8 @@ import { Opportunity } from "./screens/Opportunity.tsx";
 import { Compare } from "./screens/Compare.tsx";
 import { Settings } from "./screens/Settings.tsx";
 import { Auth } from "./screens/Auth.tsx";
-import { useAuth } from "./lib/auth.ts";
+import { History } from "./screens/History.tsx";
+import { refreshAuth, useAuth } from "./lib/auth.ts";
 import { loadLastLanguage, saveLastLanguage } from "./lib/languages.ts";
 import type { LanguageCode } from "./lib/languages.ts";
 import { resolveDemo } from "./lib/demo.ts";
@@ -44,7 +46,8 @@ type Page =
   | "opportunity"
   | "compare"
   | "settings"
-  | "auth";
+  | "auth"
+  | "history";
 
 const PATH_BY_PAGE: Record<Page, string> = {
   home: "/",
@@ -65,6 +68,7 @@ const PATH_BY_PAGE: Record<Page, string> = {
   compare: "/compare",
   settings: "/settings",
   auth: "/auth",
+  history: "/history",
 };
 
 /** Pages that use the workspace layout (sidebar) instead of the simple shell. */
@@ -81,6 +85,11 @@ const WORKSPACE_PAGES: Page[] = [
   "compare",
   "settings",
   "auth",
+  "history",
+  "upload",
+  "eval",
+  "privacy",
+  "limitations",
 ];
 
 function pageFromPath(pathname: string): Page {
@@ -103,6 +112,12 @@ export function App() {
   const handleLangChange = useCallback((code: LanguageCode) => {
     saveLastLanguage(code);
     setLang(code);
+  }, []);
+
+  // The cached profile paints immediately; this reconciles it with the
+  // server session (for example after signing in on another tab).
+  useEffect(() => {
+    void refreshAuth();
   }, []);
 
   useEffect(() => {
@@ -157,12 +172,12 @@ export function App() {
       }
       setResult(data);
       try {
-        setActiveDoc(saveDoc({ sourceText, result: data }));
+        setActiveDoc(saveDoc({ sourceText, result: data, originalFile: activeDoc?.originalFile ?? null }));
       } catch {
         // ignore storage failures
       }
     },
-    [result]
+    [result, activeDoc]
   );
 
   // On a fresh visit, pick up the most recent document so the workspace is
@@ -192,9 +207,50 @@ export function App() {
         {activePage === "actions" && <Actions activeDoc={activeDoc} />}
         {activePage === "opportunity" && <Opportunity lang={lang} activeDoc={activeDoc} />}
         {activePage === "compare" && <Compare lang={lang} />}
+        {activePage === "history" && <History />}
         {activePage === "settings" && <Settings onSignedIn={() => navigate("dashboard")} />}
         {activePage === "auth" && (
           <Auth onBack={() => navigate("dashboard")} onSignedIn={() => navigate("dashboard")} />
+        )}
+        {activePage === "upload" && (
+          <WorkspaceLayout
+            currentPath="/upload"
+            title="Upload wizard"
+            subtitle="Step by step: upload, explain, verify, listen, ask, evaluate."
+            showHeading={false}
+          >
+            <Upload onBack={() => navigate("dashboard")} onDocRead={(doc) => setActiveDoc(doc)} />
+          </WorkspaceLayout>
+        )}
+        {activePage === "eval" && (
+          <WorkspaceLayout
+            currentPath="/eval"
+            title="Evaluation"
+            subtitle="Baseline vs adapted results across languages."
+            showHeading={false}
+          >
+            <Eval onBack={() => navigate("dashboard")} />
+          </WorkspaceLayout>
+        )}
+        {activePage === "privacy" && (
+          <WorkspaceLayout
+            currentPath="/privacy"
+            title="Privacy"
+            subtitle="What we store, and what we do not."
+            showHeading={false}
+          >
+            <Privacy onBack={() => navigate("dashboard")} />
+          </WorkspaceLayout>
+        )}
+        {activePage === "limitations" && (
+          <WorkspaceLayout
+            currentPath="/limitations"
+            title="Limitations"
+            subtitle="Where AccessBridge falls short."
+            showHeading={false}
+          >
+            <Limitations onBack={() => navigate("dashboard")} />
+          </WorkspaceLayout>
         )}
       </div>
     );
@@ -206,14 +262,14 @@ export function App() {
         <Home
           lang={lang}
           onLangChange={handleLangChange}
-          onResult={(data: any) => {
+          onResult={(data: any, originalFile) => {
             setResult(data);
             // The explanation carries its own `lang` on the content regions
             // (see lib/direction.ts); the interface stays in English.
             // Reading a document saves it to the personal library so the
             // workspace screens have something to work with.
             try {
-              const doc = saveDoc({ sourceText: data.originalText ?? "", result: data });
+              const doc = saveDoc({ sourceText: data.originalText ?? "", fullText: data.originalText ?? "", result: data, originalFile });
               setActiveDoc(doc);
             } catch {
               // The library is a convenience; a storage failure must not
@@ -254,15 +310,6 @@ export function App() {
           notice={langNotice}
         />
       )}
-      {activePage === "upload" && (
-        <Upload
-          onBack={() => navigate("home")}
-          onDocRead={(doc) => setActiveDoc(doc)}
-        />
-      )}
-      {activePage === "eval" && <Eval onBack={() => navigate("home")} />}
-      {activePage === "privacy" && <Privacy onBack={() => navigate("home")} />}
-      {activePage === "limitations" && <Limitations onBack={() => navigate("home")} />}
     </AppShell>
   );
 }

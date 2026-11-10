@@ -5,7 +5,7 @@ import { CameraCapture } from "./CameraCapture.tsx";
 import { LanguageChips } from "./LanguageChips.tsx";
 import type { LanguageCode } from "../../lib/languages.ts";
 
-const MAX_TEXT_LENGTH = 20000;
+const MAX_TEXT_LENGTH = 200000;
 
 export interface PasteBoxProps {
   onExplain: (input: { text?: string; file?: File; lang: string; demoId?: string }) => void;

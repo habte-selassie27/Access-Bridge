@@ -13,6 +13,8 @@ import { ResultView } from "../components/result/ResultView.tsx";
 import { importPage } from "../lib/api/workspace.ts";
 import { saveDoc } from "../lib/library.ts";
 import type { LibraryDoc } from "../lib/library.ts";
+import { preserveOriginalFile } from "../lib/original-file.ts";
+import { takePendingUpload } from "../lib/pending-upload.ts";
 
 import type { ExplanationResult } from "../lib/api/types.ts";
 import type { ExplainLevel, LangCode } from "../lib/api/types.ts";
@@ -171,7 +173,21 @@ export function Upload({ onBack, onDocRead }: UploadProps) {
     }
     setError(null);
     setFile(picked);
+    setTab((picked.type.startsWith("image/") ? "photo" : "file") as InputTab);
   }, []);
+
+  // A file dropped on the Dashboard is handed over through IndexedDB, because
+  // the wizard is reached by a real page load. Take it exactly once.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const pending = await takePendingUpload();
+      if (!cancelled && pending) handleFileSelect(pending);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [handleFileSelect]);
 
   useEffect(() => {
     try {
@@ -267,13 +283,16 @@ export function Upload({ onBack, onDocRead }: UploadProps) {
         }
         dispatch({ type: "SET_RESULT", result: json.data });
         dispatch({ type: "SET_METRIC", key: "explain", value: Date.now() - t0 });
+
         // Reading a document saves it to the personal library, on this device only.
         try {
-          const doc = saveDoc({ sourceText: state.extractedText, result: json.data });
+          const originalFile = file ? await preserveOriginalFile(file) : null;
+          const doc = saveDoc({ sourceText: state.extractedText, fullText: state.extractedText, result: json.data, originalFile });
           onDocRead?.(doc);
         } catch {
           // The library is a convenience; a storage failure must not break the wizard.
         }
+
         // Stay on step 2 so the user reads the explanation cards (including who
         // can apply and how) before moving on to verification.
       } catch (e: any) {
@@ -290,7 +309,7 @@ export function Upload({ onBack, onDocRead }: UploadProps) {
         setLoading(false);
       }
     },
-    [state.extractedText, state.language, state.level]
+    [state.extractedText, state.language, state.level, file, onDocRead]
   );
 
   const handleVerify = useCallback(async () => {

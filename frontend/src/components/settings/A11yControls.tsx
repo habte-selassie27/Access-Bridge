@@ -1,4 +1,4 @@
-import { Eye, Type, Contrast, AlignLeft, LayoutList } from "lucide-react";
+import { Eye, Type, Contrast, AlignLeft, LayoutList, Rows3, Zap } from "lucide-react";
 import { SegmentedControl } from "../common/SegmentedControl.tsx";
 import { useA11y, setA11y, resetA11y } from "../../lib/a11y.ts";
 import type { A11ySettings } from "../../lib/a11y.ts";
@@ -76,6 +76,38 @@ export function A11yControls({ compact = false }: { compact?: boolean }) {
             { value: "normal", label: "Normal" },
             { value: "relaxed", label: "Relaxed" },
           ]}
+        />
+      </div>
+
+      <div>
+        <p className="mb-2 flex items-center gap-2 text-sm font-medium text-text">
+          <Rows3 size={16} aria-hidden="true" /> Content density
+        </p>
+        <SegmentedControl
+          label="Content density"
+          value={settings.density}
+          onChange={(v) => set("density", v)}
+          options={[
+            { value: "comfortable", label: "Comfortable", hint: "More space between items" },
+            { value: "compact", label: "Compact", hint: "More on screen at once" },
+          ]}
+          note="Compact tightens spacing without shrinking the text size."
+        />
+      </div>
+
+      <div>
+        <p className="mb-2 flex items-center gap-2 text-sm font-medium text-text">
+          <Zap size={16} aria-hidden="true" /> Motion
+        </p>
+        <SegmentedControl
+          label="Motion"
+          value={settings.motion}
+          onChange={(v) => set("motion", v)}
+          options={[
+            { value: "system", label: "Follow device", hint: "Use the operating-system setting" },
+            { value: "reduced", label: "Reduced motion", hint: "Turn off animation and smooth scrolling" },
+          ]}
+          note="Reduced motion is applied even if the operating system does not request it."
         />
       </div>
 

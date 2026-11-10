@@ -6,6 +6,7 @@ import { listDocs, saveConversation } from "../lib/library.ts";
 import type { LibraryDoc } from "../lib/library.ts";
 import type { LangCode } from "../lib/api/types.ts";
 import { isRtl } from "../lib/languages.ts";
+import { motionBehavior } from "../lib/a11y.ts";
 
 const SUGGESTIONS = [
   "Explain this document like I am a beginner.",
@@ -42,6 +43,14 @@ export function Assistant({ lang, activeDoc }: AssistantProps) {
     setDocs(listDocs());
   }, []);
 
+  // The dashboard hands a question and a document over in the URL. Selecting
+  // that document first keeps the answer grounded in the document the reader
+  // was looking at, then the question is asked once the library has loaded.
+  useEffect(() => {
+    const docId = new URLSearchParams(window.location.search).get("doc");
+    if (docId) setSelected((current) => (current.includes(docId) ? current : [...current, docId]));
+  }, []);
+
   useEffect(() => {
     if (activeDoc?.id) {
       setSelected((current) => (current.includes(activeDoc.id) ? current : [...current, activeDoc.id]));
@@ -54,7 +63,7 @@ export function Assistant({ lang, activeDoc }: AssistantProps) {
   );
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    bottomRef.current?.scrollIntoView({ behavior: motionBehavior(), block: "end" });
   }, [messages]);
 
   const toggleDoc = (id: string) => {
@@ -130,6 +139,15 @@ export function Assistant({ lang, activeDoc }: AssistantProps) {
     setSpeaking(index);
     window.speechSynthesis.speak(utterance);
   };
+
+  const autoAsked = useRef(false);
+  useEffect(() => {
+    if (autoAsked.current || loading || chosen.length === 0 || messages.length > 0) return;
+    const question = new URLSearchParams(window.location.search).get("q");
+    if (!question?.trim()) return;
+    autoAsked.current = true;
+    void ask(question);
+  }, [ask, chosen.length, loading, messages.length]);
 
   useEffect(() => () => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel();

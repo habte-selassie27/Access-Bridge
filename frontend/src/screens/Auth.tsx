@@ -11,9 +11,9 @@ export interface AuthProps {
 /**
  * Sign in, create a profile, or carry on as a guest.
  *
- * The profile lives in this browser only. There is no server account, no
- * password ever leaves the device, and a profile only changes which set of
- * saved documents you see.
+ * The account is checked by our server with a slow password hash and an
+ * HTTP-only session cookie. Saved documents still stay on this device; the
+ * account only controls which local library is open.
  */
 export function Auth({ onBack, onSignedIn }: AuthProps) {
   const profile = useAuth();
@@ -56,7 +56,7 @@ export function Auth({ onBack, onSignedIn }: AuthProps) {
               <User size={16} aria-hidden="true" /> {profile.name}
             </p>
             <p className="mt-1 text-[0.8rem] text-subtle">
-              Your saved documents are scoped to this profile on this device.
+              Signed in with a server account. Your saved documents stay on this device.
             </p>
             <button
               type="button"
@@ -102,7 +102,7 @@ export function Auth({ onBack, onSignedIn }: AuthProps) {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   autoComplete="username"
-                  placeholder="Your name on this device"
+                  placeholder="Your account name"
                 />
               </label>
               <label className="mt-3 block">
@@ -153,8 +153,8 @@ export function Auth({ onBack, onSignedIn }: AuthProps) {
 
             <p className="flex items-start gap-2 rounded-lg border border-border bg-surface-muted p-3 text-[0.8rem] text-subtle">
               <ShieldCheck size={15} className="mt-0.5 shrink-0" aria-hidden="true" />
-              There is no server account. Your name and a salted hash of your password stay in this browser, and
-              the password is never sent anywhere.
+              Your password is sent only to our server, stored as a slow scrypt hash, and never kept in this
+              browser. The session is an HTTP-only cookie; your documents stay on this device.
             </p>
           </>
         )}

@@ -36,11 +36,15 @@ export function normalize(text: string): string {
 const ISO_DATE_NG = /(\d{4})[-/](\d{1,2})[-/](\d{1,2})/;
 const SHORT_DATE_NG = /(\d{1,2})[-/](\d{1,2})[-/](\d{2,4})/;
 const MONTH_DATE_NG = /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4}/i;
+// "15 January 2027" — day first, month name second. Official notices in
+// Ethiopia and most of the world write dates this way.
+const DAY_MONTH_DATE_NG = /(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?,?\s+(\d{4})/i;
 
 // Global regexes for finding spans.
 const ISO_DATE_G = /(\d{4})[-/](\d{1,2})[-/](\d{1,2})/g;
 const SHORT_DATE_G = /(\d{1,2})[-/](\d{1,2})[-/](\d{2,4})/g;
 const MONTH_DATE_G = /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4}/gi;
+const DAY_MONTH_DATE_G = /(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?,?\s+(\d{4})/gi;
 
 const RELATIVE = /within\s+\d+\s+days?\s+of\s+receipt/i;
 
@@ -52,8 +56,7 @@ const MONTHS: Record<string, number> = {
 function parseDateCandidate(s: string): Date | null {
   const m1 = s.match(ISO_DATE_NG);
   if (m1) {
-    const [, y, mo, d] = m1;
-    const dt = new Date(Number(y), Number(mo) - 1, Number(d));
+    const [, y, mo, d] = m1;    const dt = new Date(Number(y), Number(mo) - 1, Number(d));
     if (!isNaN(dt.getTime())) return dt;
   }
   const m2 = s.match(MONTH_DATE_NG);
@@ -67,6 +70,16 @@ function parseDateCandidate(s: string): Date | null {
         const dt = new Date(Number(yr), mon - 1, Number(day));
         if (!isNaN(dt.getTime())) return dt;
       }
+    }
+  }
+  // Day first: "15 January 2027".
+  const mDay = s.match(DAY_MONTH_DATE_NG);
+  if (mDay) {
+    const [, day, monthName, year] = mDay;
+    const mon = MONTHS[monthName.toLowerCase()];
+    if (mon) {
+      const dt = new Date(Number(year), mon - 1, Number(day));
+      if (!isNaN(dt.getTime())) return dt;
     }
   }
   // Short date: assume day/month/year or month/day/year? Try as given (d/m/y) then (m/d/y).
@@ -88,6 +101,7 @@ export function findDateSpans(source: string): { text: string; start: number; en
     { re: ISO_DATE_G, parse: (m) => parseDateCandidate(m) },
     { re: SHORT_DATE_G, parse: (m) => parseDateCandidate(m) },
     { re: MONTH_DATE_G, parse: (m) => parseDateCandidate(m) },
+    { re: DAY_MONTH_DATE_G, parse: (m) => parseDateCandidate(m) },
   ];
   for (const { re, parse } of collectors) {
     re.lastIndex = 0;

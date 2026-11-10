@@ -11,6 +11,27 @@ import { scopeId } from "./auth.ts";
  * The library is scoped to the current profile, so signing in on a shared
  * device shows a different set of documents to the guest.
  */
+
+/**
+ * The original upload, kept next to the extracted text so the reader can check
+ * the explanation against the real document rather than a transcription.
+ * Stored as a data URL because the library is browser-local; large files carry
+ * a note instead of being silently dropped.
+ */
+
+/**
+ * The full original text of the document, used for full-document read-aloud.
+ * Kept separately from the extracted text so a long document is not truncated
+ * to the explain chunk window when it is listened to.
+ */
+export interface OriginalFile {
+  name: string;
+  mime: string;
+  dataUrl: string | null;
+  /** Why the file itself was not kept, when it was too large to store. */
+  note?: string;
+}
+
 export interface LibraryDoc {
   id: string;
   title: string;
@@ -22,7 +43,10 @@ export interface LibraryDoc {
   createdAt: number;
   updatedAt: number;
   sourceText: string;
+  fullText: string;
   result: ExplanationResult;
+  /** The uploaded image or PDF, when it was small enough to keep locally. */
+  originalFile?: OriginalFile | null;
 }
 
 export interface ConversationRecord {
@@ -30,6 +54,8 @@ export interface ConversationRecord {
   docId: string | null;
   docTitle: string;
   createdAt: number;
+  /** A short deterministic summary so history is scannable at a glance. */
+  summary: string;
   messages: { role: "user" | "assistant"; content: string; quote?: string | null }[];
 }
 
@@ -101,7 +127,9 @@ export function saveDoc(input: {
   title?: string;
   category?: string;
   sourceText: string;
+  fullText?: string;
   result: ExplanationResult;
+  originalFile?: OriginalFile | null;
 }): LibraryDoc {
   const docs = read<LibraryDoc[]>(DOCS_KEY, []);
   const now = Date.now();
@@ -118,7 +146,9 @@ export function saveDoc(input: {
     createdAt: existing?.createdAt ?? now,
     updatedAt: now,
     sourceText: input.sourceText,
+    fullText: input.fullText ?? existing?.fullText ?? input.sourceText,
     result: input.result,
+    originalFile: input.originalFile ?? existing?.originalFile ?? null,
   };
   const next = existing ? docs.map((d) => (d.id === doc.id ? doc : d)) : [doc, ...docs];
   write(DOCS_KEY, next);
@@ -158,8 +188,33 @@ export function searchDocs(query: string): LibraryDoc[] {
 
 /* -------------------------------------------------------------- conversations */
 
+/**
+ * Summarise a conversation from its own messages.
+ *
+ * This is deterministic on purpose: history has to work offline and must not
+ * invent a claim that neither the reader nor the document made. The question
+ * names the topic and the first answer sentence names the finding.
+ */
+export function summarizeConversation(messages: ConversationRecord["messages"]): string {
+  const question = messages.find((m) => m.role === "user")?.content?.trim() ?? "";
+  const answer = messages.find((m) => m.role === "assistant")?.content?.trim() ?? "";
+  const firstSentence = answer.split(/(?<=[.!?])\s+/)[0]?.trim() ?? answer;
+  const short = (value: string, max: number) =>
+    value.length > max ? `${value.slice(0, max - 1).trimEnd()}…` : value;
+  if (!question && !firstSentence) return "Conversation";
+  if (!firstSentence) return short(question, 140);
+  if (!question) return short(firstSentence, 140);
+  return `${short(question, 80)} — ${short(firstSentence, 120)}`;
+}
+
 export function listConversations(): ConversationRecord[] {
-  return read<ConversationRecord[]>(CONVOS_KEY, []).sort((a, b) => b.createdAt - a.createdAt);
+  return read<ConversationRecord[]>(CONVOS_KEY, [])
+    .map((c) => ({ ...c, summary: c.summary || summarizeConversation(c.messages) }))
+    .sort((a, b) => b.createdAt - a.createdAt);
+}
+
+export function getConversation(id: string): ConversationRecord | undefined {
+  return listConversations().find((c) => c.id === id);
 }
 
 export function saveConversation(input: {
@@ -167,6 +222,7 @@ export function saveConversation(input: {
   docId: string | null;
   docTitle: string;
   messages: ConversationRecord["messages"];
+  summary?: string;
 }): ConversationRecord {
   const convos = read<ConversationRecord[]>(CONVOS_KEY, []);
   const existing = input.id ? convos.find((c) => c.id === input.id) : undefined;
@@ -175,6 +231,7 @@ export function saveConversation(input: {
     docId: input.docId,
     docTitle: input.docTitle,
     createdAt: existing?.createdAt ?? Date.now(),
+    summary: input.summary?.trim() || summarizeConversation(input.messages),
     messages: input.messages,
   };
   const next = existing ? convos.map((c) => (c.id === convo.id ? convo : c)) : [convo, ...convos];

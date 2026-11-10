@@ -5,7 +5,7 @@ import { A11yControls } from "../components/settings/A11yControls.tsx";
 import { LanguageChips } from "../components/input/LanguageChips.tsx";
 import { SegmentedControl } from "../components/common/SegmentedControl.tsx";
 import { clearEverything, listDocs } from "../lib/library.ts";
-import { continueAsGuest, useAuth } from "../lib/auth.ts";
+import { continueAsGuest, deleteProfile, useAuth } from "../lib/auth.ts";
 import { loadLastLanguage, saveLastLanguage, languageName, languageTier } from "../lib/languages.ts";
 import type { LanguageCode } from "../lib/languages.ts";
 
@@ -17,6 +17,7 @@ export function Settings({ onSignedIn }: SettingsProps) {
   const [lang, setLang] = useState<LanguageCode>(() => loadLastLanguage());
   const [count, setCount] = useState(() => listDocs().length);
   const [confirming, setConfirming] = useState(false);
+  const [confirmingAccount, setConfirmingAccount] = useState(false);
   const profile = useAuth();
 
   return (
@@ -77,8 +78,8 @@ export function Settings({ onSignedIn }: SettingsProps) {
           </h2>
           <p className="text-[0.8rem] text-subtle">
             {profile
-              ? `Signed in as ${profile.name}. Your saved documents are scoped to this profile on this device.`
-              : "You are using AccessBridge as a guest. Everything works; a profile just keeps your documents separate from anyone else using this device."}
+              ? `Signed in as ${profile.name} with a server account. Your saved documents stay on this device.`
+              : "You are using AccessBridge as a guest. Everything works without an account."}
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             <a
@@ -88,16 +89,48 @@ export function Settings({ onSignedIn }: SettingsProps) {
               {profile ? "Switch profile" : "Sign in or create a profile"}
             </a>
             {profile && (
-              <button
-                type="button"
-                onClick={() => {
-                  continueAsGuest();
-                  onSignedIn?.();
-                }}
-                className="touch-target rounded-md border border-input px-4 py-2 text-sm text-text"
-              >
-                Carry on as guest
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    continueAsGuest();
+                    onSignedIn?.();
+                  }}
+                  className="touch-target rounded-md border border-input px-4 py-2 text-sm text-text"
+                >
+                  Carry on as guest
+                </button>
+                {confirmingAccount ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        await deleteProfile(profile.id);
+                        setConfirmingAccount(false);
+                        onSignedIn?.();
+                      }}
+                      className="touch-target rounded-md bg-danger px-4 py-2 text-sm font-medium text-inverse"
+                    >
+                      Yes, delete my account
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmingAccount(false)}
+                      className="touch-target rounded-md border border-input px-4 py-2 text-sm text-text"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setConfirmingAccount(true)}
+                    className="touch-target rounded-md border border-danger-border px-4 py-2 text-sm text-danger"
+                  >
+                    Delete account
+                  </button>
+                )}
+              </>
             )}
           </div>
         </section>
@@ -108,7 +141,7 @@ export function Settings({ onSignedIn }: SettingsProps) {
           </h2>
           <p className="text-[0.8rem] text-subtle">
             {count} saved document{count === 1 ? "" : "s"}, plus your checklist progress and translation history, are
-            stored in this browser. Nothing is uploaded, and there is no account.
+            stored in this browser. Your account is separate: it is a server session, and documents are never uploaded.
           </p>
           {confirming ? (
             <div className="mt-3 flex flex-wrap gap-2">

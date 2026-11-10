@@ -9,6 +9,8 @@
  * actually contains.
  */
 
+import { looksLikeContact } from "./contact-shape.ts";
+
 export type ContactKind = "email" | "phone" | "address" | "website" | "person" | "organization" | "other";
 
 export interface ExtractedContact {
@@ -23,8 +25,49 @@ const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
 // Ethiopian mobile (09/07 + 7 digits, or +251 9x ...) and international numbers.
 const PHONE_RE = /(?:\+251|0)\s?(?:9|7)\d{2}[\s-]?\d{3}[\s-]?\d{3}|\+\d{1,3}[\s-]?\(?\d{1,4}\)?(?:[\s-]?\d{2,4}){1,4}/g;
 const WEBSITE_RE = /\b(?:https?:\/\/|www\.)[^\s<>"')\]]+/gi;
-// Street, building and office lines.
-const ADDRESS_RE = /\b[^\n.!?]*\b(?:street|st\.|road|rd\.|avenue|ave\.|boulevard|blvd\.|lane|building|bldg\.|office|P\.?\s?O\.?\s?Box|post office|district|woreda|town|city)\b[^\n.!?]*/gi;
+// Street, building and office words. An address is a short phrase, so the
+// window around the keyword is limited: a whole sentence is not an address.
+const ADDRESS_KEYWORD_RE =
+  /\b(?:street|st\.|road|rd\.|avenue|ave\.|boulevard|blvd\.|lane|building|bldg\.|office|P\.?\s?O\.?\s?Box|post office|district|woreda|town|city)\b/gi;
+
+const CONNECTORS = new Set(["at", "in", "on", "near", "of", "from", "to"]);
+
+function cleanPhrase(phrase: string): string {
+  return phrase
+    .replace(/\s+([,.;:])/g, "$1")
+    .replace(/^[\s,.;:]+|[\s,.;:]+$/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
+/** The short phrase around an address keyword, without the sentence around it. */
+function addressAround(text: string, index: number, keywordLength: number): string {
+  const rawBefore = text.slice(Math.max(0, index - 70), index);
+  const rawAfter = text.slice(index + keywordLength, index + keywordLength + 70);
+
+  // An address never crosses a sentence boundary.
+  const beforeCut = Math.max(
+    rawBefore.lastIndexOf(". "),
+    rawBefore.lastIndexOf("! "),
+    rawBefore.lastIndexOf("? "),
+    rawBefore.lastIndexOf("\n")
+  );
+  const before = (beforeCut >= 0 ? rawBefore.slice(beforeCut + 1) : rawBefore).split(/\s+/).filter(Boolean);
+
+  const afterStop = rawAfter.search(/[.!?]\s|\n/);
+  const afterText = afterStop >= 0 ? rawAfter.slice(0, afterStop) : rawAfter;
+  const after = afterText.split(/\s+/).filter(Boolean).slice(0, 3);
+
+  const words = [...before.slice(-4), text.slice(index, index + keywordLength), ...after];
+  // Drop the clause the address sits in: keep what comes after the last
+  // connector ("the office is at Bole Road" -> "Bole Road").
+  for (let i = 0; i < words.length - 1; i++) {
+    if (CONNECTORS.has(words[i].toLowerCase().replace(/[.,]/g, ""))) {
+      return cleanPhrase(words.slice(i + 1).join(" "));
+    }
+  }
+  return cleanPhrase(words.join(" "));
+}
 
 function unique<T>(items: T[], key: (item: T) => string): T[] {
   const seen = new Set<string>();
@@ -87,9 +130,12 @@ export function extractContacts(text: string): ExtractedContact[] {
     });
   }
 
-  for (const match of text.matchAll(ADDRESS_RE)) {
-    const value = match[0].replace(/\s+/g, " ").trim();
-    if (value.length < 6 || value.length > 200) continue;
+  for (const match of text.matchAll(ADDRESS_KEYWORD_RE)) {
+    const index = match.index ?? 0;
+    const value = addressAround(text, index, match[0].length);
+    // An address is a phrase, not a sentence, and not a heading.
+    if (value.length < 6 || value.length > 80) continue;
+    if (!looksLikeContact("address", value)) continue;
     found.push({
       label: "Address",
       value,

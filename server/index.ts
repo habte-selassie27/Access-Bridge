@@ -18,10 +18,26 @@ import eligibilityRouter from "./routes/eligibility.ts";
 import compareRouter from "./routes/compare.ts";
 import translateRouter from "./routes/translate.ts";
 import simplifyRouter from "./routes/simplify.ts";
+import authRouter from "./routes/auth.ts";
 import { log } from "./lib/observability/logger.ts";
 
 const app = express();
-app.use(cors());
+const allowedOrigins = (process.env.CORS_ORIGINS || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+app.use(
+  cors({
+    // Cookies authenticate the session, so credentials are required when the
+    // API is hosted separately. In production, list the frontend origin in
+    // CORS_ORIGINS instead of accepting every site.
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) callback(null, true);
+      else callback(new Error("Origin not allowed"));
+    },
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: "8mb" }));
 app.use(attachRequestId);
 app.use(requestLogger);
@@ -40,6 +56,7 @@ app.use("/api", eligibilityRouter);
 app.use("/api", compareRouter);
 app.use("/api", translateRouter);
 app.use("/api", simplifyRouter);
+app.use("/api/auth", authRouter);
 
 app.use(errorHandler);
 

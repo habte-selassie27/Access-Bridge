@@ -30,6 +30,8 @@ export const DocTypeSchema = z.enum([
   "grant",
   "fellowship",
   "bootcamp",
+  "form",
+  "instructions",
   "other",
 ]);
 

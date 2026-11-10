@@ -1,3 +1,5 @@
+import type { LanguageTier } from "../languages.ts";
+
 export type LangCode = "en" | "am" | "om" | "ti" | "sw" | "ar" | "fr";
 
 export type ExplainLevel = "simple" | "standard" | "detailed";
@@ -74,6 +76,8 @@ export type DocType =
   | "grant"
   | "fellowship"
   | "bootcamp"
+  | "form"
+  | "instructions"
   | "other";
 
 export interface ExplanationResult {
@@ -99,6 +103,12 @@ export interface ExplanationResult {
   level: ExplainLevel;
   confidence: "high" | "medium" | "low";
   warnings: string[];
+  /**
+   * How far the selected explanation language has been measured.
+   * Set by the server for every result, so a single answer carries its own
+   * translation-quality signal instead of relying on a global tier.
+   */
+  languageQuality?: LanguageTier;
   lang: LangCode;
   originalLanguage: LangCode;
   originalText: string;

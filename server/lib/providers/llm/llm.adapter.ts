@@ -2,12 +2,16 @@ export class GroqAdapter {
   constructor(
     private apiKey: string,
     private model: string = "openai/gpt-oss-120b",
-    private options: { retries?: number; baseDelayMs?: number } = {}
+    private options: { retries?: number; baseDelayMs?: number; reasoningEffort?: "low" | "medium" | "high" } = {}
   ) {}
 
   async complete(system: string, user: string, maxTokens: number = 1000): Promise<string> {
     const retries = this.options.retries ?? 0;
     const baseDelayMs = this.options.baseDelayMs ?? 15_000;
+    // gpt-oss is a reasoning model: its thinking is counted against
+    // max_tokens, so a long structured answer gets cut off unless the
+    // reasoning is kept short.
+    const reasoningEffort = this.options.reasoningEffort ?? "low";
 
     for (let attempt = 0; ; attempt++) {
       const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -19,6 +23,7 @@ export class GroqAdapter {
         body: JSON.stringify({
           model: this.model,
           max_tokens: maxTokens,
+          reasoning_effort: reasoningEffort,
           messages: [
             { role: "system", content: system },
             { role: "user", content: user },

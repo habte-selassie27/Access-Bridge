@@ -54,6 +54,36 @@ test("retrieval", async (t) => {
     assert.ok(ranked[0].text.toLowerCase().includes("fee"));
   });
 
+  await t.test("a synonym finds the paragraph without using the same word", () => {
+    const chunks = chunkText(LONG_DOC, { maxChars: 700 });
+    const ranked = rankChunks("how much does it cost?", chunks);
+    assert.ok(ranked.length > 0);
+    assert.ok(ranked[0].text.toLowerCase().includes("fee"));
+  });
+
+  await t.test("ranking does not depend on word order", () => {
+    const chunks = chunkText(LONG_DOC, { maxChars: 700 });
+    const first = rankChunks("deadline section 7", chunks)[0];
+    const second = rankChunks("section 7 deadline", chunks)[0];
+    assert.ok(first?.text.includes("section 7"));
+    assert.ok(second?.text.includes("section 7"));
+  });
+
+  await t.test("a 200k document fits the explanation chunk budget", () => {
+    const long = Array.from(
+      { length: 2500 },
+      (_, i) => `NOTICE ${i}. The application fee is ${i} ETB and the deadline is March 1, 2027.`
+    ).join("\n\n");
+    assert.ok(long.length > 200_000);
+    const chunks = chunkText(long, { maxChars: 20_000 });
+    // 12 is the budget derived from the 200,000-character accepted limit.
+    assert.ok(chunks.length <= 12, `expected at most 12 chunks, got ${chunks.length}`);
+    assert.ok(
+      chunks.map((c) => c.text).join("\n").includes("NOTICE 2499"),
+      "the tail of the document was dropped"
+    );
+  });
+
   await t.test("the relevant context is a subset, not the whole document", () => {
     const context = selectRelevantContext("deadline for section 3", LONG_DOC, { maxChars: 700, limit: 2 });
     assert.ok(context.usedChunks <= 2);
@@ -127,7 +157,17 @@ test("contact extraction", async (t) => {
 
   await t.test("an address is found", () => {
     const contacts = extractContacts(doc);
-    assert.ok(contacts.some((c) => c.kind === "address"));
+    assert.ok(
+      contacts.some((c) => c.kind === "address" && /Bole Road/.test(c.value)),
+      `expected an address, got ${JSON.stringify(contacts.map((c) => c.value))}`
+    );
+  });
+
+  await t.test("a sentence is not an address", () => {
+    const contacts = extractContacts(
+      "The office is open from Monday to Friday, 8:30am to 4:30pm. SECTION 9: SUPPORT Applicants should contact us."
+    );
+    assert.equal(contacts.filter((c) => c.kind === "address").length, 0);
   });
 
   await t.test("the same contact is not returned twice", () => {
@@ -198,5 +238,26 @@ test("content verification", async (t) => {
   await t.test("a value is found in the source regardless of punctuation", () => {
     assert.equal(valueIsInSource("admissions@example.edu", source), true);
     assert.equal(valueIsInSource("admissions@example.com", source), false);
+  });
+
+  await t.test("a value that only appears when two lines are joined is rejected", () => {
+    const twoLines = "See www.example.edu/apply.\n\nSECTION 8 follows.";
+    assert.equal(valueIsInSource("www.example.edu/apply.SECTION", twoLines), false);
+  });
+});
+
+test("sanitising keeps the document readable", async (t) => {
+  const { sanitizeText } = await import("../../server/lib/security/input-guard.ts");
+
+  await t.test("line breaks survive", () => {
+    assert.equal(sanitizeText("one\ntwo\n\nthree"), "one\ntwo\n\nthree");
+  });
+
+  await t.test("other control characters are removed", () => {
+    assert.equal(sanitizeText("a bc"), "a b c");
+  });
+
+  await t.test("the text is trimmed", () => {
+    assert.equal(sanitizeText("  hello  "), "hello");
   });
 });

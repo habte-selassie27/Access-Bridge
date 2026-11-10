@@ -45,6 +45,15 @@ export interface EvalFailure {
   error?: string;
 }
 
+export interface SponsorReport {
+  available: boolean;
+  reason?: string;
+  datasetId?: string;
+  fetchedAt?: string;
+  source?: string;
+  report?: Record<string, unknown>;
+}
+
 export interface EvalResults {
   schemaVersion?: number;
   measuredRows?: number;
@@ -59,4 +68,5 @@ export interface EvalResults {
   rows: EvalRow[];
   failures: EvalFailure[];
   measured?: boolean;
+  sponsor?: SponsorReport;
 }

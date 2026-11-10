@@ -38,8 +38,8 @@ router.post("/compare", async (req, res) => {
       return res.status(400).json({ ok: false, error: "Two documents are needed to compare.", retryable: false, code: "INVALID_INPUT" });
     }
 
-    const safeA = sanitizeText(a).slice(0, LIMITS.maxTextLength);
-    const safeB = sanitizeText(b).slice(0, LIMITS.maxTextLength);
+    const safeA = sanitizeText(a).slice(0, LIMITS.maxPromptTextLength);
+    const safeB = sanitizeText(b).slice(0, LIMITS.maxPromptTextLength);
 
     if (ENV.rateLimitEnabled && !checkRateLimit(clientIp(req))) {
       inc("rate_limit_rejections");

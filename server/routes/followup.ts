@@ -26,7 +26,7 @@ router.post("/followup", async (req, res) => {
     if (typeof docContext !== "string") {
       return res.status(400).json({ ok: false, error: "docContext required.", retryable: false, code: "INVALID_INPUT" });
     }
-    const safeContext = sanitizeText(docContext).slice(0, LIMITS.maxTextLength);
+    const safeContext = sanitizeText(docContext).slice(0, LIMITS.maxPromptTextLength);
     const safeQuestion = sanitizeText(question).slice(0, 1000);
     const boundedHistory = (Array.isArray(history) ? history : []).slice(-LIMITS.maxHistoryMessages);
 

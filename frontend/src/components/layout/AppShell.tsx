@@ -8,8 +8,11 @@ export interface AppShellProps {
 export function AppShell({ children }: AppShellProps) {
   return (
     <div className="flex flex-col min-h-svh">
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
       <Header />
-      <main className="mx-auto w-full max-w-[800px] flex-1 px-4 py-6 sm:px-6">
+      <main id="main-content" tabIndex={-1} className="mx-auto w-full max-w-[800px] flex-1 px-4 py-6 sm:px-6">
         {children}
       </main>
       <Footer />

@@ -23,6 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
+# Server-side account store
+data/auth/
+data/auth/*.tmp
+
 # Environment / secrets
 .env
 .env.*
@@ -39,3 +43,5 @@ frontend/public/audio/*.mp3
 frontend/dist/audio/*.mp3
 .vercel
 .env*
+.tmp-meslap/
+.tmp-mespeak/

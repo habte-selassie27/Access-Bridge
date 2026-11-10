@@ -50,7 +50,7 @@ router.post("/eligibility", async (req, res) => {
       return res.status(400).json({ ok: false, error: "Tell us a little about yourself so we can compare it to the requirements.", retryable: false, code: "INVALID_INPUT" });
     }
 
-    const safeDoc = sanitizeText(docContext).slice(0, LIMITS.maxTextLength);
+    const safeDoc = sanitizeText(docContext).slice(0, LIMITS.maxPromptTextLength);
     const safeProfile = sanitizeText(profile).slice(0, 2000);
     if (detectInjection(safeProfile)) {
       log("warn", "injection in eligibility profile", { requestId });

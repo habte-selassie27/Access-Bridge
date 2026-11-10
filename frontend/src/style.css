@@ -348,6 +348,27 @@ body {
   min-width: 3rem;
 }
 
+/* Skip-to-content link: hidden until a keyboard user focuses it. */
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border-radius: var(--radius-medium);
+  background: var(--color-background-brand-bold);
+  color: var(--color-text-inverse);
+  padding: 0.75rem 1rem;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--color-border-focused);
+  outline-offset: 2px;
+}
+
 .skeleton {
   background: linear-gradient(90deg, var(--color-background-neutral-subtle-hovered) 25%, var(--color-border-input) 50%, var(--color-background-neutral-subtle-hovered) 75%);
   background-size: 200% 100%;
@@ -683,6 +704,28 @@ html[data-contrast="high"][data-theme="dark"] {
   --color-link: #8ab4ff;
   --color-background-brand-bold: #2b5fd9;
   --color-background-neutral-bold: #ffffff;
+}
+
+/* Content density. Tailwind v4 derives every spacing utility from --spacing,
+   so tightening this one token compacts padding and gaps without shrinking
+   the text itself. */
+html[data-density="compact"] {
+  --spacing: 0.21rem;
+}
+html[data-density="compact"] body {
+  line-height: 1.35;
+}
+
+/* In-app reduced-motion override. The OS preference is handled separately
+   above; this makes the user's explicit choice win even when the OS is set
+   to allow animation. */
+html[data-motion="reduced"] *,
+html[data-motion="reduced"] *::before,
+html[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }
 
 /* Simple interface mode: strip secondary content so each screen shows one

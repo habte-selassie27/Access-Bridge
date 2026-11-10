@@ -1,5 +1,6 @@
 import { Fragment, useCallback, useRef, useState } from "react";
 import { EvidenceHighlight } from "./EvidenceHighlight.tsx";
+import { motionBehavior } from "../../lib/a11y.ts";
 
 export interface OriginalDocumentViewerProps {
   enabled: boolean;
@@ -20,7 +21,7 @@ export function OriginalDocumentViewer({
     setExpanded(true);
     setActiveQuote(quote);
     requestAnimationFrame(() => {
-      panelRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      panelRef.current?.scrollIntoView({ behavior: motionBehavior(), block: "center" });
     });
   }, []);
 

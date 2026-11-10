@@ -3,6 +3,8 @@ import { Play, Pause, Volume2, AlertCircle } from "lucide-react";
 import { useMachine, audioReducer, initialAudioState } from "../../lib/state/index.ts";
 import { demoAudioUrl } from "../../lib/demo-audio.ts";
 
+const API_BASE = import.meta.env.VITE_API_BASE || "";
+
 export interface ListenButtonProps {
   text: string;
   lang: string;
@@ -91,7 +93,7 @@ export function ListenButton({ text, lang, disabled = false, demoId }: ListenBut
     // Ask the server for the audio first. When a speech provider is
     // configured this works on a phone with no Amharic or Arabic voice
     // installed, which is the whole point of doing it on the server.
-    void fetch("/api/tts", {
+    void fetch(`${API_BASE}/api/tts`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text, lang }),

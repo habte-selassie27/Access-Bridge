@@ -1,5 +1,8 @@
 import { quoteIsTraceable } from "./quote-verifier.ts";
 import { extractContacts } from "../extractors/entities.ts";
+import { kindOfValue, looksLikeContact } from "../extractors/contact-shape.ts";
+
+export { kindOfValue, looksLikeContact };
 
 /**
  * Verification for the extra facts the model proposes.
@@ -12,9 +15,13 @@ import { extractContacts } from "../extractors/entities.ts";
  */
 
 function normalizeValue(value: string): string {
+  // Whitespace is collapsed to a single space, not deleted: deleting it would
+  // make "2027. SECTION" and "2027.SECTION" look the same, and a mangled
+  // value would then pass the check.
   return value
     .toLowerCase()
-    .replace(/[^\p{L}\p{N}@.+]+/gu, "")
+    .replace(/\s+/g, " ")
+    .replace(/[^\p{L}\p{N}@.+ ]+/gu, "")
     .trim();
 }
 
@@ -89,10 +96,22 @@ export function verifyContacts(
   for (const contact of contacts || []) {
     const value = String(contact?.value ?? "").trim();
     if (!value) continue;
+    const declaredKind = String(contact?.kind ?? "other");
+    // A value that is obviously an email or a number is that, whatever the
+    // model called it.
+    const actualKind = kindOfValue(value);
+    const kind = actualKind !== "other" ? actualKind : declaredKind;
+    if (!looksLikeContact(kind, value)) continue;
     const quote = String(contact?.quote ?? "").trim();
-    const grounded = valueIsInSource(value, source) || (quote && quoteIsTraceable(quote, source));
+    // An address, a phone number or an email has to appear in the document
+    // exactly. A name or an organisation may be accepted on the strength of
+    // the quote instead, because the wording can differ.
+    const concrete = kind === "email" || kind === "phone" || kind === "website";
+    const grounded = concrete
+      ? valueIsInSource(value, source)
+      : valueIsInSource(value, source) || (quote && quoteIsTraceable(quote, source));
     if (!grounded) continue;
-    push(String(contact?.label ?? "Contact").trim() || "Contact", value, contact?.kind || "other", quote);
+    push(String(contact?.label ?? "Contact").trim() || "Contact", value, kind, quote);
   }
 
   for (const found of extractContacts(source)) {

@@ -10,16 +10,20 @@ const LIMITATIONS = [
     body: "AccessBridge explains what a document says. It does not tell you what to do about it. For decisions with consequences, confirm with the issuing authority or a qualified professional.",
   },
   {
+    title: "Retrieval uses local embeddings, not a neural model",
+    body: "This is deliberate: it keeps the no-key, no-network demo guarantee and handles Amharic and Oromo script variation reasonably. A hosted embedding model would likely rank paraphrases better, so expect retrieval to be adequate rather than excellent.",
+  },
+  {
+    title: "Keyless TTS needs a local endpoint",
+    body: "Server text-to-speech without an API key requires an operator to run a local OpenAI-compatible endpoint (Kokoro-FastAPI or Piper). If none is running, audio falls back to the device voice and the UI says so.",
+  },
+  {
+    title: "Accounts live in a JSON file",
+    body: "On Vercel's ephemeral filesystem accounts do not survive a redeploy and do not work consistently across instances. Set AUTH_STORE_PATH to persistent storage, or use a database adapter, for production accounts.",
+  },
+  {
     title: "Language quality varies",
-    body: "Amharic, Oromo and Tigrinya are lower-resource languages, so explanations can be less precise than the English version. The evaluation page shows measured gaps rather than only the best cases. Swahili, Arabic and French are supported but not yet measured, and the language picker marks them as experimental.",
-  },
-  {
-    title: "The eligibility check is an assessment, not a decision",
-    body: "It compares what you told it against the requirements the document publishes, and it shows the quote it used for each one. If it cannot find that quote in the document it says it does not know. It never predicts whether you will be accepted.",
-  },
-  {
-    title: "Web pages do not always import cleanly",
-    body: "The importer reads the page as it is served. Pages that need a login, sit behind a paywall, or are built entirely in JavaScript can come back mostly empty. Paste the text in those cases.",
+    body: "Amharic, Oromo and Tigrinya are lower-resource languages, so explanations can be less precise than the English version. The evaluation page shows measured gaps rather than only the best cases.",
   },
   {
     title: "Photo and PDF reading is imperfect",
