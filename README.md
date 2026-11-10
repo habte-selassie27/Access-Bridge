@@ -1,4 +1,4 @@
-# AccessBridge
+# Access-Bridge
 
 **One question. Any language. Every opportunity.**
 
@@ -16,7 +16,7 @@ Official documents decide people's access to healthcare, money, education and se
 millions cannot read them because of language, literacy, or legalese barriers. A student cannot
 understand a scholarship announcement; a rural citizen cannot act on a service notice.
 
-AccessBridge turns any document into a plain-language answer, a step-by-step checklist, and a
+Access-Bridge turns any document into a plain-language answer, a step-by-step checklist, and a
 voice readout — in about 90 seconds.
 
 ---
@@ -36,6 +36,7 @@ voice readout — in about 90 seconds.
 | **Compare** | Two documents side by side |
 | **Accessibility** | Light/dark theme, large text, reduced motion, keyboard and screen-reader support |
 | **Trust** | Every date and amount cross-checked against the source; unverified values shown as "check the original" |
+| **Live site** | https://access-bridge-brown.vercel.app/ |
 
 ---
 
@@ -58,6 +59,8 @@ This starts:
 Open `http://localhost:5174/` in your browser, paste a document, pick a language, press **Explain it**.
 
 ### Option 2: Demo mode (fully offline, no API key)
+
+Live site: https://access-bridge-brown.vercel.app/
 
 The bundled demo documents load instantly with no network and no API key:
 
@@ -87,6 +90,8 @@ npm run smoke
 5. **(130–165s)** Open the **Evaluation** page: baseline vs Adaption-improved output per language,
    with failing rows listed honestly.
 6. **(165–180s)** Close on the impact: *"Anyone can access what they need, just by pasting."*
+
+Live link: https://access-bridge-brown.vercel.app/
 
 ---
 
@@ -119,6 +124,7 @@ npm run smoke
 
 **Frontend:** Vite + React + TypeScript + Tailwind CSS  
 **Backend:** Express (serverless on Vercel)  
+**Live:** https://access-bridge-brown.vercel.app/  
 **Verification:** Deterministic code checks every date and amount against the source text
 
 ### Client-side demo mode
@@ -150,8 +156,9 @@ is shown as verified unless its evidence can be traced to the original source te
 
 ## Deploy to Vercel
 
-The project is pre-linked to a Vercel project (`access-bridge`). The Express server bundles into a
-single serverless function at `api/index.js`.
+The project is pre-linked to a Vercel project (`access-bridge-brown`).
+Live: https://access-bridge-brown.vercel.app/
+The Express server bundles into a single serverless function at `api/index.js`.
 
 ### 1. Link to Vercel (if not already linked)
 
@@ -166,9 +173,11 @@ vercel link
 vercel --prod
 ```
 
-Build settings are in `vercel.json`:
-- Build command: `cd frontend && npm install && npm run build`
-- Output directory: `frontend/dist`
+Build settings are in `frontend/vercel.json`:
+- Build command: `npm install && npm run build`
+- Install command: `npm install`
+- Output directory: `dist`
+- Frontend root directory: `frontend`
 - API routes rewrite `/api/*` to the serverless function
 
 ### 3. Environment variables
@@ -264,15 +273,8 @@ deletes all of it.
 
 ---
 
-## Built during the hackathon
-
-Created during the **CTRL-V Hackathon** (Nov 7–11, 2026). Internal submit target: Nov 10, ~20:00 EAT.
+Built during the **CTRL-V Hackathon** (Nov 7–11, 2026). Internal submit target: Nov 10, ~20:00 EAT.
 No pre-existing code reused.
 
----
-
-## Tech stack & license
-
-Vite, React, TypeScript, Tailwind CSS, zod, lucide-react, Express (serverless on Vercel).
 MIT License.
 ```
