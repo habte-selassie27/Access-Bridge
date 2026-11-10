@@ -10,6 +10,7 @@ import { log } from "../lib/observability/logger.ts";
 import { inc } from "../lib/observability/metrics.ts";
 import { addSpend } from "../lib/security/spend-guard.ts";
 import { wrapUntrustedDocument, unwrapUntrustedDocument } from "../lib/security/content-isolation.ts";
+import { selectRelevantContext } from "../lib/retrieval/chunker.ts";
 import { FOLLOWUP_SYSTEM, FOLLOWUP_USER } from "../../frontend/src/lib/prompts.ts";
 
 const router = Router();
@@ -41,7 +42,14 @@ router.post("/followup", async (req, res) => {
 
     const system = FOLLOWUP_SYSTEM;
     const histStr = boundedHistory.map((m: any) => `${m.role}: ${m.content}`).join("\n");
-    const user = FOLLOWUP_USER({ docContext: wrapUntrustedDocument(safeContext), history: histStr, question: safeQuestion, lang });
+    // For a long document only the parts that mention the question are sent.
+    const relevant = selectRelevantContext(safeQuestion, safeContext);
+    const user = FOLLOWUP_USER({
+      docContext: wrapUntrustedDocument(relevant.context),
+      history: histStr,
+      question: safeQuestion,
+      lang,
+    });
 
     try {
       const answer = await withTimeout(

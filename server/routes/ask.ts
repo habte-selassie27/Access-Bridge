@@ -10,6 +10,7 @@ import { log } from "../lib/observability/logger.ts";
 import { inc } from "../lib/observability/metrics.ts";
 import { addSpend } from "../lib/security/spend-guard.ts";
 import { wrapUntrustedDocument, unwrapUntrustedDocument } from "../lib/security/content-isolation.ts";
+import { selectRelevantContext, selectRelevantContextFromDocuments } from "../lib/retrieval/chunker.ts";
 import { FOLLOWUP_SYSTEM, FOLLOWUP_USER } from "../../frontend/src/lib/prompts.ts";
 
 const router = Router();
@@ -18,7 +19,7 @@ router.post("/ask", async (req, res) => {
   const requestId = newRequestId();
   const start = Date.now();
   try {
-    const { sourceText, result, question, language, lang, history = [] } = req.body || {};
+    const { sourceText, result, question, language, lang, history = [], documents } = req.body || {};
     const useLang = language || lang || "en";
     const docContext = typeof sourceText === "string" ? sourceText : (typeof result?.originalText === "string" ? result.originalText : "");
     if (!question || typeof question !== "string") {
@@ -42,7 +43,24 @@ router.post("/ask", async (req, res) => {
 
     const system = FOLLOWUP_SYSTEM;
     const histStr = boundedHistory.map((m: any) => `${m.role}: ${m.content}`).join("\n");
-    const user = FOLLOWUP_USER({ docContext: wrapUntrustedDocument(safeContext), history: histStr, question: safeQuestion, lang: useLang });
+    // For a long document only the parts that mention the question are sent
+    // to the model. The answer still has to come from the document, but the
+    // document no longer has to fit in one prompt. With several documents
+    // open, the best chunks of each are sent together.
+    const named = Array.isArray(documents)
+      ? documents
+          .filter((d: any) => d && typeof d.text === "string" && d.text.trim())
+          .map((d: any) => ({ title: String(d.title ?? "Document").slice(0, 120), text: sanitizeText(d.text).slice(0, LIMITS.maxTextLength) }))
+      : [];
+    const relevant = named.length
+      ? selectRelevantContextFromDocuments(safeQuestion, named)
+      : selectRelevantContext(safeQuestion, safeContext);
+    const user = FOLLOWUP_USER({
+      docContext: wrapUntrustedDocument(relevant.context),
+      history: histStr,
+      question: safeQuestion,
+      lang: useLang,
+    });
 
     try {
       const answer = await withTimeout(

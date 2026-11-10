@@ -88,6 +88,38 @@ export function ListenButton({ text, lang, disabled = false, demoId }: ListenBut
       return;
     }
 
+    // Ask the server for the audio first. When a speech provider is
+    // configured this works on a phone with no Amharic or Arabic voice
+    // installed, which is the whole point of doing it on the server.
+    void fetch("/api/tts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, lang }),
+    })
+      .then(async (response) => {
+        const type = response.headers.get("content-type") || "";
+        if (!type.includes("audio")) return null;
+        const blob = await response.blob();
+        return URL.createObjectURL(blob);
+      })
+      .then((url) => {
+        if (!url) return false;
+        playRecording(url);
+        return true;
+      })
+      .catch(() => false)
+      .then((played) => {
+        if (played) return;
+        speakWithDeviceVoice();
+      });
+  }, [text, lang, supported, playing, stop, send, recordedUrl, playRecording]);
+
+  /** The device's own voice, used when the server has no audio for us. */
+  const speakWithDeviceVoice = useCallback(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      send({ type: "ERROR", message: "Voice not supported in this browser." });
+      return;
+    }
     window.speechSynthesis.cancel();
     const utt = new SpeechSynthesisUtterance(text);
     utt.lang = lang;
@@ -107,7 +139,7 @@ export function ListenButton({ text, lang, disabled = false, demoId }: ListenBut
     };
     utteranceRef.current = utt;
     window.speechSynthesis.speak(utt);
-  }, [text, lang, supported, playing, stop, send, recordedUrl, playRecording]);
+  }, [text, lang, send]);
 
   if (disabled) {
     return (

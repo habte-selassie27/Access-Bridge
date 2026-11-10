@@ -11,8 +11,10 @@ import { ResultDisclaimer } from "./ResultDisclaimer.tsx";
 import { OriginalDocumentViewer } from "../evidence/OriginalDocumentViewer.tsx";
 import { ListenButton } from "../audio/ListenButton.tsx";
 import { EligibilityCheck } from "./EligibilityCheck.tsx";
+import { GlossaryCard } from "./GlossaryCard.tsx";
+import { ContactsCard } from "./ContactsCard.tsx";
 import type { ExplanationResult } from "../../lib/api/types.ts";
-import { languageName, LANGUAGES } from "../../lib/languages.ts";
+import { languageName, LANGUAGES, isRtl } from "../../lib/languages.ts";
 
 export interface ResultViewProps {
   result: ExplanationResult;
@@ -54,45 +56,61 @@ export function ResultView({ result, onBack, onLangChange, onAsk }: ResultViewPr
         </p>
       </div>
 
-      <DocumentOverview result={result} />
-      <ActionChecklist actions={result.actions} />
-      <OpportunityCard eligibility={result.eligibility || []} howToApply={result.howToApply || []} />
-      <DeadlineCard deadlines={result.deadlines} />
-      <CostCard costs={result.costs} />
-      <DocumentsCard items={result.documentsToBring} />
-      {result.sections && result.sections.length > 0 && (
-        <section className="rounded-lg border border-border bg-surface p-4">
-          <h2 className="mb-2 flex items-center gap-2 text-base font-semibold text-text">
-            <ListTree size={16} aria-hidden="true" /> Important parts of this document
-          </h2>
-          <ul className="space-y-2">
-            {result.sections.map((s, i) => (
-              <li key={i} className="rounded-md border border-border bg-background p-3">
-                <p className="text-sm font-medium text-text">{s.title}</p>
-                <p className="text-[0.8rem] text-subtle">{s.summary}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-      {(result.eligibility || []).length > 0 && (
-        <EligibilityCheck
-          sourceText={result.originalText}
-          result={{ originalText: result.originalText, eligibility: result.eligibility }}
-          lang={result.lang}
+      {/* The explanation text is in the target language; the chrome around
+          it stays in the interface language. */}
+      <div lang={result.lang} dir={isRtl(result.lang) ? "rtl" : "ltr"} className="space-y-5">
+        <DocumentOverview result={result} />
+        <ActionChecklist actions={result.actions} />
+        <OpportunityCard eligibility={result.eligibility || []} howToApply={result.howToApply || []} />
+        <DeadlineCard deadlines={result.deadlines} />
+        <CostCard costs={result.costs} />
+        <DocumentsCard items={result.documentsToBring} />
+        {result.examples && result.examples.length > 0 && (
+          <section className="rounded-lg border border-border bg-surface p-4">
+            <h2 className="mb-2 text-base font-semibold text-text">What this looks like in practice</h2>
+            <ul className="space-y-1 text-sm text-subtle">
+              {result.examples.map((example, i) => (
+                <li key={i}>• {example}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+        <GlossaryCard entries={result.glossary || []} />
+        <ContactsCard contacts={result.contacts || []} />
+        {result.sections && result.sections.length > 0 && (
+          <section className="rounded-lg border border-border bg-surface p-4">
+            <h2 className="mb-2 flex items-center gap-2 text-base font-semibold text-text">
+              <ListTree size={16} aria-hidden="true" /> Important parts of this document
+            </h2>
+            <ul className="space-y-2">
+              {result.sections.map((s, i) => (
+                <li key={i} className="rounded-md border border-border bg-background p-3">
+                  <p className="text-sm font-medium text-text">{s.title}</p>
+                  <p className="text-[0.8rem] text-subtle">{s.summary}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+        {(result.eligibility || []).length > 0 && (
+          <EligibilityCheck
+            sourceText={result.originalText}
+            result={{ originalText: result.originalText, eligibility: result.eligibility }}
+            lang={result.lang}
+          />
+        )}
+        <VerificationSummary deadlines={result.deadlines} costs={result.costs} />
+        <ConfidenceBanner result={result} />
+        <OriginalDocumentViewer
+          enabled={true}
+          originalText={result.originalText}
+          highlights={[
+            ...result.deadlines.flatMap((d) => (d.evidence ? [{ label: d.label, source: d.evidence.quote }] : [])),
+            ...result.costs.flatMap((c) => (c.evidence ? [{ label: c.label, source: c.evidence.quote }] : [])),
+          ]}
         />
-      )}
-      <VerificationSummary deadlines={result.deadlines} costs={result.costs} />
-      <ConfidenceBanner result={result} />
-      <OriginalDocumentViewer
-        enabled={true}
-        originalText={result.originalText}
-        highlights={[
-          ...result.deadlines.flatMap((d) => (d.evidence ? [{ label: d.label, source: d.evidence.quote }] : [])),
-          ...result.costs.flatMap((c) => (c.evidence ? [{ label: c.label, source: c.evidence.quote }] : [])),
-        ]}
-      />
-      <ResultDisclaimer />
+        <ResultDisclaimer />
+      </div>
 
       <div className="sticky bottom-0 z-20 -mx-4 mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-border bg-background/95 px-4 py-3 shadow-[0_-4px_16px_rgba(9,30,66,0.08)] backdrop-blur sm:-mx-6 sm:px-6">
         <ListenButton text={fullText} lang={result.lang} demoId={result.demoId} />

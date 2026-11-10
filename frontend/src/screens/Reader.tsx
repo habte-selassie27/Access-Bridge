@@ -83,6 +83,7 @@ export function Reader({ activeDoc, onOpenDoc }: ReaderProps) {
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                 <section
                   className="rounded-lg border border-border bg-surface p-4"
+                  lang={doc.result.originalLanguage}
                   dir={isRtl(doc.result.originalLanguage) ? "rtl" : "ltr"}
                 >
                   <h2 className="mb-2 text-sm font-semibold text-text">Original document</h2>
@@ -102,6 +103,7 @@ export function Reader({ activeDoc, onOpenDoc }: ReaderProps) {
 
                 <section
                   className="rounded-lg border border-border bg-surface p-4"
+                  lang={doc.result.lang}
                   dir={isRtl(doc.result.lang) ? "rtl" : "ltr"}
                 >
                   <h2 className="mb-2 text-sm font-semibold text-text">Explanation</h2>

@@ -16,7 +16,9 @@ import {
   Home,
   ShieldCheck,
   ShieldAlert,
+  User,
 } from "lucide-react";
+import { useAuth } from "../../lib/auth.ts";
 
 export interface NavItem {
   path: string;
@@ -55,6 +57,7 @@ function navClass(active: boolean): string {
 }
 
 export function Sidebar({ currentPath }: SidebarProps) {
+  const profile = useAuth();
   const [open, setOpen] = useState(false);
 
   const link = (item: NavItem) => {
@@ -126,6 +129,18 @@ export function Sidebar({ currentPath }: SidebarProps) {
             <a href="/" className={navClass(false)}>
               <Home size={17} aria-hidden="true" />
               <span className="font-medium">Home</span>
+            </a>
+          </div>
+
+          <div className="border-t border-border pt-3">
+            <a href="/auth" className={navClass(false)}>
+              <User size={17} aria-hidden="true" />
+              <span className="flex flex-col leading-tight">
+                <span className="font-medium">{profile ? profile.name : "Guest mode"}</span>
+                <span className="text-[0.7rem] text-subtlest">
+                  {profile ? "Signed in on this device" : "Sign in or create a profile"}
+                </span>
+              </span>
             </a>
           </div>
         </div>

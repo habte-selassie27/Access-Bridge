@@ -46,8 +46,38 @@ export interface Section {
   summary: string;
 }
 
+/** A hard term in the document, explained in plain language. */
+export interface GlossaryEntry {
+  term: string;
+  meaning: string;
+  /** Verbatim text from the document. Empty when the server could not trace it. */
+  quote: string;
+}
+
+/** A person, organisation or way to get in touch. */
+export interface Contact {
+  label: string;
+  value: string;
+  kind: "email" | "phone" | "address" | "website" | "person" | "organization" | "other";
+  /** Verbatim text from the document. Empty when the server could not trace it. */
+  quote: string;
+}
+
+export type DocType =
+  | "government_notice"
+  | "medical"
+  | "financial"
+  | "school"
+  | "scholarship"
+  | "job"
+  | "internship"
+  | "grant"
+  | "fellowship"
+  | "bootcamp"
+  | "other";
+
 export interface ExplanationResult {
-  docType: "government_notice" | "medical" | "financial" | "school" | "other";
+  docType: DocType;
   summary: string;
   actions: Action[];
   /** Who qualifies for this benefit or service. Empty when the document does not say. */
@@ -59,6 +89,12 @@ export interface ExplanationResult {
   documentsToBring: string[];
   /** Named parts of the document worth reading on their own. */
   sections: Section[];
+  /** Hard terms explained in plain language. */
+  glossary: GlossaryEntry[];
+  /** People, organisations and ways to get in touch. */
+  contacts: Contact[];
+  /** Worked examples of how to satisfy a requirement. */
+  examples: string[];
   /** The plain-language level this explanation was written at. */
   level: ExplainLevel;
   confidence: "high" | "medium" | "low";
@@ -106,6 +142,16 @@ export interface TranslationResult {
   translated: string;
   lang: LangCode;
   sourceLanguage: string;
+  /** How the translation was produced. */
+  mode?: "document" | "paragraph" | "sentence";
+  /** Present for the aligned modes: each piece next to its translation. */
+  segments?: { original: string; translated: string }[];
+}
+
+export interface GlossaryResult {
+  entries: { term: string; meaning: string; quote: string }[];
+  examples: string[];
+  lang: LangCode;
 }
 
 export interface APIEnvelope<T> {

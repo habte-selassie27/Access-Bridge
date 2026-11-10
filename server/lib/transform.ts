@@ -87,6 +87,24 @@ export function toFrontendResult(old: any, sourceText: string): any {
   const sections = (old.sections || [])
     .map((s: any) => ({ title: String(s?.title ?? "").trim(), summary: String(s?.summary ?? "").trim() }))
     .filter((s: { title: string; summary: string }) => s.title && s.summary);
+  const glossary = (old.glossary || [])
+    .map((g: any) => ({
+      term: String(g?.term ?? "").trim(),
+      meaning: String(g?.meaning ?? "").trim(),
+      quote: String(g?.quote ?? "").trim(),
+    }))
+    .filter((g: { term: string; meaning: string }) => g.term && g.meaning);
+  const contacts = (old.contacts || [])
+    .map((c: any) => ({
+      label: String(c?.label ?? "").trim(),
+      value: String(c?.value ?? "").trim(),
+      kind: ["email", "phone", "address", "website", "person", "organization", "other"].includes(c?.kind)
+        ? c.kind
+        : "other",
+      quote: String(c?.quote ?? "").trim(),
+    }))
+    .filter((c: { label: string; value: string }) => c.label && c.value);
+  const examples = Array.isArray(old.examples) ? old.examples.map((x: any) => String(x).trim()).filter(Boolean) : [];
   return {
     docType: old.docType,
     summary: old.summary,
@@ -97,6 +115,9 @@ export function toFrontendResult(old: any, sourceText: string): any {
     costs,
     documentsToBring: old.documentsToBring || [],
     sections,
+    glossary,
+    contacts,
+    examples,
     level: old.level || "standard",
     confidence: old.confidence || "medium",
     warnings: old.warnings || [],
@@ -114,6 +135,12 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     medical: "medical",
     financial: "financial",
     school: "school",
+    scholarship: "scholarship",
+    job: "job",
+    internship: "internship",
+    grant: "grant",
+    fellowship: "fellowship",
+    bootcamp: "bootcamp",
   };
   const rawDocType = String(raw.docType || raw.document_type || raw.doc_type || "other").toLowerCase();
   const docType = docTypeMap[rawDocType] || "other";
@@ -195,6 +222,33 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     }))
     .filter((s: { title: string; summary: string }) => s.title && s.summary);
 
+  // Hard terms explained in plain language, each with the text it came from.
+  let glossaryRaw = raw.glossary || raw.terms || [];
+  if (!Array.isArray(glossaryRaw)) glossaryRaw = [];
+  const glossary = glossaryRaw
+    .map((g: any) => ({
+      term: String(g?.term ?? g?.word ?? "").trim(),
+      meaning: String(g?.meaning ?? g?.explanation ?? g?.definition ?? "").trim(),
+      quote: String(g?.quote ?? g?.source ?? "").trim(),
+    }))
+    .filter((g: { term: string; meaning: string }) => g.term && g.meaning);
+
+  // People, offices and ways to get in touch.
+  let contactsRaw = raw.contacts || raw.contact_information || [];
+  if (!Array.isArray(contactsRaw)) contactsRaw = [];
+  const contacts = contactsRaw
+    .map((c: any) => ({
+      label: String(c?.label ?? c?.name ?? c?.role ?? "").trim(),
+      value: String(c?.value ?? c?.detail ?? c?.contact ?? "").trim(),
+      kind: ["email", "phone", "address", "website", "person", "organization", "other"].includes(c?.kind)
+        ? c.kind
+        : "other",
+      quote: String(c?.quote ?? c?.source ?? "").trim(),
+    }))
+    .filter((c: { label: string; value: string }) => c.label && c.value);
+
+  const examples = Array.isArray(raw.examples) ? raw.examples.map((x: any) => String(x).trim()).filter(Boolean) : [];
+
   const confidence = ["high", "medium", "low"].includes(raw.confidence) ? raw.confidence : "medium";
   const warnings = Array.isArray(raw.warnings) ? raw.warnings.map((x: any) => String(x)) : [];
 
@@ -208,6 +262,9 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     costs,
     documentsToBring,
     sections,
+    glossary,
+    contacts,
+    examples,
     confidence,
     warnings,
     lang,

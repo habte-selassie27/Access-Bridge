@@ -7,6 +7,12 @@ const DOC_TYPE_LABELS: Record<string, string> = {
   medical: "Medical document",
   financial: "Financial document",
   school: "School document",
+  scholarship: "Scholarship",
+  job: "Job announcement",
+  internship: "Internship",
+  grant: "Grant or funding",
+  fellowship: "Fellowship",
+  bootcamp: "Training programme",
   other: "Other document",
 };
 

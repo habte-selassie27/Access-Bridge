@@ -6,6 +6,7 @@ import { compareDocuments } from "../lib/api/workspace.ts";
 import { listDocs } from "../lib/library.ts";
 import type { LibraryDoc } from "../lib/library.ts";
 import type { ComparisonResult, LangCode } from "../lib/api/types.ts";
+import { isRtl } from "../lib/languages.ts";
 
 export interface CompareProps {
   lang: LangCode;
@@ -83,7 +84,7 @@ export function Compare({ lang }: CompareProps) {
         )}
 
         {result && (
-          <div className="space-y-3">
+          <div className="space-y-3" lang={lang} dir={isRtl(lang) ? "rtl" : "ltr"}>
             <p className="flex items-start gap-2 rounded-lg border border-border bg-surface p-3 text-sm text-text">
               <GitCompare size={16} className="mt-0.5 shrink-0 text-subtle" aria-hidden="true" />
               {result.summary}

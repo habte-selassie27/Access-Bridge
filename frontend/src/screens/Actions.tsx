@@ -4,6 +4,7 @@ import { WorkspaceLayout } from "../components/layout/WorkspaceLayout.tsx";
 import { DocumentPicker } from "../components/library/DocumentPicker.tsx";
 import { listDocs, readChecklist, writeChecklist } from "../lib/library.ts";
 import type { LibraryDoc } from "../lib/library.ts";
+import { isRtl } from "../lib/languages.ts";
 
 export interface ActionsProps {
   activeDoc: LibraryDoc | null;
@@ -115,7 +116,7 @@ export function Actions({ activeDoc }: ActionsProps) {
               <p className="mt-1 text-[0.75rem] text-subtle">{percent}% done. Saved on this device.</p>
             </section>
 
-            <section className="space-y-2">
+            <section className="space-y-2" lang={doc.result.lang} dir={isRtl(doc.result.lang) ? "rtl" : "ltr"}>
               <h2 className="text-base font-semibold text-text">Checklist</h2>
               <ul className="space-y-2">
                 {items.map((item) => {
@@ -150,7 +151,7 @@ export function Actions({ activeDoc }: ActionsProps) {
             </section>
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <section className="rounded-lg border border-border bg-surface p-4">
+              <section className="rounded-lg border border-border bg-surface p-4" lang={doc.result.lang} dir={isRtl(doc.result.lang) ? "rtl" : "ltr"}>
                 <h2 className="mb-2 flex items-center gap-2 text-sm font-semibold text-text">
                   <CalendarClock size={16} aria-hidden="true" /> Deadlines
                 </h2>
@@ -170,7 +171,7 @@ export function Actions({ activeDoc }: ActionsProps) {
                 </ul>
               </section>
 
-              <section className="rounded-lg border border-border bg-surface p-4">
+              <section className="rounded-lg border border-border bg-surface p-4" lang={doc.result.lang} dir={isRtl(doc.result.lang) ? "rtl" : "ltr"}>
                 <h2 className="mb-2 flex items-center gap-2 text-sm font-semibold text-text">
                   <Wallet size={16} aria-hidden="true" /> Costs
                 </h2>

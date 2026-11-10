@@ -4,6 +4,7 @@ import type {
   EligibilityResult,
   ExplanationResult,
   ExplainLevel,
+  GlossaryResult,
   LangCode,
   TranslationResult,
 } from "./types.ts";
@@ -29,7 +30,8 @@ export async function importPage(url: string): Promise<{
 export async function translateText(
   text: string,
   lang: LangCode,
-  sourceLanguage = "en"
+  sourceLanguage = "en",
+  mode: "document" | "paragraph" | "sentence" = "document"
 ): Promise<{
   data?: TranslationResult;
   error?: { code: string; message: string; retryable: boolean };
@@ -37,7 +39,23 @@ export async function translateText(
   return fetchAPI<TranslationResult>("/api/translate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text, lang, sourceLanguage }),
+    body: JSON.stringify({ text, lang, sourceLanguage, mode }),
+  });
+}
+
+/** The hard words of a document, explained in plain language. */
+export async function buildGlossary(
+  sourceText: string,
+  lang: LangCode,
+  terms: string[] = []
+): Promise<{
+  data?: GlossaryResult;
+  error?: { code: string; message: string; retryable: boolean };
+}> {
+  return fetchAPI<GlossaryResult>("/api/glossary", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ sourceText, lang, terms }),
   });
 }
 

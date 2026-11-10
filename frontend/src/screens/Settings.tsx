@@ -1,17 +1,23 @@
 import { useState } from "react";
-import { Globe, Accessibility, Database, Trash2 } from "lucide-react";
+import { Globe, Accessibility, Database, Trash2, User } from "lucide-react";
 import { WorkspaceLayout } from "../components/layout/WorkspaceLayout.tsx";
 import { A11yControls } from "../components/settings/A11yControls.tsx";
 import { LanguageChips } from "../components/input/LanguageChips.tsx";
 import { SegmentedControl } from "../components/common/SegmentedControl.tsx";
 import { clearEverything, listDocs } from "../lib/library.ts";
+import { continueAsGuest, useAuth } from "../lib/auth.ts";
 import { loadLastLanguage, saveLastLanguage, languageName, languageTier } from "../lib/languages.ts";
 import type { LanguageCode } from "../lib/languages.ts";
 
-export function Settings() {
+export interface SettingsProps {
+  onSignedIn?: () => void;
+}
+
+export function Settings({ onSignedIn }: SettingsProps) {
   const [lang, setLang] = useState<LanguageCode>(() => loadLastLanguage());
   const [count, setCount] = useState(() => listDocs().length);
   const [confirming, setConfirming] = useState(false);
+  const profile = useAuth();
 
   return (
     <WorkspaceLayout
@@ -63,6 +69,37 @@ export function Settings() {
             <Accessibility size={16} aria-hidden="true" /> Accessibility
           </h2>
           <A11yControls />
+        </section>
+
+        <section className="rounded-lg border border-border bg-surface p-4">
+          <h2 className="mb-1 flex items-center gap-2 text-base font-semibold text-text">
+            <User size={16} aria-hidden="true" /> Profile
+          </h2>
+          <p className="text-[0.8rem] text-subtle">
+            {profile
+              ? `Signed in as ${profile.name}. Your saved documents are scoped to this profile on this device.`
+              : "You are using AccessBridge as a guest. Everything works; a profile just keeps your documents separate from anyone else using this device."}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <a
+              href="/auth"
+              className="touch-target inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm text-text"
+            >
+              {profile ? "Switch profile" : "Sign in or create a profile"}
+            </a>
+            {profile && (
+              <button
+                type="button"
+                onClick={() => {
+                  continueAsGuest();
+                  onSignedIn?.();
+                }}
+                className="touch-target rounded-md border border-input px-4 py-2 text-sm text-text"
+              >
+                Carry on as guest
+              </button>
+            )}
+          </div>
         </section>
 
         <section className="rounded-lg border border-border bg-surface p-4">

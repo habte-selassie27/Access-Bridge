@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { BookOpen, ArrowLeftRight } from "lucide-react";
+import { BookOpen, ArrowLeftRight, Search } from "lucide-react";
 import { WorkspaceLayout } from "../components/layout/WorkspaceLayout.tsx";
 import { DocumentPicker } from "../components/library/DocumentPicker.tsx";
 import { LevelSelector } from "../components/result/LevelSelector.tsx";
-import { simplifyDocument } from "../lib/api/workspace.ts";
+import { simplifyDocument, buildGlossary } from "../lib/api/workspace.ts";
 import { listDocs } from "../lib/library.ts";
 import type { LibraryDoc } from "../lib/library.ts";
-import type { ExplainLevel, LangCode } from "../lib/api/types.ts";
+import type { ExplainLevel, GlossaryResult, LangCode } from "../lib/api/types.ts";
 import { isRtl } from "../lib/languages.ts";
 
 export interface SimplifyProps {
@@ -21,6 +21,12 @@ export function Simplify({ lang, activeDoc }: SimplifyProps) {
   const [result, setResult] = useState<{ summary: string; steps: string[] } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // The glossary tool.
+  const [terms, setTerms] = useState("");
+  const [glossary, setGlossary] = useState<GlossaryResult | null>(null);
+  const [glossaryLoading, setGlossaryLoading] = useState(false);
+  const [glossaryError, setGlossaryError] = useState<string | null>(null);
 
   useEffect(() => {
     setDocs(listDocs());
@@ -54,11 +60,32 @@ export function Simplify({ lang, activeDoc }: SimplifyProps) {
     setLoading(false);
   };
 
+  const runGlossary = async () => {
+    if (!doc) {
+      setGlossaryError("Choose a document first.");
+      return;
+    }
+    setGlossaryLoading(true);
+    setGlossaryError(null);
+    const requested = terms
+      .split(/[,;\n]/)
+      .map((t) => t.trim())
+      .filter(Boolean);
+    const res = await buildGlossary(doc.sourceText, doc.result.lang || lang, requested);
+    if (res.error) {
+      setGlossaryError(res.error.message);
+      setGlossaryLoading(false);
+      return;
+    }
+    setGlossary(res.data ?? null);
+    setGlossaryLoading(false);
+  };
+
   return (
     <WorkspaceLayout
       currentPath="/simplify"
       title="Simplify Mode"
-      subtitle="The same document, written three ways. Pick the one that works for you."
+      subtitle="The same document, written three ways — and the hard words explained."
     >
       <div className="space-y-4">
         <DocumentPicker docs={docs} value={docId} onChange={setDocId} />
@@ -107,6 +134,70 @@ export function Simplify({ lang, activeDoc }: SimplifyProps) {
                 </section>
               </div>
             )}
+
+            <section className="rounded-lg border border-border bg-surface p-4">
+              <h2 className="mb-1 flex items-center gap-2 text-base font-semibold text-text">
+                <Search size={16} aria-hidden="true" /> Explain the hard words
+              </h2>
+              <p className="mb-3 text-[0.8rem] text-subtle">
+                Leave the box empty and we will pick the hardest words in the document, or type the ones you do not
+                understand.
+              </p>
+              <label className="block">
+                <span className="sr-only">Words to explain</span>
+                <input
+                  className="textfield"
+                  value={terms}
+                  onChange={(e) => setTerms(e.target.value)}
+                  placeholder="For example: accredited institution, attested transcript"
+                />
+              </label>
+              <button
+                type="button"
+                onClick={runGlossary}
+                disabled={glossaryLoading}
+                className="touch-target mt-3 w-full rounded-md bg-brand px-4 py-2.5 text-sm font-medium text-inverse disabled:opacity-60"
+              >
+                {glossaryLoading ? "Explaining…" : "Explain these words"}
+              </button>
+
+              {glossaryError && (
+                <p role="alert" className="mt-3 rounded-md border border-danger-border bg-danger-bg p-2 text-sm text-danger">
+                  {glossaryError}
+                </p>
+              )}
+
+              {glossary && (
+                <div className="mt-4 space-y-2">
+                  {glossary.entries.length === 0 && (
+                    <p className="text-sm text-subtle">No difficult words found in this document.</p>
+                  )}
+                  {glossary.entries.map((entry, i) => (
+                    <div key={i} className="rounded-md border border-border bg-background p-3">
+                      <p className="text-sm font-semibold text-text">{entry.term}</p>
+                      <p className="text-sm text-subtle" lang={glossary.lang} dir={isRtl(glossary.lang) ? "rtl" : "ltr"}>
+                        {entry.meaning}
+                      </p>
+                      {entry.quote && (
+                        <p className="mt-1 border-l-2 border-border pl-2 text-[0.75rem] italic text-subtlest">
+                          “{entry.quote}”
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                  {glossary.examples.length > 0 && (
+                    <div className="rounded-md border border-border bg-background p-3">
+                      <p className="text-sm font-semibold text-text">In practice</p>
+                      <ul className="mt-1 space-y-1 text-sm text-subtle">
+                        {glossary.examples.map((example, i) => (
+                          <li key={i}>• {example}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+            </section>
           </>
         ) : (
           <p className="rounded-lg border border-border bg-surface p-4 text-sm text-subtle">

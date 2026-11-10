@@ -17,7 +17,9 @@ import { Actions } from "./screens/Actions.tsx";
 import { Opportunity } from "./screens/Opportunity.tsx";
 import { Compare } from "./screens/Compare.tsx";
 import { Settings } from "./screens/Settings.tsx";
-import { loadLastLanguage, saveLastLanguage, isRtl } from "./lib/languages.ts";
+import { Auth } from "./screens/Auth.tsx";
+import { useAuth } from "./lib/auth.ts";
+import { loadLastLanguage, saveLastLanguage } from "./lib/languages.ts";
 import type { LanguageCode } from "./lib/languages.ts";
 import { resolveDemo } from "./lib/demo.ts";
 import { explainDocument } from "./lib/api/explain.ts";
@@ -41,7 +43,8 @@ type Page =
   | "actions"
   | "opportunity"
   | "compare"
-  | "settings";
+  | "settings"
+  | "auth";
 
 const PATH_BY_PAGE: Record<Page, string> = {
   home: "/",
@@ -61,6 +64,7 @@ const PATH_BY_PAGE: Record<Page, string> = {
   opportunity: "/opportunity",
   compare: "/compare",
   settings: "/settings",
+  auth: "/auth",
 };
 
 /** Pages that use the workspace layout (sidebar) instead of the simple shell. */
@@ -76,6 +80,7 @@ const WORKSPACE_PAGES: Page[] = [
   "opportunity",
   "compare",
   "settings",
+  "auth",
 ];
 
 function pageFromPath(pathname: string): Page {
@@ -88,6 +93,8 @@ export function App() {
   const [page, setPage] = useState<Page>(() => pageFromPath(window.location.pathname));
   const [result, setResult] = useState<any>(null);
   const [lang, setLang] = useState<LanguageCode>(() => loadLastLanguage());
+  /** The signed-in profile, or null for guest mode. */
+  const profile = useAuth();
   /** The document currently open in the workspace screens. */
   const [activeDoc, setActiveDoc] = useState<LibraryDoc | null>(null);
   /** Set when a language cannot be served for the current document. */
@@ -108,18 +115,12 @@ export function App() {
     window.scrollTo(0, 0);
   }, [page]);
 
-  // Tell the browser and the screen reader which language is on screen, and
-  // which way the text runs. A page that reads in Arabic but announces
-  // itself as English is unusable with a screen reader.
-  const setDocumentLanguage = useCallback((code: string) => {
-    const root = document.documentElement;
-    root.lang = code;
-    root.dir = isRtl(code) ? "rtl" : "ltr";
-  }, []);
-
+  // The interface itself is English and always left-to-right. The document
+  // language is announced on the content regions that carry it (see
+  // lib/direction.ts) — flipping <html dir> would mirror the whole chrome.
   useEffect(() => {
-    setDocumentLanguage(lang);
-  }, [lang, setDocumentLanguage]);
+    document.documentElement.dir = "ltr";
+  }, []);
 
   const navigate = useCallback((next: Page) => {
     const path = PATH_BY_PAGE[next];
@@ -173,8 +174,10 @@ export function App() {
   const activePage: Page = page === "result" && !result ? "home" : page;
 
   if (WORKSPACE_PAGES.includes(activePage)) {
+    // The whole workspace is keyed by the profile: signing in or out remounts
+    // it, so every screen re-reads the library for the new scope.
     return (
-      <>
+      <div key={profile?.id ?? "guest"}>
         {activePage === "dashboard" && (
           <Dashboard onOpenDoc={(doc) => { openDoc(doc); navigate("reader"); }} />
         )}
@@ -189,8 +192,11 @@ export function App() {
         {activePage === "actions" && <Actions activeDoc={activeDoc} />}
         {activePage === "opportunity" && <Opportunity lang={lang} activeDoc={activeDoc} />}
         {activePage === "compare" && <Compare lang={lang} />}
-        {activePage === "settings" && <Settings />}
-      </>
+        {activePage === "settings" && <Settings onSignedIn={() => navigate("dashboard")} />}
+        {activePage === "auth" && (
+          <Auth onBack={() => navigate("dashboard")} onSignedIn={() => navigate("dashboard")} />
+        )}
+      </div>
     );
   }
 
@@ -202,9 +208,8 @@ export function App() {
           onLangChange={handleLangChange}
           onResult={(data: any) => {
             setResult(data);
-            // The explanation is in the document's own language, so the page
-            // announces that language rather than the interface language.
-            setDocumentLanguage(data?.lang ?? lang);
+            // The explanation carries its own `lang` on the content regions
+            // (see lib/direction.ts); the interface stays in English.
             // Reading a document saves it to the personal library so the
             // workspace screens have something to work with.
             try {
@@ -228,7 +233,6 @@ export function App() {
           onLangChange={(code) => {
             const nextLang = code as LanguageCode;
             handleLangChange(nextLang);
-            setDocumentLanguage(nextLang);
             if (result.demoId) {
               const next = resolveDemo(result.demoId, nextLang);
               if (next) {

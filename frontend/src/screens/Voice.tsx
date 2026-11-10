@@ -130,7 +130,7 @@ export function Voice({ lang, activeDoc }: VoiceProps) {
               </label>
             </div>
 
-            <section className="rounded-lg border border-border bg-surface p-4" dir={isRtl(voiceLang) ? "rtl" : "ltr"}>
+            <section className="rounded-lg border border-border bg-surface p-4" lang={voiceLang} dir={isRtl(voiceLang) ? "rtl" : "ltr"}>
               <h2 className="mb-2 text-sm font-semibold text-text">Transcript</h2>
               <p className="whitespace-pre-wrap text-sm text-text">{text}</p>
             </section>

@@ -28,7 +28,7 @@ Not legal or medical advice; urgent medical/legal danger -> advise contacting a 
 
 Return exactly this JSON shape:
 {
-  "docType": "government_notice" | "medical" | "financial" | "school" | "other",
+  "docType": "government_notice" | "medical" | "financial" | "school" | "scholarship" | "job" | "internship" | "grant" | "fellowship" | "bootcamp" | "other",
   "summary": "one or two plain sentences saying what this document is",
   "actions": [{ "step": "one thing the reader must do", "urgent": true }],
   "eligibility": ["who qualifies, only if the document says it"],
@@ -37,6 +37,9 @@ Return exactly this JSON shape:
   "costs": [{ "label": "short name", "amount": 500, "currency": "ETB" }],
   "documentsToBring": ["one document per item"],
   "sections": [{ "title": "name of an important part of the document", "summary": "one line about it" }],
+  "glossary": [{ "term": "an official or hard word", "meaning": "what it means in everyday words", "quote": "text copied from the document" }],
+  "contacts": [{ "label": "who to ask", "value": "the email, phone number, office or name", "kind": "email" | "phone" | "address" | "website" | "person" | "organization" | "other", "quote": "text copied from the document" }],
+  "examples": ["one concrete example of how to satisfy a requirement"],
   "confidence": "high" | "medium" | "low",
   "warnings": ["anything the reader must be careful about"]
 }
@@ -49,6 +52,9 @@ Rules for the arrays:
 - costs: every amount the reader has to pay. Never include income figures or amounts that are not payable.
 - documentsToBring: only items the document explicitly says to bring.
 - sections: the 2 to 5 most important named parts of the document, each with a one line summary. Use [] if the document has no clear sections.
+- glossary: up to 5 words a reader with low literacy may not know, each explained in everyday words. The quote must be copied verbatim from the document. Use [] when there is no such word.
+- contacts: people, offices, email addresses, phone numbers and websites a reader may need. The quote must be copied verbatim. Use [] when the document states none.
+- examples: up to 3 short, concrete examples of how to satisfy a requirement, taken from the document's own situation. Use [] when there is nothing to illustrate.
 - warnings: [] when there is nothing to warn about.`;
 
 export const EXPLAIN_USER = ({
@@ -76,6 +82,7 @@ Return JSON only.${exampleBlock}`;
 export const FOLLOWUP_SYSTEM = `You answer follow-up questions about a document using only the provided document context.
 If the answer is not in the context, say so and suggest asking the issuer.
 Never give legal or medical conclusions.
+The context may contain several documents. Each one starts with "### title". When it does, answer from all of them and say which document each fact comes from.
 Output plain text only, no JSON.`;
 
 export const FOLLOWUP_USER = ({ docContext, history, question, lang }: { docContext: string; history: string; question: string; lang: string }) =>
@@ -177,3 +184,34 @@ Text:
 ${text}
 """
 Return JSON only.`;
+
+/**
+ * The hard words in a document, explained in everyday language.
+ *
+ * The explanation has to be tied to the document, so every entry carries the
+ * text it came from.
+ */
+export const GLOSSARY_SYSTEM = `You explain the difficult words of an official document to someone with low literacy.
+Use everyday words. Keep the term in the document's own language and explain it in the requested language.
+Output JSON only, no markdown fences:
+{
+  "entries": [
+    { "term": "the word or phrase as the document writes it", "meaning": "what it means in everyday words", "quote": "text copied verbatim from the document" }
+  ],
+  "examples": ["one short concrete example of how the requirement works"]
+}
+
+Rules:
+- Only explain words that actually appear in the document.
+- The quote must be copied verbatim from the document. If you cannot find a quote, use an empty string.
+- Never invent a definition that the document does not support.
+- Use [] when the document has no difficult words.`;
+
+export const GLOSSARY_USER = ({ docContext, terms, lang }: { docContext: string; terms: string; lang: string }) =>
+  `Document:
+"""
+${docContext}
+"""
+
+${terms ? `Explain these words: ${terms}.` : "Pick the 3 to 6 hardest words in this document and explain them."}
+Answer in ${lang}. Return JSON only.`;

@@ -3,8 +3,10 @@ import { Languages, History, Trash2 } from "lucide-react";
 import { WorkspaceLayout } from "../components/layout/WorkspaceLayout.tsx";
 import { DocumentPicker } from "../components/library/DocumentPicker.tsx";
 import { LanguageChips } from "../components/input/LanguageChips.tsx";
+import { SegmentedControl } from "../components/common/SegmentedControl.tsx";
 import { translateText } from "../lib/api/workspace.ts";
 import { listDocs } from "../lib/library.ts";
+import { scopedKey } from "../lib/library.ts";
 import type { LibraryDoc } from "../lib/library.ts";
 import type { LangCode } from "../lib/api/types.ts";
 import { isRtl } from "../lib/languages.ts";
@@ -19,9 +21,14 @@ interface HistoryEntry {
 
 const HISTORY_KEY = "pastewise-translation-history";
 
+/** History is scoped to the profile, like the library. */
+function historyKey(): string {
+  return scopedKey(HISTORY_KEY);
+}
+
 function loadHistory(): HistoryEntry[] {
   try {
-    const raw = localStorage.getItem(HISTORY_KEY);
+    const raw = localStorage.getItem(historyKey());
     return raw ? (JSON.parse(raw) as HistoryEntry[]) : [];
   } catch {
     return [];
@@ -30,7 +37,7 @@ function loadHistory(): HistoryEntry[] {
 
 function saveHistory(entries: HistoryEntry[]): void {
   try {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(entries.slice(0, 30)));
+    localStorage.setItem(historyKey(), JSON.stringify(entries.slice(0, 30)));
   } catch {
     // ignore
   }
@@ -45,6 +52,9 @@ export function Translate({ lang, activeDoc }: TranslateProps) {
   const [docs, setDocs] = useState<LibraryDoc[]>([]);
   const [docId, setDocId] = useState(activeDoc?.id ?? "");
   const [target, setTarget] = useState<LangCode>(lang);
+  /** Whole document, paragraph by paragraph, or sentence by sentence. */
+  const [mode, setMode] = useState<"document" | "paragraph" | "sentence">("document");
+  const [segments, setSegments] = useState<{ original: string; translated: string }[]>([]);
   const [text, setText] = useState("");
   const [translated, setTranslated] = useState("");
   const [loading, setLoading] = useState(false);
@@ -72,7 +82,7 @@ export function Translate({ lang, activeDoc }: TranslateProps) {
     }
     setLoading(true);
     setError(null);
-    const res = await translateText(text, target);
+    const res = await translateText(text, target, "en", mode);
     if (res.error) {
       setError(res.error.message);
       setLoading(false);
@@ -80,6 +90,7 @@ export function Translate({ lang, activeDoc }: TranslateProps) {
     }
     const result = res.data;
     setTranslated(result?.translated ?? "");
+    setSegments(result?.segments ?? []);
     if (result) {
       const entry: HistoryEntry = {
         id: `${Date.now()}`,
@@ -106,6 +117,24 @@ export function Translate({ lang, activeDoc }: TranslateProps) {
         <div>
           <p className="mb-2 text-sm font-medium text-text">Translate into</p>
           <LanguageChips value={target} onChange={setTarget} />
+        </div>
+
+        <div>
+          <p className="mb-2 text-sm font-medium text-text">How to translate</p>
+          <SegmentedControl
+            label="Translation mode"
+            value={mode}
+            onChange={(v) => {
+              setMode(v);
+              setSegments([]);
+            }}
+            options={[
+              { value: "document", label: "Whole document", hint: "One piece of text" },
+              { value: "paragraph", label: "Paragraph by paragraph", hint: "Keeps the shape" },
+              { value: "sentence", label: "Sentence by sentence", hint: "Word for word" },
+            ]}
+            note="Paragraph and sentence mode keep each piece next to its translation, so you can check the original as you read."
+          />
         </div>
 
         <label className="block">
@@ -141,6 +170,7 @@ export function Translate({ lang, activeDoc }: TranslateProps) {
             </section>
             <section
               className="rounded-lg border border-brand bg-surface p-3"
+              lang={target}
               dir={isRtl(target) ? "rtl" : "ltr"}
             >
               <h2 className="mb-1 flex items-center gap-1 text-[0.75rem] font-semibold uppercase tracking-wide text-subtle">
@@ -149,6 +179,22 @@ export function Translate({ lang, activeDoc }: TranslateProps) {
               <p className="whitespace-pre-wrap text-sm text-text">{translated}</p>
             </section>
           </div>
+        )}
+
+        {segments.length > 0 && (
+          <section className="space-y-2">
+            <h2 className="text-base font-semibold text-text">Line by line</h2>
+            <ul className="space-y-2">
+              {segments.map((segment, i) => (
+                <li key={i} className="rounded-lg border border-border bg-surface p-3">
+                  <p className="text-sm text-subtle">{segment.original}</p>
+                  <p className="mt-1 text-sm text-text" lang={target} dir={isRtl(target) ? "rtl" : "ltr"}>
+                    {segment.translated}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
         )}
 
         <section className="space-y-2">

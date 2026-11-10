@@ -11,8 +11,63 @@ export const SectionSchema = z.object({
   summary: z.string().min(1),
 });
 
+/**
+ * What kind of document this is.
+ *
+ * The opportunity kinds exist because "scholarship" and "job posting" need a
+ * different reader: one is about applying, the other is about a role and its
+ * requirements. Everything else is a notice, a medical or a financial
+ * document.
+ */
+export const DocTypeSchema = z.enum([
+  "government_notice",
+  "medical",
+  "financial",
+  "school",
+  "scholarship",
+  "job",
+  "internship",
+  "grant",
+  "fellowship",
+  "bootcamp",
+  "other",
+]);
+
+/** The document kinds that describe an opportunity the reader can apply for. */
+export const OPPORTUNITY_TYPES = [
+  "scholarship",
+  "job",
+  "internship",
+  "grant",
+  "fellowship",
+  "bootcamp",
+] as const;
+
+export type OpportunityType = (typeof OPPORTUNITY_TYPES)[number];
+
+export function isOpportunityType(value: unknown): value is OpportunityType {
+  return typeof value === "string" && (OPPORTUNITY_TYPES as readonly string[]).includes(value);
+}
+
+/** A hard term in the document, explained in plain language. */
+export const GlossaryEntrySchema = z.object({
+  term: z.string().min(1),
+  meaning: z.string().min(1),
+  /** Verbatim text from the document that contains the term. */
+  quote: z.string().default(""),
+});
+
+/** A person, organisation or way to get in touch. */
+export const ContactSchema = z.object({
+  label: z.string().min(1),
+  value: z.string().min(1),
+  kind: z.enum(["email", "phone", "address", "website", "person", "organization", "other"]).default("other"),
+  /** Verbatim text from the document that contains the contact. */
+  quote: z.string().default(""),
+});
+
 export const ExplainResponseSchema = z.object({
-  docType: z.enum(["government_notice", "medical", "financial", "school", "other"]),
+  docType: DocTypeSchema,
   summary: z.string().min(1),
   actions: z.array(
     z.object({
@@ -44,6 +99,12 @@ export const ExplainResponseSchema = z.object({
   documentsToBring: z.array(z.string().min(1)),
   /** Named parts of the document worth reading on their own. */
   sections: z.array(SectionSchema).default([]),
+  /** Hard terms explained in plain language. */
+  glossary: z.array(GlossaryEntrySchema).default([]),
+  /** People, organisations and ways to get in touch. */
+  contacts: z.array(ContactSchema).default([]),
+  /** A worked example of how to satisfy one of the requirements. */
+  examples: z.array(z.string().min(1)).default([]),
   /** Plain-language level this explanation was written at. */
   level: LevelSchema.default("standard"),
   confidence: z.enum(["high", "medium", "low"]),
@@ -63,6 +124,8 @@ export type Action = ExplainResponse["actions"][number];
 export type Deadline = ExplainResponse["deadlines"][number];
 export type Cost = ExplainResponse["costs"][number];
 export type Section = z.infer<typeof SectionSchema>;
+export type GlossaryEntry = z.infer<typeof GlossaryEntrySchema>;
+export type Contact = z.infer<typeof ContactSchema>;
 export type ExplainLevel = z.infer<typeof LevelSchema>;
 
 export const API_ERROR = {

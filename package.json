@@ -14,7 +14,7 @@
     "preview": "cd frontend && npm run preview",
     "lint": "cd frontend && npm run lint && cd .. && tsc --project server/tsconfig.json",
     "typecheck": "cd frontend && npx tsc --noEmit --project tsconfig.json && cd .. && tsc --project server/tsconfig.json",
-    "test": "node --experimental-strip-types --test frontend/src/lib/verify.test.ts frontend/src/lib/state.test.ts tests/unit/verification-guards.test.ts tests/unit/a11y.test.ts",
+    "test": "node --experimental-strip-types --test frontend/src/lib/verify.test.ts frontend/src/lib/state.test.ts tests/unit/verification-guards.test.ts tests/unit/a11y.test.ts tests/unit/retrieval-and-content.test.ts tests/unit/auth.test.ts",
     "eval:recompute": "tsx scripts/recompute-eval.ts",
     "smoke": "node scripts/smoke.mjs"
   },

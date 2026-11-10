@@ -6,6 +6,7 @@ import { EligibilityCheck } from "../components/result/EligibilityCheck.tsx";
 import { listDocs } from "../lib/library.ts";
 import type { LibraryDoc } from "../lib/library.ts";
 import type { LangCode } from "../lib/api/types.ts";
+import { isRtl } from "../lib/languages.ts";
 
 export interface OpportunityProps {
   lang: LangCode;
@@ -42,7 +43,11 @@ export function Opportunity({ lang, activeDoc }: OpportunityProps) {
           </p>
         ) : (
           <>
-            <section className="rounded-lg border border-border bg-surface p-4">
+            <section
+              className="rounded-lg border border-border bg-surface p-4"
+              lang={doc.result.lang || lang}
+              dir={isRtl(doc.result.lang || lang) ? "rtl" : "ltr"}
+            >
               <h2 className="mb-2 flex items-center gap-2 text-base font-semibold text-text">
                 <FileCheck2 size={16} aria-hidden="true" /> What this document asks for
               </h2>
@@ -73,7 +78,11 @@ export function Opportunity({ lang, activeDoc }: OpportunityProps) {
             </section>
 
             {doc.result.deadlines.length > 0 && (
-              <section className="rounded-lg border border-border bg-surface p-4">
+              <section
+                className="rounded-lg border border-border bg-surface p-4"
+                lang={doc.result.lang || lang}
+                dir={isRtl(doc.result.lang || lang) ? "rtl" : "ltr"}
+              >
                 <h2 className="mb-2 flex items-center gap-2 text-base font-semibold text-text">
                   <CalendarClock size={16} aria-hidden="true" /> When it closes
                 </h2>

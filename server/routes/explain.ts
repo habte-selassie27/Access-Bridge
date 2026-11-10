@@ -5,7 +5,7 @@ import { ocr, DEMO_INDEX } from "../context.ts";
 import { LIMITS } from "../lib/config/limits.ts";
 import { ENV } from "../lib/config/env.ts";
 import { checkRateLimit } from "../lib/security/rate-limit.ts";
-import { canSpend, addSpend } from "../lib/security/spend-guard.ts";
+import { canSpend } from "../lib/security/spend-guard.ts";
 import { sanitizeText, detectInjection } from "../lib/security/input-guard.ts";
 import { isAllowedMime } from "../lib/security/file-validator.ts";
 import { log } from "../lib/observability/logger.ts";
@@ -98,7 +98,6 @@ router.post("/explain", upload.single("file"), async (req, res) => {
     }
 
     const outcome = await runExplain({ sourceText, lang, level, requestId });
-    if (outcome.status === 200) addSpend(0.002);
     return res.status(outcome.status).json(outcome.body);
   } catch (err) {
     log("error", "explain error", { requestId, err: String(err) });

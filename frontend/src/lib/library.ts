@@ -1,4 +1,5 @@
 import type { ExplanationResult, LangCode, ExplainLevel } from "./api/types.ts";
+import { scopeId } from "./auth.ts";
 
 /**
  * The Personal Information Library.
@@ -6,6 +7,9 @@ import type { ExplanationResult, LangCode, ExplainLevel } from "./api/types.ts";
  * Everything here lives in the browser only: no account, no server, no upload
  * of the reader's own history. The reader decides what to keep and can delete
  * any entry with one tap, which is what the privacy page promises.
+ *
+ * The library is scoped to the current profile, so signing in on a shared
+ * device shows a different set of documents to the guest.
  */
 export interface LibraryDoc {
   id: string;
@@ -33,9 +37,18 @@ const DOCS_KEY = "pastewise-library-docs";
 const CONVOS_KEY = "pastewise-library-conversations";
 const CHECKLIST_KEY = "pastewise-checklist";
 
+/** Storage keys are scoped to the signed-in profile. */
+export function scopedKey(key: string): string {
+  return `${key}:${scopeId()}`;
+}
+
+function scoped(key: string): string {
+  return scopedKey(key);
+}
+
 function read<T>(key: string, fallback: T): T {
   try {
-    const raw = localStorage.getItem(key);
+    const raw = localStorage.getItem(scoped(key));
     if (!raw) return fallback;
     const parsed = JSON.parse(raw);
     return (parsed ?? fallback) as T;
@@ -46,7 +59,7 @@ function read<T>(key: string, fallback: T): T {
 
 function write<T>(key: string, value: T): void {
   try {
-    localStorage.setItem(key, JSON.stringify(value));
+    localStorage.setItem(scoped(key), JSON.stringify(value));
   } catch {
     // Storage unavailable (private mode). The app still works, it just forgets.
   }
@@ -191,9 +204,9 @@ export function writeChecklist(docId: string, itemId: string, done: boolean): vo
 
 export function clearEverything(): void {
   try {
-    localStorage.removeItem(DOCS_KEY);
-    localStorage.removeItem(CONVOS_KEY);
-    localStorage.removeItem(CHECKLIST_KEY);
+    localStorage.removeItem(scoped(DOCS_KEY));
+    localStorage.removeItem(scoped(CONVOS_KEY));
+    localStorage.removeItem(scoped(CHECKLIST_KEY));
   } catch {
     // ignore
   }
