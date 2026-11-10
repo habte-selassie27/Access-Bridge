@@ -60,6 +60,18 @@ Notes:
 - Railway provides a public URL like `https://<project>.up.railway.app`.
 - The backend listens only when run as a standalone server, not inside a Vercel serverless function.
 - The backend already reads `CORS_ORIGINS` and rejects other origins by default.
+- The active LLM is chosen at boot time by availability: Groq first, then Mistral,
+  then demo if neither is configured. Gemini stays reserved for OCR and TTS, not
+  general chat.
+
+## Active LLM order
+
+1. `GROQ_API_KEY` present -> Groq is the live LLM.
+2. `GROQ_API_KEY` absent and `MISTRAL_API_KEY` present -> Mistral is the live LLM.
+3. Neither present -> demo mode only.
+
+Set `MISTRAL_API_KEY` when you want Mistral to be the active provider after Groq.
+Do not paste the real key into committed files; keep it in the backend env only.
 
 ## Why split this way
 

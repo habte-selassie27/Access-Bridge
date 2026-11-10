@@ -860,6 +860,47 @@ function registerAllDemos() {
 }
 
 // server/lib/providers/llm/llm.adapter.ts
+var MistralAdapter = class {
+  constructor(apiKey, model = "mistral-large-latest", options = {}) {
+    this.apiKey = apiKey;
+    this.model = model;
+    this.options = options;
+  }
+  apiKey;
+  model;
+  options;
+  async complete(system, user, maxTokens = 1e3) {
+    const retries = this.options.retries ?? 0;
+    const baseDelayMs = this.options.baseDelayMs ?? 15e3;
+    for (let attempt = 0; ; attempt++) {
+      const res = await fetch("https://api.mistral.ai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: this.model,
+          max_tokens: maxTokens,
+          messages: [
+            { role: "system", content: system },
+            { role: "user", content: user }
+          ]
+        })
+      });
+      if (res.ok) {
+        const json = await res.json();
+        return json.choices?.[0]?.message?.content || "";
+      }
+      const txt = await res.text().catch(() => "");
+      const canRetry = (res.status === 429 || res.status >= 500) && attempt < retries;
+      if (!canRetry) {
+        throw new Error(`Mistral ${res.status}: ${txt.slice(0, 200)}`);
+      }
+      await new Promise((resolve) => setTimeout(resolve, baseDelayMs * (attempt + 1)));
+    }
+  }
+};
 var GroqAdapter = class {
   constructor(apiKey, model = "openai/gpt-oss-120b", options = {}) {
     this.apiKey = apiKey;
@@ -922,7 +963,8 @@ var OPTIONAL = [
   "GROQ_API_KEY",
   "ANTHROPIC_API_KEY",
   "GEMINI_API_KEY",
-  "ADAPTION_API_KEY"
+  "ADAPTION_API_KEY",
+  "MISTRAL_API_KEY"
 ];
 function validateEnv() {
   const missing2 = REQUIRED.filter((k) => !process.env[k]);
@@ -941,23 +983,32 @@ var ENV = {
   nodeEnv: process.env.NODE_ENV || "development",
   port: Number(process.env.PORT || 3001),
   anthropicApiKey: process.env.ANTHROPIC_API_KEY || "",
+  mistralApiKey: process.env.MISTRAL_API_KEY || "",
   groqApiKey: process.env.GROQ_API_KEY || "",
   groqModel: process.env.GROQ_MODEL || "openai/gpt-oss-120b",
   geminiApiKey: process.env.GEMINI_API_KEY || "",
   adaptionApiKey: process.env.ADAPTION_API_KEY || "",
   dailySpendCapUsd: Number(process.env.DAILY_SPEND_CAP_USD || 5),
   rateLimitEnabled: process.env.RATE_LIMIT_ENABLED !== "false",
-  demoMode: !process.env.GROQ_API_KEY && !process.env.ANTHROPIC_API_KEY && !process.env.GEMINI_API_KEY
+  demoMode: !process.env.GROQ_API_KEY && !process.env.MISTRAL_API_KEY && !process.env.GEMINI_API_KEY
 };
 
 // server/lib/providers/llm/llm.factory.ts
 function createLLM() {
-  if (!ENV.groqApiKey) return null;
-  return new GroqAdapter(ENV.groqApiKey, ENV.groqModel, {
-    retries: 2,
-    baseDelayMs: 13e3,
-    reasoningEffort: "low"
-  });
+  if (ENV.groqApiKey) {
+    return new GroqAdapter(ENV.groqApiKey, ENV.groqModel, {
+      retries: 2,
+      baseDelayMs: 13e3,
+      reasoningEffort: "low"
+    });
+  }
+  if (ENV.mistralApiKey) {
+    return new MistralAdapter(ENV.mistralApiKey, "mistral-large-latest", {
+      retries: 2,
+      baseDelayMs: 13e3
+    });
+  }
+  return null;
 }
 
 // server/lib/providers/ocr/ocr.adapter.ts

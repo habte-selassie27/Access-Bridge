@@ -14,6 +14,7 @@ const OPTIONAL: string[] = [
   "ANTHROPIC_API_KEY",
   "GEMINI_API_KEY",
   "ADAPTION_API_KEY",
+  "MISTRAL_API_KEY",
 ];
 
 export function validateEnv(): { ok: boolean; missing: string[]; warnings: string[] } {
@@ -35,11 +36,12 @@ export const ENV = {
   nodeEnv: process.env.NODE_ENV || "development",
   port: Number(process.env.PORT || 3001),
   anthropicApiKey: process.env.ANTHROPIC_API_KEY || "",
+  mistralApiKey: process.env.MISTRAL_API_KEY || "",
   groqApiKey: process.env.GROQ_API_KEY || "",
   groqModel: process.env.GROQ_MODEL || "openai/gpt-oss-120b",
   geminiApiKey: process.env.GEMINI_API_KEY || "",
   adaptionApiKey: process.env.ADAPTION_API_KEY || "",
   dailySpendCapUsd: Number(process.env.DAILY_SPEND_CAP_USD || 5),
   rateLimitEnabled: process.env.RATE_LIMIT_ENABLED !== "false",
-  demoMode: !process.env.GROQ_API_KEY && !process.env.ANTHROPIC_API_KEY && !process.env.GEMINI_API_KEY,
+  demoMode: !process.env.GROQ_API_KEY && !process.env.MISTRAL_API_KEY && !process.env.GEMINI_API_KEY,
 };
