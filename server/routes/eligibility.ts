@@ -9,12 +9,18 @@ import { newRequestId } from "../lib/utils/ids.ts";
 import { noCache } from "../middleware/request-logger.ts";
 import { log } from "../lib/observability/logger.ts";
 import { inc } from "../lib/observability/metrics.ts";
-import { addSpend } from "../lib/security/spend-guard.ts";
+import { addSpend, canSpend } from "../lib/security/spend-guard.ts";
+import { checkRateLimit } from "../lib/security/rate-limit.ts";
+import { ENV } from "../lib/config/env.ts";
 import { ELIGIBILITY_SYSTEM, ELIGIBILITY_USER } from "../../frontend/src/lib/prompts.ts";
 import { quoteIsTraceable, findQuoteSpan } from "../lib/verify/quote-verifier.ts";
 
 const router = Router();
 router.use(noCache);
+
+function clientIp(req: any): string {
+  return (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
+}
 
 const DISCLAIMER =
   "This is an assessment against the requirements published in the document. It is not a decision, and it is not a promise of acceptance. Check with the issuing organisation.";
@@ -48,6 +54,16 @@ router.post("/eligibility", async (req, res) => {
     const safeProfile = sanitizeText(profile).slice(0, 2000);
     if (detectInjection(safeProfile)) {
       log("warn", "injection in eligibility profile", { requestId });
+    }
+
+    if (ENV.rateLimitEnabled && !checkRateLimit(clientIp(req))) {
+      inc("rate_limit_rejections");
+      return res.status(429).json({ ok: false, error: "Too many requests.", retryable: true, code: "RATE_LIMITED" });
+    }
+
+    if (!canSpend(ENV.dailySpendCapUsd)) {
+      inc("spend_cap_hits");
+      return res.status(429).json({ ok: false, error: "The demo has reached its daily usage limit. The saved documents still work.", retryable: false, code: "SPEND_CAP" });
     }
 
     if (!llm) {

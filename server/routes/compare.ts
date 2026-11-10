@@ -9,11 +9,17 @@ import { newRequestId } from "../lib/utils/ids.ts";
 import { noCache } from "../middleware/request-logger.ts";
 import { log } from "../lib/observability/logger.ts";
 import { inc } from "../lib/observability/metrics.ts";
-import { addSpend } from "../lib/security/spend-guard.ts";
+import { addSpend, canSpend } from "../lib/security/spend-guard.ts";
+import { checkRateLimit } from "../lib/security/rate-limit.ts";
+import { ENV } from "../lib/config/env.ts";
 import { COMPARE_SYSTEM, COMPARE_USER } from "../../frontend/src/lib/prompts.ts";
 
 const router = Router();
 router.use(noCache);
+
+function clientIp(req: any): string {
+  return (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
+}
 
 function toList(value: unknown): string[] {
   if (Array.isArray(value)) return value.map((v) => String(v).trim()).filter(Boolean);
@@ -34,6 +40,16 @@ router.post("/compare", async (req, res) => {
 
     const safeA = sanitizeText(a).slice(0, LIMITS.maxTextLength);
     const safeB = sanitizeText(b).slice(0, LIMITS.maxTextLength);
+
+    if (ENV.rateLimitEnabled && !checkRateLimit(clientIp(req))) {
+      inc("rate_limit_rejections");
+      return res.status(429).json({ ok: false, error: "Too many requests.", retryable: true, code: "RATE_LIMITED" });
+    }
+
+    if (!canSpend(ENV.dailySpendCapUsd)) {
+      inc("spend_cap_hits");
+      return res.status(429).json({ ok: false, error: "The demo has reached its daily usage limit. The saved documents still work.", retryable: false, code: "SPEND_CAP" });
+    }
 
     if (!llm) {
       inc("llm_failures");

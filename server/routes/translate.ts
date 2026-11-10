@@ -9,13 +9,19 @@ import { newRequestId } from "../lib/utils/ids.ts";
 import { noCache } from "../middleware/request-logger.ts";
 import { log } from "../lib/observability/logger.ts";
 import { inc } from "../lib/observability/metrics.ts";
-import { addSpend } from "../lib/security/spend-guard.ts";
+import { addSpend, canSpend } from "../lib/security/spend-guard.ts";
+import { checkRateLimit } from "../lib/security/rate-limit.ts";
+import { ENV } from "../lib/config/env.ts";
 import { TRANSLATE_SYSTEM, TRANSLATE_USER } from "../../frontend/src/lib/prompts.ts";
 
 const router = Router();
 router.use(noCache);
 
 const MAX_CHARS = 8000;
+
+function clientIp(req: any): string {
+  return (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
+}
 
 router.post("/translate", async (req, res) => {
   const requestId = newRequestId();
@@ -26,6 +32,16 @@ router.post("/translate", async (req, res) => {
       return res.status(400).json({ ok: false, error: "text required.", retryable: false, code: "INVALID_INPUT" });
     }
     const safeText = sanitizeText(text).slice(0, MAX_CHARS);
+
+    if (ENV.rateLimitEnabled && !checkRateLimit(clientIp(req))) {
+      inc("rate_limit_rejections");
+      return res.status(429).json({ ok: false, error: "Too many requests.", retryable: true, code: "RATE_LIMITED" });
+    }
+
+    if (!canSpend(ENV.dailySpendCapUsd)) {
+      inc("spend_cap_hits");
+      return res.status(429).json({ ok: false, error: "The demo has reached its daily usage limit. The saved documents still work.", retryable: false, code: "SPEND_CAP" });
+    }
 
     if (!llm) {
       inc("llm_failures");

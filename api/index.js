@@ -2562,6 +2562,9 @@ function findQuoteSpan(quote, source) {
 // server/routes/eligibility.ts
 var router11 = Router11();
 router11.use(noCache);
+function clientIp2(req) {
+  return req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
+}
 var DISCLAIMER = "This is an assessment against the requirements published in the document. It is not a decision, and it is not a promise of acceptance. Check with the issuing organisation.";
 function normalizeStatus(value) {
   const s = String(value ?? "").toLowerCase().replace(/[\s-]+/g, "_");
@@ -2585,6 +2588,14 @@ router11.post("/eligibility", async (req, res) => {
     const safeProfile = sanitizeText(profile).slice(0, 2e3);
     if (detectInjection(safeProfile)) {
       log("warn", "injection in eligibility profile", { requestId });
+    }
+    if (ENV.rateLimitEnabled && !checkRateLimit(clientIp2(req))) {
+      inc("rate_limit_rejections");
+      return res.status(429).json({ ok: false, error: "Too many requests.", retryable: true, code: "RATE_LIMITED" });
+    }
+    if (!canSpend(ENV.dailySpendCapUsd)) {
+      inc("spend_cap_hits");
+      return res.status(429).json({ ok: false, error: "The demo has reached its daily usage limit. The saved documents still work.", retryable: false, code: "SPEND_CAP" });
     }
     if (!llm) {
       inc("llm_failures");
@@ -2646,6 +2657,9 @@ var eligibility_default = router11;
 import { Router as Router12 } from "express";
 var router12 = Router12();
 router12.use(noCache);
+function clientIp3(req) {
+  return req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
+}
 function toList(value) {
   if (Array.isArray(value)) return value.map((v) => String(v).trim()).filter(Boolean);
   if (typeof value === "string" && value.trim()) return [value.trim()];
@@ -2663,6 +2677,14 @@ router12.post("/compare", async (req, res) => {
     }
     const safeA = sanitizeText(a).slice(0, LIMITS.maxTextLength);
     const safeB = sanitizeText(b).slice(0, LIMITS.maxTextLength);
+    if (ENV.rateLimitEnabled && !checkRateLimit(clientIp3(req))) {
+      inc("rate_limit_rejections");
+      return res.status(429).json({ ok: false, error: "Too many requests.", retryable: true, code: "RATE_LIMITED" });
+    }
+    if (!canSpend(ENV.dailySpendCapUsd)) {
+      inc("spend_cap_hits");
+      return res.status(429).json({ ok: false, error: "The demo has reached its daily usage limit. The saved documents still work.", retryable: false, code: "SPEND_CAP" });
+    }
     if (!llm) {
       inc("llm_failures");
       return res.status(503).json({ ok: false, error: "Document comparison is unavailable right now.", retryable: false, code: "NOT_CONFIGURED" });
@@ -2708,6 +2730,9 @@ import { Router as Router13 } from "express";
 var router13 = Router13();
 router13.use(noCache);
 var MAX_CHARS3 = 8e3;
+function clientIp4(req) {
+  return req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
+}
 router13.post("/translate", async (req, res) => {
   const requestId = newRequestId();
   const start = Date.now();
@@ -2717,6 +2742,14 @@ router13.post("/translate", async (req, res) => {
       return res.status(400).json({ ok: false, error: "text required.", retryable: false, code: "INVALID_INPUT" });
     }
     const safeText = sanitizeText(text).slice(0, MAX_CHARS3);
+    if (ENV.rateLimitEnabled && !checkRateLimit(clientIp4(req))) {
+      inc("rate_limit_rejections");
+      return res.status(429).json({ ok: false, error: "Too many requests.", retryable: true, code: "RATE_LIMITED" });
+    }
+    if (!canSpend(ENV.dailySpendCapUsd)) {
+      inc("spend_cap_hits");
+      return res.status(429).json({ ok: false, error: "The demo has reached its daily usage limit. The saved documents still work.", retryable: false, code: "SPEND_CAP" });
+    }
     if (!llm) {
       inc("llm_failures");
       return res.status(503).json({ ok: false, error: "Translation is unavailable right now.", retryable: false, code: "NOT_CONFIGURED" });
@@ -2755,7 +2788,7 @@ var translate_default = router13;
 import { Router as Router14 } from "express";
 var router14 = Router14();
 router14.use(noCache);
-function clientIp2(req) {
+function clientIp5(req) {
   return req.headers["x-forwarded-for"]?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
 }
 router14.post("/simplify", async (req, res) => {
@@ -2764,7 +2797,7 @@ router14.post("/simplify", async (req, res) => {
   try {
     const { sourceText, text, lang = "en", level } = req.body || {};
     const chosenLevel = normalizeLevel(level);
-    if (ENV.rateLimitEnabled && !checkRateLimit(clientIp2(req))) {
+    if (ENV.rateLimitEnabled && !checkRateLimit(clientIp5(req))) {
       inc("rate_limit_rejections");
       return res.status(429).json({ ok: false, error: "Too many requests.", retryable: true, code: "RATE_LIMITED" });
     }
