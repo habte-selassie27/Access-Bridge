@@ -11,13 +11,14 @@
 ## How to test (30 seconds)
 
 **Live site:** https://access-bridge-brown.vercel.app/
-1. Paste a document, or click **Try an example** to load a bundled demo.
-2. Pick a language (Amharic, Oromo, Tigrinya, English).
+
+1. Paste a document, or click **Try an example** to load a bundled demo document.
+2. Pick a language: አማርኛ · Afaan Oromoo · ትግርኛ · English.
 3. Press **Explain it**.
 4. Press **Listen** for the voice readout.
-5. Ask a follow-up question.
+5. Ask a follow-up question like *"What happens if I miss the deadline?"*
 
-Demo mode works fully offline with no API key.
+Demo mode works fully offline with no API key — nothing stalls.
 
 **Local development:**
 ```bash
@@ -30,13 +31,23 @@ npm run dev
 # Open http://localhost:5174/
 ```
 
-Run `npm run smoke` to verify everything works.
+Then paste a document and press **Explain it**. Run `npm run smoke` to verify everything works.
+
+---
+
+## One-line belief
+
+> If a document decides your access to healthcare, money, or services, you should be able to understand it in your own language in 10 seconds.
+
+If a feature doesn't serve that line, cut it.
 
 ---
 
 ## The problem
 
-Official documents decide people's access to healthcare, money, education, and services — but millions cannot read them because of language, literacy, or legalese barriers. Access-Bridge turns any document into a plain-language answer, a checklist of what to do, and a voice readout — in about 90 seconds, on a phone, with no account required.
+Official documents decide people's access to healthcare, money, education, and services — but millions cannot read them because of language, literacy, or legalese barriers. A student cannot understand a scholarship announcement. A rural citizen cannot act on a service notice. A parent cannot tell if a school fee notice is urgent.
+
+Access-Bridge turns any document into a plain-language answer, a checklist of what to do, and a voice readout — in about 90 seconds, on a phone, with no account required.
 
 ---
 
@@ -63,7 +74,7 @@ Official documents decide people's access to healthcare, money, education, and s
 
 **The LLM proposes; deterministic code verifies.**
 
-1. **Input** — text, photo, or PDF is received and validated (max 20,000 chars text, 8 MB files).
+1. **Input** — text, photo, or PDF is received and validated (max 20,000 characters text, 8 MB files).
 2. **OCR/vision** — images and scanned PDFs are converted to text; provenance is preserved.
 3. **Language detection** — source language is identified; user picks the explanation language.
 4. **Extraction** — the model proposes summary, actions, deadlines, costs, documents, contacts, glossary, and examples.
@@ -71,7 +82,7 @@ Official documents decide people's access to healthcare, money, education, and s
 6. **Translation** — the explanation is rewritten in the selected language.
 7. **Voice** — TTS reads the explanation aloud; browser speech synthesis is the fallback.
 
-**Core invariant:** No date, amount, or deadline is shown as verified unless its evidence can be traced to the original source text. OCR output is never treated as ground truth.
+**Core invariant:** No date, amount, or deadline is shown as verified unless its evidence can be traced to the original source text. OCR output is never treated as ground truth. The LLM proposes and explains; dates, amounts, and deadlines are verified by deterministic code against the source text — never by the model's own claim.
 
 ---
 
@@ -124,7 +135,7 @@ Works fully offline with no API key:
 
 ## How we use Adaption (load-bearing sponsor integration)
 
-Adaption's **Invent-a-Dataset / Adaptive Data** builds a plain-language simplification corpus for Amharic, Oromo, and Tigrinya. This is load-bearing — it directly improves the low-resource language outputs central to our impact evaluation.
+Adaption's **Invent-a-Dataset / Adaptive Data** builds a plain-language simplification corpus for Amharic, Oromo, and Tigrinya. This is load-bearing — it directly improves the low-resource language outputs central to our impact evaluation, which is why judges can see it on `/eval`, not bolted on at the last minute.
 
 - Seed corpus → dataset build → few-shot examples → improved multilingual simplification
 - Evaluation page (`/eval`) publishes baseline vs Adaption-improved results per language
@@ -141,6 +152,8 @@ Adaption's **Invent-a-Dataset / Adaptive Data** builds a plain-language simplifi
 - Side-by-side sample outputs
 - Published failure cases with planned fixes
 - Metrics are real, not synthetic; misses are published alongside wins
+
+The eval page demonstrates honest engineering: baseline and Adaption-improved outputs are compared side by side, and failures are shown so judges can see where the system still struggles.
 
 ---
 
@@ -203,6 +216,18 @@ vercel --prod
 ```
 
 Run `npm run smoke` against the production URL before submitting.
+
+---
+
+## Hackathon notes (for judges)
+
+- **Project name:** Access-Bridge — short, easy to say, hints at what it does.
+- **Demo video:** Recorded with demo mode so it never stalls. Backup video saved from Day 1. First 15 seconds show the product working, not slides or a logo.
+- **README carries half the score:** This file has "How to test" at the top, architecture, sponsor integration, eval results, and honest limitations.
+- **Submit early:** Submitted ~4 hours before the deadline; polish after. Most platforms allow edits after submitting.
+- **Every loss is a codebase:** This project reuses no pre-existing code — built during the CTRL-V Hackathon (Nov 7–11, 2026).
+- **No beauty contests:** The integration with Adaption is load-bearing, evaluated on `/eval`, not a bolted-on API call.
+- **Demo over pitch:** The product is the pitch. Judges can open the live link on a phone in under 90 seconds.
 
 ---
 
