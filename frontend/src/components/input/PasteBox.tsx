@@ -3,7 +3,7 @@ import { FileText, Image as ImageIcon, Info, Play, Trash2 } from "lucide-react";
 import { FileUploader } from "./FileUploader.tsx";
 import { CameraCapture } from "./CameraCapture.tsx";
 import { LanguageChips } from "./LanguageChips.tsx";
-import { DemoPicker } from "./DemoPicker.tsx";
+
 import type { LanguageCode } from "../../lib/languages.ts";
 
 const MAX_TEXT_LENGTH = 20000;
@@ -59,16 +59,7 @@ export function PasteBox({ onExplain, lang, onLangChange }: PasteBoxProps) {
     setError(null);
   }, []);
 
-  const handleDemoSelect = useCallback((id: string) => {
-    setDemoId(id);
-    setText("");
-    setSelectedFile(null);
-    setError(null);
-    const rect = cardRef.current?.getBoundingClientRect();
-    if (rect && (rect.top < 80 || rect.bottom > window.innerHeight)) {
-      cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, []);
+
 
   const handleExplain = useCallback(() => {
     setError(null);
@@ -193,7 +184,7 @@ export function PasteBox({ onExplain, lang, onLangChange }: PasteBoxProps) {
         </button>
       </div>
 
-      <DemoPicker onSelect={handleDemoSelect} />
+
 
       <div className="rounded-lg border border-border bg-surface-muted p-4 text-[0.75rem] text-subtle">
         <div className="mb-1 flex items-center gap-2 font-medium text-text">

@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { AppShell } from "./components/layout/AppShell.tsx";
 import { Home } from "./screens/Home.tsx";
 import { Result } from "./screens/Result.tsx";
+import { Upload } from "./screens/Upload.tsx";
 import { Eval } from "./screens/Eval.tsx";
 import { Privacy } from "./screens/Privacy.tsx";
 import { Limitations } from "./screens/Limitations.tsx";
@@ -9,11 +10,12 @@ import { loadLastLanguage, saveLastLanguage } from "./lib/languages.ts";
 import type { LanguageCode } from "./lib/languages.ts";
 import { resolveDemo } from "./lib/demo.ts";
 
-type Page = "home" | "result" | "eval" | "privacy" | "limitations";
+type Page = "home" | "result" | "upload" | "eval" | "privacy" | "limitations";
 
 const PATH_BY_PAGE: Record<Page, string> = {
   home: "/",
   result: "/result",
+  upload: "/upload",
   eval: "/eval",
   privacy: "/privacy",
   limitations: "/limitations",
@@ -23,6 +25,7 @@ function pageFromPath(pathname: string): Page {
   const clean = pathname.replace(/\/+$/, "");
   if (clean === "/eval") return "eval";
   if (clean === "/result") return "result";
+  if (clean === "/upload") return "upload";
   if (clean === "/privacy") return "privacy";
   if (clean === "/limitations") return "limitations";
   return "home";
@@ -87,6 +90,7 @@ export function App() {
           }}
         />
       )}
+      {activePage === "upload" && <Upload onBack={() => navigate("home")} />}
       {activePage === "eval" && <Eval onBack={() => navigate("home")} />}
       {activePage === "privacy" && <Privacy onBack={() => navigate("home")} />}
       {activePage === "limitations" && (

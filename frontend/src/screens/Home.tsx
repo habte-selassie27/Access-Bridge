@@ -70,6 +70,20 @@ export function Home({ onResult, lang, onLangChange }: HomeProps) {
         )}
       </div>
 
+      {/* Upload wizard CTA */}
+      <div className="rounded-xl border border-border bg-surface p-4 sm:p-6 flex items-center justify-between gap-4">
+        <div>
+          <h2 className="text-lg font-semibold text-text">Step-by-step upload</h2>
+          <p className="text-sm text-subtle">Upload a real document and walk through explain, verify, listen, ask, evaluate.</p>
+        </div>
+        <a
+          href="/upload"
+          className="touch-target inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2.5 text-sm font-medium text-inverse"
+        >
+          Upload a document
+        </a>
+      </div>
+
       {/* Privacy */}
       <div className="rounded-lg border border-border bg-surface-muted p-4 text-[0.75rem] text-subtle">
         <div className="mb-2 flex items-center gap-2 font-medium text-text">

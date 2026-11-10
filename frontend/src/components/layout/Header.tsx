@@ -18,6 +18,14 @@ export function Header() {
 
         <nav aria-label="Main" className="flex shrink-0 items-center gap-1 text-sm">
           <a
+            href="/upload"
+            className="inline-flex items-center gap-1.5 rounded-md px-2 py-2 text-subtle transition-colors hover:bg-neutral-subtle-hovered hover:text-text sm:px-2.5"
+            aria-label="Upload"
+          >
+            <FileText size={16} strokeWidth={2} aria-hidden="true" />
+            <span className="hidden sm:inline">Upload</span>
+          </a>
+          <a
             href="/eval"
             className="inline-flex items-center gap-1.5 rounded-md px-2 py-2 text-subtle transition-colors hover:bg-neutral-subtle-hovered hover:text-text sm:px-2.5"
             aria-label="Evaluation"

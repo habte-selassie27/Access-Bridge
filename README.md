@@ -27,6 +27,30 @@ The header also has a light/dark theme toggle, remembered in `localStorage` and 
 
 Vite + React + TypeScript + Tailwind. Client-side demo mode; API routes (`/api/explain`, `/api/followup`, `/api/tts`, `/api/health`) for live calls. Deterministic verification layer (`/lib/verify.ts`) checks dates/amounts against source text. Zod schema (`/lib/schema.ts`) validates all structured output.
 
+## Deploy — Option A (split)
+
+Frontend on Vercel, backend (Express) on any Node host (Render / Railway / Fly.io).
+
+### 1. Backend (Node host)
+- Connect your GitHub repo.
+- Build/start command: `npm run server:dev` (runs `tsx server/index.ts`).
+- Set these env vars:
+  - `GROQ_API_KEY` (or `ANTHROPIC_API_KEY` / `GEMINI_API_KEY`)
+  - `ADAPTION_API_KEY`
+  - `DAILY_SPEND_CAP_USD=5`
+  - `PORT=3001`
+- Copy the production backend URL (e.g. `https://pastewise-backend.onrender.com`).
+
+### 2. Frontend (Vercel)
+- Import the repo, choose the Vite preset.
+- Build command: `cd frontend && npm install && npm run build`
+- Output directory: `frontend/dist`
+- Set env var `VITE_API_BASE=https://pastewise-backend.onrender.com` (your backend URL).
+- Deploy.
+
+### 3. Verify
+Open the Vercel URL, click "Try an example", switch language, press Listen. Run `npm run smoke` locally against the production backend by setting `VITE_API_BASE` to it.
+
 ## How we use Adaption and why (load-bearing)
 
 The seed corpus in `data/adaption/seeds.json` contains 25 authored Ethiopian notices with English structured explanations. A server-side build script uploads them to Adaption, runs `adapt` with `column_mapping: { chat: "messages" }` plus `translate` in Amharic, Oromo, and Tigrinya, polls the run, downloads the rows, and caches `data/adaption/dataset.json`. At request time the server loads that cache and few-shots the explainer with four translated example patterns per language. The API key stays server-only (`ADAPTION_API_KEY`, never `VITE_`-prefixed).
