@@ -72,6 +72,17 @@ export function getDoc(id: string): LibraryDoc | undefined {
   return listDocs().find((d) => d.id === id);
 }
 
+/** Two reads of the same document should not fill the library with copies. */
+function sameDocument(a: string, b: string): boolean {
+  const clean = (s: string) => s.replace(/\s+/g, " ").trim();
+  const left = clean(a);
+  const right = clean(b);
+  if (!left || !right) return false;
+  if (left === right) return true;
+  if (left.length < 80 || right.length < 80) return false;
+  return left.slice(0, 400) === right.slice(0, 400);
+}
+
 export function saveDoc(input: {
   id?: string;
   title?: string;
@@ -81,7 +92,9 @@ export function saveDoc(input: {
 }): LibraryDoc {
   const docs = read<LibraryDoc[]>(DOCS_KEY, []);
   const now = Date.now();
-  const existing = input.id ? docs.find((d) => d.id === input.id) : undefined;
+  const existing =
+    (input.id ? docs.find((d) => d.id === input.id) : undefined) ??
+    docs.find((d) => sameDocument(d.sourceText, input.sourceText));
   const doc: LibraryDoc = {
     id: existing?.id ?? newId("doc"),
     title: input.title?.trim() || existing?.title || titleFromText(input.sourceText),

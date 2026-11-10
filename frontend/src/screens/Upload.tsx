@@ -12,10 +12,11 @@ import { EXAMPLES } from "../lib/examples.ts";
 import { ResultView } from "../components/result/ResultView.tsx";
 import { importPage } from "../lib/api/workspace.ts";
 import { saveDoc } from "../lib/library.ts";
+import type { LibraryDoc } from "../lib/library.ts";
 
 import type { ExplanationResult } from "../lib/api/types.ts";
 import type { ExplainLevel, LangCode } from "../lib/api/types.ts";
-import { languageName } from "../lib/languages.ts";
+import { languageName, loadLastLanguage } from "../lib/languages.ts";
 
 type Step = 1 | 2 | 3 | 4 | 5 | 6;
 type InputTab = "text" | "file" | "photo" | "link";
@@ -39,7 +40,7 @@ interface WizardState {
 
 const initialState: WizardState = {
   step: 1,
-  language: "en",
+  language: loadLastLanguage(),
   level: "standard",
   extractedText: "",
   inputKind: "text",
@@ -136,9 +137,11 @@ function localVerify(sourceText: string, result: any) {
 
 export interface UploadProps {
   onBack: () => void;
+  /** Called with the document that was just read, so the workspace can continue with it. */
+  onDocRead?: (doc: LibraryDoc) => void;
 }
 
-export function Upload({ onBack }: UploadProps) {
+export function Upload({ onBack, onDocRead }: UploadProps) {
   const [state, dispatch] = useReducer(reducer, initialState, (init) => {
     try {
       const raw = sessionStorage.getItem("pastewise-wizard");
@@ -240,50 +243,55 @@ export function Upload({ onBack }: UploadProps) {
     }
   }, [tab, text, file, link, api]);
 
-  const handleExplain = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    const t0 = Date.now();
-    try {
-      const res = await fetch("/api/explain", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          text: state.extractedText,
-          language: state.language,
-          lang: state.language,
-          level: state.level,
-        }),
-      });
-      const json = await res.json().catch(() => null);
-      if (!json || json.ok !== true) {
-        const raw = json?.error;
-        throw new Error((typeof raw === "string" ? raw : raw?.message) || "Explain failed.");
-      }
-      dispatch({ type: "SET_RESULT", result: json.data });
-      dispatch({ type: "SET_METRIC", key: "explain", value: Date.now() - t0 });
-      // Reading a document saves it to the personal library, on this device only.
+  const handleExplain = useCallback(
+    async (langOverride?: LangCode) => {
+      const lang = langOverride ?? state.language;
+      setLoading(true);
+      setError(null);
+      const t0 = Date.now();
       try {
-        saveDoc({ sourceText: state.extractedText, result: json.data });
-      } catch {
-        // The library is a convenience; a storage failure must not break the wizard.
-      }
-      // Stay on step 2 so the user reads the explanation cards (including who
-      // can apply and how) before moving on to verification.
-    } catch (e: any) {
-      // Offline demo promise: only an exact bundled example falls back to its
-      // saved explanation. A real document fails honestly.
-      const fallback = offlineDemoResult(state.extractedText, state.language);
-      if (fallback) {
-        dispatch({ type: "SET_RESULT", result: fallback });
+        const res = await fetch("/api/explain", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text: state.extractedText,
+            language: lang,
+            lang,
+            level: state.level,
+          }),
+        });
+        const json = await res.json().catch(() => null);
+        if (!json || json.ok !== true) {
+          const raw = json?.error;
+          throw new Error((typeof raw === "string" ? raw : raw?.message) || "Explain failed.");
+        }
+        dispatch({ type: "SET_RESULT", result: json.data });
         dispatch({ type: "SET_METRIC", key: "explain", value: Date.now() - t0 });
-        return;
+        // Reading a document saves it to the personal library, on this device only.
+        try {
+          const doc = saveDoc({ sourceText: state.extractedText, result: json.data });
+          onDocRead?.(doc);
+        } catch {
+          // The library is a convenience; a storage failure must not break the wizard.
+        }
+        // Stay on step 2 so the user reads the explanation cards (including who
+        // can apply and how) before moving on to verification.
+      } catch (e: any) {
+        // Offline demo promise: only an exact bundled example falls back to its
+        // saved explanation. A real document fails honestly.
+        const fallback = offlineDemoResult(state.extractedText, lang);
+        if (fallback) {
+          dispatch({ type: "SET_RESULT", result: fallback });
+          dispatch({ type: "SET_METRIC", key: "explain", value: Date.now() - t0 });
+          return;
+        }
+        setError(e?.message || "Could not explain document.");
+      } finally {
+        setLoading(false);
       }
-      setError(e?.message || "Could not explain document.");
-    } finally {
-      setLoading(false);
-    }
-  }, [state.extractedText, state.language, state.level]);
+    },
+    [state.extractedText, state.language, state.level]
+  );
 
   const handleVerify = useCallback(async () => {
     if (!state.result) return;
@@ -552,7 +560,12 @@ export function Upload({ onBack }: UploadProps) {
             <p className="mb-2 text-sm font-medium text-text">Explain it in</p>
             <LanguageChips
               value={state.language}
-              onChange={(code) => dispatch({ type: "SET_LANG", lang: code })}
+              onChange={(code) => {
+                dispatch({ type: "SET_LANG", lang: code });
+                // If there is already an explanation, re-read the document in
+                // the new language rather than leaving the old text on screen.
+                if (state.result) handleExplain(code);
+              }}
             />
           </div>
           <div>
@@ -565,7 +578,7 @@ export function Upload({ onBack }: UploadProps) {
           </div>
           <button
             type="button"
-            onClick={handleExplain}
+            onClick={() => handleExplain()}
             disabled={loading || !state.extractedText.trim()}
             className="touch-target w-full rounded-md bg-brand px-6 py-3 text-base font-medium text-inverse disabled:opacity-50"
           >

@@ -136,14 +136,24 @@ export function App() {
     []
   );
 
+  // On a fresh visit, pick up the most recent document so the workspace is
+  // never an empty shell.
+  useEffect(() => {
+    setActiveDoc((current) => current ?? listDocs()[0] ?? null);
+  }, []);
+
   const activePage: Page = page === "result" && !result ? "home" : page;
 
   if (WORKSPACE_PAGES.includes(activePage)) {
     return (
       <>
-        {activePage === "dashboard" && <Dashboard onOpenDoc={openDoc} />}
+        {activePage === "dashboard" && (
+          <Dashboard onOpenDoc={(doc) => { openDoc(doc); navigate("reader"); }} />
+        )}
         {activePage === "assistant" && <Assistant lang={lang} activeDoc={activeDoc} />}
-        {activePage === "library" && <Library onOpenDoc={openDoc} />}
+        {activePage === "library" && (
+          <Library onOpenDoc={(doc) => { openDoc(doc); navigate("reader"); }} />
+        )}
         {activePage === "reader" && <Reader activeDoc={activeDoc} onOpenDoc={openDoc} />}
         {activePage === "translate" && <Translate lang={lang} activeDoc={activeDoc} />}
         {activePage === "simplify" && <Simplify lang={lang} activeDoc={activeDoc} />}
@@ -208,7 +218,12 @@ export function App() {
           notice={langNotice}
         />
       )}
-      {activePage === "upload" && <Upload onBack={() => navigate("home")} />}
+      {activePage === "upload" && (
+        <Upload
+          onBack={() => navigate("home")}
+          onDocRead={(doc) => setActiveDoc(doc)}
+        />
+      )}
       {activePage === "eval" && <Eval onBack={() => navigate("home")} />}
       {activePage === "privacy" && <Privacy onBack={() => navigate("home")} />}
       {activePage === "limitations" && <Limitations onBack={() => navigate("home")} />}
