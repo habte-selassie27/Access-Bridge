@@ -37,6 +37,8 @@
         "ID card",
         "Previous insurance card"
       ],
+      "eligibility": ["People whose health insurance coverage is currently active."],
+      "howToApply": ["Pay ETB 500 at the nearest health office before 2026-12-15."],
       "confidence": "high",
       "warnings": [],
       "lang": "en",
@@ -75,6 +77,8 @@
         "መታወቂያ ካርድ",
         "የቀድሞ የኢንሹራንስ ካርድ"
       ],
+      "eligibility": ["የጤና ኢንሹራንስ ሽፋና አሁን የሚኖር ሰዎች።"],
+      "howToApply": ["ከ2026-12-15 በፊት ETB 500 በእጅጉ ያለው የጤና ጣቢያ ይክፈሉ።"],
       "confidence": "high",
       "warnings": [],
       "lang": "am",
@@ -113,6 +117,8 @@
         "Kaardii eenyummaa",
         "Kaardii inshuraansii duraanii"
       ],
+      "eligibility": ["Kan dhalaa tasgabbii fayyaa keenyaa yeroo ammaa qabaa."],
+      "howToApply": ["ETB 500 guyyaa 2026-12-15 dura waajjira fayyaa dhihoo jiru dhaqaa."],
       "confidence": "high",
       "warnings": [],
       "lang": "om",
@@ -151,6 +157,8 @@
         "ካርድ መንነት",
         "ናይ ቀደም ካርድ ኢንሹራንስ"
       ],
+      "eligibility": ["ጥዓናትና መስክር ሽፋና አሁን የሚኖር ሰዎች።"],
+      "howToApply": ["ከ2026-12-15 ቅድሚ ETB 500 በቅርን ሕኝና ቤት ክፈሉ።"],
       "confidence": "high",
       "warnings": [],
       "lang": "ti",

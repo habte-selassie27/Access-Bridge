@@ -4,6 +4,7 @@ import { SuggestedQuestions } from "./SuggestedQuestions.tsx";
 import { MessageList } from "./MessageList.tsx";
 import { MessageInput } from "./MessageInput.tsx";
 import { useMachine, followupReducer, initialFollowUpState } from "../../lib/state/index.ts";
+import { followupQuestion } from "../../lib/api/followup.ts";
 
 const DEFAULT_QUESTIONS = [
   "What happens if I miss the deadline?",
@@ -15,9 +16,13 @@ export interface FollowUpSheetProps {
   open: boolean;
   onClose: () => void;
   onAnswer: (answer: string) => void;
+  /** The document being discussed. Answers come only from this text. */
+  docContext?: string;
+  /** Language the answer should be written in. */
+  lang?: string;
 }
 
-export function FollowUpSheet({ open, onClose, onAnswer }: FollowUpSheetProps) {
+export function FollowUpSheet({ open, onClose, onAnswer, docContext = "", lang = "en" }: FollowUpSheetProps) {
   const [fu, send] = useMachine(followupReducer, initialFollowUpState);
 
   useEffect(() => {
@@ -35,24 +40,26 @@ export function FollowUpSheet({ open, onClose, onAnswer }: FollowUpSheetProps) {
       if (!q) return;
       send({ type: "SEND", question: q });
       try {
-        const lower = q.toLowerCase();
-        let answer: string;
-        if (lower.includes("deadline")) {
-          answer = "The document does not explain what happens if you miss the deadline. Please contact the issuing office to confirm.";
-        } else if (lower.includes("where") || lower.includes("go")) {
-          answer = "Go to the office or location named in the document. Bring the documents listed under 'Documents to bring'.";
-        } else if (lower.includes("simpler") || lower.includes("12")) {
-          answer = "This paper tells you something important you need to do. Read the checklist and follow the steps before the deadline.";
-        } else {
-          answer = "The document does not explain this. Please contact the document issuer for more information.";
+        const { data, error } = await followupQuestion({
+          docContext,
+          history: fu.messages.map((m) => ({ role: m.role, content: m.content })),
+          question: q,
+          lang,
+        });
+        if (error || !data) {
+          send({
+            type: "FAIL",
+            error: error?.message || "Unable to answer right now. Please ask the document issuer directly.",
+          });
+          return;
         }
-        send({ type: "ANSWER", answer });
-        onAnswer(answer);
+        send({ type: "ANSWER", answer: data.answer });
+        onAnswer(data.answer);
       } catch {
         send({ type: "FAIL", error: "Unable to answer right now. Please ask the document issuer directly." });
       }
     },
-    [fu.input, onAnswer, send]
+    [fu.input, fu.messages, onAnswer, docContext, lang, send]
   );
 
   if (!open) return null;
@@ -98,7 +105,7 @@ export function FollowUpSheet({ open, onClose, onAnswer }: FollowUpSheetProps) {
         </div>
 
         <div className="border-t border-border bg-background p-3">
-          <MessageInput value={fu.input} onChange={(v) => send({ type: "INPUT", value: v })} onSend={() => handleSend()} disabled={fu.status === "sending"} />
+          <MessageInput value={fu.input} onChange={(v) => send({ type: "INPUT", value: v })} onSend={() => handleSend()} disabled={fu.status === "sending"} lang={lang} />
         </div>
       </div>
     </section>

@@ -38,6 +38,8 @@
         "Insurance card",
         "Medication list"
       ],
+      "eligibility": ["Patients with a scheduled appointment."],
+      "howToApply": ["Arrive 15 minutes early with your patient ID, insurance card and medication list."],
       "confidence": "high",
       "warnings": [],
       "lang": "en",
@@ -77,6 +79,8 @@
         "የኢንሹራንስ ካርድ",
         "የመድኃኒት ዝርዝር"
       ],
+      "eligibility": ["የቀጠሮ ያላቸው ታክተሮች።"],
+      "howToApply": ["ከ15 ደቂቃ በፊት የታክተር መታለቂያዎ፣ የኢንሹራንስ ካርድና የመድሐን ዝርዝር ይያዙ።"],
       "confidence": "high",
       "warnings": [],
       "lang": "am",
@@ -116,6 +120,8 @@
         "Kaardii inshuraansii",
         "Tarree qorichaa"
       ],
+      "eligibility": ["Kan yaadannoo qabate dhufu."],
+      "howToApply": ["Daqiiqaa 15 daqiiqaa dura kaadhii kaardii eenyummaa dhukkubaa, kaardii inshuraansii fi liigalistii qofaani fudhu."],
       "confidence": "high",
       "warnings": [],
       "lang": "om",
@@ -155,6 +161,8 @@
         "ካርድ ኢንሹራንስ",
         "ዝርዝር መድሃኒታት"
       ],
+      "eligibility": ["ቀጠር የተያዙ ታክተሮች።"],
+      "howToApply": ["15 ደቂቃ ቀድሚ ከመታለቂያ ካርድ፣ ከኢንሹራንስ ካርድና ከመድሐን ዝርዝር ጋር ይምጡ።"],
       "confidence": "high",
       "warnings": [],
       "lang": "ti",

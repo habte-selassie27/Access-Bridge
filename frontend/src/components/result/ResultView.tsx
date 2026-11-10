@@ -1,6 +1,7 @@
 import { ArrowLeft, Globe, MessageSquare } from "lucide-react";
 import { DocumentOverview } from "./DocumentOverview.tsx";
 import { ActionChecklist } from "./ActionChecklist.tsx";
+import { OpportunityCard } from "./OpportunityCard.tsx";
 import { DeadlineCard } from "./DeadlineCard.tsx";
 import { CostCard } from "./CostCard.tsx";
 import { DocumentsCard } from "./DocumentsCard.tsx";
@@ -47,6 +48,7 @@ export function ResultView({ result, onBack, onLangChange, onAsk }: ResultViewPr
 
       <DocumentOverview result={result} />
       <ActionChecklist actions={result.actions} />
+      <OpportunityCard eligibility={result.eligibility || []} howToApply={result.howToApply || []} />
       <DeadlineCard deadlines={result.deadlines} />
       <CostCard costs={result.costs} />
       <DocumentsCard items={result.documentsToBring} />
@@ -63,7 +65,7 @@ export function ResultView({ result, onBack, onLangChange, onAsk }: ResultViewPr
       <ResultDisclaimer />
 
       <div className="sticky bottom-0 z-20 -mx-4 mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-border bg-background/95 px-4 py-3 shadow-[0_-4px_16px_rgba(9,30,66,0.08)] backdrop-blur sm:-mx-6 sm:px-6">
-        <ListenButton text={fullText} lang={result.lang} />
+        <ListenButton text={fullText} lang={result.lang} demoId={result.demoId} />
         {result.demoId && (
           <div className="flex items-center gap-2">
             <Globe size={16} strokeWidth={2} className="text-subtle" aria-hidden="true" />

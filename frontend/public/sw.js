@@ -1,8 +1,8 @@
-// PasteWise service worker.
+// PasteWise / AccessBridge service worker.
 // Caches the app shell so demo mode works offline on repeat visits.
 // Static assets (fonts, demo audio) are served cache-first; /api calls go to
 // the network and are not cached.
-const CACHE = "pastewise-shell-v1";
+const CACHE = "accessbridge-shell-v2";
 const SHELL = ["/", "/index.html", "/manifest.json", "/favicon.svg"];
 
 self.addEventListener("install", (event) => {

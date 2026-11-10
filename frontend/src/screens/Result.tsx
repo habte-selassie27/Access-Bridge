@@ -18,16 +18,13 @@ export function Result({ result, onBack, onLangChange }: ResultProps) {
 
   return (
     <section className="space-y-6">
-      <ResultView
-        result={result}
-        onBack={onBack}
-        onLangChange={onLangChange}
-        onAsk={handleAsk}
-      />
+      <ResultView result={result} onBack={onBack} onLangChange={onLangChange} onAsk={handleAsk} />
       <FollowUpSheet
         open={followupOpen}
         onClose={() => setFollowupOpen(false)}
         onAnswer={() => {}}
+        docContext={result.originalText}
+        lang={result.lang}
       />
     </section>
   );

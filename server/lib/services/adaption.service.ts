@@ -10,6 +10,8 @@ export type FewShotExample = {
     docType: string;
     summary: string;
     actions: { step: string; urgent: boolean }[];
+    eligibility?: string[];
+    howToApply?: string[];
     deadlines: { label: string; date: string | null }[];
     costs: { label: string; amount?: number; currency: string }[];
     documentsToBring: string[];
@@ -88,6 +90,8 @@ export function formatExampleBlock(examples: FewShotExample[]): string {
         docType: ex.explanation.docType,
         summary: ex.explanation.summary,
         actions: ex.explanation.actions,
+        eligibility: ex.explanation.eligibility ?? [],
+        howToApply: ex.explanation.howToApply ?? [],
         deadlines: ex.explanation.deadlines,
         costs: ex.explanation.costs,
         documentsToBring: ex.explanation.documentsToBring,

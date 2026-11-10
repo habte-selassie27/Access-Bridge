@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
 import fs from "node:fs";
-import { hydrateExplanation } from "./verification.ts";
+import { hydrateExplanation, hydrateFromResult } from "./verification.ts";
 import { 
   normalize,
   normalizeDigits,
@@ -101,17 +101,28 @@ describe("verify", () => {
 
 describe("demo verification", () => {
   const DEMO_DIR = new URL("../data/demo/", import.meta.url);
-  const IDS = ["demo-1", "demo-2", "demo-3"];
+  const IDS = ["demo-1", "demo-2", "demo-3", "demo-4"];
   const LANGS = ["en", "am", "om", "ti"] as const;
+  /** The three original demos ship in all four languages. */
+  const ALL_LANGS = ["demo-1", "demo-2", "demo-3"];
 
   function loadDemo(id: string) {
     return JSON.parse(fs.readFileSync(new URL(`${id}.json`, DEMO_DIR), "utf8"));
   }
 
+  it("ships the original demos in every supported language", () => {
+    for (const id of ALL_LANGS) {
+      const doc = loadDemo(id);
+      for (const lang of LANGS) {
+        assert.ok(doc.outputs[lang], `${id} is missing the ${lang} output`);
+      }
+    }
+  });
+
   it("recomputes every bundled demo field from its source text", () => {
     for (const id of IDS) {
       const doc = loadDemo(id);
-      for (const lang of LANGS) {
+      for (const lang of Object.keys(doc.outputs)) {
         const out = doc.outputs[lang];
         const hydrated = hydrateExplanation(doc.source, out);
         const fields = [...hydrated.deadlines, ...hydrated.costs];
@@ -179,5 +190,44 @@ describe("demo verification", () => {
     });
     assert.strictEqual(hydrated.deadlines[0].verified, true);
     assert.strictEqual(hydrated.confidence, "low");
+  });
+});
+
+describe("wizard result verification", () => {
+  const SOURCE = "Health insurance renewal notice. Pay ETB 2,500 before 10/05/2019.";
+
+  it("verifies a date carried in the UI shape (originalValue)", () => {
+    // Regression: /api/explain returns originalValue/normalizedDate, not `date`.
+    // Reading only `date` made every real deadline look unverified.
+    const hydrated = hydrateFromResult(SOURCE, {
+      deadlines: [{ id: "d1", label: "Deadline", originalValue: "10/05/2019", normalizedDate: "10/05/2019" }],
+      costs: [{ id: "c1", label: "Fee", amount: 2500, currency: "ETB" }],
+    });
+    assert.strictEqual(hydrated.deadlines[0].verified, true);
+    assert.strictEqual(hydrated.deadlines[0].evidence?.quote, "10/05/2019");
+    assert.strictEqual(hydrated.costs[0].verified, true);
+    assert.strictEqual(hydrated.costs[0].evidence?.quote, "ETB 2,500");
+    assert.strictEqual(hydrated.verifiedCount, 2);
+    assert.strictEqual(hydrated.unverifiedCount, 0);
+  });
+
+  it("still verifies a date carried in the raw model shape (date)", () => {
+    const hydrated = hydrateFromResult(SOURCE, {
+      deadlines: [{ id: "d1", label: "Deadline", date: "10/05/2019" } as any],
+    });
+    assert.strictEqual(hydrated.deadlines[0].verified, true);
+  });
+
+  it("flags a tampered date instead of trusting the result", () => {
+    const hydrated = hydrateFromResult(SOURCE, {
+      deadlines: [{ id: "d1", label: "Deadline", originalValue: "31/12/2024", normalizedDate: "31/12/2024" }],
+      costs: [{ id: "c1", label: "Fee", amount: 2500, currency: "ETB" }],
+    });
+    assert.strictEqual(hydrated.deadlines[0].verified, false);
+    assert.strictEqual(hydrated.deadlines[0].evidence, null);
+    assert.match(String(hydrated.deadlines[0].warning), /not found/i);
+    assert.strictEqual(hydrated.costs[0].verified, true);
+    assert.strictEqual(hydrated.verifiedCount, 1);
+    assert.strictEqual(hydrated.unverifiedCount, 1);
   });
 });

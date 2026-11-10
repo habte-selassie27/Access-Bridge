@@ -4,14 +4,14 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-surface/95 backdrop-blur">
       <div className="mx-auto flex w-full max-w-[800px] items-center justify-between gap-3 px-4 py-3 sm:px-6">
-        <a href="/" className="flex min-w-0 items-center gap-2.5" aria-label="PasteWise home">
+        <a href="/" className="flex min-w-0 items-center gap-2.5" aria-label="AccessBridge home">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-neutral-bold text-[0.75rem] font-bold text-inverse">
-            PW
+            AB
           </span>
           <span className="flex min-w-0 flex-col leading-tight">
-            <span className="truncate text-sm font-semibold text-text">PasteWise</span>
+            <span className="truncate text-sm font-semibold text-text">AccessBridge</span>
             <span className="hidden truncate text-[0.75rem] text-subtle sm:block">
-              Document understanding
+              One question. Any language.
             </span>
           </span>
         </a>

@@ -52,7 +52,11 @@ router.post("/ask", async (req, res) => {
       addSpend(0.001);
       inc("followup_success");
       const trimmed = answer.trim();
-      const notFound = /not in your document|not in the document/i.test(trimmed);
+      // The answer must come from the document. Detect the model's own refusal
+      // so the UI can say so plainly instead of showing a vague answer.
+      const notFound = /not (?:in|stated in|mentioned in|specified in|found in) (?:your |the )?document/i.test(
+        trimmed
+      ) || /does not (?:say|state|mention|contain|specify)\b/i.test(trimmed) || /isn't in your document/i.test(trimmed);
       return res.json({
         ok: true,
         data: { answer: trimmed || "I couldn't generate an answer. Please ask the issuer directly.", sourceQuote: null, notFound },

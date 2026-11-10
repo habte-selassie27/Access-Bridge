@@ -7,7 +7,7 @@ export interface LimitationsProps {
 const LIMITATIONS = [
   {
     title: "Not legal, medical or financial advice",
-    body: "PasteWise explains what a document says. It does not tell you what to do about it. For decisions with consequences, confirm with the issuing authority or a qualified professional.",
+    body: "AccessBridge explains what a document says. It does not tell you what to do about it. For decisions with consequences, confirm with the issuing authority or a qualified professional.",
   },
   {
     title: "Language quality varies",
@@ -41,7 +41,7 @@ export function Limitations({ onBack }: LimitationsProps) {
 
       <div>
         <h1 className="text-2xl font-bold text-text">Limitations</h1>
-        <p className="text-sm text-subtle">What PasteWise does well, and where it can be wrong.</p>
+        <p className="text-sm text-subtle">What AccessBridge does well, and where it can be wrong.</p>
       </div>
 
       <div className="space-y-3">

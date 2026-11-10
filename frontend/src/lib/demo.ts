@@ -7,10 +7,11 @@
 import demo1 from "../data/demo/demo-1.json";
 import demo2 from "../data/demo/demo-2.json";
 import demo3 from "../data/demo/demo-3.json";
+import demo4 from "../data/demo/demo-4.json";
 import type { ExplanationResult } from "./api/types.ts";
 import { hydrateExplanation } from "./verification.ts";
 
-const DOCS = [demo1, demo2, demo3] as unknown as Array<{
+const DOCS = [demo1, demo2, demo3, demo4] as unknown as Array<{
   id: string;
   docType: string;
   source: string;
@@ -40,6 +41,8 @@ function toResult(doc: (typeof DOCS)[number], output: any, lang: string): Explan
     docType: output.docType || doc.docType,
     summary: output.summary,
     actions,
+    eligibility: output.eligibility || [],
+    howToApply: output.howToApply || [],
     deadlines,
     costs,
     documentsToBring: output.documentsToBring || [],

@@ -1,37 +1,75 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { Play, Pause, Volume2, AlertCircle } from "lucide-react";
 import { useMachine, audioReducer, initialAudioState } from "../../lib/state/index.ts";
+import { demoAudioUrl } from "../../lib/demo-audio.ts";
 
 export interface ListenButtonProps {
   text: string;
   lang: string;
   disabled?: boolean;
+  /** Set for bundled demo documents so the pre-recorded readout is used. */
+  demoId?: string;
 }
 
-export function ListenButton({ text, lang, disabled = false }: ListenButtonProps) {
+export function ListenButton({ text, lang, disabled = false, demoId }: ListenButtonProps) {
   const [audio, send] = useMachine(audioReducer, initialAudioState);
   const playing = audio.status === "playing";
   const error = audio.error;
   const [supported, setSupported] = useState(true);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const audioElRef = useRef<HTMLAudioElement | null>(null);
+
+  // A bundled recording beats the device voice: most devices have no Amharic,
+  // Oromo or Tigrinya voice installed, and the recording also works offline.
+  const recordedUrl = demoAudioUrl(demoId, lang);
 
   useEffect(() => {
-    setSupported(typeof window !== "undefined" && "speechSynthesis" in window);
+    setSupported(typeof window !== "undefined" && ("speechSynthesis" in window || !!recordedUrl));
     return () => {
       if (utteranceRef.current) {
         window.speechSynthesis.cancel();
         utteranceRef.current = null;
       }
+      if (audioElRef.current) {
+        audioElRef.current.pause();
+        audioElRef.current = null;
+      }
       send({ type: "RESET" });
     };
-  }, [send]);
+  }, [send, recordedUrl]);
 
   const stop = useCallback(() => {
     if (typeof window === "undefined") return;
     window.speechSynthesis.cancel();
+    if (audioElRef.current) {
+      audioElRef.current.pause();
+      audioElRef.current.currentTime = 0;
+      audioElRef.current = null;
+    }
     send({ type: "STOPPED" });
     utteranceRef.current = null;
   }, [send]);
+
+  const playRecording = useCallback(
+    (url: string) => {
+      const el = new Audio(url);
+      audioElRef.current = el;
+      el.onplaying = () => send({ type: "PLAYING" });
+      el.onended = () => {
+        audioElRef.current = null;
+        send({ type: "STOPPED" });
+      };
+      el.onerror = () => {
+        audioElRef.current = null;
+        send({ type: "ERROR", message: "The recorded voice could not be played." });
+      };
+      void el.play().catch(() => {
+        audioElRef.current = null;
+        send({ type: "ERROR", message: "The recorded voice could not be played." });
+      });
+    },
+    [send]
+  );
 
   const handleToggle = useCallback(() => {
     if (!supported) {
@@ -44,12 +82,24 @@ export function ListenButton({ text, lang, disabled = false }: ListenButtonProps
     }
     send({ type: "LOADING" });
     if (typeof window === "undefined") return;
+
+    if (recordedUrl) {
+      playRecording(recordedUrl);
+      return;
+    }
+
     window.speechSynthesis.cancel();
     const utt = new SpeechSynthesisUtterance(text);
     utt.lang = lang;
     const voices = window.speechSynthesis.getVoices();
-    const voice = voices.find((v) => v.lang.startsWith(lang)) || voices[0];
+    // Never silently use an unrelated language voice: only match the requested
+    // language, otherwise tell the user that no voice is installed.
+    const voice = voices.find((v) => v.lang.toLowerCase().startsWith(lang.toLowerCase()));
     if (voice) utt.voice = voice;
+    else {
+      send({ type: "ERROR", message: `No ${lang} voice is installed on this device.` });
+      return;
+    }
     utt.onstart = () => send({ type: "PLAYING" });
     utt.onend = () => send({ type: "STOPPED" });
     utt.onerror = () => {
@@ -57,7 +107,7 @@ export function ListenButton({ text, lang, disabled = false }: ListenButtonProps
     };
     utteranceRef.current = utt;
     window.speechSynthesis.speak(utt);
-  }, [text, lang, supported, playing, stop, send]);
+  }, [text, lang, supported, playing, stop, send, recordedUrl, playRecording]);
 
   if (disabled) {
     return (

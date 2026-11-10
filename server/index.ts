@@ -33,9 +33,12 @@ app.use("/api", askRouter);
 
 app.use(errorHandler);
 
-const PORT = Number(process.env.PORT || 3001);
-app.listen(PORT, () => {
-  log("info", "PasteWise API listening", { port: PORT, llm: Boolean(llm), ocr: Boolean(ocr) });
-});
-
 export default app;
+
+// Only listen when run as a standalone server (not on Vercel serverless).
+if (!process.env.VERCEL) {
+  const PORT = Number(process.env.PORT || 3001);
+  app.listen(PORT, () => {
+    log("info", "PasteWise API listening", { port: PORT, llm: Boolean(llm), ocr: Boolean(ocr) });
+  });
+}

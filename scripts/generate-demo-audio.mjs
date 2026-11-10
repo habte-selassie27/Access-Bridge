@@ -84,7 +84,7 @@ await mkdir(OUT_DIR, { recursive: true });
 
 let failures = 0;
 for (const lang of LANGS) {
-  for (const id of ["demo-1", "demo-2", "demo-3"]) {
+  for (const id of ["demo-1", "demo-2", "demo-3", "demo-4"]) {
     const doc = JSON.parse(await readFile(path.join(DEMO_DIR, `${id}.json`), "utf8"));
     const output = doc.outputs?.[lang];
     if (!output) {

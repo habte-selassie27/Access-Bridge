@@ -5,9 +5,11 @@ import { useMachine, cameraReducer, initialCameraState } from "../../lib/state/i
 
 export interface CameraCaptureProps {
   onPhotoCapture: (file: File) => void;
+  /** Label for the button that opens the live camera preview. */
+  buttonLabel?: string;
 }
 
-export function CameraCapture({ onPhotoCapture }: CameraCaptureProps) {
+export function CameraCapture({ onPhotoCapture, buttonLabel = "Take a photo" }: CameraCaptureProps) {
   const [cam, send] = useMachine(cameraReducer, initialCameraState);
   const stream = cam.stream;
   const error = cam.error;
@@ -90,7 +92,7 @@ export function CameraCapture({ onPhotoCapture }: CameraCaptureProps) {
           className="touch-target flex w-full items-center justify-center gap-2 rounded-md border border-input bg-background px-4 py-3 text-sm font-medium text-text transition-colors hover:border-brand hover:bg-surface-muted hover:text-brand"
         >
           <Camera size={16} strokeWidth={2} aria-hidden="true" />
-          <span>Take a photo</span>
+          <span>{buttonLabel}</span>
         </button>
       )}
       <canvas ref={canvasRef} className="hidden" aria-hidden="true" />

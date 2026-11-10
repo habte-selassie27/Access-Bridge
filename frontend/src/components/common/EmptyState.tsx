@@ -12,9 +12,10 @@ export function EmptyState({ onPaste, onUpload, onExample }: EmptyStateProps) {
       <div className="w-16 h-16 rounded-full border border-surface-muted bg-background flex items-center justify-center text-subtle mx-auto mb-4">
         <FileText size={24} strokeWidth={2} />
       </div>
-      <h3 className="text-lg font-bold text-text mb-2">Paste a document or try an example.</h3>
+      <h3 className="text-lg font-bold text-text mb-2">Upload a document or paste text.</h3>
       <p className="text-sm text-subtle mb-6">
-        PasteWise works best with official notices, medical documents and financial letters.
+        AccessBridge works best with scholarship and service announcements, official notices, medical
+        documents and financial letters.
       </p>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         {onPaste && (

@@ -29,6 +29,8 @@ const DATASET_NAME = "pastewise-seeds";
 type SeedExplanation = {
   summary: string;
   actions: { step: string; urgent?: boolean }[];
+  eligibility?: string[];
+  howToApply?: string[];
   deadlines: { label: string; date: string | null }[];
   costs: { label: string; amount?: number; currency?: string }[];
   documentsToBring: string[];
@@ -50,6 +52,8 @@ type CachedRow = {
     docType: string;
     summary: string;
     actions: { step: string; urgent: boolean }[];
+    eligibility: string[];
+    howToApply: string[];
     deadlines: { label: string; date: string | null }[];
     costs: { label: string; amount?: number; currency: string }[];
     documentsToBring: string[];
@@ -163,11 +167,15 @@ function normalizeExplanation(raw: Record<string, unknown>, seed: Seed): CachedR
       }))
     : [];
   const documentsToBring = Array.isArray(raw.documentsToBring) ? raw.documentsToBring.map(String) : [];
+  const eligibility = Array.isArray(raw.eligibility) ? raw.eligibility.map(String) : [];
+  const howToApply = Array.isArray(raw.howToApply) ? raw.howToApply.map(String) : [];
 
   return {
     docType: seed.docType,
     summary: String(raw.summary ?? "").trim() || seed.explanation.summary,
     actions: actions.length ? actions : seed.explanation.actions.map((a) => ({ step: a.step, urgent: Boolean(a.urgent) })),
+    eligibility: eligibility.length ? eligibility : (seed.explanation.eligibility ?? []),
+    howToApply: howToApply.length ? howToApply : (seed.explanation.howToApply ?? []),
     deadlines,
     costs,
     documentsToBring,
@@ -203,6 +211,8 @@ async function main() {
             docType: seed.docType,
             summary: seed.explanation.summary,
             actions: seed.explanation.actions,
+            eligibility: seed.explanation.eligibility ?? [],
+            howToApply: seed.explanation.howToApply ?? [],
             deadlines: seed.explanation.deadlines,
             costs: seed.explanation.costs,
             documentsToBring: seed.explanation.documentsToBring,

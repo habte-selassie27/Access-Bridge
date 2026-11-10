@@ -88,6 +88,8 @@ export function toFrontendResult(old: any, sourceText: string): any {
     docType: old.docType,
     summary: old.summary,
     actions,
+    eligibility: old.eligibility || [],
+    howToApply: old.howToApply || [],
     deadlines,
     costs,
     documentsToBring: old.documentsToBring || [],
@@ -169,6 +171,15 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     ? (raw.documentsToBring || raw.required_documents || raw.documents_to_bring).map((x: any) => String(x))
     : [];
 
+  // Opportunity discovery: who qualifies and how to apply. Both are optional
+  // — an empty array means the document did not state them, never that the
+  // person does not qualify.
+  const toStringList = (v: any): string[] =>
+    Array.isArray(v) ? v.map((x: any) => String(x)).filter(Boolean) : v ? [String(v)] : [];
+
+  const eligibility = toStringList(raw.eligibility || raw.eligibility_requirements || raw.who_can_apply);
+  const howToApply = toStringList(raw.howToApply || raw.how_to_apply || raw.application_steps);
+
   const confidence = ["high", "medium", "low"].includes(raw.confidence) ? raw.confidence : "medium";
   const warnings = Array.isArray(raw.warnings) ? raw.warnings.map((x: any) => String(x)) : [];
 
@@ -176,6 +187,8 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     docType,
     summary,
     actions,
+    eligibility,
+    howToApply,
     deadlines,
     costs,
     documentsToBring,

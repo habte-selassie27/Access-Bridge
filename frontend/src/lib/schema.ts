@@ -11,6 +11,10 @@ export const ExplainResponseSchema = z.object({
       urgent: z.boolean().default(false),
     })
   ),
+  /** Who qualifies for the benefit, grant or service. Empty when not stated. */
+  eligibility: z.array(z.string().min(1)).default([]),
+  /** Where and how to apply. Empty when not stated. */
+  howToApply: z.array(z.string().min(1)).default([]),
   deadlines: z.array(
     z.object({
       label: z.string().min(1),

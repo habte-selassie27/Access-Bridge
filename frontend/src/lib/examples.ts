@@ -4,14 +4,15 @@
 import demo1 from "../data/demo/demo-1.json";
 import demo2 from "../data/demo/demo-2.json";
 import demo3 from "../data/demo/demo-3.json";
+import demo4 from "../data/demo/demo-4.json";
 
-export type ExampleKey = "government" | "medical" | "financial";
+export type ExampleKey = "government" | "medical" | "financial" | "scholarship";
 
 export interface Example {
   key: ExampleKey;
   /** Bundled demo id, used only by the offline fallback. */
   id: string;
-  type: "government_notice" | "medical" | "financial";
+  type: "government_notice" | "medical" | "financial" | "school" | "other";
   title: string;
   description: string;
   text: string;
@@ -41,6 +42,14 @@ export const EXAMPLES: Example[] = [
     title: "Financial document",
     description: "School fee notice with amount and payment deadline.",
     text: demo3.source,
+  },
+  {
+    key: "scholarship",
+    id: demo4.id,
+    type: "government_notice",
+    title: "Scholarship announcement",
+    description: "Who qualifies, what to send, and the deadline.",
+    text: demo4.source,
   },
 ];
 

@@ -1,0 +1,212 @@
+{
+  "id": "demo-4",
+  "title": "Grade 12 University Scholarship",
+  "docType": "government_notice",
+  "source": "The Ministry of Education announces the 2026 Grade 12 University Scholarship. Students who sat the 2025 Grade 12 national exam and scored at least 450 out of 800, and whose family monthly income is below 12,000 ETB, are eligible to apply. The scholarship covers full tuition for one year. Apply by sending your completed application form, your 2025 Grade 12 result sheet, and your family income certificate to the Regional Education Office. The deadline is 2026-09-30. The application fee is ETB 100.",
+  "outputs": {
+    "en": {
+      "docType": "government_notice",
+      "summary": "This is a scholarship announcement for students who finished grade 12 in 2025. It tells you who can apply, what to send, and the deadline.",
+      "actions": [
+        {
+          "step": "Check that you scored at least 450 out of 800 and that your family income is below 12,000 ETB.",
+          "urgent": true
+        },
+        {
+          "step": "Send your application form, 2025 Grade 12 result sheet, and family income certificate to the Regional Education Office.",
+          "urgent": true
+        },
+        {
+          "step": "Apply before 2026-09-30.",
+          "urgent": true
+        },
+        {
+          "step": "Pay the ETB 100 application fee."
+        }
+      ],
+      "eligibility": [
+        "Students who sat the 2025 Grade 12 national exam and scored at least 450 out of 800.",
+        "Students whose family monthly income is below 12,000 ETB."
+      ],
+      "howToApply": [
+        "Send the completed application form, the 2025 Grade 12 result sheet, and the family income certificate to the Regional Education Office.",
+        "Pay the ETB 100 application fee."
+      ],
+      "deadlines": [
+        {
+          "label": "Application deadline",
+          "date": "2026-09-30"
+        }
+      ],
+      "costs": [
+        {
+          "label": "Application fee",
+          "amount": 100,
+          "currency": "ETB"
+        }
+      ],
+      "documentsToBring": [
+        "Completed application form",
+        "2025 Grade 12 result sheet",
+        "Family income certificate"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "en",
+      "originalText": "The Ministry of Education announces the 2026 Grade 12 University Scholarship. Students who sat the 2025 Grade 12 national exam and scored at least 450 out of 800, and whose family monthly income is below 12,000 ETB, are eligible to apply. The scholarship covers full tuition for one year. Apply by sending your completed application form, your 2025 Grade 12 result sheet, and your family income certificate to the Regional Education Office. The deadline is 2026-09-30. The application fee is ETB 100."
+    },
+    "am": {
+      "docType": "government_notice",
+      "summary": "ይህ ለ2025 ዓ.ም. 12ኛ ክፍል ያጠናቀቁ ተማሪዎች የተዘጋጀ የእርዳታ አስታወቂያ ነው። ማን ማመልከት እንደሚችል፣ ምን ማስገባት እንዳለበት እና የመጨረሻ ቀኑን ያስረዳል።",
+      "actions": [
+        {
+          "step": "ቢያንስ ከ800 ነጥብ 450 ማግኘትዎን እና የቤተሰብዎ ወርሃዊ ገቢ ከ12,000 ብር በታች መሆኑን ያረጋግጡ።",
+          "urgent": true
+        },
+        {
+          "step": "የተሟላ የማመልከቻ ቅጽ፣ የ2025 ዓ.ም. የ12ኛ ክፍል ውጤት ሰነድ እና የቤተሰብ ገቢ ማረጋገጫን ወደ ክልሉ የትምህርት ቢሮ ይላኩ።",
+          "urgent": true
+        },
+        {
+          "step": "ከ2026-09-30 በፊት ያመልክቱ።",
+          "urgent": true
+        },
+        {
+          "step": "100 ብር የማመልከቻ ክፍያ ይክፈሉ።"
+        }
+      ],
+      "eligibility": [
+        "በ2025 ዓ.ም. የ12ኛ ክፍል አጥቢ ፈተና የገቡ እና ከ800 ቢያንስ 450 ነጥብ ያገኙ ተማሪዎች።",
+        "የቤተሰባቸው ወርሃዊ ገቢ ከ12,000 ብር በታች የሆነ ተማሪዎች።"
+      ],
+      "howToApply": [
+        "የተሟላ የማመልከቻ ቅጽ፣ የ2025 ዓ.ም. የ12ኛ ክፍል ውጤት ሰነድ እና የቤተሰብ ገቢ ማረጋገጫን ወደ ክልሉ የትምህርት ቢሮ ይላኩ።",
+        "100 ብር የማመልከቻ ክፍያ ይክፈሉ።"
+      ],
+      "deadlines": [
+        {
+          "label": "የማመልከቻ የመጨረሻ ቀን",
+          "date": "2026-09-30"
+        }
+      ],
+      "costs": [
+        {
+          "label": "የማመልከቻ ክፍያ",
+          "amount": 100,
+          "currency": "ETB"
+        }
+      ],
+      "documentsToBring": [
+        "የተሟላ የማመልከቻ ቅጽ",
+        "የ2025 ዓ.ም. የ12ኛ ክፍል ውጤት ሰነድ",
+        "የቤተሰብ ገቢ ማረጋገጫ"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "am",
+      "originalText": "The Ministry of Education announces the 2026 Grade 12 University Scholarship. Students who sat the 2025 Grade 12 national exam and scored at least 450 out of 800, and whose family monthly income is below 12,000 ETB, are eligible to apply. The scholarship covers full tuition for one year. Apply by sending your completed application form, your 2025 Grade 12 result sheet, and your family income certificate to the Regional Education Office. The deadline is 2026-09-30. The application fee is ETB 100."
+    },
+    "om": {
+      "docType": "beekinsa_mootummaa",
+      "summary": "Kun beekinsa minhaaroo barattoota kutaa 12ffaa bara 2025 xumuranii dha. Eenyutu dhiyeessuu akka danda'u, maal akka ergan, fi guyyaa xumuraa isaa ibsa.",
+      "actions": [
+        {
+          "step": "Yoo xiqqaate 800 keessaa 450 argachuu kee fi galii maatii kee ji'aa 12,000 ETB gadi ta'uu mirkaneessi.",
+          "urgent": true
+        },
+        {
+          "step": "Unka dhiyeessii guutame, waraqaa bu'aa qormaata Kutaa 12ffaa bara 2025, fi ragaa galii maatii Biiroo Barnootaa Naannoo isaaniitti ergi.",
+          "urgent": true
+        },
+        {
+          "step": "Guyyaa 2026-09-30 dura dhiyeessi.",
+          "urgent": true
+        },
+        {
+          "step": "Karoora dhiyeessii ETB 100 kaffali."
+        }
+      ],
+      "eligibility": [
+        "Barattoonni qormaata biyyoolessaa Kutaa 12ffaa bara 2025 fudhatanii 800 keessaa yoo xiqqaate 450 argatan.",
+        "Barattoonni galii maatii isaanii ji'aa 12,000 ETB gadi ta'e qaban."
+      ],
+      "howToApply": [
+        "Unka dhiyeessii guutame, waraqaa bu'aa qormaata Kutaa 12ffaa bara 2025, fi ragaa galii maatii Biiroo Barnootaa Naannoo isaaniitti ergi.",
+        "Karoora dhiyeessii ETB 100 kaffali."
+      ],
+      "deadlines": [
+        {
+          "label": "Guyyaa xumuraa dhiyeessii",
+          "date": "2026-09-30"
+        }
+      ],
+      "costs": [
+        {
+          "label": "Karoora dhiyeessii",
+          "amount": 100,
+          "currency": "ETB"
+        }
+      ],
+      "documentsToBring": [
+        "Unka dhiyeessii guutame",
+        "Waraqaa bu'aa qormaata Kutaa 12ffaa bara 2025",
+        "Ragaa galii maatii"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "om",
+      "originalText": "The Ministry of Education announces the 2026 Grade 12 University Scholarship. Students who sat the 2025 Grade 12 national exam and scored at least 450 out of 800, and whose family monthly income is below 12,000 ETB, are eligible to apply. The scholarship covers full tuition for one year. Apply by sending your completed application form, your 2025 Grade 12 result sheet, and your family income certificate to the Regional Education Office. The deadline is 2026-09-30. The application fee is ETB 100."
+    },
+    "ti": {
+      "docType": "government_notice",
+      "summary": "እዚ ንተመሃሮ 2025 ዓ.ም. 12ይ ክፍሊ ዝወድኡ ዝምልከት ናይ ስኮላርሺፕ ምዕዋት እዩ። መን ከም ዝመልከት፣ እንታይ ከም ዝስደድ፣ ከምኡ'ውን መወዳእታ ግዜ ይገልጽ።",
+      "actions": [
+        {
+          "step": "ብውሕዱ 450 ካብ 800 ነጥቢ ምርካብኩምን ናይ ስድራ ቤትኩም ወርሓዊ እቶት ካብ 12,000 ብር ምዃኑን ኣረጋግጹ።",
+          "urgent": true
+        },
+        {
+          "step": "መመልከቲ ቅጥዒ፣ ናይ 2025 ዓ.ም. ውጽኢት 12ይ ክፍሊ፣ ከምኡ'ውን ሰነድ እቶት ስድራ ቤት ናብ ዞባዊ ጽሕፈት ቤት ትምህርቲ ስደዱ።",
+          "urgent": true
+        },
+        {
+          "step": "ቅድሚ 2026-09-30 መልክቱ።",
+          "urgent": true
+        },
+        {
+          "step": "ናይ 100 ብር መመልከቲ ክፍሊት ከፍሉ።"
+        }
+      ],
+      "eligibility": [
+        "ኣብ 2025 ዓ.ም. ናይ 12ይ ክፍሊ ሃገራዊ ፈተና ዝወሰዱን ብውሕዱ 450 ካብ 800 ነጥቢ ዝረኸቡን ተመሃሮ።",
+        "ናይ ስድራ ቤቶም ወርሓዊ እቶት ካብ 12,000 ብር ዝተሓተ ዝኾነ ተመሃሮ።"
+      ],
+      "howToApply": [
+        "ዝተመልአ መመልከቲ ቅጥዒ፣ ናይ 2025 ዓ.ም. ውጽኢት 12ይ ክፍሊ፣ ከምኡ'ውን ሰነድ እቶት ስድራ ቤት ናብ ዞባዊ ጽሕፈት ቤት ትምህርቲ ስደዱ።",
+        "ናይ 100 ብር መመልከቲ ክፍሊት ከፍሉ።"
+      ],
+      "deadlines": [
+        {
+          "label": "መወዳእታ ግዜ መመልከቲ",
+          "date": "2026-09-30"
+        }
+      ],
+      "costs": [
+        {
+          "label": "ናይ መመልከቲ ክፍሊት",
+          "amount": 100,
+          "currency": "ETB"
+        }
+      ],
+      "documentsToBring": [
+        "ዝተመልአ መመልከቲ ቅጥዒ",
+        "ናይ 2025 ዓ.ም. ውጽኢት 12ይ ክፍሊ",
+        "ሰነድ እቶት ስድራ ቤት"
+      ],
+      "confidence": "high",
+      "warnings": [],
+      "lang": "ti",
+      "originalText": "The Ministry of Education announces the 2026 Grade 12 University Scholarship. Students who sat the 2025 Grade 12 national exam and scored at least 450 out of 800, and whose family monthly income is below 12,000 ETB, are eligible to apply. The scholarship covers full tuition for one year. Apply by sending your completed application form, your 2025 Grade 12 result sheet, and your family income certificate to the Regional Education Office. The deadline is 2026-09-30. The application fee is ETB 100."
+    }
+  }
+}

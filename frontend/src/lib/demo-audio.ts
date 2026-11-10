@@ -4,9 +4,11 @@ const RECORDED = new Set([
   "demo-1:am",
   "demo-2:am",
   "demo-3:am",
+  "demo-4:am",
   "demo-1:en",
   "demo-2:en",
   "demo-3:en",
+  "demo-4:en",
 ]);
 
 /**

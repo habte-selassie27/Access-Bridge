@@ -3,7 +3,7 @@ import path from "path";
 
 const ROOT = process.cwd();
 const DEMO_DIR = path.join(ROOT, "frontend/src/data/demo");
-const DEMOS = ["demo-1", "demo-2", "demo-3"];
+const DEMOS = ["demo-1", "demo-2", "demo-3", "demo-4"];
 const LANGS = ["en", "am", "om", "ti"];
 let failures = 0;
 
@@ -37,6 +37,9 @@ for (const id of DEMOS) {
       continue;
     }
     for (const field of ["summary", "actions", "deadlines", "costs", "documentsToBring", "lang", "originalText"]) {
+      if (!(field in out)) fail(`${id}:${lang} missing field ${field}`);
+    }
+    for (const field of ["eligibility", "howToApply"]) {
       if (!(field in out)) fail(`${id}:${lang} missing field ${field}`);
     }
   }

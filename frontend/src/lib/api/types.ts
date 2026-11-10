@@ -42,6 +42,10 @@ export interface ExplanationResult {
   docType: "government_notice" | "medical" | "financial" | "school" | "other";
   summary: string;
   actions: Action[];
+  /** Who qualifies for this benefit or service. Empty when the document does not say. */
+  eligibility: string[];
+  /** Where and how to apply. Empty when the document does not say. */
+  howToApply: string[];
   deadlines: Deadline[];
   costs: Cost[];
   documentsToBring: string[];

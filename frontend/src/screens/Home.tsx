@@ -46,10 +46,12 @@ export function Home({ onResult, lang, onLangChange }: HomeProps) {
       {/* Hero */}
       <div className="rounded-xl border border-border bg-surface p-6 sm:p-8">
         <div className="max-w-[60ch]">
-          <h1 className="text-3xl font-bold text-text sm:text-4xl">PasteWise</h1>
+          <h1 className="text-3xl font-bold text-text sm:text-4xl">AccessBridge</h1>
+          <p className="mt-1 text-base font-medium text-brand">One question. Any language. Every opportunity.</p>
           <p className="mt-2 text-lg leading-relaxed text-subtle sm:text-xl">
-            Understand confusing documents in your own language. Paste or upload any official
-            notice — we&rsquo;ll explain what it says, what you need to do, and what&rsquo;s verified.
+            Upload a document — a scholarship, a service notice, a fee letter — and get it back in
+            plain language in your own language, with every date and amount checked against the
+            original.
           </p>
         </div>
       </div>
@@ -88,12 +90,12 @@ export function Home({ onResult, lang, onLangChange }: HomeProps) {
       <div className="rounded-lg border border-border bg-surface-muted p-4 text-[0.75rem] text-subtle">
         <div className="mb-2 flex items-center gap-2 font-medium text-text">
           <span className="flex h-4 w-4 items-center justify-center rounded-md border border-border bg-surface text-subtle">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1"/><path d="M1 12h4l2 2m0 0l2-2m-2 2v-2"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1"/><path d="M1 12h4l2 2m0 0l2-2m-2 2v-2"/></svg>
           </span>
           <span>Privacy</span>
         </div>
         <p className="leading-relaxed">
-          Your document is processed to create an explanation. PasteWise does not store documents by
+          Your document is processed to create an explanation. AccessBridge does not store documents by
           default. External AI services may process document content when live processing is used.
           Demo examples work offline with no API key required.
         </p>

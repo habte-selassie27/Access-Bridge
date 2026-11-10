@@ -126,3 +126,36 @@ export function hydrateExplanation(
 
   return { deadlines, costs, confidence, warnings, verifiedCount, unverifiedCount };
 }
+
+/**
+ * Hydrate a result that has already been shaped for the UI.
+ *
+ * `/api/explain` returns deadlines as `originalValue` / `normalizedDate` and
+ * costs with a numeric `amount`. `hydrateExplanation` expects the raw
+ * proposed shape (`date`). This bridges the two so a date that IS in the
+ * source is never reported as "no deadline stated" just because the field
+ * names differ.
+ */
+export function hydrateFromResult(
+  source: string,
+  result: {
+    deadlines?: Array<{ id?: string; label?: string; originalValue?: string | null; normalizedDate?: string | null; date?: string | null }>;
+    costs?: Array<{ id?: string; label?: string; amount?: number | null; currency?: string | null }>;
+    confidence?: string;
+  }
+): HydratedExplanation {
+  return hydrateExplanation(source, {
+    deadlines: (result.deadlines ?? []).map((d) => ({
+      id: d.id,
+      label: d.label,
+      date: d.originalValue ?? d.normalizedDate ?? d.date ?? null,
+    })),
+    costs: (result.costs ?? []).map((c) => ({
+      id: c.id,
+      label: c.label,
+      amount: c.amount ?? null,
+      currency: c.currency ?? null,
+    })),
+    confidence: result.confidence,
+  });
+}

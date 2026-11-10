@@ -42,6 +42,8 @@
         "Child's birth certificate",
         "Payment slip"
       ],
+      "eligibility": ["Parents or guardians of students enrolled in Term 2."],
+      "howToApply": ["Pay ETB 3,500 at the school office or via mobile money before 2026-10-05."],
       "confidence": "high",
       "warnings": [],
       "lang": "en",
@@ -85,6 +87,8 @@
         "የልጅዎ የልደት ምስክር ወረቀት",
         "የክፍያ ደረሰኝ"
       ],
+      "eligibility": ["የሁለተኛ ሴሚስትር ተማሪዎችን የሚከታተሉ ወላጆች ወይም አሳሳዮች።"],
+      "howToApply": ["ከ2026-10-05 በፊት ETB 3,500 በትምህርት ቤት ወይም በሞባይል ገንዘብ ይክፈሉ።"],
       "confidence": "high",
       "warnings": [],
       "lang": "am",
@@ -128,6 +132,8 @@
         "Waraqaa ragaa dhalootaa mucaa keessan",
         "Nagahee kaffaltii"
       ],
+      "eligibility": ["Waajjira maa baatonni barootaa semisteerii 2 irratti barachuu dha."],
+      "howToApply": ["ETB 3,500 guyyaa 2026-10-05 dura mana barumsaatti yookaan maallaqa mobaayilaan kafalaa."],
       "confidence": "high",
       "warnings": [],
       "lang": "om",
@@ -171,6 +177,8 @@
         "ምስክር ወረቐት ልደት ቆልዑኹም",
         "ቅብሊት ክፍሊት"
       ],
+      "eligibility": ["ክፍሊት ቤት ትምህርቲ ምድጋች የሚከታተሉ ወላጆች ወይም አሳሳዮች።"],
+      "howToApply": ["ከ2026-10-05 ቅድሚ ETB 3,500 በቤት ጽሕፈት ቤት ትምህርቲ ወይም ብገንዘብ ሞባይል ክፈሉ።"],
       "confidence": "high",
       "warnings": [],
       "lang": "ti",

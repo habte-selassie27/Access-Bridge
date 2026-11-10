@@ -9,13 +9,41 @@
       "explanation": {
         "summary": "Your health insurance is ending soon. You must renew it to keep your benefits.",
         "actions": [
-          { "step": "Renew your health insurance before 2026-12-15.", "urgent": true },
-          { "step": "Pay ETB 500 to keep your coverage.", "urgent": true },
-          { "step": "Bring your ID card and insurance card to the health office." }
+          {
+            "step": "Renew your health insurance before 2026-12-15.",
+            "urgent": true
+          },
+          {
+            "step": "Pay ETB 500 to keep your coverage.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your ID card and insurance card to the health office."
+          }
         ],
-        "deadlines": [{ "label": "Renewal deadline", "date": "2026-12-15" }],
-        "costs": [{ "label": "Renewal fee", "amount": 500, "currency": "ETB" }],
-        "documentsToBring": ["ID card", "Previous insurance card"]
+        "eligibility": [
+          "People whose health insurance coverage is currently active."
+        ],
+        "howToApply": [
+          "Pay ETB 500 at the nearest health office before 2026-12-15."
+        ],
+        "deadlines": [
+          {
+            "label": "Renewal deadline",
+            "date": "2026-12-15"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Renewal fee",
+            "amount": 500,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "ID card",
+          "Previous insurance card"
+        ]
       }
     },
     {
@@ -25,13 +53,42 @@
       "explanation": {
         "summary": "You have a doctor's appointment on 2027-01-20. Arrive early and bring your papers.",
         "actions": [
-          { "step": "Go to your appointment on 2027-01-20 at 10:00 AM.", "urgent": true },
-          { "step": "Arrive 15 minutes early.", "urgent": false },
-          { "step": "Bring your patient ID, insurance card, and medication list." }
+          {
+            "step": "Go to your appointment on 2027-01-20 at 10:00 AM.",
+            "urgent": true
+          },
+          {
+            "step": "Arrive 15 minutes early.",
+            "urgent": false
+          },
+          {
+            "step": "Bring your patient ID, insurance card, and medication list."
+          }
         ],
-        "deadlines": [{ "label": "Appointment date", "date": "2027-01-20" }],
-        "costs": [{ "label": "Visit fee", "amount": 200, "currency": "ETB" }],
-        "documentsToBring": ["Patient ID", "Insurance card", "Medication list"]
+        "eligibility": [
+          "Patients with a scheduled appointment."
+        ],
+        "howToApply": [
+          "Arrive 15 minutes early with your patient ID, insurance card and medication list."
+        ],
+        "deadlines": [
+          {
+            "label": "Appointment date",
+            "date": "2027-01-20"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Visit fee",
+            "amount": 200,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Patient ID",
+          "Insurance card",
+          "Medication list"
+        ]
       }
     },
     {
@@ -41,16 +98,46 @@
       "explanation": {
         "summary": "Term 2 school fees must be paid by 2026-10-05. Pay on time to avoid an extra charge.",
         "actions": [
-          { "step": "Pay the school fees by 2026-10-05.", "urgent": true },
-          { "step": "Pay the total of ETB 3,500.", "urgent": true },
-          { "step": "Pay at the school office or by mobile money." }
+          {
+            "step": "Pay the school fees by 2026-10-05.",
+            "urgent": true
+          },
+          {
+            "step": "Pay the total of ETB 3,500.",
+            "urgent": true
+          },
+          {
+            "step": "Pay at the school office or by mobile money."
+          }
         ],
-        "deadlines": [{ "label": "Fee deadline", "date": "2026-10-05" }],
+        "eligibility": [
+          "Parents or guardians of students enrolled in Term 2."
+        ],
+        "howToApply": [
+          "Pay ETB 3,500 at the school office or via mobile money before 2026-10-05."
+        ],
+        "deadlines": [
+          {
+            "label": "Fee deadline",
+            "date": "2026-10-05"
+          }
+        ],
         "costs": [
-          { "label": "Term 2 fees", "amount": 3500, "currency": "ETB" },
-          { "label": "Late fee", "amount": 100, "currency": "ETB" }
+          {
+            "label": "Term 2 fees",
+            "amount": 3500,
+            "currency": "ETB"
+          },
+          {
+            "label": "Late fee",
+            "amount": 100,
+            "currency": "ETB"
+          }
         ],
-        "documentsToBring": ["Child's birth certificate", "Payment slip"]
+        "documentsToBring": [
+          "Child's birth certificate",
+          "Payment slip"
+        ]
       }
     },
     {
@@ -60,13 +147,41 @@
       "explanation": {
         "summary": "Your kebele ID has expired. You need a new one before 2026-11-30.",
         "actions": [
-          { "step": "Apply for a new kebele ID before 2026-11-30.", "urgent": true },
-          { "step": "Pay ETB 50 at the office.", "urgent": false },
-          { "step": "Bring your old ID and two passport photos." }
+          {
+            "step": "Apply for a new kebele ID before 2026-11-30.",
+            "urgent": true
+          },
+          {
+            "step": "Pay ETB 50 at the office.",
+            "urgent": false
+          },
+          {
+            "step": "Bring your old ID and two passport photos."
+          }
         ],
-        "deadlines": [{ "label": "Application deadline", "date": "2026-11-30" }],
-        "costs": [{ "label": "ID fee", "amount": 50, "currency": "ETB" }],
-        "documentsToBring": ["Old ID", "Two passport photos"]
+        "eligibility": [
+          "Anyone whose kebele ID card has expired."
+        ],
+        "howToApply": [
+          "Apply at the Woreda 03 office by 2026-11-30."
+        ],
+        "deadlines": [
+          {
+            "label": "Application deadline",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "ID fee",
+            "amount": 50,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Old ID",
+          "Two passport photos"
+        ]
       }
     },
     {
@@ -76,12 +191,38 @@
       "explanation": {
         "summary": "Your driving license expires on 2027-02-10. Renew it before then.",
         "actions": [
-          { "step": "Renew your driving license before 2027-02-10.", "urgent": true },
-          { "step": "Bring your old license, medical certificate, and two photos." }
+          {
+            "step": "Renew your driving license before 2027-02-10.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your old license, medical certificate, and two photos."
+          }
         ],
-        "deadlines": [{ "label": "License expiry", "date": "2027-02-10" }],
-        "costs": [{ "label": "Renewal fee", "amount": 600, "currency": "ETB" }],
-        "documentsToBring": ["Old driving license", "Medical certificate", "Two photos"]
+        "eligibility": [
+          "Holders of a driving license that expires on 2027-02-10."
+        ],
+        "howToApply": [
+          "Renew it at the Transport Office in Bole before 2027-02-10."
+        ],
+        "deadlines": [
+          {
+            "label": "License expiry",
+            "date": "2027-02-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Renewal fee",
+            "amount": 600,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Old driving license",
+          "Medical certificate",
+          "Two photos"
+        ]
       }
     },
     {
@@ -91,11 +232,33 @@
       "explanation": {
         "summary": "You must file your income tax return by 2026-12-31. Filing late costs extra.",
         "actions": [
-          { "step": "File your income tax return by 2026-12-31.", "urgent": true },
-          { "step": "File online or at the Revenue Office." }
+          {
+            "step": "File your income tax return by 2026-12-31.",
+            "urgent": true
+          },
+          {
+            "step": "File online or at the Revenue Office."
+          }
         ],
-        "deadlines": [{ "label": "Tax filing deadline", "date": "2026-12-31" }],
-        "costs": [{ "label": "Late filing fine", "amount": 1000, "currency": "ETB" }],
+        "eligibility": [
+          "Anyone who earned income during the 2025 tax year."
+        ],
+        "howToApply": [
+          "File the annual return for the 2025 tax year by 2026-12-31."
+        ],
+        "deadlines": [
+          {
+            "label": "Tax filing deadline",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Late filing fine",
+            "amount": 1000,
+            "currency": "ETB"
+          }
+        ],
         "documentsToBring": []
       }
     },
@@ -106,12 +269,36 @@
       "explanation": {
         "summary": "Your water bill is unpaid. Water will be cut off after 2026-11-20.",
         "actions": [
-          { "step": "Pay the water bill of ETB 850 before 2026-11-20.", "urgent": true },
-          { "step": "Pay at a Commercial Bank branch or with telebirr." }
+          {
+            "step": "Pay the water bill of ETB 850 before 2026-11-20.",
+            "urgent": true
+          },
+          {
+            "step": "Pay at a Commercial Bank branch or with telebirr."
+          }
         ],
-        "deadlines": [{ "label": "Disconnection date", "date": "2026-11-20" }],
-        "costs": [{ "label": "Water bill", "amount": 850, "currency": "ETB" }],
-        "documentsToBring": ["Water bill"]
+        "eligibility": [
+          "Households with an unpaid October water bill."
+        ],
+        "howToApply": [
+          "Pay the ETB 850 October bill to stop disconnection."
+        ],
+        "deadlines": [
+          {
+            "label": "Disconnection date",
+            "date": "2026-11-20"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Water bill",
+            "amount": 850,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Water bill"
+        ]
       }
     },
     {
@@ -120,9 +307,30 @@
       "text": "New electricity tariffs apply from 2026-12-01. Households using less than 50 kWh per month will pay ETB 0.60 per kWh. No action is required from customers.",
       "explanation": {
         "summary": "Electricity prices change on 2026-12-01. You do not need to do anything.",
-        "actions": [{ "step": "No action is required. The new tariff applies automatically." }],
-        "deadlines": [{ "label": "New tariff starts", "date": "2026-12-01" }],
-        "costs": [{ "label": "Price per kWh", "amount": 0.6, "currency": "ETB" }],
+        "actions": [
+          {
+            "step": "No action is required. The new tariff applies automatically."
+          }
+        ],
+        "eligibility": [
+          "Households using less than 50 kWh per month."
+        ],
+        "howToApply": [
+          "No action is needed to keep the lower tariff."
+        ],
+        "deadlines": [
+          {
+            "label": "New tariff starts",
+            "date": "2026-12-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Price per kWh",
+            "amount": 0.6,
+            "currency": "ETB"
+          }
+        ],
         "documentsToBring": []
       }
     },
@@ -133,12 +341,32 @@
       "explanation": {
         "summary": "You are ordered to go to court on 2027-03-03. Missing it is serious.",
         "actions": [
-          { "step": "Go to the court on 2027-03-03 at 9:00 AM.", "urgent": true },
-          { "step": "Bring your ID and this summons.", "urgent": true }
+          {
+            "step": "Go to the court on 2027-03-03 at 9:00 AM.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your ID and this summons.",
+            "urgent": true
+          }
         ],
-        "deadlines": [{ "label": "Court date", "date": "2027-03-03" }],
+        "eligibility": [
+          "Anyone named in the court summons."
+        ],
+        "howToApply": [
+          "Appear at the Federal First Instance Court in Lideta on 2027-03-03 at 9:00 AM."
+        ],
+        "deadlines": [
+          {
+            "label": "Court date",
+            "date": "2027-03-03"
+          }
+        ],
         "costs": [],
-        "documentsToBring": ["ID", "This summons"]
+        "documentsToBring": [
+          "ID",
+          "This summons"
+        ]
       }
     },
     {
@@ -148,12 +376,30 @@
       "explanation": {
         "summary": "Your bank needs your updated ID by 2027-01-15. Otherwise the account is frozen.",
         "actions": [
-          { "step": "Update your account information before 2027-01-15.", "urgent": true },
-          { "step": "Bring your kebele ID or passport to any branch." }
+          {
+            "step": "Update your account information before 2027-01-15.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your kebele ID or passport to any branch."
+          }
         ],
-        "deadlines": [{ "label": "Update deadline", "date": "2027-01-15" }],
+        "eligibility": [
+          "Bank account holders whose identification information is outdated."
+        ],
+        "howToApply": [
+          "Update the account information with identification by 2027-01-15."
+        ],
+        "deadlines": [
+          {
+            "label": "Update deadline",
+            "date": "2027-01-15"
+          }
+        ],
         "costs": [],
-        "documentsToBring": ["Kebele ID or passport"]
+        "documentsToBring": [
+          "Kebele ID or passport"
+        ]
       }
     },
     {
@@ -163,12 +409,31 @@
       "explanation": {
         "summary": "You must register for pension by 2026-12-20.",
         "actions": [
-          { "step": "Register for the pension scheme by 2026-12-20.", "urgent": true },
-          { "step": "Bring your employment letter and ID." }
+          {
+            "step": "Register for the pension scheme by 2026-12-20.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your employment letter and ID."
+          }
         ],
-        "deadlines": [{ "label": "Registration deadline", "date": "2026-12-20" }],
+        "eligibility": [
+          "Employees who want to join the pension scheme."
+        ],
+        "howToApply": [
+          "Register for the pension scheme by 2026-12-20."
+        ],
+        "deadlines": [
+          {
+            "label": "Registration deadline",
+            "date": "2026-12-20"
+          }
+        ],
         "costs": [],
-        "documentsToBring": ["Employment letter", "ID"]
+        "documentsToBring": [
+          "Employment letter",
+          "ID"
+        ]
       }
     },
     {
@@ -178,13 +443,42 @@
       "explanation": {
         "summary": "You must register your land by 2027-04-30.",
         "actions": [
-          { "step": "Register your land at the Woreda Land Office by 2027-04-30.", "urgent": true },
-          { "step": "Pay ETB 300 for registration.", "urgent": false },
-          { "step": "Bring the title deed, your ID, and two witnesses." }
+          {
+            "step": "Register your land at the Woreda Land Office by 2027-04-30.",
+            "urgent": true
+          },
+          {
+            "step": "Pay ETB 300 for registration.",
+            "urgent": false
+          },
+          {
+            "step": "Bring the title deed, your ID, and two witnesses."
+          }
         ],
-        "deadlines": [{ "label": "Registration deadline", "date": "2027-04-30" }],
-        "costs": [{ "label": "Registration fee", "amount": 300, "currency": "ETB" }],
-        "documentsToBring": ["Title deed", "ID", "Two witnesses"]
+        "eligibility": [
+          "Owners of land parcels that are not yet registered."
+        ],
+        "howToApply": [
+          "Register the parcel at the Woreda Land Office by 2027-04-30."
+        ],
+        "deadlines": [
+          {
+            "label": "Registration deadline",
+            "date": "2027-04-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Registration fee",
+            "amount": 300,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Title deed",
+          "ID",
+          "Two witnesses"
+        ]
       }
     },
     {
@@ -194,12 +488,37 @@
       "explanation": {
         "summary": "Your blood test shows low hemoglobin. Go back to the clinic on 2026-11-25.",
         "actions": [
-          { "step": "Go to the clinic for a follow-up on 2026-11-25.", "urgent": true },
-          { "step": "Ask about iron tablets for low hemoglobin.", "urgent": false }
+          {
+            "step": "Go to the clinic for a follow-up on 2026-11-25.",
+            "urgent": true
+          },
+          {
+            "step": "Ask about iron tablets for low hemoglobin.",
+            "urgent": false
+          }
         ],
-        "deadlines": [{ "label": "Follow-up visit", "date": "2026-11-25" }],
-        "costs": [{ "label": "Visit cost", "amount": 0, "currency": "ETB" }],
-        "documentsToBring": ["Test result"]
+        "eligibility": [
+          "Patients whose blood test result is ready."
+        ],
+        "howToApply": [
+          "Come to the clinic with your patient ID."
+        ],
+        "deadlines": [
+          {
+            "label": "Follow-up visit",
+            "date": "2026-11-25"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Visit cost",
+            "amount": 0,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Test result"
+        ]
       }
     },
     {
@@ -209,12 +528,30 @@
       "explanation": {
         "summary": "Your child needs a measles vaccine on 2026-12-05.",
         "actions": [
-          { "step": "Take your child for the measles vaccine on 2026-12-05.", "urgent": true },
-          { "step": "Bring the vaccination card." }
+          {
+            "step": "Take your child for the measles vaccine on 2026-12-05.",
+            "urgent": true
+          },
+          {
+            "step": "Bring the vaccination card."
+          }
         ],
-        "deadlines": [{ "label": "Vaccination date", "date": "2026-12-05" }],
+        "eligibility": [
+          "Children who need the measles vaccine."
+        ],
+        "howToApply": [
+          "Bring the child's birth certificate to the health center."
+        ],
+        "deadlines": [
+          {
+            "label": "Vaccination date",
+            "date": "2026-12-05"
+          }
+        ],
         "costs": [],
-        "documentsToBring": ["Vaccination card"]
+        "documentsToBring": [
+          "Vaccination card"
+        ]
       }
     },
     {
@@ -224,15 +561,41 @@
       "explanation": {
         "summary": "Your rent goes up to ETB 5,000 from 2027-01-01.",
         "actions": [
-          { "step": "Sign the new rent agreement before 2026-12-25.", "urgent": true },
-          { "step": "Prepare to pay ETB 5,000 per month from 2027-01-01.", "urgent": false }
+          {
+            "step": "Sign the new rent agreement before 2026-12-25.",
+            "urgent": true
+          },
+          {
+            "step": "Prepare to pay ETB 5,000 per month from 2027-01-01.",
+            "urgent": false
+          }
+        ],
+        "eligibility": [
+          "Tenants in the affected building."
+        ],
+        "howToApply": [
+          "Sign the new lease starting 2027-01-01."
         ],
         "deadlines": [
-          { "label": "Sign agreement by", "date": "2026-12-25" },
-          { "label": "New rent starts", "date": "2027-01-01" }
+          {
+            "label": "Sign agreement by",
+            "date": "2026-12-25"
+          },
+          {
+            "label": "New rent starts",
+            "date": "2027-01-01"
+          }
         ],
-        "costs": [{ "label": "New monthly rent", "amount": 5000, "currency": "ETB" }],
-        "documentsToBring": ["Old rent agreement"]
+        "costs": [
+          {
+            "label": "New monthly rent",
+            "amount": 5000,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Old rent agreement"
+        ]
       }
     },
     {
@@ -242,15 +605,41 @@
       "explanation": {
         "summary": "You owe a loan payment of ETB 1,200 by 2026-11-30.",
         "actions": [
-          { "step": "Pay ETB 1,200 by 2026-11-30.", "urgent": true },
-          { "step": "Pay at the branch or with telebirr." }
+          {
+            "step": "Pay ETB 1,200 by 2026-11-30.",
+            "urgent": true
+          },
+          {
+            "step": "Pay at the branch or with telebirr."
+          }
         ],
-        "deadlines": [{ "label": "Payment due", "date": "2026-11-30" }],
+        "eligibility": [
+          "Borrowers with an active microfinance loan."
+        ],
+        "howToApply": [
+          "Pay the ETB 1,200 installment by 2026-11-30."
+        ],
+        "deadlines": [
+          {
+            "label": "Payment due",
+            "date": "2026-11-30"
+          }
+        ],
         "costs": [
-          { "label": "Installment", "amount": 1200, "currency": "ETB" },
-          { "label": "Late payment charge per week", "amount": 60, "currency": "ETB" }
+          {
+            "label": "Installment",
+            "amount": 1200,
+            "currency": "ETB"
+          },
+          {
+            "label": "Late payment charge per week",
+            "amount": 60,
+            "currency": "ETB"
+          }
         ],
-        "documentsToBring": ["Loan passbook"]
+        "documentsToBring": [
+          "Loan passbook"
+        ]
       }
     },
     {
@@ -260,13 +649,41 @@
       "explanation": {
         "summary": "Your trade license expires on 2026-12-31. Renew it before then.",
         "actions": [
-          { "step": "Renew your trade license before 2026-12-31.", "urgent": true },
-          { "step": "Pay ETB 1,500 at the Trade Bureau.", "urgent": false },
-          { "step": "Bring your TIN certificate and old license." }
+          {
+            "step": "Renew your trade license before 2026-12-31.",
+            "urgent": true
+          },
+          {
+            "step": "Pay ETB 1,500 at the Trade Bureau.",
+            "urgent": false
+          },
+          {
+            "step": "Bring your TIN certificate and old license."
+          }
         ],
-        "deadlines": [{ "label": "License expiry", "date": "2026-12-31" }],
-        "costs": [{ "label": "Renewal fee", "amount": 1500, "currency": "ETB" }],
-        "documentsToBring": ["TIN certificate", "Old license"]
+        "eligibility": [
+          "Business owners whose trade license expires on 2026-12-31."
+        ],
+        "howToApply": [
+          "Renew it at the Trade Bureau before 2026-12-31."
+        ],
+        "deadlines": [
+          {
+            "label": "License expiry",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Renewal fee",
+            "amount": 1500,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "TIN certificate",
+          "Old license"
+        ]
       }
     },
     {
@@ -276,12 +693,31 @@
       "explanation": {
         "summary": "Your SIM card is not registered. Register it by 2027-02-28 or lose the number.",
         "actions": [
-          { "step": "Register your SIM card by 2027-02-28.", "urgent": true },
-          { "step": "Bring your ID to any Ethio Telecom shop.", "urgent": true }
+          {
+            "step": "Register your SIM card by 2027-02-28.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your ID to any Ethio Telecom shop.",
+            "urgent": true
+          }
         ],
-        "deadlines": [{ "label": "Registration deadline", "date": "2027-02-28" }],
+        "eligibility": [
+          "SIM card owners whose SIM is not fully registered."
+        ],
+        "howToApply": [
+          "Register with your ID at any Ethio Telecom shop by 2027-02-28."
+        ],
+        "deadlines": [
+          {
+            "label": "Registration deadline",
+            "date": "2027-02-28"
+          }
+        ],
         "costs": [],
-        "documentsToBring": ["ID"]
+        "documentsToBring": [
+          "ID"
+        ]
       }
     },
     {
@@ -291,13 +727,42 @@
       "explanation": {
         "summary": "You are admitted to university. Report on 2026-12-01 with your papers.",
         "actions": [
-          { "step": "Report to Bahir Dar University on 2026-12-01.", "urgent": true },
-          { "step": "Pay the ETB 200 registration fee.", "urgent": false },
-          { "step": "Bring your grade 12 result, ID, and medical certificate." }
+          {
+            "step": "Report to Bahir Dar University on 2026-12-01.",
+            "urgent": true
+          },
+          {
+            "step": "Pay the ETB 200 registration fee.",
+            "urgent": false
+          },
+          {
+            "step": "Bring your grade 12 result, ID, and medical certificate."
+          }
         ],
-        "deadlines": [{ "label": "Reporting date", "date": "2026-12-01" }],
-        "costs": [{ "label": "Registration fee", "amount": 200, "currency": "ETB" }],
-        "documentsToBring": ["Grade 12 result", "ID", "Medical certificate"]
+        "eligibility": [
+          "Students admitted to Bahir Dar University in the Engineering program."
+        ],
+        "howToApply": [
+          "Report to the university on 2026-12-01."
+        ],
+        "deadlines": [
+          {
+            "label": "Reporting date",
+            "date": "2026-12-01"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Registration fee",
+            "amount": 200,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Grade 12 result",
+          "ID",
+          "Medical certificate"
+        ]
       }
     },
     {
@@ -307,12 +772,31 @@
       "explanation": {
         "summary": "Your job ends on 2027-01-31. Final pay follows within 30 days.",
         "actions": [
-          { "step": "Your last working day is 2027-01-31.", "urgent": true },
-          { "step": "Contact the HR office for your service letter.", "urgent": false }
+          {
+            "step": "Your last working day is 2027-01-31.",
+            "urgent": true
+          },
+          {
+            "step": "Contact the HR office for your service letter.",
+            "urgent": false
+          }
         ],
-        "deadlines": [{ "label": "Last working day", "date": "2027-01-31" }],
+        "eligibility": [
+          "Employees whose employment ends on 2027-01-31."
+        ],
+        "howToApply": [
+          "Collect the final salary and severance pay at the office."
+        ],
+        "deadlines": [
+          {
+            "label": "Last working day",
+            "date": "2027-01-31"
+          }
+        ],
         "costs": [],
-        "documentsToBring": ["Employment contract"]
+        "documentsToBring": [
+          "Employment contract"
+        ]
       }
     },
     {
@@ -322,12 +806,36 @@
       "explanation": {
         "summary": "You owe ETB 1,800 in property tax by 2026-12-31.",
         "actions": [
-          { "step": "Pay ETB 1,800 property tax by 2026-12-31.", "urgent": true },
-          { "step": "Bring the previous payment receipt." }
+          {
+            "step": "Pay ETB 1,800 property tax by 2026-12-31.",
+            "urgent": true
+          },
+          {
+            "step": "Bring the previous payment receipt."
+          }
         ],
-        "deadlines": [{ "label": "Payment deadline", "date": "2026-12-31" }],
-        "costs": [{ "label": "Property tax", "amount": 1800, "currency": "ETB" }],
-        "documentsToBring": ["Previous payment receipt"]
+        "eligibility": [
+          "Property owners in the municipality."
+        ],
+        "howToApply": [
+          "Pay the ETB 1,800 at the municipality office by 2026-12-31."
+        ],
+        "deadlines": [
+          {
+            "label": "Payment deadline",
+            "date": "2026-12-31"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Property tax",
+            "amount": 1800,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Previous payment receipt"
+        ]
       }
     },
     {
@@ -337,12 +845,30 @@
       "explanation": {
         "summary": "Health inspectors visit your restaurant on 2026-11-28.",
         "actions": [
-          { "step": "Be ready for the inspection on 2026-11-28.", "urgent": true },
-          { "step": "Keep the food handler certificates available." }
+          {
+            "step": "Be ready for the inspection on 2026-11-28.",
+            "urgent": true
+          },
+          {
+            "step": "Keep the food handler certificates available."
+          }
         ],
-        "deadlines": [{ "label": "Inspection date", "date": "2026-11-28" }],
+        "eligibility": [
+          "Restaurant owners scheduled for inspection."
+        ],
+        "howToApply": [
+          "Close the kitchen during the inspection on 2026-11-28."
+        ],
+        "deadlines": [
+          {
+            "label": "Inspection date",
+            "date": "2026-11-28"
+          }
+        ],
         "costs": [],
-        "documentsToBring": ["Food handler certificates"]
+        "documentsToBring": [
+          "Food handler certificates"
+        ]
       }
     },
     {
@@ -352,12 +878,37 @@
       "explanation": {
         "summary": "Your shipment is at the port. Clear it by 2026-12-10 or pay storage daily.",
         "actions": [
-          { "step": "Clear your shipment by 2026-12-10.", "urgent": true },
-          { "step": "Bring the bill of lading and TIN certificate." }
+          {
+            "step": "Clear your shipment by 2026-12-10.",
+            "urgent": true
+          },
+          {
+            "step": "Bring the bill of lading and TIN certificate."
+          }
         ],
-        "deadlines": [{ "label": "Clearance deadline", "date": "2026-12-10" }],
-        "costs": [{ "label": "Storage charge per day", "amount": 150, "currency": "ETB" }],
-        "documentsToBring": ["Bill of lading", "TIN certificate"]
+        "eligibility": [
+          "Owners of the shipment that arrived at Modjo dry port."
+        ],
+        "howToApply": [
+          "Clear the shipment at Modjo dry port by 2026-12-10."
+        ],
+        "deadlines": [
+          {
+            "label": "Clearance deadline",
+            "date": "2026-12-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Storage charge per day",
+            "amount": 150,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Bill of lading",
+          "TIN certificate"
+        ]
       }
     },
     {
@@ -367,12 +918,37 @@
       "explanation": {
         "summary": "TVET enrollment closes on 2026-11-30.",
         "actions": [
-          { "step": "Enroll in the TVET program before 2026-11-30.", "urgent": true },
-          { "step": "Bring your grade 10 certificate and ID." }
+          {
+            "step": "Enroll in the TVET program before 2026-11-30.",
+            "urgent": true
+          },
+          {
+            "step": "Bring your grade 10 certificate and ID."
+          }
         ],
-        "deadlines": [{ "label": "Enrollment closes", "date": "2026-11-30" }],
-        "costs": [{ "label": "Monthly fee", "amount": 400, "currency": "ETB" }],
-        "documentsToBring": ["Grade 10 certificate", "ID"]
+        "eligibility": [
+          "Anyone applying to the TVET program."
+        ],
+        "howToApply": [
+          "Enroll in the TVET program before 2026-11-30 and pay ETB 400 per month."
+        ],
+        "deadlines": [
+          {
+            "label": "Enrollment closes",
+            "date": "2026-11-30"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Monthly fee",
+            "amount": 400,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Grade 10 certificate",
+          "ID"
+        ]
       }
     },
     {
@@ -382,12 +958,37 @@
       "explanation": {
         "summary": "You must register your child's birth by 2027-01-10.",
         "actions": [
-          { "step": "Register the birth at the Woreda civil registry by 2027-01-10.", "urgent": true },
-          { "step": "Bring both parents' IDs and the birth record." }
+          {
+            "step": "Register the birth at the Woreda civil registry by 2027-01-10.",
+            "urgent": true
+          },
+          {
+            "step": "Bring both parents' IDs and the birth record."
+          }
         ],
-        "deadlines": [{ "label": "Registration deadline", "date": "2027-01-10" }],
-        "costs": [{ "label": "Registration fee", "amount": 0, "currency": "ETB" }],
-        "documentsToBring": ["Both parents' IDs", "Health facility birth record"]
+        "eligibility": [
+          "Parents registering a newborn child."
+        ],
+        "howToApply": [
+          "Come to the Woreda civil registry within 90 days of the birth."
+        ],
+        "deadlines": [
+          {
+            "label": "Registration deadline",
+            "date": "2027-01-10"
+          }
+        ],
+        "costs": [
+          {
+            "label": "Registration fee",
+            "amount": 0,
+            "currency": "ETB"
+          }
+        ],
+        "documentsToBring": [
+          "Both parents' IDs",
+          "Health facility birth record"
+        ]
       }
     }
   ]

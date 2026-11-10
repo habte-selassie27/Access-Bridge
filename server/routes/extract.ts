@@ -2,7 +2,6 @@ import { Router } from "express";
 import multer from "multer";
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 import { ocr } from "../context.ts";
-import { isAllowedMime } from "../lib/security/file-validator.ts";
 import { sanitizeText } from "../lib/security/input-guard.ts";
 import { withTimeout } from "../lib/utils/timeout.ts";
 import { LIMITS } from "../lib/config/limits.ts";
@@ -12,6 +11,12 @@ import { noCache } from "../middleware/request-logger.ts";
 const router = Router();
 router.use(noCache);
 
+/** Text-like files are read directly; only images and PDFs need OCR. */
+const TEXT_MIMES = ["text/plain", "application/json", "text/markdown", "text/csv"];
+const OCR_MIMES = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+
+const MAX_CHARS = 8000;
+
 function detectLang(text: string): string {
   if (/[\u1200-\u137F]/.test(text)) return "am";
   return "en";
@@ -20,42 +25,41 @@ function detectLang(text: string): string {
 router.post("/extract", upload.single("file"), async (req, res) => {
   const requestId = newRequestId();
   try {
-    const { text, mime } = req.body || {};
+    const { text } = req.body || {};
     let sourceText = "";
     let ocrUsed = false;
+
     if (req.file) {
-      const uploadedMime = req.file.mimetype;
-      if (!isAllowedMime(uploadedMime)) {
-        return res.status(415).json({ ok: false, error: "Unsupported file type.", retryable: false, code: "UNSUPPORTED_MIME" });
+      const mime = (req.file.mimetype || "").toLowerCase();
+      if (TEXT_MIMES.includes(mime) || /\.txt$/i.test(req.file.originalname || "")) {
+        // Plain text: no OCR, no provider, no network.
+        sourceText = req.file.buffer.toString("utf8");
+      } else if (OCR_MIMES.includes(mime)) {
+        if (!ocr) {
+          return res.status(503).json({ ok: false, error: "OCR unavailable; paste text instead.", retryable: false, code: "UPSTREAM" });
+        }
+        try {
+          const extracted = await withTimeout(
+            ocr.extractText(req.file.buffer.toString("base64"), mime) as Promise<string>,
+            LIMITS.explainTimeoutMs
+          );
+          sourceText = extracted;
+          ocrUsed = true;
+        } catch {
+          return res.status(502).json({ ok: false, error: "Could not read the file. Try a clearer image or paste text.", retryable: true, code: "UPSTREAM" });
+        }
+      } else {
+        return res.status(415).json({ ok: false, error: "Unsupported file type. Use TXT, PDF, PNG, JPG or WEBP.", retryable: false, code: "UNSUPPORTED_MIME" });
       }
-      if (!ocr) {
-        return res.status(503).json({ ok: false, error: "OCR unavailable; paste text instead.", retryable: false, code: "UPSTREAM" });
-      }
-      try {
-        const extracted = await withTimeout(ocr.extractText(req.file.buffer.toString("base64"), uploadedMime) as Promise<string>, LIMITS.explainTimeoutMs);
-        sourceText = extracted;
-        ocrUsed = true;
-      } catch (e) {
-        return res.status(502).json({ ok: false, error: "Could not read the file.", retryable: true, code: "UPSTREAM" });
-      }
-    } else if (text) {
-      if (typeof text !== "string") {
-        return res.status(400).json({ ok: false, error: "text must be a string.", retryable: false, code: "INVALID_INPUT" });
-      }
-      sourceText = sanitizeText(text).slice(0, 8000);
-    } else if (mime) {
-      // no-op
+    } else if (typeof text === "string") {
+      sourceText = sanitizeText(text);
     }
 
-    if (mime && !req.file && !text) {
-      // allow empty
-    }
-
-    if (!sourceText) {
+    if (!sourceText.trim()) {
       return res.status(400).json({ ok: false, error: "No text or file provided.", retryable: false, code: "INVALID_INPUT" });
     }
 
-    sourceText = sourceText.slice(0, 8000);
+    sourceText = sourceText.slice(0, MAX_CHARS);
     return res.json({
       ok: true,
       data: { text: sourceText, sourceLanguage: detectLang(sourceText), charCount: sourceText.length, ocrUsed },

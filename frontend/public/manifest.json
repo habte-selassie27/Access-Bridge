@@ -1,7 +1,7 @@
 {
-  "name": "PasteWise",
-  "short_name": "PasteWise",
-  "description": "Understand confusing documents in your own language, with voice.",
+  "name": "AccessBridge — One question. Any language.",
+  "short_name": "AccessBridge",
+  "description": "Upload a document and get it back in plain language, in your own language, with every date and amount verified against the original.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",

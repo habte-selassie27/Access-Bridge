@@ -38,17 +38,18 @@ Impact + Innovation = 55%. Spend effort there, not on infra polish.
 - **Keep the model out of verdicts.** The LLM proposes and explains. Dates, amounts, and deadlines are **verified by deterministic code** against the source text. Never show a number or date that isn't found in the source.
 - **Agent proposes, human disposes.** Show extracted deadlines/costs as suggestions with a "Check against original" link. Never claim legal certainty.
 - **Show misses, not just wins.** The eval page publishes failure cases honestly.
-- **Name it like a product.** PasteWise stays. Short, hints at what it does.
+- **Name it like a product.** AccessBridge. Short, hints at what it does.
 
 ## 3. Scope (hard cap)
 
 **IN (must ship):**
 1. Paste text (+ upload photo/PDF).
-2. Structured output: *What this is / What you must do / Deadline & cost / Documents to bring.*
+2. Structured output: *What this is / What you must do / Who can apply & how / Deadline & cost / Documents to bring.*
 3. Language switcher (Amharic, Oromo, Tigrinya, English minimum) + voice readout.
-4. Follow-up question box.
+4. Follow-up question box (answered only from the document, by voice or text).
 5. Demo mode with 3 pre-loaded documents (cached, never stalls).
 6. Eval page: baseline vs Adaption-improved output.
+7. Step-by-step upload wizard at `/upload` (upload → explain → verify → listen → ask → evaluate).
 
 **OUT (README future work):** accounts, history, push reminders, native app, offline OCR, payments, B2B dashboards, any new document types beyond the 3 demo ones.
 

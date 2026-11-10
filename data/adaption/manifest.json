@@ -1,19 +1,28 @@
 {
-  "datasetId": "31e98ae2-92df-4832-853f-21798ed308c2",
+  "datasetId": "0055a9ec-c38b-4175-81cb-780895e8baa6",
   "name": "pastewise-seeds",
-  "builtAt": "2026-11-08T13:43:42.914Z",
+  "builtAt": "2026-11-10T13:03:08.847Z",
   "source": "adaption-translate",
   "seeds": 25,
   "expectedRows": 100,
-  "cachedRows": 100,
+  "cachedRows": 99,
   "rowsByLanguage": {
-    "am": 25,
     "ti": 25,
-    "om": 25,
-    "en": 25
+    "en": 25,
+    "om": 24,
+    "am": 25
   },
-  "adaptRun": null,
-  "skipped": [],
+  "adaptRun": {
+    "runId": "dataset-0055a9ec-c38b-4175-81cb-780895e8baa6-1794315490396",
+    "estimatedMinutes": 11,
+    "estimatedCredits": 1
+  },
+  "skipped": [
+    {
+      "language": "om",
+      "reason": "unparseable row or unassigned seed"
+    }
+  ],
   "seedFile": "data/adaption/seeds.json",
   "cacheFile": "data/adaption/dataset.json"
 }

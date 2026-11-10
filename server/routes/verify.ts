@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { runVerification } from "../../frontend/src/lib/verify.ts";
+import { hydrateFromResult } from "../../frontend/src/lib/verification.ts";
 import { noCache } from "../middleware/request-logger.ts";
 import { newRequestId } from "../lib/utils/ids.ts";
 
@@ -13,41 +13,39 @@ router.post("/verify", (req, res) => {
     if (typeof sourceText !== "string") {
       return res.status(400).json({ ok: false, error: "sourceText required.", retryable: false, code: "INVALID_INPUT" });
     }
-    const deadlines = (result?.deadlines || []).map((d: any) => ({
-      label: d.label || d.id || "Deadline",
-      date: d.originalValue ?? d.normalizedDate ?? null,
-    }));
-    const costs = (result?.costs || []).map((c: any) => ({
-      label: c.label || c.id || "Cost",
-      amount: c.amount ?? undefined,
-      currency: c.currency || "ETB",
-    }));
-    const { verifiedDeadlines, verifiedCosts, warnings } = runVerification(deadlines, costs, sourceText);
+
+    // Verification is deterministic: the source text decides, never the model.
+    // `hydrateFromResult` accepts both the raw model shape and the UI shape,
+    // so a real deadline is never reported as missing just because the field
+    // names differ.
+    const hydrated = hydrateFromResult(sourceText, result ?? {});
+
     const items = [
-      ...verifiedDeadlines.map((d: any, i: number) => ({
-        id: result?.deadlines?.[i]?.id ?? `d${i}`,
+      ...hydrated.deadlines.map((d) => ({
+        id: d.id,
         type: "deadline",
-        verified: Boolean(d.verified),
-        quote: d.matchedSource ?? null,
-        warning: d.warning ?? null,
+        verified: d.verified,
+        quote: d.evidence?.quote ?? null,
+        warning: d.warning,
       })),
-      ...verifiedCosts.map((c: any, i: number) => ({
-        id: result?.costs?.[i]?.id ?? `c${i}`,
+      ...hydrated.costs.map((c) => ({
+        id: c.id,
         type: "cost",
-        verified: Boolean(c.verified),
-        quote: c.matchedSource ?? null,
-        warning: c.warning ?? null,
+        verified: c.verified,
+        quote: c.evidence?.quote ?? null,
+        warning: c.warning,
       })),
     ];
     const verifiedCount = items.filter((i) => i.verified).length;
+
     return res.json({
       ok: true,
       data: {
         items,
         verifiedCount,
         needCheckCount: items.length - verifiedCount,
-        confidence: result?.confidence || "medium",
-        warnings,
+        confidence: hydrated.confidence,
+        warnings: hydrated.warnings,
       },
       meta: { requestId, version: "1.0" },
     });

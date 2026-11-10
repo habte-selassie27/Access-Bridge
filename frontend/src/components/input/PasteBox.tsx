@@ -3,7 +3,6 @@ import { FileText, Image as ImageIcon, Info, Play, Trash2 } from "lucide-react";
 import { FileUploader } from "./FileUploader.tsx";
 import { CameraCapture } from "./CameraCapture.tsx";
 import { LanguageChips } from "./LanguageChips.tsx";
-
 import type { LanguageCode } from "../../lib/languages.ts";
 
 const MAX_TEXT_LENGTH = 20000;
@@ -192,7 +191,7 @@ export function PasteBox({ onExplain, lang, onLangChange }: PasteBoxProps) {
           <span>Privacy</span>
         </div>
         <p className="leading-relaxed">
-          Your document is processed to create an explanation. PasteWise does not store documents by
+          Your document is processed to create an explanation. AccessBridge does not store documents by
           default. External AI services may process document content when live processing is used.
           Demo examples work offline with no API key required.
         </p>

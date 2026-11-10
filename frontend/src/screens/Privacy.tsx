@@ -7,7 +7,7 @@ export interface PrivacyProps {
 const SECTIONS = [
   {
     title: "We do not store your documents",
-    body: "Documents are processed in memory to produce an explanation and are not saved to a database. PasteWise has no accounts and no history, so your document is not attached to you.",
+    body: "Documents are processed in memory to produce an explanation and are not saved to a database. AccessBridge has no accounts and no history, so your document is not attached to you.",
   },
   {
     title: "Live processing uses an external AI service",
@@ -19,7 +19,7 @@ const SECTIONS = [
   },
   {
     title: "Demo examples work offline",
-    body: "The three example documents are bundled with the app. They load instantly, need no network connection, and require no API key, so you can try PasteWise without sending anything anywhere.",
+    body: "The three example documents are bundled with the app. They load instantly, need no network connection, and require no API key, so you can try AccessBridge without sending anything anywhere.",
   },
 ];
 

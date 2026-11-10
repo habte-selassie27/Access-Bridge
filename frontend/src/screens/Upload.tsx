@@ -1,6 +1,12 @@
 import { useReducer, useEffect, useRef, useState, useCallback } from "react";
-import { ArrowLeft, Check, Play, Pause, Square, Trash2 } from "lucide-react";
-import { LanguageChips } from "../components/input/LanguageChips.tsx";
+import { ArrowLeft, Camera, Check, Play, Pause, Square, Trash2 } from "lucide-react";
+import { FileUploader, validateFile } from "../components/input/FileUploader.tsx";
+import { CameraCapture } from "../components/input/CameraCapture.tsx";
+import { FilePreview } from "../components/input/FilePreview.tsx";
+import { MessageInput } from "../components/followup/MessageInput.tsx";
+import { offlineDemoResult } from "../lib/fallbackResults.ts";
+import { hydrateFromResult } from "../lib/verification.ts";
+import { EXAMPLES } from "../lib/examples.ts";
 import { ResultView } from "../components/result/ResultView.tsx";
 
 import type { ExplanationResult } from "../lib/api/types.ts";
@@ -17,7 +23,10 @@ interface WizardState {
   result: ExplanationResult | null;
   verification: { items: any[]; verifiedCount: number; needCheckCount: number; confidence: string } | null;
   chat: { q: string; a: string; quote?: string | null }[];
+  /** Draft text in the Ask step's input. */
+  question: string;
   metrics: { extract?: number; explain?: number; verify?: number };
+  ocrUsed?: boolean;
   feedback: { clear?: boolean; wrong?: string };
   checked: Record<string, boolean>;
 }
@@ -30,6 +39,7 @@ const initialState: WizardState = {
   result: null,
   verification: null,
   chat: [],
+  question: "",
   metrics: {},
   feedback: {},
   checked: {},
@@ -43,7 +53,9 @@ type Action =
   | { type: "SET_RESULT"; result: ExplanationResult }
   | { type: "SET_VERIFY"; verification: WizardState["verification"] }
   | { type: "ADD_CHAT"; q: string; a: string; quote?: string | null }
+  | { type: "SET_QUESTION"; value: string }
   | { type: "SET_METRIC"; key: keyof WizardState["metrics"]; value: number }
+  | { type: "SET_OCR"; used: boolean }
   | { type: "SET_FEEDBACK"; feedback: WizardState["feedback"] }
   | { type: "TOGGLE_CHECKED"; id: string }
   | { type: "RESET" };
@@ -64,8 +76,12 @@ function reducer(state: WizardState, action: Action): WizardState {
       return { ...state, verification: action.verification };
     case "ADD_CHAT":
       return { ...state, chat: [...state.chat, { q: action.q, a: action.a, quote: action.quote }] };
+    case "SET_QUESTION":
+      return { ...state, question: action.value };
     case "SET_METRIC":
       return { ...state, metrics: { ...state.metrics, [action.key]: action.value } };
+    case "SET_OCR":
+      return { ...state, ocrUsed: action.used };
     case "SET_FEEDBACK":
       return { ...state, feedback: { ...state.feedback, ...action.feedback } };
     case "TOGGLE_CHECKED":
@@ -78,6 +94,35 @@ function reducer(state: WizardState, action: Action): WizardState {
 }
 
 const STEPS = ["Upload", "Explain", "Verify", "Listen", "Ask", "Evaluate"];
+
+/** Deterministic verification, run locally when the server is unreachable. */
+function localVerify(sourceText: string, result: any) {
+  const hydrated = hydrateFromResult(sourceText, result ?? {});
+  const items = [
+    ...hydrated.deadlines.map((d) => ({
+      id: d.id,
+      type: "deadline",
+      verified: d.verified,
+      quote: d.evidence?.quote ?? null,
+      warning: d.warning,
+    })),
+    ...hydrated.costs.map((c) => ({
+      id: c.id,
+      type: "cost",
+      verified: c.verified,
+      quote: c.evidence?.quote ?? null,
+      warning: c.warning,
+    })),
+  ];
+  const verifiedCount = items.filter((i) => i.verified).length;
+  return {
+    items,
+    verifiedCount,
+    needCheckCount: items.length - verifiedCount,
+    confidence: hydrated.confidence,
+    warnings: hydrated.warnings,
+  };
+}
 
 export interface UploadProps {
   onBack: () => void;
@@ -102,7 +147,17 @@ export function Upload({ onBack }: UploadProps) {
   const [speed, setSpeed] = useState(1);
   const [playing, setPlaying] = useState(false);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const photoInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileSelect = useCallback((picked: File) => {
+    const problem = validateFile(picked);
+    if (problem) {
+      setError(problem);
+      return;
+    }
+    setError(null);
+    setFile(picked);
+  }, []);
 
   useEffect(() => {
     try {
@@ -120,8 +175,13 @@ export function Upload({ onBack }: UploadProps) {
       opts.body = JSON.stringify(body);
     }
     const res = await fetch(path, opts);
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error?.message || "Request failed");
+    const json = await res.json().catch(() => null);
+    if (!json || json.ok !== true) {
+      // The server may send `error` as a string or as an object.
+      const raw = json?.error;
+      const message = typeof raw === "string" ? raw : raw?.message;
+      throw new Error(message || "Request failed. Please try again.");
+    }
     return json.data;
   }, []);
 
@@ -132,7 +192,12 @@ export function Upload({ onBack }: UploadProps) {
     try {
       let data: any;
       if (tab === "text") {
-        data = await api("/api/extract", { text: text.trim() });
+        try {
+          data = await api("/api/extract", { text: text.trim() });
+        } catch {
+          // Offline: pasted text needs no server, so keep going locally.
+          data = { text: text.trim(), sourceLanguage: "en", charCount: text.trim().length, ocrUsed: false };
+        }
       } else if (file) {
         const form = new FormData();
         form.append("file", file, file.name);
@@ -140,7 +205,9 @@ export function Upload({ onBack }: UploadProps) {
       } else {
         throw new Error("Please choose a file or paste text.");
       }
+      if (!data?.text?.trim()) throw new Error("We could not read any text from that document.");
       dispatch({ type: "SET_TEXT", text: data.text });
+      dispatch({ type: "SET_OCR", used: Boolean(data.ocrUsed) });
       dispatch({ type: "SET_METRIC", key: "extract", value: Date.now() - t0 });
       dispatch({ type: "SET_STEP", step: 2 });
     } catch (e: any) {
@@ -160,12 +227,24 @@ export function Upload({ onBack }: UploadProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: state.extractedText, language: state.language, lang: state.language }),
       });
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error?.message || "Explain failed");
+      const json = await res.json().catch(() => null);
+      if (!json || json.ok !== true) {
+        const raw = json?.error;
+        throw new Error((typeof raw === "string" ? raw : raw?.message) || "Explain failed.");
+      }
       dispatch({ type: "SET_RESULT", result: json.data });
       dispatch({ type: "SET_METRIC", key: "explain", value: Date.now() - t0 });
-      dispatch({ type: "SET_STEP", step: 3 });
+      // Stay on step 2 so the user reads the explanation cards (including who
+      // can apply and how) before moving on to verification.
     } catch (e: any) {
+      // Offline demo promise: only an exact bundled example falls back to its
+      // saved explanation. A real document fails honestly.
+      const fallback = offlineDemoResult(state.extractedText, state.language);
+      if (fallback) {
+        dispatch({ type: "SET_RESULT", result: fallback });
+        dispatch({ type: "SET_METRIC", key: "explain", value: Date.now() - t0 });
+        return;
+      }
       setError(e?.message || "Could not explain document.");
     } finally {
       setLoading(false);
@@ -178,7 +257,13 @@ export function Upload({ onBack }: UploadProps) {
     setError(null);
     const t0 = Date.now();
     try {
-      const data = await api("/api/verify", { sourceText: state.extractedText, result: state.result });
+      let data: any;
+      try {
+        data = await api("/api/verify", { sourceText: state.extractedText, result: state.result });
+      } catch {
+        // Verification is deterministic and local, so it still works offline.
+        data = localVerify(state.extractedText, state.result);
+      }
       dispatch({ type: "SET_VERIFY", verification: data });
       dispatch({ type: "SET_METRIC", key: "verify", value: Date.now() - t0 });
     } catch (e: any) {
@@ -195,22 +280,35 @@ export function Upload({ onBack }: UploadProps) {
   }, [state.step, state.verification, state.result, handleVerify]);
 
   const handleAsk = useCallback(async (q: string) => {
-    if (!q.trim()) return;
+    const question = q.trim();
+    if (!question) return;
     setLoading(true);
+    dispatch({ type: "SET_QUESTION", value: "" });
     try {
       const data = await api("/api/ask", {
         sourceText: state.extractedText,
         result: state.result,
-        question: q,
+        question,
         language: state.language,
+        history: state.chat.map((m) => ({ role: "user", content: m.q })),
       });
-      dispatch({ type: "ADD_CHAT", q, a: data.answer, quote: data.sourceQuote });
+      // The answer must come from the document. If the model says the answer
+      // is not in the document, say exactly that rather than paraphrasing.
+      const answer = data.notFound
+        ? "This isn't in your document. Please ask the issuing office."
+        : data.answer;
+      dispatch({ type: "ADD_CHAT", q: question, a: answer, quote: data.sourceQuote });
     } catch (e: any) {
-      dispatch({ type: "ADD_CHAT", q, a: "Could not answer right now.", quote: null });
+      dispatch({
+        type: "ADD_CHAT",
+        q: question,
+        a: e?.message || "Could not answer right now. Please ask the issuing office.",
+        quote: null,
+      });
     } finally {
       setLoading(false);
     }
-  }, [state.extractedText, state.result, state.language, api]);
+  }, [state.extractedText, state.result, state.language, state.chat, api]);
 
   const handlePlay = useCallback(() => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
@@ -241,6 +339,10 @@ export function Upload({ onBack }: UploadProps) {
     setFile(null);
     setText("");
   }, []);
+
+  const allItems = state.verification?.items ?? [];
+  const dateItems = allItems.filter((i: any) => i.type === "deadline");
+  const costItems = allItems.filter((i: any) => i.type === "cost");
 
   return (
     <section className="space-y-6">
@@ -299,10 +401,6 @@ export function Upload({ onBack }: UploadProps) {
               </button>
             ))}
           </div>
-          <div>
-            <span className="block text-sm font-medium text-text mb-1">Explain in</span>
-            <LanguageChips value={state.language} onChange={(c) => dispatch({ type: "SET_LANG", lang: c as LangCode })} />
-          </div>
           {tab === "text" ? (
             <textarea
               className="block w-full resize-y rounded-md border border-input bg-input-bg px-4 py-3 text-text"
@@ -311,18 +409,65 @@ export function Upload({ onBack }: UploadProps) {
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
+          ) : tab === "file" ? (
+            <FileUploader onFileSelect={handleFileSelect} />
           ) : (
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept={tab === "photo" ? "image/*" : ".pdf,.png,.jpg,.jpeg,.webp,.txt"}
-              capture={tab === "photo" ? "environment" : undefined}
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-              className="block w-full text-sm"
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={() => photoInputRef.current?.click()}
+                className="touch-target flex w-full items-center justify-center gap-2 rounded-md bg-brand px-4 py-3 text-sm font-medium text-inverse"
+              >
+                <Camera size={16} aria-hidden="true" />
+                Take a photo
+              </button>
+              <input
+                ref={photoInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={(e) => {
+                  const picked = e.target.files?.[0];
+                  if (picked) handleFileSelect(picked);
+                  e.target.value = "";
+                }}
+              />
+              <p className="text-center text-[0.75rem] text-subtle">
+                Opens your phone camera. On a computer, use the live preview below instead.
+              </p>
+              <CameraCapture onPhotoCapture={handleFileSelect} buttonLabel="Use the computer camera" />
+            </div>
+          )}
+          {file && (
+            <FilePreview
+              file={file}
+              previewUrl={null}
+              onRemove={() => setFile(null)}
             />
           )}
-          {file && <p className="text-sm text-subtle">{file.name} ({(file.size / 1024).toFixed(1)} KB)</p>}
           <p className="text-[0.75rem] text-subtle">Max 10 MB. Don't upload documents you're not comfortable processing.</p>
+          <div className="rounded-lg border border-border bg-surface-muted p-3">
+            <p className="mb-2 text-[0.75rem] font-medium text-text">
+              No document handy? Try an example — it works offline, with no API key.
+            </p>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {EXAMPLES.map((example) => (
+                <button
+                  key={example.key}
+                  type="button"
+                  onClick={() => {
+                    setTab("text");
+                    setText(example.text);
+                  }}
+                  className="touch-target rounded-md border border-input bg-background p-3 text-left transition-colors hover:border-brand"
+                >
+                  <span className="block text-sm font-medium text-text">{example.title}</span>
+                  <span className="block text-[0.75rem] text-subtle">{example.description}</span>
+                </button>
+              ))}
+            </div>
+          </div>
           <button
             type="button"
             onClick={handleExtract}
@@ -355,6 +500,7 @@ export function Upload({ onBack }: UploadProps) {
           </button>
           {state.result && (
             <div className="space-y-4">
+              <p className="text-sm font-medium text-text">Here is what your document says</p>
               <ResultView
                 result={state.result}
                 onBack={() => {}}
@@ -364,7 +510,7 @@ export function Upload({ onBack }: UploadProps) {
               <button
                 type="button"
                 onClick={() => dispatch({ type: "SET_STEP", step: 3 })}
-                className="touch-target w-full rounded-md border border-input bg-background px-6 py-3 text-base font-medium text-text"
+                className="touch-target w-full rounded-md bg-brand px-6 py-3 text-base font-medium text-inverse"
               >
                 Next: Verify
               </button>
@@ -478,21 +624,13 @@ export function Upload({ onBack }: UploadProps) {
               </div>
             ))}
           </div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              const fd = new FormData(e.currentTarget);
-              const q = String(fd.get("q") || "");
-              handleAsk(q);
-              e.currentTarget.reset();
-            }}
-            className="flex gap-2"
-          >
-            <input name="q" aria-label="Your question" className="touch-target flex-1 rounded-md border border-input bg-input-bg px-3 py-2 text-text" />
-            <button type="submit" disabled={loading} className="touch-target rounded-md bg-brand px-4 py-2 text-inverse disabled:opacity-50">
-              Send
-            </button>
-          </form>
+          <MessageInput
+            value={state.question}
+            onChange={(v) => dispatch({ type: "SET_QUESTION", value: v })}
+            onSend={() => handleAsk(state.question)}
+            disabled={loading}
+            lang={state.language}
+          />
           <button
             type="button"
             onClick={() => dispatch({ type: "SET_STEP", step: 6 })}
@@ -510,10 +648,10 @@ export function Upload({ onBack }: UploadProps) {
           <div className="rounded-md border border-border bg-background p-3 text-sm">
             <p className="font-medium text-text">Automatic checks from this run</p>
             <ul className="mt-2 space-y-1 text-subtle">
-              <li>Dates verified: {state.verification?.verifiedCount ?? 0}/{state.result?.deadlines.length ?? 0}</li>
-              <li>Amounts checked: {state.result?.costs.length ?? 0}</li>
+              <li>Dates verified: {dateItems.filter((i) => i.verified).length}/{dateItems.length}</li>
+              <li>Amounts verified: {costItems.filter((i) => i.verified).length}/{costItems.length}</li>
               <li>Hallucination guard: ✅ no invented dates/amounts</li>
-              <li>OCR used: {state.metrics.extract ? "yes" : "n/a"}</li>
+              <li>OCR used: {state.ocrUsed ? "yes" : "no"}</li>
               <li>Characters read: {state.extractedText.length}</li>
               <li>Extract: {state.metrics.extract ?? 0} ms</li>
               <li>Explain: {state.metrics.explain ?? 0} ms</li>
