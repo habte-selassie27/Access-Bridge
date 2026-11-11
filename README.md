@@ -92,7 +92,7 @@ Access-Bridge turns any document into a plain-language answer, a checklist of wh
 USER
   |
   v
-EXPRESS + VITE/REACT (single deployment on Vercel)
+VITE/REACT on Vercel  -->  EXPRESS API on Railway
   |
   +-- API: /api/explain, /api/extract, /api/verify, /api/ask, /api/tts, /api/health, /api/eval, /api/auth
   |
@@ -108,7 +108,7 @@ PROVIDER ADAPTERS (LLM, OCR, translation, TTS — provider-independent interface
 ```
 
 **Frontend:** Vite + React + TypeScript + Tailwind CSS  
-**Backend:** Express (serverless on Vercel, bundled in `api/index.js`)  
+**Backend:** Express on Railway (`server/index.ts`), reached via `VITE_API_BASE`  
 **Live:** https://access-bridge-brown.vercel.app/
 
 ### Demo mode
@@ -184,37 +184,55 @@ Documents are **not stored on the server**. They are processed in memory; only m
 
 ---
 
-## Deploy to Vercel
+## Deploy
 
-The project is pre-linked to a Vercel project (`access-bridge-brown`). The Express server bundles into a single serverless function in `api/index.js`.
+The deployment is split in two:
 
-### 1. Import to Vercel
-Push this repo to GitHub, then import it in Vercel. Set the root directory to `frontend`.
+- **Frontend** — static Vite build on Vercel at <https://access-bridge-brown.vercel.app/>
+- **Backend** — the Express API as a long-running service on Railway
 
-### 2. Build settings
-- **Build command:** `npm install && npm run build`
-- **Install command:** `npm install`
-- **Output directory:** `dist`
-- **Root directory:** `frontend`
-- API routes rewrite `/api/*` to the serverless function
+See `DEPLOY.md` for the full variable list. The short version:
 
-### 3. Environment variables
-Set these in the Vercel project dashboard (server-side only):
+### 1. Backend first (Railway)
 
-| Variable | Needed for |
-|---|---|
-| `GROQ_API_KEY` | Primary live LLM for explanations, follow-ups, translation |
-| `MISTRAL_API_KEY` | Fallback live LLM when Groq is unavailable |
-| `GEMINI_API_KEY` | OCR for photos/PDFs |
-| `ADAPTION_API_KEY` | Adaption dataset, few-shot examples, evaluation |
-| `TTS_PROVIDER_KEY` | Hosted text-to-speech (optional; browser voice otherwise) |
-| `DAILY_SPEND_CAP_USD` | Hard cap on live model spend |
-| `AUTH_STORE_PATH` | Persistent location for account/session data |
+The API must be live before the frontend can talk to it. Confirm it with:
 
-### 4. Deploy
 ```bash
-vercel --prod
+curl https://<your-service>.up.railway.app/api/health
+# {"ok":true}
 ```
+
+Railway needs `GROQ_API_KEY`, `MISTRAL_API_KEY`, `GEMINI_API_KEY` (OCR + voice),
+`ADAPTION_API_KEY`, `ADAPTION_BASE_URL`, `DAILY_SPEND_CAP_USD`, `NODE_ENV=production`,
+and `CORS_ORIGINS` set to the Vercel origin. Add `COOKIE_SAMESITE=none` if you want
+**accounts** to work across the two hosts; guest mode needs nothing.
+
+### 2. Point Vercel at it
+
+In the Vercel project, set the one variable the frontend reads at build time:
+
+| Variable | Value |
+|---|---|
+| `VITE_API_BASE` | the Railway URL, no trailing slash, e.g. `https://your-service.up.railway.app` |
+
+`VITE_API_BASE` is inlined by Vite during the build, so **redeploy after setting it** —
+saving the variable alone does not change the already-built bundle.
+
+Build settings (Root Directory = `frontend`, config lives in `frontend/vercel.json`):
+
+- **Install command:** `npm install`
+- **Build command:** `npm run build`
+- **Output directory:** `dist`
+
+### 3. Verify the wiring
+
+Open the Vercel site, paste a document, and confirm an explanation comes back. If it
+fails, check in this order:
+
+1. `curl https://<railway>/api/health` — is the API up?
+2. Browser devtools → Network → the `/api/explain` request. A `404` means
+   `VITE_API_BASE` was unset at build time; a `CORS` error means `CORS_ORIGINS`
+   does not include the exact Vercel origin.
 
 Run `npm run smoke` against the production URL before submitting.
 

@@ -7,21 +7,24 @@ This app is split into two deployments:
 
 ## Frontend (Vercel)
 
-Build from `frontend/`.
+Build from `frontend/`. In Vercel, set **Root Directory = `frontend`**.
 
-- Repo root: `frontend/`
-- Build command: `cd frontend && npm install && npm run build`
-- Output directory: `frontend/dist`
-- Install command: `cd frontend && npm install`
+- Root directory: `frontend`
+- Install command: `npm install`
+- Build command: `npm run build`
+- Output directory: `dist`
 
 Details:
-- `vercel.json` at the repo root controls the Vercel frontend build.
-- It does **not** serve the backend.
-- The frontend is a static Vite app.
+- `frontend/vercel.json` controls the Vercel frontend build. There is no `vercel.json` at the repo root.
+- It does **not** serve the backend. `/api/*` is not rewritten there, so an unset
+  `VITE_API_BASE` produces `404` responses rather than a working API.
+- The frontend is a static Vite app; `VITE_API_BASE` is inlined at build time.
 
 Production env for the frontend:
 - `VITE_API_BASE` = the public Railway backend URL, no trailing slash
 - Example: `VITE_API_BASE=https://your-project.up.railway.app`
+- **Redeploy after changing it.** Vite bakes the value into the bundle, so saving the
+  variable alone does not update the already-built site.
 
 Local development:
 - The frontend dev server proxies `/api` to `http://localhost:3001` by default.
