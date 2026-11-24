@@ -111,6 +111,13 @@ export interface ExplanationResult {
   languageQuality?: LanguageTier;
   lang: LangCode;
   originalLanguage: LangCode;
+  /**
+   * Set when the model answered in a different language from the one the
+   * reader requested. The UI must not label the answer as the requested
+   * language in that case.
+   */
+  requestedLang?: LangCode;
+  languageMismatch?: boolean;
   originalText: string;
   /** Set only for bundled demo examples, so the UI can use the recorded readout. */
   demoId?: string;

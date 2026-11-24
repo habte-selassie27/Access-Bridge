@@ -8,7 +8,7 @@ import { wrapUntrustedDocument } from "../security/content-isolation.ts";
 import { addSpend } from "../security/spend-guard.ts";
 import { runVerification } from "../../../frontend/src/lib/verify.ts";
 import { EXPLAIN_SYSTEM, EXPLAIN_USER, LEVELS } from "../../../frontend/src/lib/prompts.ts";
-import { languageNameForPrompt, textLooksInLanguage } from "../../../frontend/src/lib/languages.ts";
+import { languageNameForPrompt, textLooksInLanguage, looksLikeEnglish } from "../../../frontend/src/lib/languages.ts";
 import { ExplainResponseSchema } from "../../../frontend/src/lib/schema.ts";
 import { examplesForLanguage, formatExampleBlock } from "./adaption.service.ts";
 import { toFrontendResult, normalizeModelOutput } from "../../../frontend/src/lib/transform.ts";
@@ -54,6 +54,20 @@ function parseModelOutput(contentText: string, sourceText: string, lang: string)
   return normalizeModelOutput(raw, sourceText, lang);
 }
 
+/** Human-readable fields only; JSON keys and quotes would skew detection. */
+function explanationProse(parsed: any): string {
+  return [
+    parsed?.summary,
+    ...(Array.isArray(parsed?.actions) ? parsed.actions.map((a: any) => a?.step) : []),
+    ...(Array.isArray(parsed?.eligibility) ? parsed.eligibility : []),
+    ...(Array.isArray(parsed?.howToApply) ? parsed.howToApply : []),
+    ...(Array.isArray(parsed?.documentsToBring) ? parsed.documentsToBring : []),
+    ...(Array.isArray(parsed?.warnings) ? parsed.warnings : []),
+  ]
+    .filter((value: any) => typeof value === "string" && value.trim())
+    .join(" ");
+}
+
 /** One pass over one piece of a document. Returns the model's proposal. */
 async function explainOnce(text: string, lang: string, level: string, exampleCount = 3): Promise<any> {
   const system = EXPLAIN_SYSTEM;
@@ -82,7 +96,7 @@ async function explainOnce(text: string, lang: string, level: string, exampleCou
   // The model sometimes ignores the language line and answers in English.
   // For scripts we can check deterministically (Ethiopic, Arabic), retry once
   // with a firmer instruction rather than serving the wrong language.
-  if (!textLooksInLanguage(String(parsed?.summary ?? ""), lang)) {
+  if (!textLooksInLanguage(explanationProse(parsed), lang)) {
     const language = languageNameForPrompt(lang);
     const retryUser =
       user +
@@ -93,14 +107,6 @@ async function explainOnce(text: string, lang: string, level: string, exampleCou
       parsed = parseModelOutput(retryText, text, lang);
     } catch {
       // Keep the first answer; it is still a real answer from the model.
-    }
-    // Still the wrong script after a retry: disclose it rather than presenting
-    // English as the requested language (AGENTS.md §12).
-    if (!textLooksInLanguage(String(parsed?.summary ?? ""), lang)) {
-      parsed.warnings = [
-        ...(Array.isArray(parsed.warnings) ? parsed.warnings : []),
-        `The model could not write this explanation in ${language}. The text below may be in another language; try again or use a different mode.`,
-      ];
     }
   }
 
@@ -391,7 +397,21 @@ export async function runExplain(opts: {
   // of a legal term is worse than nothing.
   parsed.glossary = verifyGlossary(parsed.glossary || [], sourceText);
   parsed.contacts = verifyContacts(parsed.contacts || [], sourceText);
-  parsed.lang = lang;
+  // Final language check across the human-readable fields. If the model still
+  // answered in English (or another language) after its retry, label the
+  // result honestly instead of stamping it with the requested language.
+  const finalProse = explanationProse(parsed);
+  if (!textLooksInLanguage(finalProse, lang)) {
+    parsed.requestedLang = lang;
+    parsed.languageMismatch = true;
+    parsed.lang = looksLikeEnglish(finalProse) ? "en" : lang;
+    parsed.warnings = [
+      ...(parsed.warnings || []),
+      `You asked for ${languageNameForPrompt(lang)}, but the model answered in ${looksLikeEnglish(finalProse) ? "English" : "another language"}. Try again, or switch language.`,
+    ];
+  } else {
+    parsed.lang = lang;
+  }
   parsed.originalText = sourceText;
   parsed.confidence = parsed.confidence || "medium";
   parsed.level = level;

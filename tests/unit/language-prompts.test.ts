@@ -1,7 +1,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { languageNameForPrompt, textLooksInLanguage } from "../../frontend/src/lib/languages.ts";
+import {
+  languageNameForPrompt,
+  textLooksInLanguage,
+  looksLikeEnglish,
+  detectSourceLanguage,
+} from "../../frontend/src/lib/languages.ts";
+import { languageExampleBlock } from "../../frontend/src/lib/language-examples.ts";
 import {
   EXPLAIN_SYSTEM,
   EXPLAIN_USER,
@@ -51,11 +57,45 @@ test("script checks catch an English answer for a non-Latin language", async (t)
     assert.equal(textLooksInLanguage("እዚ ሰነድ ሓበሬታ እዩ።", "ti"), true);
   });
 
-  await t.test("Arabic script is checked, Latin-script languages are not guessed", () => {
+  await t.test("Arabic script is checked", () => {
     assert.equal(textLooksInLanguage("This is English.", "ar"), false);
     assert.equal(textLooksInLanguage("هذا مستند رسمي.", "ar"), true);
-    // Oromo and Swahili share the Latin script; no false rejection.
-    assert.equal(textLooksInLanguage("This is English.", "om"), true);
+  });
+
+  await t.test("Latin-script targets reject clearly English output", () => {
+    const english = "This document is a resume for Habte Selassie Fitsum, a full-stack software engineer.";
+    assert.equal(looksLikeEnglish(english), true);
+    assert.equal(textLooksInLanguage(english, "om"), false);
+    assert.equal(textLooksInLanguage(english, "sw"), false);
+    assert.equal(textLooksInLanguage(english, "fr"), false);
+  });
+
+  await t.test("genuine Oromo output is accepted", () => {
+    const oromo = "Misoomni fayyaa keessan baay’ee waan dhiyaateef. Faayidaa keessan itti fufuuf haaromsuu qabdu.";
+    assert.equal(looksLikeEnglish(oromo), false);
+    assert.equal(textLooksInLanguage(oromo, "om"), true);
+  });
+
+  await t.test("source-language detection separates English from Oromo", () => {
+    assert.equal(detectSourceLanguage("This document is a resume for a software engineer."), "en");
+    assert.equal(
+      detectSourceLanguage("Misoomni fayyaa keessan baay’ee waan dhiyaateef. Faayidaa keessan itti fufuuf haaromsuu qabdu."),
+      "om"
+    );
+    assert.equal(detectSourceLanguage("ይህ ሰነድ የነገር ማስታወቂያ ነው።"), "am");
+  });
+});
+
+test("few-shot examples exist for the low-resource measured languages", async (t) => {
+  await t.test("Amharic, Oromo and Tigrinya examples show target-language JSON", () => {
+    assert.match(languageExampleBlock("am"), /የጤና ኢንሹራንስ/);
+    assert.match(languageExampleBlock("om"), /Misoomni fayyaa/);
+    assert.match(languageExampleBlock("ti"), /መድሕን ጥዕና/);
+  });
+
+  await t.test("English and unmeasured languages do not add an example", () => {
+    assert.equal(languageExampleBlock("en"), "");
+    assert.equal(languageExampleBlock("sw"), "");
   });
 });
 

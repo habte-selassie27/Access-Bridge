@@ -51,6 +51,16 @@ export function DocumentOverview({ result }: DocumentOverviewProps) {
           {result.summary}
         </div>
 
+        {result.languageMismatch && (
+          <p
+            role="note"
+            className="rounded-md border border-warning-border bg-warning-bg p-2 text-[0.75rem] leading-relaxed text-warning"
+          >
+            You requested {languageName(result.requestedLang ?? result.lang)}, but the model answered in{" "}
+            {languageName(result.lang)}. The text above is not a translation into your selected language.
+          </p>
+        )}
+
         <div className="grid grid-cols-2 gap-x-4 gap-y-3 border-t border-surface-muted pt-4 sm:grid-cols-5">
           <div className="min-w-0">
             <p className="text-[0.75rem] text-subtle mb-0.5">Source language</p>

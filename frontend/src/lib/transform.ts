@@ -3,7 +3,7 @@
 // (verify.ts, languages.ts); keeping it here avoids duplicating the logic
 // that converts model output into the frontend result shape.
 import { runVerification } from "./verify.ts";
-import { languageTier } from "./languages.ts";
+import { languageTier, detectSourceLanguage } from "./languages.ts";
 
 const ETH_MONTHS = ["Meskerem","Tikimt","Hidar","Tahsas","Tir","Yekatit","Megabit","Miazia","Ginbot","Sene","Hamle","Nehase","Pagume"];
 function isEthiopianDate(text: string): boolean {
@@ -127,13 +127,31 @@ export function toFrontendResult(old: any, sourceText: string): any {
     warnings: old.warnings || [],
     languageQuality: languageTier(lang),
     lang,
-    originalLanguage: lang,
+    originalLanguage: detectSourceLanguage(sourceText),
+    requestedLang: old.requestedLang,
+    languageMismatch: Boolean(old.languageMismatch),
     originalText: old.originalText || sourceText,
   };
 }
 
+/**
+ * Fallback wording when the model omits a field. These are shown to the
+ * reader, so they must be in the explanation language; English defaults were
+ * leaking into Amharic/Oromo/Tigrinya results.
+ */
+const FALLBACK_TEXT: Record<string, { summary: string; readCarefully: string; deadline: string; cost: string }> = {
+  en: { summary: "Document explanation.", readCarefully: "Read the document carefully.", deadline: "Deadline", cost: "Cost" },
+  am: { summary: "የሰነዱ ማብራሪያ።", readCarefully: "ሰነዱን በጥንቃቄ ያንብቡ።", deadline: "የመጨረሻ ቀን", cost: "ወጪ" },
+  om: { summary: "Ibsa sanadaa.", readCarefully: "Sanada kana sirriitti dubbisaa.", deadline: "Yeroo murtaa'ee", cost: "Gatii" },
+  ti: { summary: "መብርሂ ሰነድ።", readCarefully: "ነቲ ሰነድ ብጥንቃቐ ኣንብቡ።", deadline: "መወዳእታ ግዜ", cost: "ወጻኢ" },
+  sw: { summary: "Maelezo ya hati.", readCarefully: "Soma hati kwa makini.", deadline: "Tarehe ya mwisho", cost: "Gharama" },
+  ar: { summary: "شرح الوثيقة.", readCarefully: "اقرأ الوثيقة بعناية.", deadline: "الموعد النهائي", cost: "التكلفة" },
+  fr: { summary: "Explication du document.", readCarefully: "Lisez attentivement le document.", deadline: "Date limite", cost: "Coût" },
+};
+
 export function normalizeModelOutput(raw: any, sourceText: string, lang: string): any {
   if (!raw || typeof raw !== "object") raw = {};
+  const fallback = FALLBACK_TEXT[lang] || FALLBACK_TEXT.en;
   const docTypeMap: Record<string, string> = {
     government_notice: "government_notice",
     medical: "medical",
@@ -152,7 +170,7 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
   const rawDocType = String(raw.docType || raw.document_type || raw.doc_type || "other").toLowerCase();
   const docType = docTypeMap[rawDocType] || "other";
 
-  const summary = String(raw.summary || raw.description || raw.overview || raw.what_is_this || raw.what_this_is || raw.what_this_document_is || "Document explanation.").trim();
+  const summary = String(raw.summary || raw.description || raw.overview || raw.what_is_this || raw.what_this_is || raw.what_this_document_is || fallback.summary).trim();
 
   let actionsRaw = raw.actions || raw.action_required || raw.action_items || raw.steps || raw.what_you_must_do || raw.what_to_do || raw.required_actions || [];
   if (typeof actionsRaw === "string") actionsRaw = [{ step: actionsRaw, urgent: false }];
@@ -161,16 +179,16 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     if (typeof a === "string") return { step: a, urgent: false };
     return { step: String(a.step || a.action || a.text || a), urgent: Boolean(a.urgent) };
   });
-  if (actions.length === 0) actions.push({ step: "Read the document carefully.", urgent: false });
+  if (actions.length === 0) actions.push({ step: fallback.readCarefully, urgent: false });
 
   let deadlinesRaw = raw.deadlines || raw.deadline || [];
-  if (typeof deadlinesRaw === "string") deadlinesRaw = [{ label: "Deadline", date: deadlinesRaw }];
+  if (typeof deadlinesRaw === "string") deadlinesRaw = [{ label: fallback.deadline, date: deadlinesRaw }];
   if (!Array.isArray(deadlinesRaw)) deadlinesRaw = deadlinesRaw ? [deadlinesRaw] : [];
   const deadlines = deadlinesRaw.map((d: any) => {
-    if (typeof d === "string") return { label: "Deadline", date: d, sourceSpan: undefined, verified: false };
+    if (typeof d === "string") return { label: fallback.deadline, date: d, sourceSpan: undefined, verified: false };
     const date = d.date || d.deadline || d.value || null;
     return {
-      label: String(d.label || d.name || "Deadline"),
+      label: String(d.label || d.name || fallback.deadline),
       date: date ? String(date) : null,
       sourceSpan: d.sourceSpan,
       verified: false,
@@ -182,11 +200,11 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     const m = costsRaw.match(/[\d,]+\.?\d*/);
     const amt = m ? Number(m[0].replace(/,/g, "")) : null;
     const curMatch = costsRaw.match(/[A-Z]{3}/);
-    costsRaw = [{ label: "Cost", amount: Number.isFinite(amt as number) ? amt : null, currency: curMatch ? curMatch[0] : "ETB" }];
+    costsRaw = [{ label: fallback.cost, amount: Number.isFinite(amt as number) ? amt : null, currency: curMatch ? curMatch[0] : "ETB" }];
   }
   if (!Array.isArray(costsRaw)) costsRaw = costsRaw ? [costsRaw] : [];
   const costs = costsRaw.map((c: any) => {
-    if (typeof c === "string") return { label: "Cost", amount: null, currency: "ETB", sourceSpan: undefined, verified: false };
+    if (typeof c === "string") return { label: fallback.cost, amount: null, currency: "ETB", sourceSpan: undefined, verified: false };
     let amount: number | undefined;
     const amtRaw = c.amount ?? c.value ?? c.cost;
     if (typeof amtRaw === "number") amount = amtRaw;
@@ -195,7 +213,7 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
       if (m) amount = Number(m[0].replace(/,/g, ""));
     }
     return {
-      label: String(c.label || c.name || "Cost"),
+      label: String(c.label || c.name || fallback.cost),
       amount: Number.isFinite(amount as number) ? amount : undefined,
       currency: String(c.currency || "ETB"),
       sourceSpan: c.sourceSpan,

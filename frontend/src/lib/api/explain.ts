@@ -18,7 +18,22 @@ import { sanitizeText, detectInjection } from "../security/input-guard.ts";
 import { chunkText, mergeChunkResults } from "../documents/chunks.ts";
 import { loadConsent } from "../privacy/consent.ts";
 import { planRoute, type PrivacyMode } from "../privacy/modes.ts";
-import { languageNameForPrompt, textLooksInLanguage } from "../languages.ts";
+import { languageNameForPrompt, textLooksInLanguage, looksLikeEnglish } from "../languages.ts";
+import { languageExampleBlock } from "../language-examples.ts";
+
+/** Human-readable fields only; JSON keys and quotes would skew detection. */
+function explanationProse(parsed: any): string {
+  return [
+    parsed?.summary,
+    ...(Array.isArray(parsed?.actions) ? parsed.actions.map((a: any) => a?.step) : []),
+    ...(Array.isArray(parsed?.eligibility) ? parsed.eligibility : []),
+    ...(Array.isArray(parsed?.howToApply) ? parsed.howToApply : []),
+    ...(Array.isArray(parsed?.documentsToBring) ? parsed.documentsToBring : []),
+    ...(Array.isArray(parsed?.warnings) ? parsed.warnings : []),
+  ]
+    .filter((value: any) => typeof value === "string" && value.trim())
+    .join(" ");
+}
 
 export interface ExplainRequest {
   text?: string;
@@ -132,8 +147,13 @@ export async function explainDocument(req: ExplainRequest): Promise<{
   if (isHybridConfigured()) {
     initHybrid();
     if (isHybridReady()) {
+      // Few-shot examples make low-resource languages far more reliable, but
+      // they add ~1,200 tokens. Keep them for documents that still fit the
+      // on-device budget with the example included; long documents rely on the
+      // explicit language instruction and chunking instead.
+      const exampleBlock = sourceText.length <= 12000 ? languageExampleBlock(req.lang) : "";
       const runOnce = async (text: string) => {
-        const prompt = EXPLAIN_USER({ text, lang: req.lang, level: req.level || "standard" });
+        const prompt = EXPLAIN_USER({ text, lang: req.lang, level: req.level || "standard", exampleBlock });
         let r = await hybridGenerateStructured<any>({ prompt, systemInstruction: EXPLAIN_SYSTEM, schema: ExplainJsonSchema, sdkMode });
         if (!r) return null;
         let parsed: any;
@@ -143,9 +163,10 @@ export async function explainDocument(req: ExplainRequest): Promise<{
           parsed = r.data;
         }
         // The model sometimes ignores the language line and answers in English.
-        // For scripts we can check (Ethiopic, Arabic), retry once with a firmer
+        // For scripts we can check (Ethiopic, Arabic) and for Latin-script
+        // targets we can detect English stopwords; retry once with a firmer
         // instruction instead of showing English under a non-English label.
-        if (!textLooksInLanguage(String(parsed?.summary ?? ""), req.lang)) {
+        if (!textLooksInLanguage(explanationProse(parsed), req.lang)) {
           const retryPrompt =
             prompt +
             `\n\nThe previous answer was not written in ${languageNameForPrompt(req.lang)}. ` +
@@ -160,12 +181,17 @@ export async function explainDocument(req: ExplainRequest): Promise<{
             r = retry;
           }
         }
-        // Still the wrong script after a retry: say so instead of presenting
-        // English as the requested language (AGENTS.md §12).
-        if (!textLooksInLanguage(String(parsed?.summary ?? ""), req.lang) && parsed && typeof parsed === "object") {
+        // Still the wrong language after a retry: label the result honestly
+        // instead of presenting English as the requested language
+        // (AGENTS.md §12).
+        const finalProse = explanationProse(parsed);
+        if (!textLooksInLanguage(finalProse, req.lang) && parsed && typeof parsed === "object") {
+          parsed.requestedLang = req.lang;
+          parsed.languageMismatch = true;
+          if (looksLikeEnglish(finalProse)) parsed.lang = "en";
           parsed.warnings = [
             ...(Array.isArray(parsed.warnings) ? parsed.warnings : []),
-            `The model could not write this explanation in ${languageNameForPrompt(req.lang)}. The text below may be in another language; switch to Smart hybrid or Cloud and retry.`,
+            `You asked for ${languageNameForPrompt(req.lang)}, but the model answered in ${looksLikeEnglish(finalProse) ? "English" : "another language"}. Try again, or switch to Smart hybrid or Cloud.`,
           ];
         }
         const v = ExplainResponseSchema.safeParse(parsed);
@@ -210,7 +236,9 @@ export async function explainDocument(req: ExplainRequest): Promise<{
       }
 
       if (combined) {
-        combined.lang = req.lang;
+        // Keep a detected mismatch language (e.g. English) so the UI does not
+        // label English text as Afaan Oromoo.
+        combined.lang = combined.lang || req.lang;
         combined.originalText = sourceText;
         combined.level = req.level || "standard";
         const transformed = toFrontendResult(combined, sourceText);
