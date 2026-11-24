@@ -45,6 +45,49 @@ export function languageName(code: string): string {
   return getLanguage(code)?.name || code;
 }
 
+/**
+ * Human-readable language label for model prompts.
+ *
+ * Models reliably ignore bare ISO codes such as "am" or "ti" and fall back to
+ * English. Always send the English name plus the native name and script so the
+ * target language is unambiguous.
+ */
+const PROMPT_LANGUAGE_NAMES: Record<string, string> = {
+  en: "English",
+  am: "Amharic (አማርኛ, Ethiopic script)",
+  om: "Afaan Oromoo (Latin script)",
+  ti: "Tigrinya (ትግርኛ, Ethiopic script)",
+  sw: "Kiswahili (Latin script)",
+  ar: "Arabic (العربية, Arabic script)",
+  fr: "French (Français, Latin script)",
+};
+
+export function languageNameForPrompt(code: string): string {
+  return PROMPT_LANGUAGE_NAMES[code] || getLanguage(code)?.englishName || code;
+}
+
+/**
+ * Script check for languages whose writing system is distinctive enough to
+ * verify. Latin-script languages return null: we cannot tell Oromo or
+ * Swahili from English by code point alone, so we do not pretend to.
+ */
+export function languageScriptPattern(code: string): RegExp | null {
+  if (code === "am" || code === "ti") return /[\u1200-\u137F]/;
+  if (code === "ar") return /[\u0600-\u06FF]/;
+  return null;
+}
+
+/**
+ * True when the text appears to be written in the requested language.
+ * Returns true when the language cannot be checked deterministically, so a
+ * missing check never blocks a legitimate answer.
+ */
+export function textLooksInLanguage(text: string, code: string): boolean {
+  const pattern = languageScriptPattern(code);
+  if (!pattern) return true;
+  return pattern.test(text);
+}
+
 export function languageTier(code: string): LanguageTier {
   return getLanguage(code)?.tier || "experimental";
 }

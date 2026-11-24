@@ -1,5 +1,5 @@
 import { offlineDemoResult } from "../fallbackResults.ts";
-import { resolveDemo } from "../demo.ts";
+import { resolveDemo, demoSource } from "../demo.ts";
 import type { ExplanationResult } from "./types.ts";
 import { toFrontendResult, normalizeModelOutput } from "../transform.ts";
 import { EXPLAIN_SYSTEM, EXPLAIN_USER } from "../prompts.ts";
@@ -18,6 +18,7 @@ import { sanitizeText, detectInjection } from "../security/input-guard.ts";
 import { chunkText, mergeChunkResults } from "../documents/chunks.ts";
 import { loadConsent } from "../privacy/consent.ts";
 import { planRoute, type PrivacyMode } from "../privacy/modes.ts";
+import { languageNameForPrompt, textLooksInLanguage } from "../languages.ts";
 
 export interface ExplainRequest {
   text?: string;
@@ -34,9 +35,13 @@ export async function explainDocument(req: ExplainRequest): Promise<{
   error?: { code: string; message: string; retryable: boolean };
   inferenceSource?: "ON_DEVICE" | "IN_CLOUD";
 }> {
+  let demoFallbackText = "";
   if (req.demoId) {
     const resolved = resolveDemo(req.demoId, req.lang);
     if (resolved) return { data: resolved };
+    // No recorded output in this language: explain the bundled source live.
+    // Never substitute English text under a non-English label.
+    demoFallbackText = demoSource(req.demoId) ?? "";
   }
 
   const privacyMode: PrivacyMode = req.privacyMode ?? "smart";
@@ -63,7 +68,7 @@ export async function explainDocument(req: ExplainRequest): Promise<{
   }
   let sdkMode = plan.sdkMode;
 
-  let sourceText = req.text ?? "";
+  let sourceText = req.text ?? demoFallbackText;
 
   // File input: extract text via the server OCR. In strict private mode, OCR is
   // a network operation and is blocked; the user must paste text instead.
@@ -129,13 +134,39 @@ export async function explainDocument(req: ExplainRequest): Promise<{
     if (isHybridReady()) {
       const runOnce = async (text: string) => {
         const prompt = EXPLAIN_USER({ text, lang: req.lang, level: req.level || "standard" });
-        const r = await hybridGenerateStructured<any>({ prompt, systemInstruction: EXPLAIN_SYSTEM, schema: ExplainJsonSchema, sdkMode });
+        let r = await hybridGenerateStructured<any>({ prompt, systemInstruction: EXPLAIN_SYSTEM, schema: ExplainJsonSchema, sdkMode });
         if (!r) return null;
         let parsed: any;
         try {
           parsed = normalizeModelOutput(r.data, text, req.lang);
         } catch {
           parsed = r.data;
+        }
+        // The model sometimes ignores the language line and answers in English.
+        // For scripts we can check (Ethiopic, Arabic), retry once with a firmer
+        // instruction instead of showing English under a non-English label.
+        if (!textLooksInLanguage(String(parsed?.summary ?? ""), req.lang)) {
+          const retryPrompt =
+            prompt +
+            `\n\nThe previous answer was not written in ${languageNameForPrompt(req.lang)}. ` +
+            `You MUST write the summary and every explanation field in ${languageNameForPrompt(req.lang)}, not English.`;
+          const retry = await hybridGenerateStructured<any>({ prompt: retryPrompt, systemInstruction: EXPLAIN_SYSTEM, schema: ExplainJsonSchema, sdkMode });
+          if (retry) {
+            try {
+              parsed = normalizeModelOutput(retry.data, text, req.lang);
+            } catch {
+              parsed = retry.data;
+            }
+            r = retry;
+          }
+        }
+        // Still the wrong script after a retry: say so instead of presenting
+        // English as the requested language (AGENTS.md §12).
+        if (!textLooksInLanguage(String(parsed?.summary ?? ""), req.lang) && parsed && typeof parsed === "object") {
+          parsed.warnings = [
+            ...(Array.isArray(parsed.warnings) ? parsed.warnings : []),
+            `The model could not write this explanation in ${languageNameForPrompt(req.lang)}. The text below may be in another language; switch to Smart hybrid or Cloud and retry.`,
+          ];
         }
         const v = ExplainResponseSchema.safeParse(parsed);
         if (v.success) parsed = v.data;

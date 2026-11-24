@@ -76,3 +76,15 @@ export function resolveDemo(demoId: string, lang: string): ExplanationResult | n
   if (!output) return null;
   return toResult(doc, output, lang);
 }
+
+/**
+ * The bundled source text of a demo document.
+ *
+ * Used when the reader asks for a language that has no recorded demo output:
+ * the app explains the real source live in that language instead of showing
+ * English under a non-English label, or failing with "no text provided".
+ */
+export function demoSource(demoId: string): string | null {
+  const baseId = demoId.split(":")[0];
+  return DOCS.find((d) => d.id === baseId)?.source ?? null;
+}

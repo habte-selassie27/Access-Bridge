@@ -8,6 +8,7 @@ import { wrapUntrustedDocument } from "../security/content-isolation.ts";
 import { addSpend } from "../security/spend-guard.ts";
 import { runVerification } from "../../../frontend/src/lib/verify.ts";
 import { EXPLAIN_SYSTEM, EXPLAIN_USER, LEVELS } from "../../../frontend/src/lib/prompts.ts";
+import { languageNameForPrompt, textLooksInLanguage } from "../../../frontend/src/lib/languages.ts";
 import { ExplainResponseSchema } from "../../../frontend/src/lib/schema.ts";
 import { examplesForLanguage, formatExampleBlock } from "./adaption.service.ts";
 import { toFrontendResult, normalizeModelOutput } from "../../../frontend/src/lib/transform.ts";
@@ -76,6 +77,31 @@ async function explainOnce(text: string, lang: string, level: string, exampleCou
     const retryUser = user + "\n\nPrevious output was invalid JSON. Return JSON only matching schema.";
     const retryText = await withTimeout(llm!.complete(system, retryUser, 4000), LIMITS.explainTimeoutMs);
     parsed = parseModelOutput(retryText, text, lang);
+  }
+
+  // The model sometimes ignores the language line and answers in English.
+  // For scripts we can check deterministically (Ethiopic, Arabic), retry once
+  // with a firmer instruction rather than serving the wrong language.
+  if (!textLooksInLanguage(String(parsed?.summary ?? ""), lang)) {
+    const language = languageNameForPrompt(lang);
+    const retryUser =
+      user +
+      `\n\nThe previous answer was not written in ${language}. ` +
+      `You MUST write the summary and every explanation field in ${language}, not English.`;
+    try {
+      const retryText = await withTimeout(llm!.complete(system, retryUser, 4000), LIMITS.explainTimeoutMs);
+      parsed = parseModelOutput(retryText, text, lang);
+    } catch {
+      // Keep the first answer; it is still a real answer from the model.
+    }
+    // Still the wrong script after a retry: disclose it rather than presenting
+    // English as the requested language (AGENTS.md §12).
+    if (!textLooksInLanguage(String(parsed?.summary ?? ""), lang)) {
+      parsed.warnings = [
+        ...(Array.isArray(parsed.warnings) ? parsed.warnings : []),
+        `The model could not write this explanation in ${language}. The text below may be in another language; try again or use a different mode.`,
+      ];
+    }
   }
 
   const validation = ExplainResponseSchema.safeParse(parsed);
@@ -184,7 +210,7 @@ async function mergeChunkResults(
         async () =>
           llm!.complete(
             EXPLAIN_SYSTEM,
-            `Write one or two plain sentences saying what this whole document is, for a reader with low literacy, in ${lang}.\nUse only this material:\n"""\n${digest}\n"""\nReturn JSON only: {"summary": "..."}`,
+            `Write one or two plain sentences saying what this whole document is, for a reader with low literacy, in ${languageNameForPrompt(lang)}.\nUse only this material:\n"""\n${digest}\n"""\nReturn JSON only: {"summary": "..."}`,
             200
           ),
         2,
