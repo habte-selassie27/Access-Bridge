@@ -15,7 +15,8 @@ const DEFAULT_QUESTIONS = [
 export interface FollowUpSheetProps {
   open: boolean;
   onClose: () => void;
-  onAnswer: (answer: string) => void;
+  /** Called when an answer is received, with the question, answer and inference source. */
+  onAnswer?: (question: string, answer: string, inferenceSource?: "ON_DEVICE" | "IN_CLOUD") => void;
   /** The document being discussed. Answers come only from this text. */
   docContext?: string;
   /** Language the answer should be written in. */
@@ -54,7 +55,7 @@ export function FollowUpSheet({ open, onClose, onAnswer, docContext = "", lang =
           return;
         }
         send({ type: "ANSWER", answer: data.answer });
-        onAnswer(data.answer);
+        onAnswer?.(q, data.answer, data.inferenceSource);
       } catch {
         send({ type: "FAIL", error: "Unable to answer right now. Please ask the document issuer directly." });
       }
