@@ -69,21 +69,17 @@ if (!fs.existsSync(path.join(dist, "index.html"))) {
   ok("dist present");
 }
 
-// 4. Every workspace screen exists and is routed from the app shell.
+// 4. Every primary screen exists and is routed from the app shell. The old
+// workspace screens were removed; their paths redirect inside App.tsx.
 const screens = [
-  "Dashboard",
-  "Assistant",
-  "Library",
-  "Reader",
-  "Translate",
-  "Simplify",
-  "Voice",
+  "Home",
+  "Understand",
   "Actions",
-  "Opportunity",
-  "Compare",
+  "HybridLab",
+  "PrivacyCenter",
+  "Eval",
   "Settings",
   "Auth",
-  "History",
 ];
 const screensDir = path.join(ROOT, "frontend/src/screens");
 for (const screen of screens) {
@@ -98,7 +94,7 @@ for (const screen of screens) {
   }
 }
 if (screens.every((s) => fs.existsSync(path.join(screensDir, `${s}.tsx`)))) {
-  ok(`${screens.length} workspace screens present and routed`);
+  ok(`${screens.length} primary screens present and routed`);
 }
 
 // 5. The server exposes the new endpoints.
@@ -180,7 +176,6 @@ for (const file of [
   "frontend/src/lib/recommendations.ts",
   "frontend/src/components/result/NextStepsCard.tsx",
   "frontend/src/components/result/DocTypeGuidance.tsx",
-  "frontend/src/screens/History.tsx",
   "server/lib/services/adaption-memory.service.ts",
   "scripts/adaption-evaluate.ts",
 ]) {
@@ -190,14 +185,24 @@ const a11y = fs.readFileSync(path.join(ROOT, "frontend/src/lib/a11y.ts"), "utf8"
 for (const setting of ["motion", "density"]) {
   if (!a11y.includes(setting)) fail(`the accessibility settings are missing "${setting}"`);
 }
-for (const shell of ["frontend/src/components/layout/AppShell.tsx", "frontend/src/components/layout/WorkspaceLayout.tsx"]) {
+for (const shell of ["frontend/src/components/layout/AppShell.tsx"]) {
   const source = fs.readFileSync(path.join(ROOT, shell), "utf8");
   if (!source.includes("skip-link")) fail(`${shell} has no skip-to-content link`);
 }
-const historyScreen = fs.readFileSync(path.join(ROOT, "frontend/src/screens/History.tsx"), "utf8");
-if (!historyScreen.includes("convo.summary")) fail("History does not show conversation summaries");
-const library = fs.readFileSync(path.join(ROOT, "frontend/src/screens/Library.tsx"), "utf8");
-if (library.includes("listConversations")) fail("Library still contains the History tab instead of a separate page");
+// The six primary routes exist in App, and every legacy workspace route
+// redirects to a contextual tool instead of rendering a second navigation shell.
+const appSource = fs.readFileSync(path.join(ROOT, "frontend/src/App.tsx"), "utf8");
+for (const route of ["/understand", "/actions", "/hybrid-lab", "/privacy-center", "/evaluation", "/settings"]) {
+  if (!appSource.includes(`\"${route}\"`)) fail(`primary route ${route} is not implemented`);
+}
+for (const legacy of ["/translate", "/library", "/history", "/upload", "/privacy", "/eval", "/opportunity"]) {
+  if (!appSource.includes(`\"${legacy}\"`)) fail(`legacy route ${legacy} is not redirected`);
+}
+for (const removed of ["screens/History.tsx", "screens/Library.tsx", "components/layout/WorkspaceLayout.tsx"]) {
+  if (fs.existsSync(path.join(ROOT, "frontend/src", removed))) {
+    fail(`${removed} still exists beside the shared application shell`);
+  }
+}
 const translate = fs.readFileSync(path.join(ROOT, "server/routes/translate.ts"), "utf8");
 if (!translate.includes("retrieveTranslationMemory")) fail("translation does not use the Adaption translation memory");
 const evalRoute = fs.readFileSync(path.join(ROOT, "server/routes/eval.ts"), "utf8");
@@ -213,7 +218,7 @@ for (const role of [
 ]) {
   if (!evalOverview.includes(role)) fail(`/eval is missing the provider audit role "${role}"`);
 }
-ok("warnings, original file, translation quality, a11y preferences, skip link, next steps, history and the six-role audit present");
+ok("warnings, original file, translation quality, a11y preferences, skip link, next steps, route redirects and the six-role audit present");
 
 if (failures > 0) {
   console.error(`\n${failures} smoke check(s) failed`);

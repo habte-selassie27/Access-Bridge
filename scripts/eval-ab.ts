@@ -11,7 +11,7 @@ import path from "node:path";
 import dotenv from "dotenv";
 import { GroqAdapter } from "../server/lib/providers/llm/llm.adapter.ts";
 import { ENV } from "../server/lib/config/env.ts";
-import { normalizeModelOutput } from "../server/lib/transform.ts";
+import { normalizeModelOutput } from "../frontend/src/lib/transform.ts";
 import { examplesForLanguage, formatExampleBlock, loadAdaptionDataset } from "../server/lib/services/adaption.service.ts";
 import { ExplainResponseSchema } from "../frontend/src/lib/schema.ts";
 import { runVerification } from "../frontend/src/lib/verify.ts";
