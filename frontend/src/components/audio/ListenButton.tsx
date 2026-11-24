@@ -2,6 +2,8 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { Play, Pause, Volume2, AlertCircle } from "lucide-react";
 import { useMachine, audioReducer, initialAudioState } from "../../lib/state/index.ts";
 import { demoAudioUrl } from "../../lib/demo-audio.ts";
+import { loadPrivacyMode } from "../../lib/privacy/storage.ts";
+import { loadConsent } from "../../lib/privacy/consent.ts";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "";
 
@@ -87,6 +89,16 @@ export function ListenButton({ text, lang, disabled = false, demoId }: ListenBut
 
     if (recordedUrl) {
       playRecording(recordedUrl);
+      return;
+    }
+
+    // Privacy gate: cloud TTS uploads the text. Only allowed in cloud mode, or
+    // smart mode with consent. Strict private / unconsented uses device voice.
+    const mode = loadPrivacyMode();
+    const consented = loadConsent().cloudConsented;
+    const cloudAllowed = mode === "cloud" ? consented : mode === "smart" ? consented : false;
+    if (!cloudAllowed) {
+      speakWithDeviceVoice();
       return;
     }
 
