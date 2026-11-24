@@ -23,7 +23,8 @@ function readAsDataUrl(file: Blob): Promise<string> {
 
 export async function preserveOriginalFile(file: File): Promise<OriginalFile> {
   try {
-    const prepared = file.type.startsWith("image/") ? await downscaleImage(file) : file;
+    const isImage = file.type.startsWith("image/");
+    const prepared = isImage ? await downscaleImage(file) : file;
     if (prepared.size > MAX_STORED_BYTES) {
       return {
         name: file.name,
