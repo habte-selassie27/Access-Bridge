@@ -1,0 +1,38 @@
+{
+  "generatedAt": "2026-11-23T12:51:17.685Z",
+  "kind": "offline-deterministic-trust",
+  "note": "Live inference latency/source/offline metrics come from the in-browser HybridEval on real hardware; not fabricated here.",
+  "denominators": {
+    "cases": 3,
+    "goldFields": 5
+  },
+  "metrics": {
+    "schemaValidity": 1,
+    "falseVerifiedRate": 0,
+    "verifiedFields": 5,
+    "goldAssociation": 1
+  },
+  "rows": [
+    {
+      "id": "scholarship-en",
+      "schemaOk": true,
+      "verifiedDeadlines": 1,
+      "verifiedCosts": 1,
+      "forged": false
+    },
+    {
+      "id": "fee-en",
+      "schemaOk": true,
+      "verifiedDeadlines": 1,
+      "verifiedCosts": 2,
+      "forged": false
+    },
+    {
+      "id": "forged-verified",
+      "schemaOk": true,
+      "verifiedDeadlines": 0,
+      "verifiedCosts": 0,
+      "forged": true
+    }
+  ]
+}

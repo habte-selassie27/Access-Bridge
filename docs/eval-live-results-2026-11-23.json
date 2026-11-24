@@ -1,0 +1,473 @@
+{
+ "summary": {
+  "startedAt": "2026-11-23T20:11:30.005Z",
+  "finishedAt": "2026-11-23T20:19:06.465Z",
+  "runsPerDocument": 3,
+  "documents": 11,
+  "attempts": 33,
+  "successes": 27,
+  "schemaValid": 27,
+  "errors": 6,
+  "retriedAttempts": 0,
+  "errorCodes": {
+   "PROVIDER_ERROR": 6
+  },
+  "sources": {
+   "IN_CLOUD": 27
+  },
+  "latencyMs": {
+   "n": 27,
+   "p50": 2791,
+   "p95": 8860,
+   "min": 1605,
+   "max": 12146,
+   "note": "inference only, from the SDK call; nearest-rank percentiles"
+  },
+  "deadlines": {
+   "extracted": 24,
+   "verified": 15,
+   "precision": 0.625
+  },
+  "costs": {
+   "extracted": 35,
+   "verified": 25,
+   "precision": 0.714
+  }
+ },
+ "docs": [
+  {
+   "id": "scholarship",
+   "category": "short notice",
+   "lang": "en",
+   "runs": [
+    {
+     "deadlines": 0,
+     "verifiedDeadlines": 0,
+     "costs": 0,
+     "verifiedCosts": 0,
+     "schemaValid": false,
+     "retries": 0,
+     "errorCode": "PROVIDER_ERROR",
+     "error": "AI: Error fetching from https://firebasevertexai.googleapis.com/v1beta/projects/accessbridge-7645c/models/gemini-3.5-flash-lite:generateContent: [500 ] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later. (AI/fetch-error)"
+    },
+    {
+     "latencyMs": 3669,
+     "inferenceLatencyMs": 3654,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 0,
+     "verifiedCosts": 0,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "deadlines": 0,
+     "verifiedDeadlines": 0,
+     "costs": 0,
+     "verifiedCosts": 0,
+     "schemaValid": false,
+     "retries": 0,
+     "errorCode": "PROVIDER_ERROR",
+     "error": "AI: Error fetching from https://firebasevertexai.googleapis.com/v1beta/projects/accessbridge-7645c/models/gemini-3.5-flash-lite:generateContent: [500 ] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later. (AI/fetch-error)"
+    }
+   ]
+  },
+  {
+   "id": "fee",
+   "category": "short notice",
+   "lang": "en",
+   "runs": [
+    {
+     "latencyMs": 2795,
+     "inferenceLatencyMs": 2791,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 2,
+     "verifiedCosts": 2,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 3300,
+     "inferenceLatencyMs": 3299,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 2,
+     "verifiedCosts": 2,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 2164,
+     "inferenceLatencyMs": 2163,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 2,
+     "verifiedCosts": 2,
+     "schemaValid": true,
+     "retries": 0
+    }
+   ]
+  },
+  {
+   "id": "clinic",
+   "category": "healthcare",
+   "lang": "en",
+   "runs": [
+    {
+     "latencyMs": 2029,
+     "inferenceLatencyMs": 2028,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 1,
+     "verifiedCosts": 1,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 6343,
+     "inferenceLatencyMs": 6341,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 1,
+     "verifiedCosts": 1,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 2624,
+     "inferenceLatencyMs": 2622,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 1,
+     "verifiedCosts": 1,
+     "schemaValid": true,
+     "retries": 0
+    }
+   ]
+  },
+  {
+   "id": "benefits",
+   "category": "public benefits",
+   "lang": "en",
+   "runs": [
+    {
+     "latencyMs": 4387,
+     "inferenceLatencyMs": 4385,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 0,
+     "verifiedCosts": 0,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "deadlines": 0,
+     "verifiedDeadlines": 0,
+     "costs": 0,
+     "verifiedCosts": 0,
+     "schemaValid": false,
+     "retries": 0,
+     "errorCode": "PROVIDER_ERROR",
+     "error": "AI: Error fetching from https://firebasevertexai.googleapis.com/v1beta/projects/accessbridge-7645c/models/gemini-3.5-flash-lite:generateContent: [500 ] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later. (AI/fetch-error)"
+    },
+    {
+     "latencyMs": 2170,
+     "inferenceLatencyMs": 2169,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 0,
+     "verifiedCosts": 0,
+     "schemaValid": true,
+     "retries": 0
+    }
+   ]
+  },
+  {
+   "id": "amharic-fee",
+   "category": "non-English",
+   "lang": "am",
+   "runs": [
+    {
+     "latencyMs": 1971,
+     "inferenceLatencyMs": 1969,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 0,
+     "costs": 2,
+     "verifiedCosts": 0,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 4321,
+     "inferenceLatencyMs": 4320,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 0,
+     "costs": 2,
+     "verifiedCosts": 0,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 8861,
+     "inferenceLatencyMs": 8860,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 0,
+     "costs": 2,
+     "verifiedCosts": 0,
+     "schemaValid": true,
+     "retries": 0
+    }
+   ]
+  },
+  {
+   "id": "ambiguous-date",
+   "category": "ambiguous date",
+   "lang": "en",
+   "runs": [
+    {
+     "deadlines": 0,
+     "verifiedDeadlines": 0,
+     "costs": 0,
+     "verifiedCosts": 0,
+     "schemaValid": false,
+     "retries": 0,
+     "errorCode": "PROVIDER_ERROR",
+     "error": "AI: Error fetching from https://firebasevertexai.googleapis.com/v1beta/projects/accessbridge-7645c/models/gemini-3.5-flash-lite:generateContent: [500 ] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later. (AI/fetch-error)"
+    },
+    {
+     "latencyMs": 4058,
+     "inferenceLatencyMs": 4057,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 0,
+     "costs": 1,
+     "verifiedCosts": 1,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 3482,
+     "inferenceLatencyMs": 3481,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 1,
+     "verifiedCosts": 1,
+     "schemaValid": true,
+     "retries": 0
+    }
+   ]
+  },
+  {
+   "id": "multi-fee",
+   "category": "multiple fees",
+   "lang": "en",
+   "runs": [
+    {
+     "latencyMs": 12147,
+     "inferenceLatencyMs": 12146,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 4,
+     "verifiedCosts": 4,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "deadlines": 0,
+     "verifiedDeadlines": 0,
+     "costs": 0,
+     "verifiedCosts": 0,
+     "schemaValid": false,
+     "retries": 0,
+     "errorCode": "PROVIDER_ERROR",
+     "error": "AI: Error fetching from https://firebasevertexai.googleapis.com/v1beta/projects/accessbridge-7645c/models/gemini-3.5-flash-lite:generateContent: [500 ] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later. (AI/fetch-error)"
+    },
+    {
+     "latencyMs": 3458,
+     "inferenceLatencyMs": 3457,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 4,
+     "verifiedCosts": 4,
+     "schemaValid": true,
+     "retries": 0
+    }
+   ]
+  },
+  {
+   "id": "eth-calendar",
+   "category": "Ethiopian calendar",
+   "lang": "en",
+   "runs": [
+    {
+     "latencyMs": 4112,
+     "inferenceLatencyMs": 4111,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 0,
+     "costs": 1,
+     "verifiedCosts": 1,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 1719,
+     "inferenceLatencyMs": 1719,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 0,
+     "costs": 1,
+     "verifiedCosts": 1,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 3955,
+     "inferenceLatencyMs": 3954,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 0,
+     "costs": 1,
+     "verifiedCosts": 1,
+     "schemaValid": true,
+     "retries": 0
+    }
+   ]
+  },
+  {
+   "id": "no-deadline",
+   "category": "missing deadline",
+   "lang": "en",
+   "runs": [
+    {
+     "latencyMs": 1973,
+     "inferenceLatencyMs": 1973,
+     "source": "IN_CLOUD",
+     "deadlines": 0,
+     "verifiedDeadlines": 0,
+     "costs": 0,
+     "verifiedCosts": 0,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 2481,
+     "inferenceLatencyMs": 2481,
+     "source": "IN_CLOUD",
+     "deadlines": 0,
+     "verifiedDeadlines": 0,
+     "costs": 0,
+     "verifiedCosts": 0,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 1944,
+     "inferenceLatencyMs": 1944,
+     "source": "IN_CLOUD",
+     "deadlines": 0,
+     "verifiedDeadlines": 0,
+     "costs": 0,
+     "verifiedCosts": 0,
+     "schemaValid": true,
+     "retries": 0
+    }
+   ]
+  },
+  {
+   "id": "ocr-noise",
+   "category": "malformed OCR",
+   "lang": "en",
+   "runs": [
+    {
+     "latencyMs": 4279,
+     "inferenceLatencyMs": 4278,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 0,
+     "costs": 2,
+     "verifiedCosts": 0,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "deadlines": 0,
+     "verifiedDeadlines": 0,
+     "costs": 0,
+     "verifiedCosts": 0,
+     "schemaValid": false,
+     "retries": 0,
+     "errorCode": "PROVIDER_ERROR",
+     "error": "AI: Error fetching from https://firebasevertexai.googleapis.com/v1beta/projects/accessbridge-7645c/models/gemini-3.5-flash-lite:generateContent: [500 ] This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later. (AI/fetch-error)"
+    },
+    {
+     "latencyMs": 1905,
+     "inferenceLatencyMs": 1904,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 0,
+     "costs": 2,
+     "verifiedCosts": 0,
+     "schemaValid": true,
+     "retries": 0
+    }
+   ]
+  },
+  {
+   "id": "injection",
+   "category": "prompt injection",
+   "lang": "en",
+   "runs": [
+    {
+     "latencyMs": 1605,
+     "inferenceLatencyMs": 1605,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 1,
+     "verifiedCosts": 1,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 1618,
+     "inferenceLatencyMs": 1617,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 1,
+     "verifiedCosts": 1,
+     "schemaValid": true,
+     "retries": 0
+    },
+    {
+     "latencyMs": 1996,
+     "inferenceLatencyMs": 1995,
+     "source": "IN_CLOUD",
+     "deadlines": 1,
+     "verifiedDeadlines": 1,
+     "costs": 1,
+     "verifiedCosts": 1,
+     "schemaValid": true,
+     "retries": 0
+    }
+   ]
+  }
+ ]
+}
