@@ -13,7 +13,7 @@ import { inc } from "../lib/observability/metrics.ts";
 import { newRequestId } from "../lib/utils/ids.ts";
 import { withTimeout } from "../lib/utils/timeout.ts";
 import { noCache } from "../middleware/request-logger.ts";
-import { toFrontendResult } from "../lib/transform.ts";
+import { toFrontendResult } from "../../frontend/src/lib/transform.ts";
 import { runExplain } from "../lib/services/explain.service.ts";
 
 const router = Router();

@@ -10,7 +10,7 @@ import { runVerification } from "../../../frontend/src/lib/verify.ts";
 import { EXPLAIN_SYSTEM, EXPLAIN_USER, LEVELS } from "../../../frontend/src/lib/prompts.ts";
 import { ExplainResponseSchema } from "../../../frontend/src/lib/schema.ts";
 import { examplesForLanguage, formatExampleBlock } from "./adaption.service.ts";
-import { toFrontendResult, normalizeModelOutput } from "../transform.ts";
+import { toFrontendResult, normalizeModelOutput } from "../../../frontend/src/lib/transform.ts";
 import { isEthiopianDate } from "../verify/calendar/ethiopian.ts";
 import { ethiopianToGregorianApprox } from "../verify/calendar/conversion.ts";
 import { chunkText, DEFAULT_OVERLAP } from "../retrieval/chunker.ts";
