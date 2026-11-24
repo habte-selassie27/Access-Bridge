@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { User, LogIn, UserPlus, ArrowLeft, ShieldCheck } from "lucide-react";
-import { WorkspaceLayout } from "../components/layout/WorkspaceLayout.tsx";
 import { signIn, signUp, continueAsGuest, useAuth } from "../lib/auth.ts";
 
 export interface AuthProps {
@@ -36,12 +35,16 @@ export function Auth({ onBack, onSignedIn }: AuthProps) {
   };
 
   return (
-    <WorkspaceLayout
-      currentPath="/auth"
-      title={profile ? `Signed in as ${profile.name}` : "Sign in"}
-      subtitle="A profile is optional. Guest mode does everything, without a password."
-    >
-      <div className="space-y-4">
+    <section className="space-y-4">
+      <div>
+        <h1 className="text-2xl font-bold text-text sm:text-3xl">
+          {profile ? `Signed in as ${profile.name}` : "Sign in"}
+        </h1>
+        <p className="mt-1 text-sm text-subtle">
+          A profile is optional. Guest mode does everything, without a password.
+        </p>
+      </div>
+      <div className="max-w-xl space-y-4">
         <button
           type="button"
           onClick={onBack}
@@ -159,6 +162,6 @@ export function Auth({ onBack, onSignedIn }: AuthProps) {
           </>
         )}
       </div>
-    </WorkspaceLayout>
+    </section>
   );
 }
