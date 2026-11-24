@@ -1,29 +1,47 @@
 import { useEffect, useMemo, useState } from "react";
-import { ListChecks, CalendarClock, Wallet, Download, Check } from "lucide-react";
-import { WorkspaceLayout } from "../components/layout/WorkspaceLayout.tsx";
+import { ListChecks, Download, Check, ArrowLeft, FileText, ArrowRight, Info } from "lucide-react";
 import { DocumentPicker } from "../components/library/DocumentPicker.tsx";
+import { DeadlineCard } from "../components/result/DeadlineCard.tsx";
+import { CostCard } from "../components/result/CostCard.tsx";
 import { listDocs, readChecklist, writeChecklist } from "../lib/library.ts";
 import type { LibraryDoc } from "../lib/library.ts";
-import { isRtl } from "../lib/languages.ts";
+import type { ExplanationResult } from "../lib/api/types.ts";
+import { isRtl, type LanguageCode } from "../lib/languages.ts";
 
 export interface ActionsProps {
-  activeDoc: LibraryDoc | null;
+  result?: ExplanationResult | null;
+  activeDoc?: LibraryDoc | null;
+  onBack: () => void;
+  onGoHome?: () => void;
+  onLangChange?: (code: LanguageCode) => void;
+  lang?: string;
 }
 
-export function Actions({ activeDoc }: ActionsProps) {
+export function Actions({
+  result: resultProp,
+  activeDoc: activeDocProp,
+  onBack,
+  onGoHome,
+  lang,
+}: ActionsProps) {
   const [docs, setDocs] = useState<LibraryDoc[]>([]);
-  const [docId, setDocId] = useState(activeDoc?.id ?? "");
+  const [docId, setDocId] = useState(activeDocProp?.id ?? "");
   const [checked, setChecked] = useState<Record<string, boolean>>({});
+
+  const langState = lang ?? "en";
 
   useEffect(() => {
     setDocs(listDocs());
   }, []);
 
   useEffect(() => {
-    if (activeDoc?.id) setDocId(activeDoc.id);
-  }, [activeDoc?.id]);
+    if (activeDocProp?.id) setDocId(activeDocProp.id);
+  }, [activeDocProp?.id]);
 
-  const doc = useMemo(() => docs.find((d) => d.id === docId) ?? activeDoc ?? null, [docs, docId, activeDoc]);
+  const doc = useMemo(() => {
+    if (resultProp) return { id: "current", title: resultProp.docType, result: resultProp } as LibraryDoc;
+    return docs.find((d) => d.id === docId) ?? activeDocProp ?? null;
+  }, [docs, docId, activeDocProp, resultProp]);
 
   useEffect(() => {
     setChecked(doc ? readChecklist(doc.id) : {});
@@ -73,135 +91,157 @@ export function Actions({ activeDoc }: ActionsProps) {
     ];
     const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${doc.title.replace(/[^a-z0-9]+/gi, "-").slice(0, 40) || "checklist"}.txt`;
-    a.click();
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `${doc.title.replace(/[^a-z0-9]+/gi, "-").slice(0, 40) || "checklist"}.txt`;
+    anchor.click();
     URL.revokeObjectURL(url);
   };
 
-  return (
-    <WorkspaceLayout
-      currentPath="/actions"
-      title="Action Center"
-      subtitle="Turn the document into a checklist you can actually work through."
-    >
-      <div className="space-y-4">
-        <DocumentPicker docs={docs} value={docId} onChange={setDocId} />
-
-        {!doc ? (
-          <p className="rounded-lg border border-border bg-surface p-4 text-sm text-subtle">
-            <ListChecks size={16} className="mb-1 inline" aria-hidden="true" />
-            Choose a saved document to see its checklist.
+  if (!doc) {
+    return (
+      <section className="rounded-xl border border-border bg-surface p-6 sm:p-10">
+        <div className="mx-auto max-w-prose text-center">
+          <span className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-border bg-surface-muted text-subtle">
+            <ListChecks size={24} strokeWidth={2} aria-hidden="true" />
+          </span>
+          <h1 className="text-2xl font-bold text-text sm:text-3xl">Take action</h1>
+          <p className="mt-2 text-sm leading-relaxed text-subtle">
+            There is no document to plan yet. Explain a document first and its steps, deadlines and costs
+            will appear here as a checklist you can tick off.
           </p>
-        ) : (
-          <>
-            <section className="rounded-lg border border-border bg-surface p-4">
-              <div className="flex items-center justify-between gap-2">
-                <h2 className="text-base font-semibold text-text">Your progress</h2>
-                <p className="text-sm font-medium text-text">
-                  {done} / {items.length}
-                </p>
-              </div>
-              <div
-                className="mt-2 h-2 w-full overflow-hidden rounded-full bg-surface-muted"
-                role="progressbar"
-                aria-valuenow={percent}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-label="Checklist progress"
-              >
-                <div className="h-full bg-brand transition-all" style={{ width: `${percent}%` }} />
-              </div>
-              <p className="mt-1 text-[0.75rem] text-subtle">{percent}% done. Saved on this device.</p>
-            </section>
-
-            <section className="space-y-2" lang={doc.result.lang} dir={isRtl(doc.result.lang) ? "rtl" : "ltr"}>
-              <h2 className="text-base font-semibold text-text">Checklist</h2>
-              <ul className="space-y-2">
-                {items.map((item) => {
-                  const isDone = Boolean(checked[item.id]);
-                  return (
-                    <li key={item.id}>
-                      <button
-                        type="button"
-                        role="checkbox"
-                        aria-checked={isDone}
-                        onClick={() => toggle(item.id)}
-                        className="touch-target flex w-full items-start gap-3 rounded-lg border border-border bg-surface p-3 text-left transition-colors hover:border-brand"
-                      >
-                        <span
-                          className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border ${
-                            isDone ? "border-brand bg-brand text-inverse" : "border-input"
-                          }`}
-                          aria-hidden="true"
-                        >
-                          {isDone && <Check size={13} />}
-                        </span>
-                        <span className={`text-sm ${isDone ? "text-subtlest line-through" : "text-text"}`}>
-                          {item.urgent && <span aria-hidden="true">⚠️ </span>}
-                          {item.label}
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-                {items.length === 0 && <li className="text-sm text-subtle">This document lists no steps.</li>}
-              </ul>
-            </section>
-
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <section className="rounded-lg border border-border bg-surface p-4" lang={doc.result.lang} dir={isRtl(doc.result.lang) ? "rtl" : "ltr"}>
-                <h2 className="mb-2 flex items-center gap-2 text-sm font-semibold text-text">
-                  <CalendarClock size={16} aria-hidden="true" /> Deadlines
-                </h2>
-                <ul className="space-y-1 text-sm">
-                  {doc.result.deadlines.map((d) => (
-                    <li key={d.id}>
-                      <span className="font-medium text-text">{d.label}</span>{" "}
-                      <span className="text-subtle">{d.originalValue ?? "not stated"}</span>
-                      {d.verified ? (
-                        <span className="ml-1 text-success">✓ verified</span>
-                      ) : (
-                        <span className="ml-1 text-warning">⚠ check the original</span>
-                      )}
-                    </li>
-                  ))}
-                  {doc.result.deadlines.length === 0 && <li className="text-subtle">None stated.</li>}
-                </ul>
-              </section>
-
-              <section className="rounded-lg border border-border bg-surface p-4" lang={doc.result.lang} dir={isRtl(doc.result.lang) ? "rtl" : "ltr"}>
-                <h2 className="mb-2 flex items-center gap-2 text-sm font-semibold text-text">
-                  <Wallet size={16} aria-hidden="true" /> Costs
-                </h2>
-                <ul className="space-y-1 text-sm">
-                  {doc.result.costs.map((c) => (
-                    <li key={c.id}>
-                      <span className="font-medium text-text">{c.label}</span>{" "}
-                      <span className="text-subtle">{c.originalValue}</span>
-                      {c.verified ? (
-                        <span className="ml-1 text-success">✓ verified</span>
-                      ) : (
-                        <span className="ml-1 text-warning">⚠ check the original</span>
-                      )}
-                    </li>
-                  ))}
-                  {doc.result.costs.length === 0 && <li className="text-subtle">None stated.</li>}
-                </ul>
-              </section>
+          <button
+            type="button"
+            onClick={onGoHome ?? onBack}
+            className="touch-target mt-6 inline-flex items-center justify-center gap-2 rounded-md bg-brand px-5 py-2.5 text-sm font-medium text-inverse hover:bg-brand-bold"
+          >
+            <FileText size={16} strokeWidth={2} aria-hidden="true" />
+            Add a document
+            <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+          </button>
+          {docs.length > 0 && (
+            <div className="mt-8 text-left">
+              <p className="mb-2 text-[0.75rem] font-medium text-subtle">Or pick a saved document</p>
+              <DocumentPicker docs={docs} value={docId} onChange={setDocId} />
             </div>
+          )}
+        </div>
+      </section>
+    );
+  }
 
-            <button
-              type="button"
-              onClick={download}
-              className="touch-target inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm text-text"
-            >
-              <Download size={16} aria-hidden="true" /> Download checklist
-            </button>
-          </>
-        )}
+  const currentDoc = doc;
+
+  return (
+    <section className="space-y-4">
+      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border pb-3">
+        <div className="min-w-0">
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex items-center gap-1.5 text-[0.75rem] font-medium text-subtle hover:text-text"
+          >
+            <ArrowLeft size={14} strokeWidth={2} aria-hidden="true" />
+            Back to the explanation
+          </button>
+          <h1 className="mt-1 text-2xl font-bold text-text sm:text-3xl">Take action</h1>
+          <p className="mt-1 max-w-prose text-sm text-subtle">
+            Work through the steps, check what to bring, and export the checklist. Dates and costs are
+            checked against the original text.
+          </p>
+        </div>
       </div>
-    </WorkspaceLayout>
+
+      <section className="rounded-lg border border-border bg-surface p-4 shadow-sm">
+        <div className="flex items-center justify-between gap-2">
+          <h2 className="text-base font-semibold text-text">Your progress</h2>
+          <p className="text-sm font-medium text-text">
+            {done} / {items.length}
+          </p>
+        </div>
+        <div
+          className="mt-2 h-2 w-full overflow-hidden rounded-full bg-surface-muted"
+          role="progressbar"
+          aria-valuenow={percent}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label="Checklist progress"
+        >
+          <div className="h-full bg-brand transition-all" style={{ width: `${percent}%` }} />
+        </div>
+        <p className="mt-1 text-[0.75rem] text-subtle">{percent}% done. Saved on this device.</p>
+      </section>
+
+      <section className="space-y-2" lang={langState} dir={isRtl(langState) ? "rtl" : "ltr"}>
+        <h2 className="text-base font-semibold text-text">Your next steps</h2>
+        <ul className="space-y-2">
+          {items.map((item) => {
+            const isDone = Boolean(checked[item.id]);
+            return (
+              <li key={item.id}>
+                <button
+                  type="button"
+                  role="checkbox"
+                  aria-checked={isDone}
+                  onClick={() => toggle(item.id)}
+                  className="touch-target flex w-full items-start gap-3 rounded-lg border border-border bg-surface p-3 text-left transition-colors hover:border-brand"
+                >
+                  <span
+                    className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border ${
+                      isDone ? "border-brand bg-brand text-inverse" : "border-input"
+                    }`}
+                    aria-hidden="true"
+                  >
+                    {isDone && <Check size={13} />}
+                  </span>
+                  <span className={`text-sm leading-relaxed ${isDone ? "text-subtlest line-through" : "text-text"}`}>
+                    {item.urgent && (
+                      <span className="mr-1.5 font-medium text-danger" aria-hidden="true">
+                        Urgent —
+                      </span>
+                    )}
+                    {item.label}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+          {items.length === 0 && (
+            <li className="rounded-lg border border-border bg-surface p-4 text-sm text-subtle">
+              <Info size={16} className="mb-1 inline" aria-hidden="true" /> This document does not list
+              any steps. That does not mean no action is needed — check the original.
+            </li>
+          )}
+        </ul>
+      </section>
+
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+        <DeadlineCard deadlines={currentDoc.result.deadlines} />
+        <CostCard costs={currentDoc.result.costs} />
+      </div>
+
+      {currentDoc.result.eligibility.length > 0 && (
+        <section className="rounded-lg border border-border bg-surface p-4 shadow-sm">
+          <h2 className="mb-2 text-base font-semibold text-text">Eligibility</h2>
+          <ul className="list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-text">
+            {currentDoc.result.eligibility.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+          <p className="mt-3 text-[0.75rem] text-subtle">
+            These are the conditions in the document, not a decision on your application.
+          </p>
+        </section>
+      )}
+
+      <button
+        type="button"
+        onClick={download}
+        className="touch-target inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm text-text hover:bg-neutral-subtle-hovered"
+      >
+        <Download size={16} strokeWidth={2} aria-hidden="true" />
+        Download checklist
+      </button>
+    </section>
   );
 }
