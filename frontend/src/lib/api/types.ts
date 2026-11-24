@@ -116,6 +116,12 @@ export interface ExplanationResult {
   demoId?: string;
   /** True when this result came from the offline fallback, not the server. */
   offlineDemo?: boolean;
+  /** Whether hybrid inference ran on-device (Gemini Nano) or in the cloud. */
+  inferenceSource?: "ON_DEVICE" | "IN_CLOUD";
+  /** Measured inference latency in ms (hybrid path only). */
+  inferenceLatencyMs?: number;
+  /** True when the source text was transcribed from an uploaded file (OCR). */
+  ocrUsed?: boolean;
 }
 
 /** One published requirement checked against what the reader told us. */
