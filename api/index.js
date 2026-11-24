@@ -1852,10 +1852,228 @@ function languageScriptPattern(code) {
   if (code === "ar") return /[\u0600-\u06FF]/;
   return null;
 }
+var ENGLISH_STOPWORDS = /* @__PURE__ */ new Set([
+  "the",
+  "a",
+  "an",
+  "and",
+  "or",
+  "but",
+  "is",
+  "are",
+  "was",
+  "were",
+  "be",
+  "been",
+  "to",
+  "of",
+  "in",
+  "on",
+  "at",
+  "for",
+  "from",
+  "with",
+  "by",
+  "as",
+  "that",
+  "this",
+  "these",
+  "those",
+  "it",
+  "its",
+  "you",
+  "your",
+  "we",
+  "our",
+  "they",
+  "their",
+  "he",
+  "she",
+  "his",
+  "her",
+  "not",
+  "no",
+  "will",
+  "would",
+  "can",
+  "could",
+  "should",
+  "must",
+  "have",
+  "has",
+  "had",
+  "do",
+  "does",
+  "did",
+  "if",
+  "when",
+  "before",
+  "after",
+  "about",
+  "more",
+  "than",
+  "then",
+  "there",
+  "here",
+  "which",
+  "who",
+  "whom",
+  "whose",
+  "what",
+  "how",
+  "all",
+  "any",
+  "each",
+  "other",
+  "into",
+  "over",
+  "under",
+  "between",
+  "during",
+  "without",
+  "within"
+]);
+function looksLikeEnglish(text) {
+  const words = text.toLowerCase().match(/[a-z']+/g) || [];
+  if (words.length < 3) return false;
+  const hits = words.filter((w) => ENGLISH_STOPWORDS.has(w)).length;
+  return hits >= 2 && hits / words.length >= 0.15;
+}
+var LATIN_STOPWORDS = {
+  en: [...ENGLISH_STOPWORDS],
+  om: [
+    "fi",
+    "kan",
+    "akka",
+    "waan",
+    "keessan",
+    "keessaa",
+    "irra",
+    "dura",
+    "booda",
+    "hin",
+    "qabu",
+    "qabdu",
+    "ta'u",
+    "jedhu",
+    "godhaa",
+    "argachuuf",
+    "barnoota",
+    "gargaarsa",
+    "misoomni",
+    "fayyaa",
+    "waajjira",
+    "birrii",
+    "yeroo",
+    "namoota",
+    "isaanii",
+    "itti",
+    "fufuuf",
+    "haaromsuu",
+    "kaffaluu",
+    "dhiyoo",
+    "jiru"
+  ],
+  sw: [
+    "na",
+    "ya",
+    "kwa",
+    "ni",
+    "wa",
+    "za",
+    "la",
+    "katika",
+    "hii",
+    "hiyo",
+    "kama",
+    "ili",
+    "kuwa",
+    "huyu",
+    "wake",
+    "yetu",
+    "yako",
+    "zake",
+    "kutoka",
+    "bila",
+    "pamoja",
+    "zaidi",
+    "fedha",
+    "tarehe",
+    "watu",
+    "wana",
+    "una",
+    "unaweza",
+    "kwenye",
+    "hadi",
+    "baada",
+    "kabla"
+  ],
+  fr: [
+    "le",
+    "la",
+    "les",
+    "des",
+    "du",
+    "de",
+    "et",
+    "est",
+    "sont",
+    "pour",
+    "vous",
+    "votre",
+    "vos",
+    "avec",
+    "dans",
+    "sur",
+    "par",
+    "au",
+    "aux",
+    "ce",
+    "cette",
+    "ces",
+    "qui",
+    "que",
+    "ne",
+    "pas",
+    "plus",
+    "avant",
+    "apres",
+    "\xEAtre",
+    "avoir",
+    "il",
+    "elle",
+    "ils",
+    "elles",
+    "nous",
+    "je",
+    "un",
+    "une",
+    "au",
+    "sous"
+  ]
+};
+function detectLatinLanguage(text) {
+  const words = text.toLowerCase().match(/[a-zà-ÿ']+/g) || [];
+  if (words.length < 3) return null;
+  const scores = Object.entries(LATIN_STOPWORDS).map(([code, list]) => {
+    const set = new Set(list);
+    return [code, words.reduce((n, w) => n + (set.has(w) ? 1 : 0), 0)];
+  }).sort((a, b) => b[1] - a[1]);
+  const [best, bestScore] = scores[0];
+  const second = scores[1]?.[1] ?? 0;
+  if (bestScore < 2 || bestScore - second < 1) return null;
+  return best;
+}
+function detectSourceLanguage(text) {
+  if (/[\u1200-\u137F]/.test(text)) return "am";
+  if (/[\u0600-\u06FF]/.test(text)) return "ar";
+  return detectLatinLanguage(text) ?? "en";
+}
 function textLooksInLanguage(text, code) {
+  if (code === "en") return true;
   const pattern = languageScriptPattern(code);
-  if (!pattern) return true;
-  return pattern.test(text);
+  if (pattern) return pattern.test(text);
+  return !looksLikeEnglish(text);
 }
 function languageTier(code) {
   return getLanguage(code)?.tier || "experimental";
@@ -2413,12 +2631,24 @@ function toFrontendResult(old, sourceText) {
     warnings: old.warnings || [],
     languageQuality: languageTier(lang),
     lang,
-    originalLanguage: lang,
+    originalLanguage: detectSourceLanguage(sourceText),
+    requestedLang: old.requestedLang,
+    languageMismatch: Boolean(old.languageMismatch),
     originalText: old.originalText || sourceText
   };
 }
+var FALLBACK_TEXT = {
+  en: { summary: "Document explanation.", readCarefully: "Read the document carefully.", deadline: "Deadline", cost: "Cost" },
+  am: { summary: "\u12E8\u1230\u1290\u12F1 \u121B\u1265\u122B\u122A\u12EB\u1362", readCarefully: "\u1230\u1290\u12F1\u1295 \u1260\u1325\u1295\u1243\u1244 \u12EB\u1295\u1265\u1261\u1362", deadline: "\u12E8\u1218\u1328\u1228\u123B \u1240\u1295", cost: "\u12C8\u132A" },
+  om: { summary: "Ibsa sanadaa.", readCarefully: "Sanada kana sirriitti dubbisaa.", deadline: "Yeroo murtaa'ee", cost: "Gatii" },
+  ti: { summary: "\u1218\u1265\u122D\u1202 \u1230\u1290\u12F5\u1362", readCarefully: "\u1290\u1272 \u1230\u1290\u12F5 \u1265\u1325\u1295\u1243\u1250 \u12A3\u1295\u1265\u1261\u1362", deadline: "\u1218\u12C8\u12F3\u12A5\u1273 \u130D\u12DC", cost: "\u12C8\u133B\u12A2" },
+  sw: { summary: "Maelezo ya hati.", readCarefully: "Soma hati kwa makini.", deadline: "Tarehe ya mwisho", cost: "Gharama" },
+  ar: { summary: "\u0634\u0631\u062D \u0627\u0644\u0648\u062B\u064A\u0642\u0629.", readCarefully: "\u0627\u0642\u0631\u0623 \u0627\u0644\u0648\u062B\u064A\u0642\u0629 \u0628\u0639\u0646\u0627\u064A\u0629.", deadline: "\u0627\u0644\u0645\u0648\u0639\u062F \u0627\u0644\u0646\u0647\u0627\u0626\u064A", cost: "\u0627\u0644\u062A\u0643\u0644\u0641\u0629" },
+  fr: { summary: "Explication du document.", readCarefully: "Lisez attentivement le document.", deadline: "Date limite", cost: "Co\xFBt" }
+};
 function normalizeModelOutput(raw, sourceText, lang) {
   if (!raw || typeof raw !== "object") raw = {};
+  const fallback = FALLBACK_TEXT[lang] || FALLBACK_TEXT.en;
   const docTypeMap = {
     government_notice: "government_notice",
     medical: "medical",
@@ -2436,7 +2666,7 @@ function normalizeModelOutput(raw, sourceText, lang) {
   };
   const rawDocType = String(raw.docType || raw.document_type || raw.doc_type || "other").toLowerCase();
   const docType = docTypeMap[rawDocType] || "other";
-  const summary = String(raw.summary || raw.description || raw.overview || raw.what_is_this || raw.what_this_is || raw.what_this_document_is || "Document explanation.").trim();
+  const summary = String(raw.summary || raw.description || raw.overview || raw.what_is_this || raw.what_this_is || raw.what_this_document_is || fallback.summary).trim();
   let actionsRaw = raw.actions || raw.action_required || raw.action_items || raw.steps || raw.what_you_must_do || raw.what_to_do || raw.required_actions || [];
   if (typeof actionsRaw === "string") actionsRaw = [{ step: actionsRaw, urgent: false }];
   if (!Array.isArray(actionsRaw)) actionsRaw = [];
@@ -2444,15 +2674,15 @@ function normalizeModelOutput(raw, sourceText, lang) {
     if (typeof a === "string") return { step: a, urgent: false };
     return { step: String(a.step || a.action || a.text || a), urgent: Boolean(a.urgent) };
   });
-  if (actions.length === 0) actions.push({ step: "Read the document carefully.", urgent: false });
+  if (actions.length === 0) actions.push({ step: fallback.readCarefully, urgent: false });
   let deadlinesRaw = raw.deadlines || raw.deadline || [];
-  if (typeof deadlinesRaw === "string") deadlinesRaw = [{ label: "Deadline", date: deadlinesRaw }];
+  if (typeof deadlinesRaw === "string") deadlinesRaw = [{ label: fallback.deadline, date: deadlinesRaw }];
   if (!Array.isArray(deadlinesRaw)) deadlinesRaw = deadlinesRaw ? [deadlinesRaw] : [];
   const deadlines = deadlinesRaw.map((d) => {
-    if (typeof d === "string") return { label: "Deadline", date: d, sourceSpan: void 0, verified: false };
+    if (typeof d === "string") return { label: fallback.deadline, date: d, sourceSpan: void 0, verified: false };
     const date = d.date || d.deadline || d.value || null;
     return {
-      label: String(d.label || d.name || "Deadline"),
+      label: String(d.label || d.name || fallback.deadline),
       date: date ? String(date) : null,
       sourceSpan: d.sourceSpan,
       verified: false
@@ -2463,11 +2693,11 @@ function normalizeModelOutput(raw, sourceText, lang) {
     const m = costsRaw.match(/[\d,]+\.?\d*/);
     const amt = m ? Number(m[0].replace(/,/g, "")) : null;
     const curMatch = costsRaw.match(/[A-Z]{3}/);
-    costsRaw = [{ label: "Cost", amount: Number.isFinite(amt) ? amt : null, currency: curMatch ? curMatch[0] : "ETB" }];
+    costsRaw = [{ label: fallback.cost, amount: Number.isFinite(amt) ? amt : null, currency: curMatch ? curMatch[0] : "ETB" }];
   }
   if (!Array.isArray(costsRaw)) costsRaw = costsRaw ? [costsRaw] : [];
   const costs = costsRaw.map((c) => {
-    if (typeof c === "string") return { label: "Cost", amount: null, currency: "ETB", sourceSpan: void 0, verified: false };
+    if (typeof c === "string") return { label: fallback.cost, amount: null, currency: "ETB", sourceSpan: void 0, verified: false };
     let amount;
     const amtRaw = c.amount ?? c.value ?? c.cost;
     if (typeof amtRaw === "number") amount = amtRaw;
@@ -2476,7 +2706,7 @@ function normalizeModelOutput(raw, sourceText, lang) {
       if (m) amount = Number(m[0].replace(/,/g, ""));
     }
     return {
-      label: String(c.label || c.name || "Cost"),
+      label: String(c.label || c.name || fallback.cost),
       amount: Number.isFinite(amount) ? amount : void 0,
       currency: String(c.currency || "ETB"),
       sourceSpan: c.sourceSpan,
@@ -2874,6 +3104,16 @@ function parseModelOutput(contentText, sourceText, lang) {
   const raw = JSON.parse(contentText.replace(/```json\n?|\n?```/g, "").trim());
   return normalizeModelOutput(raw, sourceText, lang);
 }
+function explanationProse(parsed) {
+  return [
+    parsed?.summary,
+    ...Array.isArray(parsed?.actions) ? parsed.actions.map((a) => a?.step) : [],
+    ...Array.isArray(parsed?.eligibility) ? parsed.eligibility : [],
+    ...Array.isArray(parsed?.howToApply) ? parsed.howToApply : [],
+    ...Array.isArray(parsed?.documentsToBring) ? parsed.documentsToBring : [],
+    ...Array.isArray(parsed?.warnings) ? parsed.warnings : []
+  ].filter((value) => typeof value === "string" && value.trim()).join(" ");
+}
 async function explainOnce(text, lang, level, exampleCount = 3) {
   const system = EXPLAIN_SYSTEM;
   const fewShotExamples = examplesForLanguage(lang, exampleCount);
@@ -2895,7 +3135,7 @@ async function explainOnce(text, lang, level, exampleCount = 3) {
     const retryText2 = await withTimeout(llm.complete(system, retryUser2, 4e3), LIMITS.explainTimeoutMs);
     parsed = parseModelOutput(retryText2, text, lang);
   }
-  if (!textLooksInLanguage(String(parsed?.summary ?? ""), lang)) {
+  if (!textLooksInLanguage(explanationProse(parsed), lang)) {
     const language = languageNameForPrompt(lang);
     const retryUser2 = user + `
 
@@ -2904,12 +3144,6 @@ The previous answer was not written in ${language}. You MUST write the summary a
       const retryText2 = await withTimeout(llm.complete(system, retryUser2, 4e3), LIMITS.explainTimeoutMs);
       parsed = parseModelOutput(retryText2, text, lang);
     } catch {
-    }
-    if (!textLooksInLanguage(String(parsed?.summary ?? ""), lang)) {
-      parsed.warnings = [
-        ...Array.isArray(parsed.warnings) ? parsed.warnings : [],
-        `The model could not write this explanation in ${language}. The text below may be in another language; try again or use a different mode.`
-      ];
     }
   }
   const validation = ExplainResponseSchema.safeParse(parsed);
@@ -3145,7 +3379,18 @@ async function runExplain(opts) {
   parsed.warnings = [...parsed.warnings || [], ...warnings2, ...ethConversions];
   parsed.glossary = verifyGlossary(parsed.glossary || [], sourceText);
   parsed.contacts = verifyContacts(parsed.contacts || [], sourceText);
-  parsed.lang = lang;
+  const finalProse = explanationProse(parsed);
+  if (!textLooksInLanguage(finalProse, lang)) {
+    parsed.requestedLang = lang;
+    parsed.languageMismatch = true;
+    parsed.lang = looksLikeEnglish(finalProse) ? "en" : lang;
+    parsed.warnings = [
+      ...parsed.warnings || [],
+      `You asked for ${languageNameForPrompt(lang)}, but the model answered in ${looksLikeEnglish(finalProse) ? "English" : "another language"}. Try again, or switch language.`
+    ];
+  } else {
+    parsed.lang = lang;
+  }
   parsed.originalText = sourceText;
   parsed.confidence = parsed.confidence || "medium";
   parsed.level = level;
