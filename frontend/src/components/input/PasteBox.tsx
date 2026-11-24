@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import { FileText, Image as ImageIcon, Info, Play, Trash2 } from "lucide-react";
+import { FileText, Image as ImageIcon, Play, Trash2 } from "lucide-react";
 import { FileUploader } from "./FileUploader.tsx";
 import { CameraCapture } from "./CameraCapture.tsx";
 import { LanguageChips } from "./LanguageChips.tsx";
@@ -88,21 +88,15 @@ export function PasteBox({ onExplain, lang, onLangChange }: PasteBoxProps) {
   const isDisabled = processing || (!text && !selectedFile && !demoId);
 
   return (
-    <section className="space-y-6">
-      <div className="space-y-2">
-        <h1 className="text-2xl font-bold text-text sm:text-3xl">Understand your documents.</h1>
-        <p className="max-w-[60ch] text-sm leading-relaxed text-subtle">
-          Paste or upload a document. We will explain what it says and what you need to do.
-        </p>
-      </div>
-
-      <div ref={cardRef} className="scroll-mt-20 space-y-4 rounded-xl border border-border bg-surface p-4 sm:p-6">
+    <section className="space-y-4">
+      <div ref={cardRef} className="scroll-mt-20 space-y-4">
         <div className="relative">
           <label htmlFor="paste-input" className="sr-only">
             Paste your document
           </label>
           <textarea
             id="paste-input"
+            data-testid="paste-input"
             placeholder="Paste your document here…"
             value={text}
             onChange={handleTextChange}
@@ -173,6 +167,7 @@ export function PasteBox({ onExplain, lang, onLangChange }: PasteBoxProps) {
 
         <button
           type="button"
+          data-testid="explain-button"
           onClick={handleExplain}
           disabled={isDisabled}
           aria-busy={processing}
@@ -181,20 +176,6 @@ export function PasteBox({ onExplain, lang, onLangChange }: PasteBoxProps) {
           <Play size={18} strokeWidth={2} aria-hidden="true" />
           {processing ? "Processing…" : "Explain it"}
         </button>
-      </div>
-
-
-
-      <div className="rounded-lg border border-border bg-surface-muted p-4 text-[0.75rem] text-subtle">
-        <div className="mb-1 flex items-center gap-2 font-medium text-text">
-          <Info size={14} strokeWidth={2} aria-hidden="true" />
-          <span>Privacy</span>
-        </div>
-        <p className="leading-relaxed">
-          Your document is processed to create an explanation. AccessBridge does not store documents by
-          default. External AI services may process document content when live processing is used.
-          Demo examples work offline with no API key required.
-        </p>
       </div>
     </section>
   );

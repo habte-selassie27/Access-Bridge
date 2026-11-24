@@ -1,6 +1,7 @@
 import { useRef, useState, useCallback } from "react";
 import { Upload } from "lucide-react";
 import { downscaleImage } from "../../lib/image.ts";
+import { hasValidSignature } from "../../lib/security/file-signature.ts";
 
 export const MAX_FILE_SIZE = 10 * 1024 * 1024;
 export const ACCEPTED_EXTENSIONS = [".txt", ".pdf", ".png", ".jpg", ".jpeg", ".webp"];
@@ -48,6 +49,10 @@ export function FileUploader({ onFileSelect, disabled = false }: FileUploaderPro
       const problem = validateFile(file);
       if (problem) {
         setError(problem);
+        return;
+      }
+      if (!(await hasValidSignature(file))) {
+        setError("The file's contents don't match its type. Upload a genuine TXT, PDF, PNG, JPG or WEBP file.");
         return;
       }
       setError(null);
