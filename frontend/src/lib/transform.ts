@@ -1,6 +1,14 @@
-import { isEthiopianDate } from "./verify/calendar/ethiopian.ts";
-import { runVerification } from "../../frontend/src/lib/verify.ts";
-import { languageTier } from "../../frontend/src/lib/languages.ts";
+// Shared transform between frontend and server. Lives in the frontend tree
+// because the server already imports other frontend lib modules
+// (verify.ts, languages.ts); keeping it here avoids duplicating the logic
+// that converts model output into the frontend result shape.
+import { runVerification } from "./verify.ts";
+import { languageTier } from "./languages.ts";
+
+const ETH_MONTHS = ["Meskerem","Tikimt","Hidar","Tahsas","Tir","Yekatit","Megabit","Miazia","Ginbot","Sene","Hamle","Nehase","Pagume"];
+function isEthiopianDate(text: string): boolean {
+  return ETH_MONTHS.some((m) => new RegExp(m, "i").test(text));
+}
 
 function genId(prefix: string, i: number): string {
   return `${prefix}_${i}`;
@@ -13,8 +21,6 @@ function spanQuote(source: string, span?: [number, number]): string | null {
   return source.slice(s, e);
 }
 
-// The model is not asked for offsets, so fall back to the text the deterministic
-// verifier matched. That keeps evidence traceable to the source, not to the model.
 function resolveSpan(
   source: string,
   span?: [number, number],
@@ -32,9 +38,6 @@ function resolveSpan(
 
 export function toFrontendResult(old: any, sourceText: string): any {
   const lang = old.lang || "en";
-  // Verification is never inherited from the caller (model output or cached demo
-  // JSON). Recompute it from the source text and fail closed, so a stale or
-  // forged `verified: true` can never reach the UI.
   const checks = runVerification(
     (old.deadlines || []).map((d: any) => ({ label: d.label, date: d.date ?? null })),
     (old.costs || []).map((c: any) => ({ label: c.label, amount: c.amount ?? undefined, currency: c.currency || "ETB" })),
@@ -129,7 +132,6 @@ export function toFrontendResult(old: any, sourceText: string): any {
   };
 }
 
-
 export function normalizeModelOutput(raw: any, sourceText: string, lang: string): any {
   if (!raw || typeof raw !== "object") raw = {};
   const docTypeMap: Record<string, string> = {
@@ -152,7 +154,6 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
 
   const summary = String(raw.summary || raw.description || raw.overview || raw.what_is_this || raw.what_this_is || raw.what_this_document_is || "Document explanation.").trim();
 
-  // actions
   let actionsRaw = raw.actions || raw.action_required || raw.action_items || raw.steps || raw.what_you_must_do || raw.what_to_do || raw.required_actions || [];
   if (typeof actionsRaw === "string") actionsRaw = [{ step: actionsRaw, urgent: false }];
   if (!Array.isArray(actionsRaw)) actionsRaw = [];
@@ -162,7 +163,6 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
   });
   if (actions.length === 0) actions.push({ step: "Read the document carefully.", urgent: false });
 
-  // deadlines
   let deadlinesRaw = raw.deadlines || raw.deadline || [];
   if (typeof deadlinesRaw === "string") deadlinesRaw = [{ label: "Deadline", date: deadlinesRaw }];
   if (!Array.isArray(deadlinesRaw)) deadlinesRaw = deadlinesRaw ? [deadlinesRaw] : [];
@@ -177,7 +177,6 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     };
   });
 
-  // costs
   let costsRaw = raw.costs || raw.cost || raw.amounts || [];
   if (typeof costsRaw === "string") {
     const m = costsRaw.match(/[\d,]+\.?\d*/);
@@ -208,16 +207,12 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     ? (raw.documentsToBring || raw.required_documents || raw.documents_to_bring).map((x: any) => String(x))
     : [];
 
-  // Opportunity discovery: who qualifies and how to apply. Both are optional
-  // — an empty array means the document did not state them, never that the
-  // person does not qualify.
   const toStringList = (v: any): string[] =>
     Array.isArray(v) ? v.map((x: any) => String(x)).filter(Boolean) : v ? [String(v)] : [];
 
   const eligibility = toStringList(raw.eligibility || raw.eligibility_requirements || raw.who_can_apply);
   const howToApply = toStringList(raw.howToApply || raw.how_to_apply || raw.application_steps);
 
-  // Named sections of the document, for section-by-section reading.
   let sectionsRaw = raw.sections || raw.key_sections || raw.parts || [];
   if (!Array.isArray(sectionsRaw)) sectionsRaw = [];
   const sections = sectionsRaw
@@ -227,7 +222,6 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     }))
     .filter((s: { title: string; summary: string }) => s.title && s.summary);
 
-  // Hard terms explained in plain language, each with the text it came from.
   let glossaryRaw = raw.glossary || raw.terms || [];
   if (!Array.isArray(glossaryRaw)) glossaryRaw = [];
   const glossary = glossaryRaw
@@ -238,7 +232,6 @@ export function normalizeModelOutput(raw: any, sourceText: string, lang: string)
     }))
     .filter((g: { term: string; meaning: string }) => g.term && g.meaning);
 
-  // People, offices and ways to get in touch.
   let contactsRaw = raw.contacts || raw.contact_information || [];
   if (!Array.isArray(contactsRaw)) contactsRaw = [];
   const contacts = contactsRaw
