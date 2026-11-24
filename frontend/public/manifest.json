@@ -1,7 +1,7 @@
 {
-  "name": "AccessBridge — One question. Any language.",
+  "name": "AccessBridge Hybrid — Understand it. Verify it. Act on it.",
   "short_name": "AccessBridge",
-  "description": "Upload a document and get it back in plain language, in your own language, with every date and amount verified against the original.",
+  "description": "Hybrid-first document assistant: on-device Gemini Nano when available, cloud fallback via Firebase AI Logic, with verified dates and amounts.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
