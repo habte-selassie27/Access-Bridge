@@ -7,9 +7,11 @@ function capitalise(value: string): string {
 
 export interface DeadlineCardProps {
   deadlines: Deadline[];
+  /** Jump to and highlight this quote in the original document. */
+  onCheckSource?: (quote: string) => void;
 }
 
-export function DeadlineCard({ deadlines }: DeadlineCardProps) {
+export function DeadlineCard({ deadlines, onCheckSource }: DeadlineCardProps) {
   if (deadlines.length === 0) {
     return (
       <section className="rounded-lg border border-border bg-surface p-4 shadow-sm">
@@ -53,11 +55,18 @@ export function DeadlineCard({ deadlines }: DeadlineCardProps) {
                 <StatusBadge status={dl.verified ? "verified" : "unverified"} />
               </div>
               {dl.evidence && (
-                <div className="mt-2 pt-2 border-t border-surface-muted">
+                <div className="mt-2 border-t border-surface-muted pt-2">
                   <p className="text-[0.75rem] text-subtle">Source:</p>
-                  <p className="text-sm text-text bg-surface-muted p-2 rounded">
-                    “{dl.evidence.quote}”
-                  </p>
+                  <p className="rounded bg-surface-muted p-2 text-sm text-text">“{dl.evidence.quote}”</p>
+                  {onCheckSource && (
+                    <button
+                      type="button"
+                      onClick={() => onCheckSource(dl.evidence!.quote)}
+                      className="mt-2 text-[0.75rem] font-medium text-brand underline underline-offset-2 hover:text-brand-bold"
+                    >
+                      Check in original
+                    </button>
+                  )}
                 </div>
               )}
               {dl.warning && (

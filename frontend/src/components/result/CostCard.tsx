@@ -3,9 +3,11 @@ import { StatusBadge } from "../common/StatusBadge.tsx";
 
 export interface CostCardProps {
   costs: Cost[];
+  /** Jump to and highlight this quote in the original document. */
+  onCheckSource?: (quote: string) => void;
 }
 
-export function CostCard({ costs }: CostCardProps) {
+export function CostCard({ costs, onCheckSource }: CostCardProps) {
   if (costs.length === 0) {
     return (
       <section className="rounded-lg border border-border bg-surface p-4 shadow-sm">
@@ -31,11 +33,18 @@ export function CostCard({ costs }: CostCardProps) {
                 <StatusBadge status={c.verified ? "verified" : "unverified"} />
               </div>
               {c.evidence && (
-                <div className="mt-2 pt-2 border-t border-surface-muted">
+                <div className="mt-2 border-t border-surface-muted pt-2">
                   <p className="text-[0.75rem] text-subtle">Source:</p>
-                  <p className="text-sm text-text bg-surface-muted p-2 rounded">
-                    “{c.evidence.quote}”
-                  </p>
+                  <p className="rounded bg-surface-muted p-2 text-sm text-text">“{c.evidence.quote}”</p>
+                  {onCheckSource && (
+                    <button
+                      type="button"
+                      onClick={() => onCheckSource(c.evidence!.quote)}
+                      className="mt-2 text-[0.75rem] font-medium text-brand underline underline-offset-2 hover:text-brand-bold"
+                    >
+                      Check in original
+                    </button>
+                  )}
                 </div>
               )}
               {c.warning && (

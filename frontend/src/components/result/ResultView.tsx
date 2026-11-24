@@ -16,6 +16,8 @@ import { ContactsCard } from "./ContactsCard.tsx";
 import { DocTypeGuidance } from "./DocTypeGuidance.tsx";
 import { NextStepsCard } from "./NextStepsCard.tsx";
 import type { ExplanationResult } from "../../lib/api/types.ts";
+import { HybridInsight } from "../hybrid/HybridInsight.tsx";
+import { ExplainPageStates, type ExplainLoadingStep } from "./ExplainPageStates.tsx";
 import { languageName, LANGUAGES, isRtl } from "../../lib/languages.ts";
 
 export interface ResultViewProps {
@@ -25,7 +27,7 @@ export interface ResultViewProps {
   onAsk: () => void;
 }
 
-export function ResultView({ result, onBack, onLangChange, onAsk }: ResultViewProps) {
+export function ResultView({ result, onBack, onLangChange, onAsk, loading }: ResultViewProps & { loading?: ExplainLoadingStep | null }) {
   const fullText = [
     result.summary,
     ...result.actions.map((a: { step: string }) => a.step),
@@ -56,13 +58,36 @@ export function ResultView({ result, onBack, onLangChange, onAsk }: ResultViewPr
             </span>
           )}
         </p>
+        {result.inferenceSource ? (
+          <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-border bg-surface-muted px-3 py-1 text-[0.7rem] font-medium text-subtle">
+            <span
+              className={`h-2 w-2 rounded-full ${result.inferenceSource === "ON_DEVICE" ? "bg-green-500" : "bg-blue-500"}`}
+              aria-hidden="true"
+            />
+            {result.inferenceSource === "ON_DEVICE"
+              ? "Processed on this device (Gemini Nano). Your document never left your browser."
+              : "Processed in the cloud (Gemini)."}
+          </div>
+        ) : result.demoId || result.offlineDemo ? (
+          <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-border bg-surface-muted px-3 py-1 text-[0.7rem] font-medium text-subtle">
+            <span className="h-2 w-2 rounded-full bg-gray-400" aria-hidden="true" />
+            Bundled demo (precomputed, not live inference).
+          </div>
+        ) : null}
+        <div className="mt-2">
+          <HybridInsight result={result} />
+        </div>
       </div>
 
       {/* The explanation text is in the target language; the chrome around
           it stays in the interface language. */}
       <div lang={result.lang} dir={isRtl(result.lang) ? "rtl" : "ltr"} className="space-y-5">
-        <DocumentOverview result={result} />
-        <DocTypeGuidance result={result} />
+        {loading ? <ExplainPageStates loading={loading} /> : (
+          <>
+            <DocumentOverview result={result} />
+            <DocTypeGuidance result={result} />
+          </>
+        )}
         <ActionChecklist actions={result.actions} />
         <NextStepsCard result={result} />
         <OpportunityCard eligibility={result.eligibility || []} howToApply={result.howToApply || []} />
