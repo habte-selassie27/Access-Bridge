@@ -2073,18 +2073,6 @@ function isAllowedMime(mime) {
   return ALLOWED_MIMES.includes(mime);
 }
 
-// server/lib/verify/calendar/ethiopian.ts
-var ETH_MONTHS = ["Meskerem", "Tikimt", "Hidar", "Tahsas", "Tir", "Yekatit", "Megabit", "Miazia", "Ginbot", "Sene", "Hamle", "Nehase", "Pagume"];
-function isEthiopianDate(text) {
-  return ETH_MONTHS.some((m) => new RegExp(m, "i").test(text));
-}
-function parseEthiopianDate(text) {
-  const m = text.match(/(\d{1,2})\s+(Meskerem|Tikimt|Hidar|Tahsas|Tir|Yekatit|Megabit|Miazia|Ginbot|Sene|Hamle|Nehase|Pagume)\s+(\d{4})/i);
-  if (!m) return null;
-  const monthIdx = ETH_MONTHS.findIndex((x) => x.toLowerCase() === m[2].toLowerCase()) + 1;
-  return { day: Number(m[1]), month: monthIdx, year: Number(m[3]) };
-}
-
 // frontend/src/lib/verify.ts
 var GEEZ_MAP = {
   "\u1369": "1",
@@ -2297,7 +2285,11 @@ function languageTier(code) {
   return getLanguage(code)?.tier || "experimental";
 }
 
-// server/lib/transform.ts
+// frontend/src/lib/transform.ts
+var ETH_MONTHS = ["Meskerem", "Tikimt", "Hidar", "Tahsas", "Tir", "Yekatit", "Megabit", "Miazia", "Ginbot", "Sene", "Hamle", "Nehase", "Pagume"];
+function isEthiopianDate(text) {
+  return ETH_MONTHS.some((m) => new RegExp(m, "i").test(text));
+}
 function genId(prefix, i) {
   return `${prefix}_${i}`;
 }
@@ -2580,6 +2572,18 @@ Explanation JSON: ${JSON.stringify(compact)}`;
   }).join("\n\n")}`;
 }
 
+// server/lib/verify/calendar/ethiopian.ts
+var ETH_MONTHS2 = ["Meskerem", "Tikimt", "Hidar", "Tahsas", "Tir", "Yekatit", "Megabit", "Miazia", "Ginbot", "Sene", "Hamle", "Nehase", "Pagume"];
+function isEthiopianDate2(text) {
+  return ETH_MONTHS2.some((m) => new RegExp(m, "i").test(text));
+}
+function parseEthiopianDate(text) {
+  const m = text.match(/(\d{1,2})\s+(Meskerem|Tikimt|Hidar|Tahsas|Tir|Yekatit|Megabit|Miazia|Ginbot|Sene|Hamle|Nehase|Pagume)\s+(\d{4})/i);
+  if (!m) return null;
+  const monthIdx = ETH_MONTHS2.findIndex((x) => x.toLowerCase() === m[2].toLowerCase()) + 1;
+  return { day: Number(m[1]), month: monthIdx, year: Number(m[3]) };
+}
+
 // server/lib/verify/calendar/conversion.ts
 function ethiopianToGregorianApprox(text) {
   const eth = parseEthiopianDate(text);
@@ -2853,7 +2857,7 @@ async function explainOnce(text, lang, level, exampleCount = 3) {
     lang,
     level,
     exampleBlock: formatExampleBlock(fewShotExamples)
-  }) + (isEthiopianDate(text) ? " (Ethiopian calendar detected; conversions are approximate)" : "");
+  }) + (isEthiopianDate2(text) ? " (Ethiopian calendar detected; conversions are approximate)" : "");
   const contentText = await withTimeout(
     retry(async () => llm.complete(system, user, 4e3), 2, 400),
     LIMITS.explainTimeoutMs
@@ -3089,7 +3093,7 @@ async function runExplain(opts) {
   }));
   const ethConversions = [];
   for (const d of parsed.deadlines || []) {
-    if (d.date && isEthiopianDate(sourceText)) {
+    if (d.date && isEthiopianDate2(sourceText)) {
       const conv = ethiopianToGregorianApprox(String(d.date));
       if (conv) {
         ethConversions.push(`${conv.ethiopian} \u2248 ${conv.gregorian} (approximate, check original)`);
